@@ -37,14 +37,14 @@ class NewWalletSaveSeed extends StatelessWidget {
                             Container(
                                 margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
                                 child: SizedBox(
-                                    width: 20, child: Text("${index + 1}."))),
+                                    width: 24, child: Text("${index + 1}."))),
                             Expanded(
                                 child: TextField(
                               textAlignVertical: TextAlignVertical(y: -0.4),
-                              readOnly: true,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.only(bottom: 0.0),
                                 border: UnderlineInputBorder(),
+                                hintText: '',
                               ),
                               controller: txt,
                             ))

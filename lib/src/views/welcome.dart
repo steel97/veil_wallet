@@ -23,7 +23,7 @@ class Welcome extends StatelessWidget {
         ),
         Container(
             width: 170,
-            margin: EdgeInsets.fromLTRB(0, 15, 0, 2),
+            margin: EdgeInsets.fromLTRB(0, 15, 0, 4),
             child: FilledButton(
               onPressed: () {},
               child: const Text('Create'),
