@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MainLayout extends StatefulWidget {
-  const MainLayout({super.key, @required this.child});
+class WelcomeLayout extends StatefulWidget {
+  const WelcomeLayout({super.key, @required this.child});
 
   final Widget? child;
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  State<WelcomeLayout> createState() => _WelcomeLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class _WelcomeLayoutState extends State<WelcomeLayout> {
   late int selectedIndex;
 
   @override
@@ -38,23 +38,12 @@ class _MainLayoutState extends State<MainLayout> {
                       fit: BoxFit.fitHeight))),
           actions: [
             IconButton(
-              icon: const Icon(Icons.notifications_rounded),
-              color: Theme.of(context).colorScheme.primary,
-              onPressed: null,
-              tooltip: "Notifications",
-            ),
-            IconButton(
-              icon: const Icon(Icons.qr_code_scanner_rounded),
-              color: Theme.of(context).colorScheme.primary,
-              onPressed: null,
-              tooltip: "Scan QR",
-            ),
-            IconButton(
               icon: const Icon(Icons.settings_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {},
               tooltip: "Settings",
-            )
+            ),
+            SizedBox(width: 10)
           ],
         ),
         extendBody: true,
