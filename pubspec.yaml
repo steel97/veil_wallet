@@ -36,6 +36,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   extended_text: ^11.1.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+  veil_light_plugin:
+    git:
+      url: https://github.com/steel97/veil_light_plugin.git
+      ref: main
 
 dev_dependencies:
   flutter_test:
@@ -47,10 +54,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  veil_light_plugin:
-    git:
-      url: https://github.com/steel97/veil_light_plugin.git
-      ref: main
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,6 +65,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

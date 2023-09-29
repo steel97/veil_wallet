@@ -1,0 +1,106 @@
+{
+  "@@locale": "en",
+  "title": "Veil wallet",
+  "@title": {
+    "description": "The title of application"
+  },
+  "welcomeTitle": "Welcome to Veil!",
+  "@welcomeTitle": {
+    "description": "The title of welcome screen"
+  },
+  "welcomeDescription": "Import existing wallet or create new",
+  "@welcomeDescription": {
+    "description": "Title description of welcome screen"
+  },
+  "createWallet": "Create",
+  "@createWallet": {
+    "description": "Text on create wallet button"
+  },
+  "importWallet": "Import",
+  "@importWallet": {
+    "description": "Text on import wallet button"
+  },
+  "settingsButton": "Settings",
+  "@settingsButton": {
+    "description": "Accessibility label for settings icon (appbar/navbar)"
+  },
+  "saveSeedPhraseTitle": "Save seed phrase",
+  "@saveSeedPhraseTitle": {
+    "description": "Save seed phrase screen title"
+  },
+  "saveSeedPhraseDescription": "New wallet seed:",
+  "@saveSeedPhraseDescription": {
+    "description": "Save seed phrase description"
+  },
+  "nextButton": "Next",
+  "@nextButton": {
+    "description": "\"Next\" text for buttons"
+  },
+  "verifySeedPhraseTitle": "Verify seed phrase",
+  "@verifySeedPhraseTitle": {
+    "description": "Verify seed phrase screen title"
+  },
+  "verifySeedPhraseDescription": "Verify 24 words seed:",
+  "@verifySeedPhraseDescription": {
+    "description": "Verify seed phrase description"
+  },
+  "createWalletButton": "Create wallet",
+  "@createWalletButton": {
+    "description": "Create wallet button (verify seed screen)"
+  },
+  "walletNameInputField": "Wallet name:",
+  "@walletNameInputField": {
+    "description": "Wallet name input field (import/create wallet screen)"
+  },
+  "walletNameInputFieldHint": "Wallet name",
+  "@walletNameInputFieldHint": {
+    "description": "Wallet name input field hint (import/create wallet screen)"
+  },
+  "importSeedTitle": "Import seed phrase",
+  "@importSeedTitle": {
+    "description": "Import seed phrase title"
+  },
+  "importSeedDescription": "Enter 24 words seed phrase:",
+  "@importSeedDescription": {
+    "description": "Import seed description"
+  },
+  "walletAdvancedButton": "Advanced",
+  "@walletAdvancedButton": {
+    "description": "Advanced button (import screen)"
+  },
+  "walletAdvancedTitle": "Advanced settings",
+  "@walletAdvancedTitle": {
+    "description": "Advanced screen title"
+  },
+  "walletEncryptionPasswordInputField": "Encryption password (if exists):",
+  "@walletEncryptionPasswordInputField": {
+    "description": "Encryption password input field (advanced import/new wallet screen)"
+  },
+  "walletEncryptionPasswordInputFieldHint": "Wallet encryption password",
+  "@walletEncryptionPasswordInputFieldHint": {
+    "description": "Encryption password input field hint (advanced import/new wallet screen)"
+  },
+  "walletEncryptionPasswordRepeatInputField": "Repeat encryption password:",
+  "@walletEncryptionPasswordRepeatInputField": {
+    "description": "Encryption password repeat input field (advanced import/new wallet screen)"
+  },
+  "walletEncryptionPasswordRepeatInputFieldHint": "Repeat wallet encryption password",
+  "@walletEncryptionPasswordRepeatInputFieldHint": {
+    "description": "Encryption password repeat input field hint (advanced import/new wallet screen)"
+  },
+  "walletImportTransactionsData": "Import {fileName}",
+  "@walletImportTransactionsData": {
+    "placeholders": {
+      "fileName": {
+        "type": "String",
+        "example": "transactions.json",
+        "description": "Name of file used to restore transaction types"
+      }
+    },
+    "description": "Import \"transactions.json\" text (under advanced import/create wallet screens)"
+  },
+  "saveButton": "Save",
+  "@saveButton": {
+    "description": "Save button text (under advanced/create wallet screens)"
+  }
+}

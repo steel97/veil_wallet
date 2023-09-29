@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
-import 'package:veil_wallet/src/views/import_seed_advanced.dart';
+import 'package:veil_wallet/src/views/wallet_advanced.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_verify_seed.dart';
 import 'package:veil_wallet/src/views/settings.dart';
@@ -32,7 +33,9 @@ class MyApp extends StatelessWidget {
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: lightColorScheme,
         useMaterial3: true,

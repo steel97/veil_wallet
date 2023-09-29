@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
-import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
-import 'package:veil_wallet/src/views/import_seed_advanced.dart';
+import 'package:veil_wallet/src/views/wallet_advanced.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
 class ImportSeed extends StatelessWidget {
@@ -11,36 +11,40 @@ class ImportSeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BackLayout(
-        title: "Import seed",
+        title: AppLocalizations.of(context)?.importSeedTitle,
         back: () {
           Navigator.of(context).push(_createBackRoute());
         },
         child: Container(
           width: double.infinity,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: TextField(
                       decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 0.0),
-                          border: UnderlineInputBorder(),
-                          hintText: 'Wallet name',
-                          label: Text("Wallet name:")),
+                          contentPadding: const EdgeInsets.only(bottom: 0.0),
+                          border: const UnderlineInputBorder(),
+                          hintText: AppLocalizations.of(context)
+                              ?.walletNameInputFieldHint,
+                          label: Text(AppLocalizations.of(context)
+                                  ?.walletNameInputField ??
+                              stringNotFoundText)),
                     )),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                     width: double.infinity,
                     child: Text(
-                      "Enter 24 words seed:",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      AppLocalizations.of(context)?.importSeedDescription ??
+                          stringNotFoundText,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     )),
                 Expanded(
                     child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
                         child: GridView.count(
                           // Create a grid with 2 columns. If you change the scrollDirection to
                           // horizontal, this produces 2 rows.
@@ -49,47 +53,49 @@ class ImportSeed extends StatelessWidget {
                           crossAxisSpacing: 5,
                           // Generate 100 widgets that display their index in the List.
                           children: List.generate(24, (index) {
-                            return Container(
-                                child: Row(
+                            return Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 /*Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: SizedBox(
-                                    width: 24, child: Text("${index + 1}."))),*/
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: SizedBox(
+                                width: 24, child: Text("${index + 1}."))),*/
                                 Expanded(
                                     child: TextField(
                                   decoration: InputDecoration(
                                     contentPadding:
-                                        EdgeInsets.only(bottom: 0.0),
-                                    border: UnderlineInputBorder(),
+                                        const EdgeInsets.only(bottom: 0.0),
+                                    border: const UnderlineInputBorder(),
                                     hintText: '${index + 1}.',
                                   ),
                                 ))
                               ],
-                            ));
+                            );
                           }),
                         ))),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: OutlinedButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: Size.fromHeight(45)),
+                        minimumSize: const Size.fromHeight(45)),
                     onPressed: () {
                       Navigator.of(context).push(_createAdvancedRoute());
                     },
-                    icon: Icon(Icons.file_open_rounded),
-                    label: const Text('Advanced'),
+                    icon: const Icon(Icons.file_open_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.walletAdvancedButton ??
+                            stringNotFoundText),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: Size.fromHeight(45)),
+                        minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
-                    icon: Icon(Icons.upload_rounded),
-                    label: const Text('Import'),
+                    icon: const Icon(Icons.upload_rounded),
+                    label: Text(AppLocalizations.of(context)?.importWallet ??
+                        stringNotFoundText),
                   ),
                 ),
               ]),
@@ -118,7 +124,7 @@ Route _createBackRoute() {
 Route _createAdvancedRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          const ImportSeedAdvanced(),
+          const WalletAdvanced(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

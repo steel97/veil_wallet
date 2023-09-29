@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class WelcomeLayout extends StatefulWidget {
@@ -45,9 +46,9 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
               onPressed: () {
                 Navigator.of(context).push(_createSettingsRoute());
               },
-              tooltip: "Settings",
+              tooltip: AppLocalizations.of(context)?.settingsButton,
             ),
-            SizedBox(width: 10)
+            const SizedBox(width: 10)
           ],
         ),
         extendBody: true,
