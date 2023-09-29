@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:veil_wallet/src/views/welcome.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -19,6 +20,9 @@ class Settings extends StatelessWidget {
 
     return BackLayout(
         title: "Settings",
+        back: () {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: Container(
           width: double.infinity,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -103,6 +107,17 @@ class Settings extends StatelessWidget {
                     style: FilledButton.styleFrom(
                         minimumSize: Size.fromHeight(45)),
                     onPressed: () {},
+                    icon: Icon(Icons.fingerprint_rounded),
+                    label: const Text('Setup biometrics'),
+                  ),
+                ),
+                /*
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: OutlinedButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: Size.fromHeight(45)),
+                    onPressed: () {},
                     icon: Icon(Icons.new_label_rounded),
                     label: const Text('Create new wallet'),
                   ),
@@ -117,6 +132,35 @@ class Settings extends StatelessWidget {
                     label: const Text('Import new wallet'),
                   ),
                 ),
+                */
+                Container(
+                    width: double.infinity,
+                    child: Row(children: [
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(10, 0, 5, 10),
+                            child: OutlinedButton.icon(
+                              style: FilledButton.styleFrom(
+                                  minimumSize: Size.fromHeight(45)),
+                              onPressed: () {},
+                              icon: Icon(Icons.new_label_rounded),
+                              label: const Text('Create wallet'),
+                            ),
+                          )),
+                      Flexible(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(5, 0, 10, 10),
+                            child: OutlinedButton.icon(
+                              style: FilledButton.styleFrom(
+                                  minimumSize: Size.fromHeight(45)),
+                              onPressed: () {},
+                              icon: Icon(Icons.upload_rounded),
+                              label: const Text('Import wallet'),
+                            ),
+                          ))
+                    ])),
                 Container(
                   margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: FilledButton.icon(
@@ -130,4 +174,22 @@ class Settings extends StatelessWidget {
               ]),
         ));
   }
+}
+
+Route _createBackRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Welcome(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

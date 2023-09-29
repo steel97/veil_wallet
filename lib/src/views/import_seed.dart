@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:veil_wallet/src/views/import_seed_advanced.dart';
+import 'package:veil_wallet/src/views/welcome.dart';
 
 class ImportSeed extends StatelessWidget {
   const ImportSeed({super.key});
@@ -10,6 +12,9 @@ class ImportSeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackLayout(
         title: "Import seed",
+        back: () {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: Container(
           width: double.infinity,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -70,7 +75,9 @@ class ImportSeed extends StatelessWidget {
                   child: OutlinedButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: Size.fromHeight(45)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(_createAdvancedRoute());
+                    },
                     icon: Icon(Icons.file_open_rounded),
                     label: const Text('Advanced'),
                   ),
@@ -88,4 +95,41 @@ class ImportSeed extends StatelessWidget {
               ]),
         ));
   }
+}
+
+Route _createBackRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Welcome(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createAdvancedRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const ImportSeedAdvanced(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

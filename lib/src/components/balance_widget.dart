@@ -1,3 +1,4 @@
+import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
@@ -74,11 +75,26 @@ class BalanceWidget extends StatelessWidget {
                               size: 18,
                             ),
                             onPressed: () {},
-                            label: Text(
+                            label: ExtendedText(
                               "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
-                              style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 12),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              overflowWidget: TextOverflowWidget(
+                                position: TextOverflowPosition.middle,
+                                align: TextOverflowAlign.center,
+                                child: Container(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      const Text(
+                                        '\u2026',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              style: TextStyle(fontSize: 12),
                             ),
                           )),
                           PopupMenuButton<int>(
@@ -86,9 +102,41 @@ class BalanceWidget extends StatelessWidget {
                                 color: Theme.of(context).primaryColor),
                             itemBuilder: (context) => [
                               PopupMenuItem<int>(
-                                  value: 0, child: Text('Logout')),
+                                  value: 0,
+                                  child: ExtendedText(
+                                      "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      overflowWidget: TextOverflowWidget(
+                                        position: TextOverflowPosition.middle,
+                                        align: TextOverflowAlign.center,
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Text('\u2026')
+                                            ],
+                                          ),
+                                        ),
+                                      ))),
                               PopupMenuItem<int>(
-                                  value: 1, child: Text('Settings')),
+                                  value: 1,
+                                  child: ExtendedText(
+                                      "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      overflowWidget: TextOverflowWidget(
+                                        position: TextOverflowPosition.middle,
+                                        align: TextOverflowAlign.center,
+                                        child: Container(
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              const Text('\u2026')
+                                            ],
+                                          ),
+                                        ),
+                                      ))),
                             ],
                           )
                         ]))

@@ -1,3 +1,4 @@
+import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
@@ -18,10 +19,13 @@ class Transaction extends StatelessWidget {
                   padding: EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(120),
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.background,
                     //border: Border.all(width: 2)
                   ),
-                  child: Icon(Icons.arrow_downward_rounded),
+                  child: Icon(
+                    Icons.arrow_downward_rounded,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 SizedBox(width: 15),
                 Expanded(
@@ -32,11 +36,33 @@ class Transaction extends StatelessWidget {
                       "Received",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(
+                    //SizedBox(height: 5),
+                    /*Text(
                       "6371d2a6307c42fbf9e9d277c651049ce436e98d8ea536772309f913d67278c6",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 13),
-                    )
+                    )*/
+                    ExtendedText(
+                      "6371d2a6307c42fbf9e9d277c651049ce436e98d8ea536772309f913d67278c6",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      overflowWidget: TextOverflowWidget(
+                        position: TextOverflowPosition.middle,
+                        align: TextOverflowAlign.center,
+                        child: Container(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text(
+                                '\u2026',
+                                style: TextStyle(fontSize: 12),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 )),
                 SizedBox(width: 15),
@@ -45,9 +71,10 @@ class Transaction extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 0, 211, 84))),
+                  //SizedBox(height: 5),
                   Text(
                     "20:44",
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(fontSize: 12),
                   )
                 ]),
               ]),

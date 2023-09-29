@@ -42,7 +42,10 @@ class _MainLayoutState extends State<MainLayout> {
                             AssetImage('./assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
           ]),
-          title: Text("Wallet"),
+          title: Text(
+            "Wallet",
+            overflow: TextOverflow.ellipsis,
+          ),
           /*title: Container(
               child: Theme(
                   data: Theme.of(context).copyWith(
@@ -91,8 +94,8 @@ class _MainLayoutState extends State<MainLayout> {
               icon: Icon(Icons.wallet_rounded,
                   color: Theme.of(context).primaryColor),
               itemBuilder: (context) => [
-                PopupMenuItem<int>(value: 0, child: Text('Logout')),
-                PopupMenuItem<int>(value: 1, child: Text('Settings')),
+                PopupMenuItem<int>(value: 0, child: Text('Wallet')),
+                PopupMenuItem<int>(value: 1, child: Text('Another wallet')),
               ],
             ),
             SizedBox(width: 10)

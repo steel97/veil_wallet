@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veil_wallet/src/views/settings.dart';
 
 class WelcomeLayout extends StatefulWidget {
   const WelcomeLayout({super.key, @required this.child});
@@ -24,6 +25,7 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
           //backgroundColor: Colors.transparent,
           forceMaterialTransparency: true,
           centerTitle: false,
+          automaticallyImplyLeading: false,
 
           /*leading: IconButton(
               icon: const Icon(Icons.notifications_rounded),
@@ -40,7 +42,9 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
             IconButton(
               icon: const Icon(Icons.settings_rounded),
               color: Theme.of(context).colorScheme.primary,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(_createSettingsRoute());
+              },
               tooltip: "Settings",
             ),
             SizedBox(width: 10)
@@ -52,4 +56,22 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
           child: Container(child: widget.child),
         ));
   }
+}
+
+Route _createSettingsRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Settings(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

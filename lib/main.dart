@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: lightColorScheme,
         useMaterial3: true,
       ),
-      home: Home(),
+      home: Welcome(),
     );
   }
 }
