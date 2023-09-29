@@ -8,7 +8,7 @@ class BalanceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         child: Card(
           elevation: 0,
@@ -24,48 +24,45 @@ class BalanceWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                      margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      width: 70 * 1.5,
-                                      height: 28 * 1.5,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  './assets/images/logo_full_light.png'),
-                                              fit: BoxFit.fitWidth)))),
-                              Flexible(
-                                  flex: 1,
+                              Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  width: 70 * 1.5,
+                                  height: 28 * 1.5,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              './assets/images/logo_full_light.png'),
+                                          fit: BoxFit.fitWidth))),
+                              Expanded(
                                   child: Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 12),
-                                          child: Text(
-                                            "99,45 \$",
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 24),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 12),
-                                          child: Text(
-                                            "999,99 veil",
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        )
-                                      ]))
+                                    Container(
+                                      width: double.infinity,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        "3,059.25 \$",
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 24),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        "1456789.54207223 veil",
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    )
+                                  ]))
                             ])),
-                    SizedBox(height: 35),
+                    SizedBox(height: 45),
                     Container(
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,34 +81,16 @@ class BalanceWidget extends StatelessWidget {
                                   fontSize: 12),
                             ),
                           )),
-                          Theme(
-                              data: Theme.of(context).copyWith(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                underline: null,
-                                focusColor: Colors.transparent,
-                                icon: Icon(Icons.expand_more_outlined,
-                                    color: Theme.of(context).primaryColor),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    color: Theme.of(context).primaryColor),
-                                value: "primary",
-                                items: <DropdownMenuItem<String>>[
-                                  DropdownMenuItem(
-                                    child: new Text('primary'),
-                                    value: 'primary',
-                                  ),
-                                  DropdownMenuItem(
-                                      child: new Text('two'), value: 'two'),
-                                ],
-                                onChanged: (String? value) {
-                                  //setState(() => _value = value);
-                                },
-                              )))
+                          PopupMenuButton<int>(
+                            icon: Icon(Icons.expand_more_outlined,
+                                color: Theme.of(context).primaryColor),
+                            itemBuilder: (context) => [
+                              PopupMenuItem<int>(
+                                  value: 0, child: Text('Logout')),
+                              PopupMenuItem<int>(
+                                  value: 1, child: Text('Settings')),
+                            ],
+                          )
                         ]))
                   ])),
         ));

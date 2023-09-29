@@ -10,15 +10,24 @@ class CoinControlWidget extends StatelessWidget {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 10),
         width: double.infinity,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          IconButton.filled(
-              onPressed: () => {}, icon: Icon(Icons.send_rounded)),
-          SizedBox(width: 15),
-          IconButton.filled(
-              onPressed: () => {}, icon: Icon(Icons.receipt_rounded)),
-          SizedBox(width: 15),
-          IconButton.filled(
-              onPressed: () => {}, icon: Icon(Icons.currency_exchange_rounded))
-        ]));
+        child: NavigationBar(
+            surfaceTintColor: Colors.transparent,
+            indicatorColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            selectedIndex: 0,
+            destinations: [
+              NavigationDestination(
+                icon: Icon(Icons.arrow_upward_rounded),
+                label: 'Send',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.arrow_downward_rounded),
+                label: 'Receive',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.currency_exchange_rounded),
+                label: 'Buy',
+              ),
+            ]));
   }
 }

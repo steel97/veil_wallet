@@ -17,10 +17,6 @@ class Settings extends StatelessWidget {
     var txExplorer = TextEditingController();
     txExplorer.text = "https://explorer.veil-project.com/tx/{txid}";
 
-    var addressExplorer = TextEditingController();
-    addressExplorer.text =
-        "https://explorer.veil-project.com/address/{address}";
-
     return BackLayout(
         title: "Settings",
         child: Container(
@@ -92,22 +88,6 @@ class Settings extends StatelessWidget {
                       ),
                       controller: txExplorer,
                     )),
-                Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: TextField(
-                        enableSuggestions: true,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 0.0),
-                          border: UnderlineInputBorder(),
-                          hintText: 'Address explorer url',
-                          label: Text("Address explorer url:"),
-                          suffixIcon: IconButton(
-                            onPressed: () => {},
-                            icon: Icon(Icons.restore_rounded),
-                          ),
-                        ),
-                        controller: addressExplorer)),
                 Container(
                     margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Row(

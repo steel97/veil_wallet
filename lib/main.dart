@@ -24,9 +24,10 @@ class MyApp extends StatelessWidget {
     var lightColorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primary: const Color.fromARGB(255, 35, 89, 247),
-      surface: const Color.fromARGB(255, 228, 228, 228),
-      //Color.fromARGB(255, 247, 247, 247), // color of cards, dropdowns etc
-      secondaryContainer: const Color.fromARGB(255, 249, 249, 249),
+      surface: const Color.fromARGB(255, 233, 239, 247),
+      //Color.fromARGB(233, 247, 247, 247), // color of cards, dropdowns etc
+      //
+      //secondaryContainer: const Color.fromARGB(255, 249, 249, 249),
       //onSecondaryContainer: const Color.fromARGB(255, 35, 89, 247),
     );
     return MaterialApp(

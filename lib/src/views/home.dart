@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veil_wallet/src/components/balance_widget.dart';
 import 'package:veil_wallet/src/components/coin_control_widget.dart';
+import 'package:veil_wallet/src/components/transactions_list_widget.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 
@@ -14,13 +15,15 @@ class Home extends StatelessWidget {
         child: Container(
       width: double.infinity,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             BalanceWidget(),
             SizedBox(height: 10),
-            CoinControlWidget()
+            CoinControlWidget(),
+            SizedBox(height: 10),
+            TransactionsListWidget()
           ]),
     ));
   }
