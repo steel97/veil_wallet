@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/welcome_layout.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
+import 'package:veil_light_plugin/veil_light.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -30,6 +32,8 @@ class Welcome extends StatelessWidget {
             child: FilledButton.icon(
               style: FilledButton.styleFrom(minimumSize: Size.fromHeight(42)),
               onPressed: () {
+                var mnemonic = Lightwallet.generateMnemonic();
+                BaseStaticState.newWalletWords = mnemonic;
                 Navigator.of(context).push(_createSaveRoute());
               },
               icon: Icon(Icons.new_label_rounded),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/new_wallet_verify_seed.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
@@ -38,9 +39,12 @@ class NewWalletSaveSeed extends StatelessWidget {
                             childAspectRatio: 2,
                             crossAxisSpacing: 10,
                             // Generate 100 widgets that display their index in the List.
-                            children: List.generate(24, (index) {
+                            children: BaseStaticState.newWalletWords
+                                .asMap()
+                                .entries
+                                .map((entry) {
                               var txt = TextEditingController();
-                              txt.text = "1. asdf";
+                              txt.text = '${entry.key + 1}. ${entry.value}';
                               return Container(
                                   child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -56,12 +60,12 @@ class NewWalletSaveSeed extends StatelessWidget {
                                             contentPadding:
                                                 EdgeInsets.only(bottom: 0.0),
                                             border: UnderlineInputBorder(),
-                                            hintText: '${index + 1}.',
+                                            hintText: '${entry.key + 1}.',
                                           ),
                                           controller: txt))
                                 ],
                               ));
-                            }),
+                            }).toList(),
                           ))),
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 0, 10, 10),

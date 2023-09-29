@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
+import 'package:veil_light_plugin/veil_light.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -143,7 +146,11 @@ class Settings extends StatelessWidget {
                             child: OutlinedButton.icon(
                               style: FilledButton.styleFrom(
                                   minimumSize: Size.fromHeight(45)),
-                              onPressed: () {},
+                              onPressed: () {
+                                var mnemonic = Lightwallet.generateMnemonic();
+                                BaseStaticState.newWalletWords = mnemonic;
+                                Navigator.of(context).push(_createSaveRoute());
+                              },
                               icon: Icon(Icons.new_label_rounded),
                               label: const Text('Create wallet'),
                             ),
@@ -171,6 +178,16 @@ class Settings extends StatelessWidget {
                     label: const Text('Save'),
                   ),
                 ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: Size.fromHeight(45)),
+                    onPressed: () {},
+                    icon: Icon(Icons.info_rounded),
+                    label: const Text('About'),
+                  ),
+                ),
               ]),
         ));
   }
@@ -192,4 +209,23 @@ Route _createBackRoute() {
           child: child,
         );
       });
+}
+
+Route _createSaveRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const NewWalletSaveSeed(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
