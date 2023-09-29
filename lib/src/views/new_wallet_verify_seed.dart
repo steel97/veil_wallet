@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
+import 'package:veil_wallet/src/views/setup_biometrics.dart';
 
 class NewWalletVerifySeed extends StatelessWidget {
   const NewWalletVerifySeed({super.key});
@@ -65,7 +66,9 @@ class NewWalletVerifySeed extends StatelessWidget {
                   child: FilledButton(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(_createBiometricsRoute());
+                    },
                     child: Text(
                         AppLocalizations.of(context)?.createWalletButton ??
                             stringNotFoundText),
@@ -82,6 +85,25 @@ Route _createBackRoute() {
           const NewWalletSaveSeed(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createBiometricsRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const SetupBiometrics(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
         const curve = Curves.ease;
 

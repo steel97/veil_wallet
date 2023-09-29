@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
-import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
@@ -22,96 +22,111 @@ class Settings extends StatelessWidget {
     txExplorer.text = "https://explorer.veil-project.com/tx/{txid}";
 
     return BackLayout(
-        title: "Settings",
+        title: AppLocalizations.of(context)?.settingsTitle,
         back: () {
           Navigator.of(context).push(_createBackRoute());
         },
         child: Container(
           width: double.infinity,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: ListView(
+              //mainAxisAlignment: MainAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: TextField(
                         enableSuggestions: true,
                         autocorrect: false,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 0.0),
-                          border: UnderlineInputBorder(),
-                          hintText:
-                              'Veil lightwallet node url (starts with http(s)://)',
-                          label: Text("Node url:"),
+                          contentPadding: const EdgeInsets.only(bottom: 0.0),
+                          border: const UnderlineInputBorder(),
+                          hintText: AppLocalizations.of(context)
+                              ?.nodeUrlInputFieldHint,
+                          label: Text(
+                              AppLocalizations.of(context)?.nodeUrlInputField ??
+                                  stringNotFoundText),
                           suffixIcon: IconButton(
                             onPressed: () => {},
-                            icon: Icon(Icons.restore_rounded),
+                            icon: const Icon(Icons.restore_rounded),
                           ),
                         ),
                         controller: nodeUrl)),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: TextField(
                       enableSuggestions: true,
                       autocorrect: false,
                       decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 0.0),
-                          border: UnderlineInputBorder(),
-                          hintText: 'Empty for explorer\'s node',
-                          label: Text("Node basic auth:")),
+                          contentPadding: const EdgeInsets.only(bottom: 0.0),
+                          border: const UnderlineInputBorder(),
+                          hintText: AppLocalizations.of(context)
+                              ?.basicAuthInputFieldHint,
+                          label: Text(AppLocalizations.of(context)
+                                  ?.basicAuthInputField ??
+                              stringNotFoundText)),
                     )),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: TextField(
                       enableSuggestions: true,
                       autocorrect: false,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 0.0),
-                        border: UnderlineInputBorder(),
-                        hintText: 'Explorer url',
-                        label: Text("Explorer url:"),
+                        contentPadding: const EdgeInsets.only(bottom: 0.0),
+                        border: const UnderlineInputBorder(),
+                        hintText: AppLocalizations.of(context)
+                            ?.explorerUrlInputFieldHint,
+                        label: Text(AppLocalizations.of(context)
+                                ?.explorerUrlInputField ??
+                            stringNotFoundText),
                         suffixIcon: IconButton(
                           onPressed: () => {},
-                          icon: Icon(Icons.restore_rounded),
+                          icon: const Icon(Icons.restore_rounded),
                         ),
                       ),
                       controller: explorerUrl,
                     )),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: TextField(
                       enableSuggestions: true,
                       autocorrect: false,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 0.0),
-                        border: UnderlineInputBorder(),
-                        hintText: 'Transactions explorer url',
-                        label: Text("Tx explorer url:"),
+                        contentPadding: const EdgeInsets.only(bottom: 0.0),
+                        border: const UnderlineInputBorder(),
+                        hintText: AppLocalizations.of(context)
+                            ?.explorerTxInputFieldHint,
+                        label: Text(AppLocalizations.of(context)
+                                ?.explorerTxInputField ??
+                            stringNotFoundText),
                         suffixIcon: IconButton(
                           onPressed: () => {},
-                          icon: Icon(Icons.restore_rounded),
+                          icon: const Icon(Icons.restore_rounded),
                         ),
                       ),
                       controller: txExplorer,
                     )),
                 Container(
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Use minimum UTXOs",
-                              style: TextStyle(fontSize: 16)),
+                          Text(
+                              AppLocalizations.of(context)?.useMinimumUTXOs ??
+                                  stringNotFoundText,
+                              style: const TextStyle(fontSize: 16)),
                           Switch(value: false, onChanged: (val) => {}),
                         ])),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: OutlinedButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: Size.fromHeight(45)),
+                        minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
-                    icon: Icon(Icons.fingerprint_rounded),
-                    label: const Text('Setup biometrics'),
+                    icon: const Icon(Icons.fingerprint_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.setupBiometricsButton ??
+                            stringNotFoundText),
                   ),
                 ),
                 /*
@@ -136,56 +151,65 @@ class Settings extends StatelessWidget {
                   ),
                 ),
                 */
-                Container(
+                SizedBox(
                     width: double.infinity,
                     child: Row(children: [
                       Flexible(
                           flex: 1,
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(10, 0, 5, 10),
+                            margin: const EdgeInsets.fromLTRB(10, 0, 5, 10),
                             child: OutlinedButton.icon(
                               style: FilledButton.styleFrom(
-                                  minimumSize: Size.fromHeight(45)),
+                                  minimumSize: const Size.fromHeight(45)),
                               onPressed: () {
                                 var mnemonic = Lightwallet.generateMnemonic();
                                 BaseStaticState.newWalletWords = mnemonic;
                                 Navigator.of(context).push(_createSaveRoute());
                               },
-                              icon: Icon(Icons.new_label_rounded),
-                              label: const Text('Create wallet'),
+                              icon: const Icon(Icons.new_label_rounded),
+                              label: Text(
+                                  AppLocalizations.of(context)
+                                          ?.createWalletButton ??
+                                      stringNotFoundText,
+                                  overflow: TextOverflow.ellipsis),
                             ),
                           )),
                       Flexible(
                           flex: 1,
                           child: Container(
-                            margin: EdgeInsets.fromLTRB(5, 0, 10, 10),
+                            margin: const EdgeInsets.fromLTRB(5, 0, 10, 10),
                             child: OutlinedButton.icon(
                               style: FilledButton.styleFrom(
-                                  minimumSize: Size.fromHeight(45)),
+                                  minimumSize: const Size.fromHeight(45)),
                               onPressed: () {},
-                              icon: Icon(Icons.upload_rounded),
-                              label: const Text('Import wallet'),
+                              icon: const Icon(Icons.upload_rounded),
+                              label: Text(
+                                  AppLocalizations.of(context)?.importWallet ??
+                                      stringNotFoundText,
+                                  overflow: TextOverflow.ellipsis),
                             ),
                           ))
                     ])),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: Size.fromHeight(45)),
+                        minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
-                    icon: Icon(Icons.save_rounded),
-                    label: const Text('Save'),
+                    icon: const Icon(Icons.save_rounded),
+                    label: Text(AppLocalizations.of(context)?.saveButton ??
+                        stringNotFoundText),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                        minimumSize: Size.fromHeight(45)),
+                        minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
-                    icon: Icon(Icons.info_rounded),
-                    label: const Text('About'),
+                    icon: const Icon(Icons.info_rounded),
+                    label: Text(AppLocalizations.of(context)?.aboutButton ??
+                        stringNotFoundText),
                   ),
                 ),
               ]),

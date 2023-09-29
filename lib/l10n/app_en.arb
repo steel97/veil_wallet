@@ -28,7 +28,7 @@
   "@saveSeedPhraseTitle": {
     "description": "Save seed phrase screen title"
   },
-  "saveSeedPhraseDescription": "New wallet seed:",
+  "saveSeedPhraseDescription": "Save new wallet seed phrase:",
   "@saveSeedPhraseDescription": {
     "description": "Save seed phrase description"
   },
@@ -102,5 +102,65 @@
   "saveButton": "Save",
   "@saveButton": {
     "description": "Save button text (under advanced/create wallet screens)"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings screen title"
+  },
+  "nodeUrlInputField": "Node url:",
+  "@nodeUrlInputField": {
+    "description": "Node url input field (settings screen)"
+  },
+  "nodeUrlInputFieldHint": "Veil lightwallet node url (starts with http(s)://)",
+  "@nodeUrlInputFieldHint": {
+    "description": "Node url input field hint (settings screen)"
+  },
+  "basicAuthInputField": "Node basic auth:",
+  "@basicAuthInputField": {
+    "description": "Node basic auth input field (settings screen)"
+  },
+  "basicAuthInputFieldHint": "Empty for explorer's node",
+  "@basicAuthInputFieldHint": {
+    "description": "Node basic auth input field hint (settings screen)"
+  },
+  "explorerUrlInputField": "Explorer url:",
+  "@explorerUrlInputField": {
+    "description": "Explorer url input field (settings screen)"
+  },
+  "explorerUrlInputFieldHint": "Explorer url",
+  "@explorerUrlInputFieldHint": {
+    "description": "Explorer url input field hint (settings screen)"
+  },
+  "explorerTxInputField": "Tx explorer url:",
+  "@explorerTxInputField": {
+    "description": "Explorer tx input field (settings screen)"
+  },
+  "explorerTxInputFieldHint": "Transactions explorer url",
+  "@explorerTxInputFieldHint": {
+    "description": "Explorer tx input field hint (settings screen)"
+  },
+  "useMinimumUTXOs": "Use minimum UTXOs",
+  "@useMinimumUTXOs": {
+    "description": "Use minimum UTXOs checkbox (settings screen)"
+  },
+  "setupBiometricsButton": "Setup biometrics",
+  "@setupBiometricsButton": {
+    "description": "Setup biometrics button (settings screen)"
+  },
+  "aboutButton": "About app",
+  "@aboutButton": {
+    "description": "About button (settings screen)"
+  },
+  "biometricsTitle": "Secure your wallet",
+  "@biometricsTitle": {
+    "description": "Secure your wallet title (biometrics screen)"
+  },
+  "biometricsDescription": "To secure your wallet we strongly recommend to setup biometrics authentication for this app",
+  "@biometricsDescription": {
+    "description": "Secure your wallet description (biometrics screen)"
+  },
+  "skipBiometricsButton": "Skip (not recommended)",
+  "@skipBiometricsButton": {
+    "description": "Skip button (biometrics screen)"
   }
 }
