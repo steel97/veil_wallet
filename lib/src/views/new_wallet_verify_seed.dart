@@ -71,7 +71,8 @@ class NewWalletVerifySeed extends StatelessWidget {
                     },
                     child: Text(
                         AppLocalizations.of(context)?.createWalletButton ??
-                            stringNotFoundText),
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ]),

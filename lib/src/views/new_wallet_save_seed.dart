@@ -94,7 +94,8 @@ class NewWalletSaveSeed extends StatelessWidget {
                       icon: const Icon(Icons.file_open_rounded),
                       label: Text(
                           AppLocalizations.of(context)?.walletAdvancedButton ??
-                              stringNotFoundText),
+                              stringNotFoundText,
+                          overflow: TextOverflow.ellipsis),
                     ),
                   ),
                   Container(
@@ -105,8 +106,10 @@ class NewWalletSaveSeed extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(_createVerifySeedRoute());
                       },
-                      child: Text(AppLocalizations.of(context)?.nextButton ??
-                          stringNotFoundText),
+                      child: Text(
+                          AppLocalizations.of(context)?.nextButton ??
+                              stringNotFoundText,
+                          overflow: TextOverflow.ellipsis),
                     ),
                   ),
                 ])));

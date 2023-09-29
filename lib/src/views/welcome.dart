@@ -40,8 +40,10 @@ class Welcome extends StatelessWidget {
                 Navigator.of(context).push(_createSaveRoute());
               },
               icon: const Icon(Icons.new_label_rounded),
-              label: Text(AppLocalizations.of(context)?.createWallet ??
-                  stringNotFoundText),
+              label: Text(
+                  AppLocalizations.of(context)?.createWallet ??
+                      stringNotFoundText,
+                  overflow: TextOverflow.ellipsis),
             )),
         SizedBox(
             width: 170,
@@ -52,8 +54,10 @@ class Welcome extends StatelessWidget {
                 Navigator.of(context).push(_createImportRoute());
               },
               icon: const Icon(Icons.upload_rounded),
-              label: Text(AppLocalizations.of(context)?.importWallet ??
-                  stringNotFoundText),
+              label: Text(
+                  AppLocalizations.of(context)?.importWallet ??
+                      stringNotFoundText,
+                  overflow: TextOverflow.ellipsis),
             )),
       ]),
     ));

@@ -94,8 +94,13 @@ class _MainLayoutState extends State<MainLayout> {
               icon: Icon(Icons.wallet_rounded,
                   color: Theme.of(context).primaryColor),
               itemBuilder: (context) => [
-                PopupMenuItem<int>(value: 0, child: Text('Wallet')),
-                PopupMenuItem<int>(value: 1, child: Text('Another wallet')),
+                PopupMenuItem<int>(
+                    value: 0,
+                    child: Text('Wallet', overflow: TextOverflow.ellipsis)),
+                PopupMenuItem<int>(
+                    value: 1,
+                    child: Text('Another wallet',
+                        overflow: TextOverflow.ellipsis)),
               ],
             ),
             SizedBox(width: 10)

@@ -35,7 +35,8 @@ class SetupBiometrics extends StatelessWidget {
                     icon: const Icon(Icons.fingerprint_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.setupBiometricsButton ??
-                            stringNotFoundText),
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
                 Container(
@@ -47,7 +48,8 @@ class SetupBiometrics extends StatelessWidget {
                     icon: const Icon(Icons.arrow_circle_right),
                     label: Text(
                         AppLocalizations.of(context)?.skipBiometricsButton ??
-                            stringNotFoundText),
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ]),

@@ -84,7 +84,8 @@ class ImportSeed extends StatelessWidget {
                     icon: const Icon(Icons.file_open_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.walletAdvancedButton ??
-                            stringNotFoundText),
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
                 Container(
@@ -94,8 +95,10 @@ class ImportSeed extends StatelessWidget {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
                     icon: const Icon(Icons.upload_rounded),
-                    label: Text(AppLocalizations.of(context)?.importWallet ??
-                        stringNotFoundText),
+                    label: Text(
+                        AppLocalizations.of(context)?.importWallet ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ]),

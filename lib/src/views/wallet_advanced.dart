@@ -56,8 +56,10 @@ class WalletAdvanced extends StatelessWidget {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
                     icon: const Icon(Icons.file_open_rounded),
-                    label: Text(AppLocalizations.of(context)!
-                        .walletImportTransactionsData('transactions.json')),
+                    label: Text(
+                        AppLocalizations.of(context)!
+                            .walletImportTransactionsData('transactions.json'),
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
                 Container(
@@ -67,8 +69,10 @@ class WalletAdvanced extends StatelessWidget {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
                     icon: const Icon(Icons.save_rounded),
-                    label: Text(AppLocalizations.of(context)?.saveButton ??
-                        stringNotFoundText),
+                    label: Text(
+                        AppLocalizations.of(context)?.saveButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ]),

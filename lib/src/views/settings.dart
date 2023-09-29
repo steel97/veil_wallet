@@ -197,8 +197,10 @@ class Settings extends StatelessWidget {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
                     icon: const Icon(Icons.save_rounded),
-                    label: Text(AppLocalizations.of(context)?.saveButton ??
-                        stringNotFoundText),
+                    label: Text(
+                        AppLocalizations.of(context)?.saveButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
                 Container(
@@ -208,8 +210,10 @@ class Settings extends StatelessWidget {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {},
                     icon: const Icon(Icons.info_rounded),
-                    label: Text(AppLocalizations.of(context)?.aboutButton ??
-                        stringNotFoundText),
+                    label: Text(
+                        AppLocalizations.of(context)?.aboutButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ]),
