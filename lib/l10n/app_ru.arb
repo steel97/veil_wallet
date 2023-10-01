@@ -57,6 +57,10 @@
   "seedWordWrong": "Не верное слово",
   "seedWordNotMatch": "Слово не совпадает",
   "aboutTitle": "О приложении",
-  "aboutDescription": "Veil wallet - мобильный кошелек для криптовалюты veil.\nИсходный код доступен здесь:\n https://github.com/steel97/veil_wallet\n\nАдрес для пожертвований:",
-  "copiedText": "Скопировано"
+  "aboutText": "Veil wallet - мобильный кошелек для криптовалюты veil.\nИсходный код доступен здесь:\n https://github.com/steel97/veil_wallet\n\nАдрес для пожертвований:",
+  "copiedText": "Скопировано",
+  "authenticateTitle": "Попробуйте ещё раз",
+  "authenticateDescription": "Чтобы разблокировать кошелек, пожалуйста авторизуйтесь",
+  "authenticateAction": "Авторизоваться",
+  "biometricsReason": "Пожалуйста авторизуйтесь для разблокировки кошелька"
 }

@@ -44,6 +44,8 @@ dependencies:
       url: https://github.com/steel97/veil_light_plugin.git
       ref: main
   file_picker: ^5.5.0
+  flutter_secure_storage: ^9.0.0
+  local_auth: ^2.1.7
 
 dev_dependencies:
   flutter_test:

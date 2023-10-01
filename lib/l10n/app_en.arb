@@ -242,5 +242,21 @@
   "copiedText": "Copied to clipboard",
   "@copiedText": {
     "description": "Notification when copy action used"
+  },
+  "authenticateTitle": "Retry authentication",
+  "@authenticateTitle": {
+    "description": "Retry authentication title"
+  },
+  "authenticateDescription": "To access wallet, please try to authenticate again",
+  "@authenticateDescription": {
+    "description": "Retry authentication description"
+  },
+  "authenticateAction": "Authenticate",
+  "@authenticateAction": {
+    "description": "Authenticate action"
+  },
+  "biometricsReason": "Please authenticate to unlock wallet",
+  "@biometricsReason": {
+    "description": "Reason to use biometrics"
   }
 }
