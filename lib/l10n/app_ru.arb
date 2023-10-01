@@ -38,5 +38,18 @@
   "aboutButton": "О приложении",
   "biometricsTitle": "Безопасность кошелька",
   "biometricsDescription": "Чтобы защитить кошелек, мы настоятельно рекомендуем настроить биометрическую аутентификацию",
-  "skipBiometricsButton": "Пропустить (не рекомендуется)"
+  "skipBiometricsButton": "Пропустить (не рекомендуется)",
+  "walletTitle": "Кошелек",
+  "notificationsAction": "Уведомления",
+  "sendButton": "Отправить",
+  "receiveButton": "Получить",
+  "buyButton": "Купить",
+  "transactionsLabel": "Транзакции",
+  "txTypeReceived": "Получено",
+  "txTypeSent": "Отправлено",
+  "txTypeUnknown": "Не известно",
+  "homeNavHome": "Кошелек",
+  "homeNavExplorer": "Обозреватель",
+  "homeNavScanQR": "Скан. QR",
+  "homeNavSettings": "Настройки"
 }

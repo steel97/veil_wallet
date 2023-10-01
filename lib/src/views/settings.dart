@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 import 'package:veil_light_plugin/veil_light.dart';
@@ -223,26 +225,33 @@ class Settings extends StatelessWidget {
 
 Route _createBackRoute() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const Welcome(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(-1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+      pageBuilder: (context, animation, secondaryAnimation) {
+    if (BaseStaticState.prevScreen == Screen.home) {
+      return const Home();
+    }
+    return const Welcome();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createSaveRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        const NewWalletSaveSeed(),
+    pageBuilder: (context, animation, secondaryAnimation) {
+      if (BaseStaticState.prevScreen == Screen.home) {
+        return const Home();
+      }
+      return const Welcome();
+    },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
-import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 
 class CoinControlWidget extends StatelessWidget {
   const CoinControlWidget({super.key});
@@ -8,7 +8,7 @@ class CoinControlWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         width: double.infinity,
         child: NavigationBar(
             surfaceTintColor: Colors.transparent,
@@ -17,16 +17,19 @@ class CoinControlWidget extends StatelessWidget {
             selectedIndex: 0,
             destinations: [
               NavigationDestination(
-                icon: Icon(Icons.arrow_upward_rounded),
-                label: 'Send',
+                icon: const Icon(Icons.arrow_upward_rounded),
+                label: AppLocalizations.of(context)?.sendButton ??
+                    stringNotFoundText,
               ),
               NavigationDestination(
-                icon: Icon(Icons.arrow_downward_rounded),
-                label: 'Receive',
+                icon: const Icon(Icons.arrow_downward_rounded),
+                label: AppLocalizations.of(context)?.receiveButton ??
+                    stringNotFoundText,
               ),
               NavigationDestination(
-                icon: Icon(Icons.currency_exchange_rounded),
-                label: 'Buy',
+                icon: const Icon(Icons.currency_exchange_rounded),
+                label: AppLocalizations.of(context)?.buyButton ??
+                    stringNotFoundText,
               ),
             ]));
   }

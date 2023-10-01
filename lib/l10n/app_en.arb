@@ -162,5 +162,57 @@
   "skipBiometricsButton": "Skip (not recommended)",
   "@skipBiometricsButton": {
     "description": "Skip button (biometrics screen)"
+  },
+  "walletTitle": "Wallet",
+  "@walletTitle": {
+    "description": "Home screen title string"
+  },
+  "notificationsAction": "Notifications",
+  "@notificationsAction": {
+    "description": "Notifications label for accessibility"
+  },
+  "sendButton": "Send",
+  "@sendButton": {
+    "description": "Home screen send button"
+  },
+  "receiveButton": "Receive",
+  "@receiveButton": {
+    "description": "Home screen receive button"
+  },
+  "buyButton": "Buy",
+  "@buyButton": {
+    "description": "Home screen buy button"
+  },
+  "transactionsLabel": "Transactions",
+  "@transactionsLabel": {
+    "description": "Home screen transactions label"
+  },
+  "txTypeReceived": "Received",
+  "@txTypeReceived": {
+    "description": "Transaction card received text"
+  },
+  "txTypeSent": "Sent",
+  "@txTypeSent": {
+    "description": "Transaction card sent text"
+  },
+  "txTypeUnknown": "Unknown",
+  "@txTypeUnknown": {
+    "description": "Transaction card unknown text"
+  },
+  "homeNavHome": "Home",
+  "@homeNavHome": {
+    "description": "Bottom nav bar home button label"
+  },
+  "homeNavExplorer": "Explorer",
+  "@homeNavExplorer": {
+    "description": "Bottom nav bar explorer button label"
+  },
+  "homeNavScanQR": "Scan QR",
+  "@homeNavScanQR": {
+    "description": "Bottom nav bar scan qr button label"
+  },
+  "homeNavSettings": "Settings",
+  "@homeNavSettings": {
+    "description": "Bottom nav bar settings button label"
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/components/transaction.dart';
-import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
-import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 
 class TransactionsListWidget extends StatelessWidget {
   const TransactionsListWidget({super.key});
@@ -17,7 +17,8 @@ class TransactionsListWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Transactions",
+                AppLocalizations.of(context)?.transactionsLabel ??
+                    stringNotFoundText,
                 style: TextStyle(fontSize: 24),
               ),
               FilledButton.icon(

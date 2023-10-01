@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/wallet_advanced.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
@@ -79,6 +81,7 @@ class ImportSeed extends StatelessWidget {
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {
+                      BaseStaticState.prevScreen = Screen.importSeed;
                       Navigator.of(context).push(_createAdvancedRoute());
                     },
                     icon: const Icon(Icons.file_open_rounded),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/new_wallet_verify_seed.dart';
@@ -89,6 +90,7 @@ class NewWalletSaveSeed extends StatelessWidget {
                       style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(45)),
                       onPressed: () {
+                        BaseStaticState.prevScreen = Screen.newWallet;
                         Navigator.of(context).push(_createAdvancedRoute());
                       },
                       icon: const Icon(Icons.file_open_rounded),

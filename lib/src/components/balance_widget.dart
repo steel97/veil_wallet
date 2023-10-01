@@ -1,7 +1,5 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
-import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 
 class BalanceWidget extends StatelessWidget {
   const BalanceWidget({super.key});

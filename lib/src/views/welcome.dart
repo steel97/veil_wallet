@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/welcome_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
@@ -35,6 +36,7 @@ class Welcome extends StatelessWidget {
               style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(42)),
               onPressed: () {
+                BaseStaticState.prevScreen = Screen.welcome;
                 var mnemonic = Lightwallet.generateMnemonic();
                 BaseStaticState.newWalletWords = mnemonic;
                 Navigator.of(context).push(_createSaveRoute());
@@ -51,6 +53,7 @@ class Welcome extends StatelessWidget {
               style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(42)),
               onPressed: () {
+                BaseStaticState.prevScreen = Screen.welcome;
                 Navigator.of(context).push(_createImportRoute());
               },
               icon: const Icon(Icons.upload_rounded),
