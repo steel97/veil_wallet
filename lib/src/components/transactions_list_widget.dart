@@ -21,10 +21,13 @@ class TransactionsListWidget extends StatelessWidget {
                     stringNotFoundText,
                 style: TextStyle(fontSize: 24),
               ),
-              FilledButton.icon(
+              //Icon(Icons.refresh_rounded)
+              /*IconButton.filled(
+                  onPressed: () {}, icon: const Icon(Icons.refresh_rounded))*/
+              /*FilledButton.icon(
                   onPressed: () => {},
                   icon: Icon(Icons.refresh_rounded),
-                  label: Text("Refresh"))
+                  label: Text("Refresh"))*/
             ],
           ),
           SizedBox(height: 10),
