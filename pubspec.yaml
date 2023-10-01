@@ -43,6 +43,7 @@ dependencies:
     git:
       url: https://github.com/steel97/veil_light_plugin.git
       ref: main
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:

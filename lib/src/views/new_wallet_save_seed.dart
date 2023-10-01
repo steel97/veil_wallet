@@ -5,6 +5,7 @@ import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/new_wallet_verify_seed.dart';
+import 'package:veil_wallet/src/views/settings.dart';
 import 'package:veil_wallet/src/views/wallet_advanced.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
@@ -15,7 +16,10 @@ class NewWalletSaveSeed extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackLayout(
         title: AppLocalizations.of(context)?.saveSeedPhraseTitle,
-        back: () => {Navigator.of(context).push(_createBackRoute())},
+        back: () {
+          BaseStaticState.walletEncryptionPassword = '';
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: Container(
             width: double.infinity,
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -70,7 +74,7 @@ class NewWalletSaveSeed extends StatelessWidget {
                                 width: 24, child: Text("${index + 1}."))),*/
                                   Expanded(
                                       child: TextField(
-                                          enabled: false,
+                                          readOnly: true,
                                           decoration: InputDecoration(
                                             contentPadding:
                                                 const EdgeInsets.only(
@@ -120,20 +124,23 @@ class NewWalletSaveSeed extends StatelessWidget {
 
 Route _createBackRoute() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const Welcome(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(-1.0, 0.0);
-        const end = Offset.zero;
-        const curve = Curves.ease;
+      pageBuilder: (context, animation, secondaryAnimation) {
+    if (BaseStaticState.prevScreen == Screen.settings) {
+      return const Settings();
+    }
+    return const Welcome();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      });
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createVerifySeedRoute() {

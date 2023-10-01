@@ -51,5 +51,9 @@
   "homeNavHome": "Кошелек",
   "homeNavExplorer": "Обозреватель",
   "homeNavScanQR": "Скан. QR",
-  "homeNavSettings": "Настройки"
+  "homeNavSettings": "Настройки",
+  "passwordsNotMatch": "Пароли не совпадают",
+  "seedWordCantBeEmpty": "Слово не может быть пустым",
+  "seedWordWrong": "Не верное слово",
+  "seedWordNotMatch": "Слово не совпадает"
 }

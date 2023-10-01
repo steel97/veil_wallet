@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
@@ -7,15 +10,45 @@ import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 
-class WalletAdvanced extends StatelessWidget {
+// Create a Form widget.
+class WalletAdvanced extends StatefulWidget {
   const WalletAdvanced({super.key});
+
+  @override
+  WalletAdvancedState createState() {
+    return WalletAdvancedState();
+  }
+}
+
+class WalletAdvancedState extends State<WalletAdvanced> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _passwordController = TextEditingController();
+  final _passwordConfirmController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data from API using BuildContext
+    _passwordController.text = BaseStaticState.walletEncryptionPassword;
+    _passwordConfirmController.text = BaseStaticState.walletEncryptionPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> settingsAdvanced = [
       Container(
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: TextField(
+          child: TextFormField(
+            controller: _passwordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              }
+              return _passwordController.text != _passwordConfirmController.text
+                  ? AppLocalizations.of(context)?.passwordsNotMatch
+                  : null;
+            },
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
@@ -30,7 +63,16 @@ class WalletAdvanced extends StatelessWidget {
           )),
       Container(
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-          child: TextField(
+          child: TextFormField(
+            controller: _passwordConfirmController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              }
+              return _passwordController.text != _passwordConfirmController.text
+                  ? AppLocalizations.of(context)?.passwordsNotMatch
+                  : null;
+            },
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
@@ -50,7 +92,19 @@ class WalletAdvanced extends StatelessWidget {
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: OutlinedButton.icon(
           style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(45)),
-          onPressed: () {},
+          onPressed: () async {
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ["json"],
+                withData: true);
+
+            if (result != null) {
+              File file = File(result.files.single.path!);
+              // TO-DO validate file and store it's content to storage
+            } else {
+              // User canceled the picker
+            }
+          },
           icon: const Icon(Icons.file_open_rounded),
           label: Text(
               AppLocalizations.of(context)!
@@ -64,7 +118,13 @@ class WalletAdvanced extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: FilledButton.icon(
         style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(45)),
-        onPressed: () {},
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            // done
+            BaseStaticState.walletEncryptionPassword = _passwordController.text;
+            Navigator.of(context).push(_createBackRoute());
+          }
+        },
         icon: const Icon(Icons.save_rounded),
         label: Text(
             AppLocalizations.of(context)?.saveButton ?? stringNotFoundText,
@@ -74,15 +134,19 @@ class WalletAdvanced extends StatelessWidget {
 
     return BackLayout(
         title: AppLocalizations.of(context)?.walletAdvancedTitle,
-        back: () => {Navigator.of(context).push(_createBackRoute())},
-        child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: settingsAdvanced),
-        ));
+        back: () {
+          Navigator.of(context).push(_createBackRoute());
+        },
+        child: Form(
+            key: _formKey,
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: settingsAdvanced),
+            )));
   }
 }
 

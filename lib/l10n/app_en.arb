@@ -214,5 +214,21 @@
   "homeNavSettings": "Settings",
   "@homeNavSettings": {
     "description": "Bottom nav bar settings button label"
+  },
+  "passwordsNotMatch": "Passwords doesn't match",
+  "@passwordsNotMatch": {
+    "description": "Advanced import/create settings password validation error"
+  },
+  "seedWordCantBeEmpty": "Seed word can't be empty",
+  "@seedWordCantBeEmpty": {
+    "description": "Mnemonic validation (empty)"
+  },
+  "seedWordWrong": "Wrong seed word",
+  "@seedWordWrong": {
+    "description": "Mnemonic validation (word not in vocablurary)"
+  },
+  "seedWordNotMatch": "Seed word doesn't match",
+  "@seedWordNotMatch": {
+    "description": "Mnemonic validation (word doesn't match generated word)"
   }
 }
