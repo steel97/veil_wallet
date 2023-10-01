@@ -230,5 +230,17 @@
   "seedWordNotMatch": "Seed word doesn't match",
   "@seedWordNotMatch": {
     "description": "Mnemonic validation (word doesn't match generated word)"
+  },
+  "aboutTitle": "About app",
+  "@aboutTitle": {
+    "description": "About screen title"
+  },
+  "aboutText": "Veil wallet - mobile veil cryptocurrency wallet.\nSource code is available here:\n https://github.com/steel97/veil_wallet\n\nDonations address:",
+  "@aboutText": {
+    "description": "About screen title"
+  },
+  "copiedText": "Copied to clipboard",
+  "@copiedText": {
+    "description": "Notification when copy action used"
   }
 }

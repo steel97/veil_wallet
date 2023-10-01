@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class WelcomeLayout extends StatefulWidget {
@@ -44,6 +46,7 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
               icon: const Icon(Icons.settings_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {
+                BaseStaticState.prevScreen = Screen.welcome;
                 Navigator.of(context).push(_createSettingsRoute());
               },
               tooltip: AppLocalizations.of(context)?.settingsButton,

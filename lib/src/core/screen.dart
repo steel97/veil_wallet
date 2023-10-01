@@ -6,5 +6,6 @@ enum Screen {
   advancedSettings,
   setupBiometrics,
   settings,
-  home
+  home,
+  about
 }

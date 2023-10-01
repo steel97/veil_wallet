@@ -4,6 +4,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/views/about.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
@@ -285,7 +286,9 @@ class SettingsState extends State<Settings> {
                           child: FilledButton.icon(
                             style: FilledButton.styleFrom(
                                 minimumSize: const Size.fromHeight(45)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(_createAboutRoute());
+                            },
                             icon: const Icon(Icons.info_rounded),
                             label: Text(
                                 AppLocalizations.of(context)?.aboutButton ??
@@ -343,6 +346,26 @@ Route _createImportRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) {
       return const ImportSeed();
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _createAboutRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return const About();
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
