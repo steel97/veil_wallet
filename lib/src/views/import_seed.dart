@@ -39,139 +39,132 @@ class ImportSeedState extends State<ImportSeed> {
             child: Container(
               width: double.infinity,
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(bottom: 0.0),
-                                border: const UnderlineInputBorder(),
-                                hintText: AppLocalizations.of(context)
-                                    ?.walletNameInputFieldHint,
-                                label: Text(AppLocalizations.of(context)
-                                        ?.walletNameInputField ??
-                                    stringNotFoundText)),
-                            controller: _walletNameInput)),
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        width: double.infinity,
-                        child: Text(
-                          AppLocalizations.of(context)?.importSeedDescription ??
-                              stringNotFoundText,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        )),
-                    Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: GridView.count(
-                              // Create a grid with 2 columns. If you change the scrollDirection to
-                              // horizontal, this produces 2 rows.
-                              crossAxisCount: 3,
-                              childAspectRatio: 2,
-                              crossAxisSpacing: 5,
-                              // Generate 100 widgets that display their index in the List.
-                              children: List.generate(24, (index) {
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    /*Container(
+              child: ListView(children: [
+                Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: TextFormField(
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(bottom: 0.0),
+                            border: const UnderlineInputBorder(),
+                            hintText: AppLocalizations.of(context)
+                                ?.walletNameInputFieldHint,
+                            label: Text(AppLocalizations.of(context)
+                                    ?.walletNameInputField ??
+                                stringNotFoundText)),
+                        controller: _walletNameInput)),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    width: double.infinity,
+                    child: Text(
+                      AppLocalizations.of(context)?.importSeedDescription ??
+                          stringNotFoundText,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      //
+                      crossAxisCount: 3,
+                      childAspectRatio: 2,
+                      crossAxisSpacing: 5,
+                      // Generate 100 widgets that display their index in the List.
+                      children: List.generate(24, (index) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            /*Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
                                 width: 24, child: Text("${index + 1}."))),*/
-                                    Expanded(
-                                        child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return AppLocalizations.of(context)
-                                              ?.seedWordCantBeEmpty;
-                                        }
+                            Expanded(
+                                child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLocalizations.of(context)
+                                      ?.seedWordCantBeEmpty;
+                                }
 
-                                        var word = value.toLowerCase().trim();
-                                        return Lightwallet.verifyWord(word)
-                                            ? null
-                                            : AppLocalizations.of(context)
-                                                ?.seedWordWrong;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.only(bottom: 0.0),
-                                        border: const UnderlineInputBorder(),
-                                        hintText: '${index + 1}.',
-                                      ),
-                                      controller: _mnemonicInput[index],
-                                    ))
-                                  ],
-                                );
-                              }),
-                            ))),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                      child: OutlinedButton.icon(
-                        style: FilledButton.styleFrom(
-                            minimumSize: const Size.fromHeight(45)),
-                        onPressed: () {
-                          BaseStaticState.prevScreen = Screen.importSeed;
-                          Navigator.of(context).push(_createAdvancedRoute());
-                        },
-                        icon: const Icon(Icons.file_open_rounded),
-                        label: Text(
-                            AppLocalizations.of(context)
-                                    ?.walletAdvancedButton ??
-                                stringNotFoundText,
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                      child: FilledButton.icon(
-                        style: FilledButton.styleFrom(
-                            minimumSize: const Size.fromHeight(45)),
-                        onPressed: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
+                                var word = value.toLowerCase().trim();
+                                return Lightwallet.verifyWord(word)
+                                    ? null
+                                    : AppLocalizations.of(context)
+                                        ?.seedWordWrong;
+                              },
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 0.0),
+                                border: const UnderlineInputBorder(),
+                                hintText: '${index + 1}.',
+                              ),
+                              controller: _mnemonicInput[index],
+                            ))
+                          ],
+                        );
+                      }),
+                    )),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: OutlinedButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(45)),
+                    onPressed: () {
+                      BaseStaticState.prevScreen = Screen.importSeed;
+                      Navigator.of(context).push(_createAdvancedRoute());
+                    },
+                    icon: const Icon(Icons.file_open_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.walletAdvancedButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(45)),
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
 
-                          List<String> mnemonic = List.empty(growable: true);
-                          for (var element in _mnemonicInput) {
-                            mnemonic.add(element.text);
-                          }
+                      List<String> mnemonic = List.empty(growable: true);
+                      for (var element in _mnemonicInput) {
+                        mnemonic.add(element.text);
+                      }
 
-                          if (BaseStaticState.prevScreen == Screen.settings) {
-                            // create and save wallet
-                            var valName = _walletNameInput.text;
-                            if (valName.trim().isEmpty) {
-                              valName = defaultWalletName;
-                            }
-                            await WalletHelper.createOrImportWallet(
-                                valName,
-                                mnemonic,
-                                BaseStaticState.walletEncryptionPassword,
-                                true);
-                            // move to home
-                            WidgetsBinding.instance.scheduleFrameCallback((_) {
-                              Navigator.of(context).push(_createHomeRoute());
-                            });
-                          } else {
-                            // move to biometrics
-                            BaseStaticState.tempWalletName =
-                                _walletNameInput.text;
-                            BaseStaticState.walletMnemonic = mnemonic;
-                            Navigator.of(context)
-                                .push(_createBiometricsRoute());
-                          }
-                        },
-                        icon: const Icon(Icons.upload_rounded),
-                        label: Text(
-                            AppLocalizations.of(context)?.importWallet ??
-                                stringNotFoundText,
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                    ),
-                  ]),
+                      if (BaseStaticState.prevScreen == Screen.settings) {
+                        // create and save wallet
+                        var valName = _walletNameInput.text;
+                        if (valName.trim().isEmpty) {
+                          valName = defaultWalletName;
+                        }
+                        await WalletHelper.createOrImportWallet(
+                            valName,
+                            mnemonic,
+                            BaseStaticState.walletEncryptionPassword,
+                            true);
+                        // move to home
+                        WidgetsBinding.instance.scheduleFrameCallback((_) {
+                          Navigator.of(context).push(_createHomeRoute());
+                        });
+                      } else {
+                        // move to biometrics
+                        BaseStaticState.tempWalletName = _walletNameInput.text;
+                        BaseStaticState.walletMnemonic = mnemonic;
+                        Navigator.of(context).push(_createBiometricsRoute());
+                      }
+                    },
+                    icon: const Icon(Icons.upload_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.importWallet ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ]),
             )));
   }
 }

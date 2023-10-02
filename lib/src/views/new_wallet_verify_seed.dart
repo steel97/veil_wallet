@@ -32,120 +32,116 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
             child: Container(
               width: double.infinity,
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        width: double.infinity,
-                        child: Text(
-                          AppLocalizations.of(context)
-                                  ?.verifySeedPhraseDescription ??
-                              stringNotFoundText,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.left,
-                        )),
-                    Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: GridView.count(
-                              // Create a grid with 2 columns. If you change the scrollDirection to
-                              // horizontal, this produces 2 rows.
-                              crossAxisCount: 3,
-                              childAspectRatio: 2,
-                              crossAxisSpacing: 5,
-                              // Generate 100 widgets that display their index in the List.
-                              children: List.generate(24, (index) {
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    /*Container(
+              child: ListView(children: [
+                Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    width: double.infinity,
+                    child: Text(
+                      AppLocalizations.of(context)
+                              ?.verifySeedPhraseDescription ??
+                          stringNotFoundText,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.left,
+                    )),
+                Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.count(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      //
+                      crossAxisCount: 3,
+                      childAspectRatio: 2,
+                      crossAxisSpacing: 5,
+                      // Generate 100 widgets that display their index in the List.
+                      children: List.generate(24, (index) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            /*Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
                                 width: 24, child: Text("${index + 1}."))),*/
-                                    Expanded(
-                                        child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return AppLocalizations.of(context)
-                                              ?.seedWordCantBeEmpty;
-                                        }
+                            Expanded(
+                                child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLocalizations.of(context)
+                                      ?.seedWordCantBeEmpty;
+                                }
 
-                                        var word = value.toLowerCase().trim();
-                                        var tres = Lightwallet.verifyWord(word)
-                                            ? null
-                                            : AppLocalizations.of(context)
-                                                ?.seedWordWrong;
+                                var word = value.toLowerCase().trim();
+                                var tres = Lightwallet.verifyWord(word)
+                                    ? null
+                                    : AppLocalizations.of(context)
+                                        ?.seedWordWrong;
 
-                                        if (tres != null) {
-                                          return tres;
-                                        }
+                                if (tres != null) {
+                                  return tres;
+                                }
 
-                                        var expectedWord = BaseStaticState
-                                            .newWalletWords[index];
-                                        if (expectedWord != word) {
-                                          return AppLocalizations.of(context)
-                                              ?.seedWordNotMatch;
-                                        }
+                                var expectedWord =
+                                    BaseStaticState.newWalletWords[index];
+                                if (expectedWord != word) {
+                                  return AppLocalizations.of(context)
+                                      ?.seedWordNotMatch;
+                                }
 
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.only(bottom: 0.0),
-                                        border: const UnderlineInputBorder(),
-                                        hintText: '${index + 1}.',
-                                      ),
-                                    ))
-                                  ],
-                                );
-                              }),
-                            ))),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                            minimumSize: const Size.fromHeight(45)),
-                        onPressed: () async {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 0.0),
+                                border: const UnderlineInputBorder(),
+                                hintText: '${index + 1}.',
+                              ),
+                            ))
+                          ],
+                        );
+                      }),
+                    )),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: FilledButton(
+                    style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(45)),
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
 
-                          // move to biometrics if not opened from settings
-                          if (BaseStaticState.prevScreen == Screen.settings) {
-                            // create and save wallet
-                            var valName = BaseStaticState.tempWalletName;
-                            if (valName.trim().isEmpty) {
-                              valName = defaultWalletName;
-                            }
-                            await WalletHelper.createOrImportWallet(
-                                valName,
-                                BaseStaticState.newWalletWords,
-                                BaseStaticState.walletEncryptionPassword,
-                                true);
-                            // clear new wallet words
-                            BaseStaticState.newWalletWords = [];
-                            // move to home
-                            WidgetsBinding.instance.scheduleFrameCallback((_) {
-                              Navigator.of(context).push(_createHomeRoute());
-                            });
-                          } else {
-                            // move to biometrics
-                            BaseStaticState.walletMnemonic =
-                                BaseStaticState.newWalletWords;
-                            BaseStaticState.newWalletWords = [];
-                            Navigator.of(context)
-                                .push(_createBiometricsRoute());
-                          }
-                        },
-                        child: Text(
-                            AppLocalizations.of(context)?.createWalletButton ??
-                                stringNotFoundText,
-                            overflow: TextOverflow.ellipsis),
-                      ),
-                    ),
-                  ]),
+                      // move to biometrics if not opened from settings
+                      if (BaseStaticState.prevScreen == Screen.settings) {
+                        // create and save wallet
+                        var valName = BaseStaticState.tempWalletName;
+                        if (valName.trim().isEmpty) {
+                          valName = defaultWalletName;
+                        }
+                        await WalletHelper.createOrImportWallet(
+                            valName,
+                            BaseStaticState.newWalletWords,
+                            BaseStaticState.walletEncryptionPassword,
+                            true);
+                        // clear new wallet words
+                        BaseStaticState.newWalletWords = [];
+                        // move to home
+                        WidgetsBinding.instance.scheduleFrameCallback((_) {
+                          Navigator.of(context).push(_createHomeRoute());
+                        });
+                      } else {
+                        // move to biometrics
+                        BaseStaticState.walletMnemonic =
+                            BaseStaticState.newWalletWords;
+                        BaseStaticState.newWalletWords = [];
+                        Navigator.of(context).push(_createBiometricsRoute());
+                      }
+                    },
+                    child: Text(
+                        AppLocalizations.of(context)?.createWalletButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ]),
             )));
   }
 }
