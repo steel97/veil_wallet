@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -92,12 +94,14 @@ class SetupBiometrics extends StatelessWidget {
                           }
                           await WalletHelper.createOrImportWallet(
                               valName,
-                              BaseStaticState.newWalletWords,
+                              BaseStaticState.walletMnemonic,
                               BaseStaticState.walletEncryptionPassword,
-                              true);
+                              true,
+                              context);
 
                           // clear mnemonic
                           BaseStaticState.walletMnemonic = [];
+                          await WalletHelper.prepareHomePage(context);
                           WidgetsBinding.instance.scheduleFrameCallback((_) {
                             Navigator.of(context).push(_createHomeRoute());
                           });
@@ -135,12 +139,14 @@ class SetupBiometrics extends StatelessWidget {
                       }
                       await WalletHelper.createOrImportWallet(
                           valName,
-                          BaseStaticState.newWalletWords,
+                          BaseStaticState.walletMnemonic,
                           BaseStaticState.walletEncryptionPassword,
-                          true);
+                          true,
+                          context);
 
                       // clear mnemonic
                       BaseStaticState.walletMnemonic = [];
+                      await WalletHelper.prepareHomePage(context);
                       WidgetsBinding.instance.scheduleFrameCallback((_) {
                         Navigator.of(context).push(_createHomeRoute());
                       });

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_light_plugin/veil_light.dart';
@@ -120,10 +122,12 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                             valName,
                             BaseStaticState.newWalletWords,
                             BaseStaticState.walletEncryptionPassword,
-                            true);
+                            true,
+                            context);
                         // clear new wallet words
                         BaseStaticState.newWalletWords = [];
                         // move to home
+                        await WalletHelper.prepareHomePage(context);
                         WidgetsBinding.instance.scheduleFrameCallback((_) {
                           Navigator.of(context).push(_createHomeRoute());
                         });

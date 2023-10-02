@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
@@ -32,6 +37,8 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    var title = WalletStaticState.wallets?.firstWhere(
+        (element) => element.id == context.read<WalletState>().selectedWallet);
     return Scaffold(
         appBar: AppBar(
           //backgroundColor: Colors.transparent,
@@ -56,7 +63,9 @@ class _MainLayoutState extends State<MainLayout> {
                         fit: BoxFit.fitWidth))),*/
           ]),
           title: Text(
-            AppLocalizations.of(context)?.walletTitle ?? stringNotFoundText,
+            title?.name ??
+                (AppLocalizations.of(context)?.walletTitle ??
+                    stringNotFoundText),
             overflow: TextOverflow.ellipsis,
           ),
           /*title: Container(
@@ -106,15 +115,21 @@ class _MainLayoutState extends State<MainLayout> {
             PopupMenuButton<int>(
               icon: Icon(Icons.wallet_rounded,
                   color: Theme.of(context).primaryColor),
-              itemBuilder: (context) => [
-                const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text('Wallet', overflow: TextOverflow.ellipsis)),
-                const PopupMenuItem<int>(
-                    value: 1,
-                    child: Text('Another wallet',
-                        overflow: TextOverflow.ellipsis)),
-              ],
+              onSelected: (value) async {
+                WalletHelper.setActiveWallet(value, context);
+              },
+              itemBuilder: (context) {
+                List<PopupMenuItem<int>> items = List.empty(growable: true);
+
+                for (WalletEntry element in WalletStaticState.wallets ?? []) {
+                  items.add(PopupMenuItem<int>(
+                      value: element.id,
+                      child:
+                          Text(element.name, overflow: TextOverflow.ellipsis)));
+                }
+
+                return items;
+              },
             ),
             const SizedBox(width: 10)
           ],
@@ -125,11 +140,11 @@ class _MainLayoutState extends State<MainLayout> {
             autofocus: true,
             child: NavigationBar(
               destinations: [
-                NavigationDestination(
+                /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
                   label: AppLocalizations.of(context)?.homeNavHome ??
                       stringNotFoundText,
-                ),
+                ),*/
                 NavigationDestination(
                   icon: const Icon(Icons.explore_rounded),
                   label: AppLocalizations.of(context)?.homeNavExplorer ??
@@ -148,7 +163,17 @@ class _MainLayoutState extends State<MainLayout> {
               ],
               onDestinationSelected: (index) async {
                 BaseStaticState.useHomeBack = true;
-                if (index == 3) {
+                if (index == 0) {
+                  try {
+                    var url = Uri.parse(BaseStaticState.explorerAddress);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    }
+                    // ignore: empty_catches
+                  } catch (e) {}
+                }
+
+                if (index == 2) {
                   BaseStaticState.prevScreen = Screen.home;
                   BaseStaticState.biometricsActive = await _checkBiometrics();
 

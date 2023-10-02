@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
@@ -50,6 +51,8 @@ class Auth extends StatelessWidget {
                                 options: const AuthenticationOptions(
                                     useErrorDialogs: true));
                             if (didAuthenticate) {
+                              // ignore: use_build_context_synchronously
+                              await WalletHelper.prepareHomePage(context);
                               WidgetsBinding.instance
                                   .scheduleFrameCallback((_) {
                                 Navigator.of(context).push(_createHomeRoute());

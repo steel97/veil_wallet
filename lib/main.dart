@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:veil_light_plugin/veil_light.dart';
+import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
-import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/auth.dart';
 import 'package:veil_wallet/src/views/home.dart';
@@ -13,7 +14,9 @@ import 'package:veil_wallet/src/views/welcome.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-  runApp(const WalletAppWrap());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => WalletState()),
+  ], child: const WalletAppWrap()));
 }
 
 class WalletAppWrap extends StatelessWidget {
@@ -92,9 +95,8 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         } else {
           // go to home
           if (moveToScreen) {
-            WalletStaticState.lightwallet = Lightwallet.fromMnemonic(
-                mainNetParams, mnemonic.split(' '),
-                password: encPassword);
+            // ignore: use_build_context_synchronously
+            await WalletHelper.prepareHomePage(context);
             WidgetsBinding.instance.scheduleFrameCallback((_) {
               Navigator.of(context).push(_createHomeRoute());
             });

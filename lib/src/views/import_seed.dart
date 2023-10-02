@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_light_plugin/veil_light.dart';
@@ -145,8 +147,10 @@ class ImportSeedState extends State<ImportSeed> {
                             valName,
                             mnemonic,
                             BaseStaticState.walletEncryptionPassword,
-                            true);
+                            true,
+                            context);
                         // move to home
+                        await WalletHelper.prepareHomePage(context);
                         WidgetsBinding.instance.scheduleFrameCallback((_) {
                           Navigator.of(context).push(_createHomeRoute());
                         });

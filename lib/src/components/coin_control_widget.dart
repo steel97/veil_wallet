@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 
 class CoinControlWidget extends StatelessWidget {
@@ -15,6 +16,15 @@ class CoinControlWidget extends StatelessWidget {
             indicatorColor: Colors.transparent,
             backgroundColor: Colors.transparent,
             selectedIndex: 0,
+            onDestinationSelected: (value) async {
+              try {
+                var url = Uri.parse(buyCryptoLink);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+                // ignore: empty_catches
+              } catch (e) {}
+            },
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.arrow_upward_rounded),

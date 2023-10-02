@@ -1,5 +1,8 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 
 class BalanceWidget extends StatelessWidget {
   const BalanceWidget({super.key});
@@ -61,83 +64,70 @@ class BalanceWidget extends StatelessWidget {
                                     )
                                   ]))
                             ])),
-                    SizedBox(height: 45),
-                    Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                    const SizedBox(height: 45),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Expanded(
                               child: TextButton.icon(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.copy_rounded,
                               size: 18,
                             ),
                             onPressed: () {},
                             label: ExtendedText(
-                              "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
+                              context.watch<WalletState>().selectedAddress,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              overflowWidget: TextOverflowWidget(
+                              overflowWidget: const TextOverflowWidget(
                                 position: TextOverflowPosition.middle,
                                 align: TextOverflowAlign.center,
-                                child: Container(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      const Text(
-                                        '\u2026',
-                                        style: TextStyle(fontSize: 12),
-                                      )
-                                    ],
-                                  ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      '\u2026',
+                                      style: TextStyle(fontSize: 12),
+                                    )
+                                  ],
                                 ),
                               ),
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           )),
-                          PopupMenuButton<int>(
+                          PopupMenuButton<String>(
                             icon: Icon(Icons.expand_more_outlined,
                                 color: Theme.of(context).primaryColor),
-                            itemBuilder: (context) => [
-                              PopupMenuItem<int>(
-                                  value: 0,
-                                  child: ExtendedText(
-                                      "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      overflowWidget: TextOverflowWidget(
-                                        position: TextOverflowPosition.middle,
-                                        align: TextOverflowAlign.center,
-                                        child: Container(
+                            onSelected: (value) async {
+                              await WalletHelper.setSelectedAddress(
+                                  value, context);
+                            },
+                            itemBuilder: (context) {
+                              List<PopupMenuItem<String>> addresses =
+                                  List.empty(growable: true);
+                              context
+                                  .read<WalletState>()
+                                  .ownedAddresses
+                                  .forEach((element) {
+                                addresses.add(PopupMenuItem<String>(
+                                    value: element.address,
+                                    child: ExtendedText(element.address,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        overflowWidget:
+                                            const TextOverflowWidget(
+                                          position: TextOverflowPosition.middle,
+                                          align: TextOverflowAlign.center,
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              const Text('\u2026')
-                                            ],
+                                            children: <Widget>[Text('\u2026')],
                                           ),
-                                        ),
-                                      ))),
-                              PopupMenuItem<int>(
-                                  value: 1,
-                                  child: ExtendedText(
-                                      "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      overflowWidget: TextOverflowWidget(
-                                        position: TextOverflowPosition.middle,
-                                        align: TextOverflowAlign.center,
-                                        child: Container(
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              const Text('\u2026')
-                                            ],
-                                          ),
-                                        ),
-                                      ))),
-                            ],
+                                        ))));
+                              });
+                              return addresses;
+                            },
                           )
-                        ]))
+                        ])
                   ])),
         ));
   }

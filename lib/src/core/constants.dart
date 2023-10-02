@@ -1,6 +1,7 @@
 const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
 const donationsAddress =
     'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
+const buyCryptoLink = 'https://nonkyc.io?ref=651b52ea55acbaf736300f57';
 
 const stringNotFoundText = 'STRING_NOT_FOUND';
 const defaultWalletName = 'Default';
@@ -18,6 +19,8 @@ const prefsWalletMnemonics =
 const prefsWalletEncryption =
     'veil.wallet_encryption.'; // example veil.wallet_mnemonics.123 = <encryption passphrase>
 const prefsBiometricsEnabled = 'veil.biometrics_enabled'; // true/false
+const prefsActiveAddress = 'veil.active_address';
+
 // settings
 const prefsSettingsNodeUrl = 'veil.settings.node_url';
 const prefsSettingsNodeAuth = 'veil.settings.node_auth';

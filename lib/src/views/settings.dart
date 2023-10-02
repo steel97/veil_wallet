@@ -78,6 +78,7 @@ class SettingsState extends State<Settings> {
                       StorageItem(prefsBiometricsEnabled, false.toString()));
                   setState(() {
                     _isBiometricsActive = false;
+                    BaseStaticState.biometricsActive = false;
                   });
                 }
                 // ignore: empty_catches
