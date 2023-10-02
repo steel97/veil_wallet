@@ -152,7 +152,7 @@ class ImportSeedState extends State<ImportSeed> {
                                 BaseStaticState.walletEncryptionPassword,
                                 true);
                             // move to home
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                            WidgetsBinding.instance.scheduleFrameCallback((_) {
                               Navigator.of(context).push(_createHomeRoute());
                             });
                           } else {

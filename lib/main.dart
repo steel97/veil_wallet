@@ -75,7 +75,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       if (name == null || mnemonic == null || encPassword == null) {
         // can't get required information, move to welcome screen
         if (moveToScreen) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance.scheduleFrameCallback((_) {
             Navigator.of(context).push(_createWelcomeRoute());
           });
         }
@@ -86,7 +86,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
 
         if (biometricsRequired) {
           // go to auth retry screen
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance.scheduleFrameCallback((_) {
             Navigator.of(context).push(_createAuthRetryRoute());
           });
         } else {
@@ -95,7 +95,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
             WalletStaticState.lightwallet = Lightwallet.fromMnemonic(
                 mainNetParams, mnemonic.split(' '),
                 password: encPassword);
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance.scheduleFrameCallback((_) {
               Navigator.of(context).push(_createHomeRoute());
             });
           }
@@ -104,7 +104,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     } else {
       // move to welcome (or try to select other wallet?)
       if (moveToScreen) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.scheduleFrameCallback((_) {
           Navigator.of(context).push(_createWelcomeRoute());
         });
       }

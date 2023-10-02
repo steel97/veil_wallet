@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class MainLayout extends StatefulWidget {
@@ -16,6 +17,13 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   late int selectedIndex;
+
+  Future<bool> _checkBiometrics() async {
+    var storageService = StorageService();
+    var biometricsRequired = bool.parse(
+        await storageService.readSecureData(prefsBiometricsEnabled) ?? 'false');
+    return biometricsRequired;
+  }
 
   @override
   void initState() {
@@ -138,11 +146,15 @@ class _MainLayoutState extends State<MainLayout> {
                       stringNotFoundText,
                 ),
               ],
-              onDestinationSelected: (index) {
+              onDestinationSelected: (index) async {
                 BaseStaticState.useHomeBack = true;
                 if (index == 3) {
                   BaseStaticState.prevScreen = Screen.home;
-                  Navigator.of(context).push(_createSettingsRoute());
+                  BaseStaticState.biometricsActive = await _checkBiometrics();
+
+                  WidgetsBinding.instance.scheduleFrameCallback((_) {
+                    Navigator.of(context).push(_createSettingsRoute());
+                  });
                 }
               },
             )),

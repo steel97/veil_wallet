@@ -40,7 +40,8 @@ class Auth extends StatelessWidget {
 
                       if (biometricsRequired) {
                         var auth = LocalAuthentication();
-                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        WidgetsBinding.instance
+                            .scheduleFrameCallback((_) async {
                           try {
                             var didAuthenticate = await auth.authenticate(
                                 localizedReason: AppLocalizations.of(context)
@@ -49,7 +50,8 @@ class Auth extends StatelessWidget {
                                 options: const AuthenticationOptions(
                                     useErrorDialogs: true));
                             if (didAuthenticate) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                              WidgetsBinding.instance
+                                  .scheduleFrameCallback((_) {
                                 Navigator.of(context).push(_createHomeRoute());
                               });
                             }

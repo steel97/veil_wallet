@@ -45,18 +45,9 @@ class SettingsState extends State<Settings> {
     _txExplorerUrlController.text = BaseStaticState.txExplorerAddress;
     _useMinimumUTXOs = BaseStaticState.useMinimumUTXOs;
 
-    _checkBiometrics().then((value) => {
-          setState(() {
-            _isBiometricsActive = value;
-          })
-        });
-  }
-
-  Future<bool> _checkBiometrics() async {
-    var storageService = StorageService();
-    var biometricsRequired = bool.parse(
-        await storageService.readSecureData(prefsBiometricsEnabled) ?? 'false');
-    return biometricsRequired;
+    setState(() {
+      _isBiometricsActive = BaseStaticState.biometricsActive;
+    });
   }
 
   @override
@@ -350,7 +341,7 @@ class SettingsState extends State<Settings> {
                                       .push(_createBackRoute());
                                 });*/
                                 WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
+                                    .scheduleFrameCallback((_) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(AppLocalizations.of(context)

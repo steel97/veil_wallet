@@ -17,14 +17,26 @@ import 'package:veil_wallet/src/views/settings.dart';
 class SetupBiometrics extends StatelessWidget {
   const SetupBiometrics({super.key});
 
+  Future<bool> _checkBiometrics() async {
+    var storageService = StorageService();
+    var biometricsRequired = bool.parse(
+        await storageService.readSecureData(prefsBiometricsEnabled) ?? 'false');
+    return biometricsRequired;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BackLayout(
         title: AppLocalizations.of(context)?.biometricsTitle,
-        back: () {
+        back: () async {
           if (BaseStaticState.useHomeBack) {
             // return to settings
-            Navigator.of(context).push(_createSettingsRoute());
+            BaseStaticState.prevScreen = Screen.home;
+            BaseStaticState.biometricsActive = await _checkBiometrics();
+
+            WidgetsBinding.instance.scheduleFrameCallback((_) {
+              Navigator.of(context).push(_createSettingsRoute());
+            });
             return;
           }
           Navigator.of(context).push(_createBackRoute());
@@ -64,7 +76,10 @@ class SetupBiometrics extends StatelessWidget {
                               prefsBiometricsEnabled, true.toString()));
                           if (BaseStaticState.useHomeBack) {
                             // return to settings
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                            BaseStaticState.biometricsActive =
+                                await _checkBiometrics();
+
+                            WidgetsBinding.instance.scheduleFrameCallback((_) {
                               Navigator.of(context)
                                   .push(_createSettingsRoute());
                             });
@@ -83,7 +98,7 @@ class SetupBiometrics extends StatelessWidget {
 
                           // clear mnemonic
                           BaseStaticState.walletMnemonic = [];
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                          WidgetsBinding.instance.scheduleFrameCallback((_) {
                             Navigator.of(context).push(_createHomeRoute());
                           });
                         }
@@ -105,7 +120,12 @@ class SetupBiometrics extends StatelessWidget {
                     onPressed: () async {
                       if (BaseStaticState.useHomeBack) {
                         // return to settings
-                        Navigator.of(context).push(_createSettingsRoute());
+                        BaseStaticState.biometricsActive =
+                            await _checkBiometrics();
+
+                        WidgetsBinding.instance.scheduleFrameCallback((_) {
+                          Navigator.of(context).push(_createSettingsRoute());
+                        });
                         return;
                       }
                       // create and save wallet
@@ -121,7 +141,7 @@ class SetupBiometrics extends StatelessWidget {
 
                       // clear mnemonic
                       BaseStaticState.walletMnemonic = [];
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.scheduleFrameCallback((_) {
                         Navigator.of(context).push(_createHomeRoute());
                       });
                     },
