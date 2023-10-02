@@ -45,15 +45,18 @@ class SettingsState extends State<Settings> {
     _txExplorerUrlController.text = BaseStaticState.txExplorerAddress;
     _useMinimumUTXOs = BaseStaticState.useMinimumUTXOs;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var storageService = StorageService();
-      var biometricsRequired = bool.parse(
-          await storageService.readSecureData(prefsBiometricsEnabled) ??
-              'false');
-      setState(() {
-        _isBiometricsActive = biometricsRequired;
-      });
-    });
+    _checkBiometrics().then((value) => {
+          setState(() {
+            _isBiometricsActive = value;
+          })
+        });
+  }
+
+  Future<bool> _checkBiometrics() async {
+    var storageService = StorageService();
+    var biometricsRequired = bool.parse(
+        await storageService.readSecureData(prefsBiometricsEnabled) ?? 'false');
+    return biometricsRequired;
   }
 
   @override

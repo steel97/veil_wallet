@@ -65,6 +65,7 @@
   "authenticateAction": "Авторизоваться",
   "biometricsReason": "Пожалуйста авторизуйтесь для разблокировки кошелька",
   "biometricsSetupReason": "Пожалуйста авторизуйтесь для настройки биометрики",
+  "biometricsRemoveReason": "Пожалуйста авторизуйтесь для удаления биометрики",
   "settingsSaved": "Настройки сохранены",
   "removeBiometricsButton": "Удалить биометрику",
   "loadingAppSemantics": "Загрузка кошелька veil"

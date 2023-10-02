@@ -573,11 +573,9 @@ packages:
   veil_light_plugin:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: e9d83a63d9b7ac565891312d3f37540a71c77c67
-      url: "https://github.com/steel97/veil_light_plugin.git"
-    source: git
+      path: "../veil_light_plugin"
+      relative: true
+    source: path
     version: "0.0.1"
   web:
     dependency: transitive
