@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
-import 'package:veil_wallet/src/views/welcome.dart';
 
 class AuthRetry extends StatelessWidget {
   const AuthRetry({super.key});
@@ -12,9 +13,6 @@ class AuthRetry extends StatelessWidget {
   Widget build(BuildContext context) {
     return BackLayout(
         title: AppLocalizations.of(context)?.authenticateTitle,
-        back: () {
-          Navigator.of(context).push(_createBackRoute());
-        },
         child: Container(
           width: double.infinity,
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -34,7 +32,34 @@ class AuthRetry extends StatelessWidget {
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var storageService = StorageService();
+                      var biometricsRequired = bool.parse(await storageService
+                              .readSecureData(prefsBiometricsEnabled) ??
+                          'false');
+
+                      if (biometricsRequired) {
+                        var auth = LocalAuthentication();
+                        // ···
+
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                          try {
+                            var didAuthenticate = await auth.authenticate(
+                                localizedReason: AppLocalizations.of(context)
+                                        ?.biometricsReason ??
+                                    stringNotFoundText,
+                                options: const AuthenticationOptions(
+                                    useErrorDialogs: true));
+                            if (didAuthenticate) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                Navigator.of(context).push(_createHomeRoute());
+                              });
+                            }
+                            // ignore: empty_catches
+                          } catch (e) {}
+                        });
+                      }
+                    },
                     icon: const Icon(Icons.fingerprint_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.authenticateAction ??
@@ -47,25 +72,7 @@ class AuthRetry extends StatelessWidget {
   }
 }
 
-Route _createBackRoute() {
-  return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) {
-    return const Welcome();
-  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    const begin = Offset(-1.0, 0.0);
-    const end = Offset.zero;
-    const curve = Curves.ease;
-
-    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-    return SlideTransition(
-      position: animation.drive(tween),
-      child: child,
-    );
-  });
-}
-
-Route _createSkipRoute() {
+Route _createHomeRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const Home(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {

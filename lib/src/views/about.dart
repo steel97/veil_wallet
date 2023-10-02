@@ -1,4 +1,5 @@
 import 'package:extended_text/extended_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,8 +7,9 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
+const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
 const donationsAddress =
-    "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp";
+    'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
 
 class About extends StatelessWidget {
   const About({super.key});
@@ -30,6 +32,28 @@ class About extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: Text(
                         AppLocalizations.of(context)?.aboutText ??
+                            stringNotFoundText,
+                        style: const TextStyle(fontWeight: FontWeight.normal),
+                        textAlign: TextAlign.center)),
+                TextButton(
+                    onPressed: () async {
+                      try {
+                        var url = Uri.parse(sourceCodeUrl);
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
+                        // ignore: empty_catches
+                      } catch (e) {}
+                    },
+                    child: const Text(
+                      sourceCodeUrl,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    )),
+                Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Text(
+                        AppLocalizations.of(context)?.aboutText2 ??
                             stringNotFoundText,
                         style: const TextStyle(fontWeight: FontWeight.normal),
                         textAlign: TextAlign.center)),

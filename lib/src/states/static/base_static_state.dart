@@ -4,9 +4,12 @@ import 'package:veil_wallet/src/core/screen.dart';
 class BaseStaticState {
   static List<String> newWalletWords = [];
   static Screen prevScreen = Screen.welcome;
+  static bool useHomeBack = false;
 
   // advanced wallet settings
+  static List<String> walletMnemonic = [];
   static String walletEncryptionPassword = '';
+  static String tempWalletName = '';
 
   // settings
   static String nodeAddress = defaultNodeAddress;

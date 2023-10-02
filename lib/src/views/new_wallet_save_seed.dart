@@ -9,8 +9,17 @@ import 'package:veil_wallet/src/views/settings.dart';
 import 'package:veil_wallet/src/views/wallet_advanced.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
-class NewWalletSaveSeed extends StatelessWidget {
+class NewWalletSaveSeed extends StatefulWidget {
   const NewWalletSaveSeed({super.key});
+
+  @override
+  NewWalletSaveSeedState createState() {
+    return NewWalletSaveSeedState();
+  }
+}
+
+class NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
+  final _walletNameInput = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +47,7 @@ class NewWalletSaveSeed extends StatelessWidget {
                             label: Text(AppLocalizations.of(context)
                                     ?.walletNameInputField ??
                                 stringNotFoundText)),
+                        controller: _walletNameInput,
                       )),
                   Container(
                       margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -110,6 +120,7 @@ class NewWalletSaveSeed extends StatelessWidget {
                       style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(45)),
                       onPressed: () {
+                        BaseStaticState.tempWalletName = _walletNameInput.text;
                         Navigator.of(context).push(_createVerifySeedRoute());
                       },
                       child: Text(
@@ -125,7 +136,8 @@ class NewWalletSaveSeed extends StatelessWidget {
 Route _createBackRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    if (BaseStaticState.prevScreen == Screen.settings) {
+    if (BaseStaticState.prevScreen == Screen.settings ||
+        BaseStaticState.useHomeBack) {
       return const Settings();
     }
     return const Welcome();

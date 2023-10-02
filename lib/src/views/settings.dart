@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/storage/storage_item.dart';
+import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/about.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
+import 'package:veil_wallet/src/views/setup_biometrics.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 
@@ -28,6 +33,7 @@ class SettingsState extends State<Settings> {
   final _explorerUrlController = TextEditingController();
   final _txExplorerUrlController = TextEditingController();
   bool _useMinimumUTXOs = false;
+  bool _isBiometricsActive = false;
 
   @override
   void initState() {
@@ -38,6 +44,16 @@ class SettingsState extends State<Settings> {
     _explorerUrlController.text = BaseStaticState.explorerAddress;
     _txExplorerUrlController.text = BaseStaticState.txExplorerAddress;
     _useMinimumUTXOs = BaseStaticState.useMinimumUTXOs;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var storageService = StorageService();
+      var biometricsRequired = bool.parse(
+          await storageService.readSecureData(prefsBiometricsEnabled) ??
+              'false');
+      setState(() {
+        _isBiometricsActive = biometricsRequired;
+      });
+    });
   }
 
   @override
@@ -45,62 +61,97 @@ class SettingsState extends State<Settings> {
     List<Widget> authActions = [];
 
     if (BaseStaticState.prevScreen != Screen.welcome) {
-      authActions = [
-        Container(
+      if (_isBiometricsActive) {
+        authActions.add(Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: OutlinedButton.icon(
+            style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(45),
+                foregroundColor: Theme.of(context).colorScheme.error),
+            onPressed: () async {
+              var auth = LocalAuthentication();
+
+              try {
+                var didAuthenticate = await auth.authenticate(
+                    localizedReason:
+                        AppLocalizations.of(context)?.biometricsReason ??
+                            stringNotFoundText,
+                    options:
+                        const AuthenticationOptions(useErrorDialogs: true));
+                if (didAuthenticate) {
+                  var storageService = StorageService();
+                  await storageService.writeSecureData(
+                      StorageItem(prefsBiometricsEnabled, false.toString()));
+                  setState(() {
+                    _isBiometricsActive = false;
+                  });
+                }
+                // ignore: empty_catches
+              } on PlatformException {}
+            },
+            icon: const Icon(Icons.fingerprint_rounded),
+            label: Text(AppLocalizations.of(context)?.removeBiometricsButton ??
+                stringNotFoundText),
+          ),
+        ));
+      } else {
+        authActions.add(Container(
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: OutlinedButton.icon(
             style:
                 FilledButton.styleFrom(minimumSize: const Size.fromHeight(45)),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(_setupBiometricsRoute());
+            },
             icon: const Icon(Icons.fingerprint_rounded),
             label: Text(AppLocalizations.of(context)?.setupBiometricsButton ??
                 stringNotFoundText),
           ),
-        ),
-        SizedBox(
-            width: double.infinity,
-            child: Row(children: [
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(10, 0, 5, 10),
-                    child: OutlinedButton.icon(
-                      style: FilledButton.styleFrom(
-                          minimumSize: const Size.fromHeight(45)),
-                      onPressed: () {
-                        var mnemonic = Lightwallet.generateMnemonic();
-                        BaseStaticState.newWalletWords = mnemonic;
+        ));
+      }
+      authActions.add(SizedBox(
+          width: double.infinity,
+          child: Row(children: [
+            Flexible(
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 0, 5, 10),
+                  child: OutlinedButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(45)),
+                    onPressed: () {
+                      var mnemonic = Lightwallet.generateMnemonic();
+                      BaseStaticState.newWalletWords = mnemonic;
 
-                        BaseStaticState.prevScreen = Screen.settings;
-                        Navigator.of(context).push(_createNewRoute());
-                      },
-                      icon: const Icon(Icons.new_label_rounded),
-                      label: Text(
-                          AppLocalizations.of(context)?.createWalletButton ??
-                              stringNotFoundText,
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                  )),
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(5, 0, 10, 10),
-                    child: OutlinedButton.icon(
-                      style: FilledButton.styleFrom(
-                          minimumSize: const Size.fromHeight(45)),
-                      onPressed: () {
-                        BaseStaticState.prevScreen = Screen.settings;
-                        Navigator.of(context).push(_createImportRoute());
-                      },
-                      icon: const Icon(Icons.upload_rounded),
-                      label: Text(
-                          AppLocalizations.of(context)?.importWallet ??
-                              stringNotFoundText,
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                  ))
-            ]))
-      ];
+                      BaseStaticState.prevScreen = Screen.settings;
+                      Navigator.of(context).push(_createNewRoute());
+                    },
+                    icon: const Icon(Icons.new_label_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.createWalletButton ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                )),
+            Flexible(
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(5, 0, 10, 10),
+                  child: OutlinedButton.icon(
+                    style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(45)),
+                    onPressed: () {
+                      BaseStaticState.prevScreen = Screen.settings;
+                      Navigator.of(context).push(_createImportRoute());
+                    },
+                    icon: const Icon(Icons.upload_rounded),
+                    label: Text(
+                        AppLocalizations.of(context)?.importWallet ??
+                            stringNotFoundText,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ))
+          ])));
     }
 
     return BackLayout(
@@ -257,7 +308,7 @@ class SettingsState extends State<Settings> {
                           child: FilledButton.icon(
                             style: FilledButton.styleFrom(
                                 minimumSize: const Size.fromHeight(45)),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 // done
                                 BaseStaticState.nodeAddress =
@@ -270,8 +321,41 @@ class SettingsState extends State<Settings> {
                                     _txExplorerUrlController.text;
                                 BaseStaticState.useMinimumUTXOs =
                                     _useMinimumUTXOs;
-                                // TO-DO save to storage
-                                Navigator.of(context).push(_createBackRoute());
+
+                                var storageService = StorageService();
+                                await storageService.writeSecureData(
+                                    StorageItem(prefsSettingsNodeUrl,
+                                        BaseStaticState.nodeAddress));
+                                await storageService.writeSecureData(
+                                    StorageItem(prefsSettingsNodeAuth,
+                                        BaseStaticState.nodeAuth));
+                                await storageService.writeSecureData(
+                                    StorageItem(prefsSettingsExplorerUrl,
+                                        BaseStaticState.explorerAddress));
+                                await storageService.writeSecureData(
+                                    StorageItem(prefsSettingsExplorerTxUrl,
+                                        BaseStaticState.txExplorerAddress));
+                                await storageService.writeSecureData(
+                                    StorageItem(
+                                        prefsSettingsUseMinimumUTXOs,
+                                        BaseStaticState.useMinimumUTXOs
+                                            .toString()));
+
+                                /*WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Navigator.of(context)
+                                      .push(_createBackRoute());
+                                });*/
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(AppLocalizations.of(context)
+                                              ?.settingsSaved ??
+                                          stringNotFoundText),
+                                    ),
+                                  );
+                                });
                               }
                             },
                             icon: const Icon(Icons.save_rounded),
@@ -304,7 +388,8 @@ class SettingsState extends State<Settings> {
 Route _createBackRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    if (BaseStaticState.prevScreen == Screen.home) {
+    if (BaseStaticState.prevScreen == Screen.home ||
+        BaseStaticState.useHomeBack) {
       return const Home();
     }
     return const Welcome();
@@ -366,6 +451,26 @@ Route _createAboutRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) {
       return const About();
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _setupBiometricsRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return const SetupBiometrics();
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);

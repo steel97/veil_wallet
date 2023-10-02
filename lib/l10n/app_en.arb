@@ -235,9 +235,13 @@
   "@aboutTitle": {
     "description": "About screen title"
   },
-  "aboutText": "Veil wallet - mobile veil cryptocurrency wallet.\nSource code is available here:\n https://github.com/steel97/veil_wallet\n\nDonations address:",
+  "aboutText": "Veil wallet - mobile veil cryptocurrency wallet.\nSource code is available here:",
   "@aboutText": {
-    "description": "About screen title"
+    "description": "About screen description #1"
+  },
+  "aboutText2": "Donations address:",
+  "@aboutText2": {
+    "description": "About screen description #2"
   },
   "copiedText": "Copied to clipboard",
   "@copiedText": {
@@ -258,5 +262,17 @@
   "biometricsReason": "Please authenticate to unlock wallet",
   "@biometricsReason": {
     "description": "Reason to use biometrics"
+  },
+  "settingsSaved": "Settings saved",
+  "@settingsSaved": {
+    "description": "Settings saved notification"
+  },
+  "removeBiometricsButton": "Remove biometrics",
+  "@removeBiometricsButton": {
+    "description": "Settings screen remove biometrics action"
+  },
+  "loadingAppSemantics": "Loading veil wallet",
+  "@loadingAppSemantics": {
+    "description": "Accesibility label for loader screen"
   }
 }

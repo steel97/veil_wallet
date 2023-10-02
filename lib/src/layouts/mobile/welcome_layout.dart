@@ -47,6 +47,7 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 BaseStaticState.prevScreen = Screen.welcome;
+                BaseStaticState.useHomeBack = false;
                 Navigator.of(context).push(_createSettingsRoute());
               },
               tooltip: AppLocalizations.of(context)?.settingsButton,

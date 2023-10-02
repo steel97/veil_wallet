@@ -13,3 +13,9 @@ const prefsWalletMnemonics =
 const prefsWalletEncryption =
     'veil.wallet_encryption.'; // example veil.wallet_mnemonics.123 = <encryption passphrase>
 const prefsBiometricsEnabled = 'veil.biometrics_enabled'; // true/false
+// settings
+const prefsSettingsNodeUrl = 'veil.settings.node_url';
+const prefsSettingsNodeAuth = 'veil.settings.node_auth';
+const prefsSettingsExplorerUrl = 'veil.settings.explorer_url';
+const prefsSettingsExplorerTxUrl = 'veil.settings.explorer_tx_url';
+const prefsSettingsUseMinimumUTXOs = 'veil.settings.use_minimum_utxos';

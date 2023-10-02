@@ -3,8 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
 import 'package:veil_wallet/src/views/setup_biometrics.dart';
 
@@ -105,16 +107,34 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                       child: FilledButton(
                         style: FilledButton.styleFrom(
                             minimumSize: const Size.fromHeight(45)),
-                        onPressed: () {
+                        onPressed: () async {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
 
                           // move to biometrics if not opened from settings
                           if (BaseStaticState.prevScreen == Screen.settings) {
+                            // create and save wallet
+                            var valName = BaseStaticState.tempWalletName;
+                            if (valName.trim().isEmpty) {
+                              valName = 'Default';
+                            }
+                            await WalletHelper.createOrImportWallet(
+                                valName,
+                                BaseStaticState.newWalletWords,
+                                BaseStaticState.walletEncryptionPassword,
+                                true);
+                            // clear new wallet words
+                            BaseStaticState.newWalletWords = [];
                             // move to home
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.of(context).push(_createHomeRoute());
+                            });
                           } else {
                             // move to biometrics
+                            BaseStaticState.walletMnemonic =
+                                BaseStaticState.newWalletWords;
+                            BaseStaticState.newWalletWords = [];
                             Navigator.of(context)
                                 .push(_createBiometricsRoute());
                           }
@@ -153,6 +173,24 @@ Route _createBiometricsRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           const SetupBiometrics(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createHomeRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Home(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;

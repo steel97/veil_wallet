@@ -139,6 +139,7 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
               ],
               onDestinationSelected: (index) {
+                BaseStaticState.useHomeBack = true;
                 if (index == 3) {
                   BaseStaticState.prevScreen = Screen.home;
                   Navigator.of(context).push(_createSettingsRoute());

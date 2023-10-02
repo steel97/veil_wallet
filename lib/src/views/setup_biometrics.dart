@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/storage/storage_item.dart';
+import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_verify_seed.dart';
@@ -17,6 +22,11 @@ class SetupBiometrics extends StatelessWidget {
     return BackLayout(
         title: AppLocalizations.of(context)?.biometricsTitle,
         back: () {
+          if (BaseStaticState.useHomeBack) {
+            // return to settings
+            Navigator.of(context).push(_createSettingsRoute());
+            return;
+          }
           Navigator.of(context).push(_createBackRoute());
         },
         child: Container(
@@ -38,7 +48,48 @@ class SetupBiometrics extends StatelessWidget {
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () {},
+                    onPressed: () async {
+                      var auth = LocalAuthentication();
+                      // ···
+                      try {
+                        var didAuthenticate = await auth.authenticate(
+                            localizedReason: AppLocalizations.of(context)
+                                    ?.biometricsReason ??
+                                stringNotFoundText,
+                            options: const AuthenticationOptions(
+                                useErrorDialogs: true));
+                        if (didAuthenticate) {
+                          var storageService = StorageService();
+                          await storageService.writeSecureData(StorageItem(
+                              prefsBiometricsEnabled, true.toString()));
+                          if (BaseStaticState.useHomeBack) {
+                            // return to settings
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.of(context)
+                                  .push(_createSettingsRoute());
+                            });
+                            return;
+                          }
+                          // create and save wallet
+                          var valName = BaseStaticState.tempWalletName;
+                          if (valName.trim().isEmpty) {
+                            valName = 'Default';
+                          }
+                          await WalletHelper.createOrImportWallet(
+                              valName,
+                              BaseStaticState.newWalletWords,
+                              BaseStaticState.walletEncryptionPassword,
+                              true);
+
+                          // clear mnemonic
+                          BaseStaticState.walletMnemonic = [];
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Navigator.of(context).push(_createHomeRoute());
+                          });
+                        }
+                        // ignore: empty_catches
+                      } on PlatformException {}
+                    },
                     icon: const Icon(Icons.fingerprint_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.setupBiometricsButton ??
@@ -51,8 +102,28 @@ class SetupBiometrics extends StatelessWidget {
                   child: OutlinedButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () {
-                      Navigator.of(context).push(_createSkipRoute());
+                    onPressed: () async {
+                      if (BaseStaticState.useHomeBack) {
+                        // return to settings
+                        Navigator.of(context).push(_createSettingsRoute());
+                        return;
+                      }
+                      // create and save wallet
+                      var valName = BaseStaticState.tempWalletName;
+                      if (valName.trim().isEmpty) {
+                        valName = 'Default';
+                      }
+                      await WalletHelper.createOrImportWallet(
+                          valName,
+                          BaseStaticState.newWalletWords,
+                          BaseStaticState.walletEncryptionPassword,
+                          true);
+
+                      // clear mnemonic
+                      BaseStaticState.walletMnemonic = [];
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.of(context).push(_createHomeRoute());
+                      });
                     },
                     icon: const Icon(Icons.arrow_circle_right),
                     label: Text(
@@ -90,9 +161,27 @@ Route _createBackRoute() {
   });
 }
 
-Route _createSkipRoute() {
+Route _createHomeRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createSettingsRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Settings(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
