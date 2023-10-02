@@ -20,6 +20,12 @@ class _LoadingLayoutState extends State<LoadingLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          //backgroundColor: Colors.transparent,
+          forceMaterialTransparency: true,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+        ),
         extendBody: true,
         resizeToAvoidBottomInset: true,
         body: SafeArea(

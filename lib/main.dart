@@ -179,10 +179,15 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    _isInForeground = state == AppLifecycleState.resumed;
-    if (_isInForeground) {
-      checkWalletAccess(false);
-    }
+    var curState = state == AppLifecycleState.resumed ||
+        state == AppLifecycleState.inactive;
+    try {
+      if (_isInForeground && _isInForeground != curState) {
+        checkWalletAccess(false);
+      }
+      // ignore: empty_catches
+    } catch (e) {}
+    _isInForeground = curState;
   }
 
   @override

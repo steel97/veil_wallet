@@ -40,8 +40,6 @@ class AuthRetry extends StatelessWidget {
 
                       if (biometricsRequired) {
                         var auth = LocalAuthentication();
-                        // ···
-
                         WidgetsBinding.instance.addPostFrameCallback((_) async {
                           try {
                             var didAuthenticate = await auth.authenticate(
