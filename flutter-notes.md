@@ -21,3 +21,9 @@ android:
 ```
 recommended java version: 21+
 ```
+
+
+To generate icons for platforms use:
+```
+dart run flutter_launcher_icons
+```
