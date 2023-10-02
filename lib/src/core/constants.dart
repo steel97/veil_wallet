@@ -1,3 +1,7 @@
+const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
+const donationsAddress =
+    'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
+
 const stringNotFoundText = 'STRING_NOT_FOUND';
 
 const defaultNodeAddress = 'https://explorer-api.veil-project.com';

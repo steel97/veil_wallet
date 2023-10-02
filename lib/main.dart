@@ -237,7 +237,7 @@ Route _createAuthRetryRoute() {
 Route _createWelcomeRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    return const AuthRetry();
+    return const Welcome();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(1.0, 0.0);
     const end = Offset.zero;

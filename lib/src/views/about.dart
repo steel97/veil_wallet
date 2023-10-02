@@ -7,10 +7,6 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
-const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
-const donationsAddress =
-    'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
-
 class About extends StatelessWidget {
   const About({super.key});
 
