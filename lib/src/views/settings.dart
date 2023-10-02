@@ -74,7 +74,7 @@ class SettingsState extends State<Settings> {
               try {
                 var didAuthenticate = await auth.authenticate(
                     localizedReason:
-                        AppLocalizations.of(context)?.biometricsReason ??
+                        AppLocalizations.of(context)?.biometricsRemoveReason ??
                             stringNotFoundText,
                     options:
                         const AuthenticationOptions(useErrorDialogs: true));

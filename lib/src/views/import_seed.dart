@@ -144,7 +144,7 @@ class ImportSeedState extends State<ImportSeed> {
                             // create and save wallet
                             var valName = _walletNameInput.text;
                             if (valName.trim().isEmpty) {
-                              valName = 'Default';
+                              valName = defaultWalletName;
                             }
                             await WalletHelper.createOrImportWallet(
                                 valName,

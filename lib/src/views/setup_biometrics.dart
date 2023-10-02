@@ -54,7 +54,7 @@ class SetupBiometrics extends StatelessWidget {
                       try {
                         var didAuthenticate = await auth.authenticate(
                             localizedReason: AppLocalizations.of(context)
-                                    ?.biometricsReason ??
+                                    ?.biometricsSetupReason ??
                                 stringNotFoundText,
                             options: const AuthenticationOptions(
                                 useErrorDialogs: true));
@@ -73,7 +73,7 @@ class SetupBiometrics extends StatelessWidget {
                           // create and save wallet
                           var valName = BaseStaticState.tempWalletName;
                           if (valName.trim().isEmpty) {
-                            valName = 'Default';
+                            valName = defaultWalletName;
                           }
                           await WalletHelper.createOrImportWallet(
                               valName,
@@ -111,7 +111,7 @@ class SetupBiometrics extends StatelessWidget {
                       // create and save wallet
                       var valName = BaseStaticState.tempWalletName;
                       if (valName.trim().isEmpty) {
-                        valName = 'Default';
+                        valName = defaultWalletName;
                       }
                       await WalletHelper.createOrImportWallet(
                           valName,

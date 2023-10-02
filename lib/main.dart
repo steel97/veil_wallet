@@ -8,7 +8,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
-import 'package:veil_wallet/src/views/auth_retry.dart';
+import 'package:veil_wallet/src/views/auth.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/loading.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
@@ -87,46 +87,9 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                 'false');
 
         if (biometricsRequired) {
-          var auth = LocalAuthentication();
-          // ···
-
-          WidgetsBinding.instance.addPostFrameCallback((_) async {
-            try {
-              var didAuthenticate = await auth.authenticate(
-                  localizedReason:
-                      AppLocalizations.of(context)?.biometricsReason ??
-                          stringNotFoundText,
-                  options: const AuthenticationOptions(useErrorDialogs: true));
-              if (didAuthenticate) {
-                // go to home
-                if (moveToScreen) {
-                  WalletStaticState.lightwallet = Lightwallet.fromMnemonic(
-                      mainNetParams, mnemonic.split(' '),
-                      password: encPassword);
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.of(context).push(_createHomeRoute());
-                  });
-                }
-              } else {
-                // go to auth retry screen
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context).push(_createAuthRetryRoute());
-                });
-              }
-            } on PlatformException catch (e) {
-              // go to auth retry screen
-              if (e.code == auth_error.notEnrolled) {
-                // Add handling of no hardware here.
-              } else if (e.code == auth_error.lockedOut ||
-                  e.code == auth_error.permanentlyLockedOut) {
-                // ...
-              } else {
-                // ...
-              }
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context).push(_createAuthRetryRoute());
-              });
-            }
+          // go to auth retry screen
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).push(_createAuthRetryRoute());
           });
         } else {
           // go to home
@@ -224,7 +187,7 @@ Route _createHomeRoute() {
 Route _createAuthRetryRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    return const AuthRetry();
+    return const Auth();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(1.0, 0.0);
     const end = Offset.zero;

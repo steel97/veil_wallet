@@ -117,7 +117,7 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                             // create and save wallet
                             var valName = BaseStaticState.tempWalletName;
                             if (valName.trim().isEmpty) {
-                              valName = 'Default';
+                              valName = defaultWalletName;
                             }
                             await WalletHelper.createOrImportWallet(
                                 valName,

@@ -6,8 +6,8 @@ import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
 
-class AuthRetry extends StatelessWidget {
-  const AuthRetry({super.key});
+class Auth extends StatelessWidget {
+  const Auth({super.key});
 
   @override
   Widget build(BuildContext context) {

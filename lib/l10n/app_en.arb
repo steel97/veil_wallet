@@ -247,13 +247,13 @@
   "@copiedText": {
     "description": "Notification when copy action used"
   },
-  "authenticateTitle": "Retry authentication",
+  "authenticateTitle": "Authentication",
   "@authenticateTitle": {
-    "description": "Retry authentication title"
+    "description": "Authentication title"
   },
-  "authenticateDescription": "To access wallet, please try to authenticate again",
+  "authenticateDescription": "To access wallet, please authenticate",
   "@authenticateDescription": {
-    "description": "Retry authentication description"
+    "description": "Authentication description"
   },
   "authenticateAction": "Authenticate",
   "@authenticateAction": {
@@ -262,6 +262,14 @@
   "biometricsReason": "Please authenticate to unlock wallet",
   "@biometricsReason": {
     "description": "Reason to use biometrics"
+  },
+  "biometricsSetupReason": "Please authenticate to setup biometrics",
+  "@biometricsSetupReason": {
+    "description": "Setup biometrics description"
+  },
+  "biometricsRemoveReason": "Please authenticate to remove biometrics",
+  "@biometricsRemoveReason": {
+    "description": "Remove biometrics description"
   },
   "settingsSaved": "Settings saved",
   "@settingsSaved": {

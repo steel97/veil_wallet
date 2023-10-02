@@ -60,10 +60,11 @@
   "aboutText": "Veil wallet - мобильный кошелек для криптовалюты veil.\nИсходный код доступен здесь:",
   "aboutText2": "Адрес для пожертвований:",
   "copiedText": "Скопировано",
-  "authenticateTitle": "Попробуйте ещё раз",
+  "authenticateTitle": "Авторизация",
   "authenticateDescription": "Чтобы разблокировать кошелек, пожалуйста авторизуйтесь",
   "authenticateAction": "Авторизоваться",
   "biometricsReason": "Пожалуйста авторизуйтесь для разблокировки кошелька",
+  "biometricsSetupReason": "Пожалуйста авторизуйтесь для настройки биометрики",
   "settingsSaved": "Настройки сохранены",
   "removeBiometricsButton": "Удалить биометрику",
   "loadingAppSemantics": "Загрузка кошелька veil"
