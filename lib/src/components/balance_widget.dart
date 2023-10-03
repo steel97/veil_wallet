@@ -1,6 +1,9 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 
@@ -74,7 +77,23 @@ class BalanceWidget extends StatelessWidget {
                               Icons.copy_rounded,
                               size: 18,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(
+                                      text: context
+                                          .read<WalletState>()
+                                          .selectedAddress))
+                                  .then((value) => {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                AppLocalizations.of(context)
+                                                        ?.copiedText ??
+                                                    stringNotFoundText),
+                                          ),
+                                        )
+                                      });
+                            },
                             label: ExtendedText(
                               context.watch<WalletState>().selectedAddress,
                               overflow: TextOverflow.ellipsis,
