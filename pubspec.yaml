@@ -52,6 +52,7 @@ dependencies:
   pretty_qr_code: ^3.0.0
   screenshot: ^2.1.0
   share_plus: ^7.1.0
+  simple_barcode_scanner: ^0.0.8
 
 dev_dependencies:
   flutter_test:
