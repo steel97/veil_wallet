@@ -174,8 +174,8 @@ class _MainLayoutState extends State<MainLayout> {
                   } catch (e) {}
                 } else if (index == 1) {
                   BaseStaticState.prevScreen = Screen.home;
-                  BaseStaticState.prevScanQRScreen = Screen.makeTx;
-                  Navigator.of(context).push(_createScanQRRoute());
+                  BaseStaticState.prevScanQRScreen = Screen.home;
+                  Navigator.of(context).pushReplacement(_createScanQRRoute());
                 } else if (index == 2) {
                   BaseStaticState.prevScreen = Screen.home;
                   BaseStaticState.biometricsActive = await _checkBiometrics();

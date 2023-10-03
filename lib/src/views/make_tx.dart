@@ -115,7 +115,8 @@ class MakeTxState extends State<MakeTx> {
                           suffixIcon: IconButton(
                             onPressed: () {
                               BaseStaticState.prevScanQRScreen = Screen.makeTx;
-                              Navigator.of(context).push(_createScanQRRoute());
+                              Navigator.of(context)
+                                  .pushReplacement(_createScanQRRoute());
                             },
                             icon: const Icon(Icons.qr_code_scanner_rounded),
                           ),

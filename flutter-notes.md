@@ -19,7 +19,9 @@ winget install Microsoft.NuGet
 
 android:
 ```
-recommended java version: 21+ (for some reason android sdk may use android studio's java which may not be up to date, built is tested with openjdk 21)
+recommended java version: 21+
+for some reason android sdk may use android studio's java which may not be up to date, built is tested with openjdk 21, easiest fix on windows manually set java version in cmd/pwsh:
+set JAVA_HOME="c:\Program Files\Java\jdk-21\"
 ```
 
 

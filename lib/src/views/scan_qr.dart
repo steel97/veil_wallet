@@ -39,43 +39,45 @@ class _ScanQRState extends State<ScanQR> {
     return BackLayout(
       title: AppLocalizations.of(context)?.scanQRTitle,
       back: () {
-        Navigator.of(context).push(_createBackRoute());
+        if (BaseStaticState.prevScanQRScreen == Screen.home) {
+          Navigator.of(context).push(_createHomeRoute());
+        } else {
+          Navigator.of(context).push(_createMakeTxRoute('', null));
+        }
       },
       child: Stack(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          _buildQrView(context),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.all(15),
-                            child: IconButton.filled(
-                                onPressed: () async {
-                                  await controller?.toggleFlash();
-                                  setState(() {});
-                                },
-                                style: IconButton.styleFrom(
-                                    minimumSize: const Size.square(64)),
-                                tooltip: AppLocalizations.of(context)
-                                    ?.flashlightToolip,
-                                icon: const Icon(Icons.flashlight_on_rounded)),
-                          )
-                        ],
-                      ),
+                      Container(
+                        margin: const EdgeInsets.all(15),
+                        child: IconButton.filled(
+                            onPressed: () async {
+                              await controller?.toggleFlash();
+                              setState(() {});
+                            },
+                            style: IconButton.styleFrom(
+                                minimumSize: const Size.square(64)),
+                            tooltip:
+                                AppLocalizations.of(context)?.flashlightToolip,
+                            icon: const Icon(Icons.flashlight_on_rounded)),
+                      )
                     ],
                   ),
-                ),
-              ))
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -187,10 +189,10 @@ Route _createMakeTxRoute(String address, String? amount) {
   });
 }
 
-Route _createBackRoute() {
+Route _createHomeRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    return BaseStaticState.prevScanQRScreen == Screen.home ? Home() : MakeTx();
+    return const Home();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(-1.0, 0.0);
     const end = Offset.zero;
