@@ -47,5 +47,7 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>This app uses face id to secure user data</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs camera access to scan QR codes</string>
 </dict>
 </plist>

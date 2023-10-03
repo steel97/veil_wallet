@@ -29,21 +29,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
-    sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  extended_text: ^11.1.0
+    sdk: flutter  
   flutter_localizations:
     sdk: flutter
   intl: any
   veil_light_plugin:
     path: ../veil_light_plugin
-  #  git:
-  #    url: https://github.com/steel97/veil_light_plugin.git
-  #    ref: main
+    #git:
+    #  url: https://github.com/steel97/veil_light_plugin.git
+    #  ref: main
+  extended_text: ^11.1.0
   file_picker: ^5.5.0
   flutter_secure_storage: ^9.0.0
   local_auth: ^2.1.7
@@ -52,7 +47,7 @@ dependencies:
   pretty_qr_code: ^3.0.0
   screenshot: ^2.1.0
   share_plus: ^7.1.0
-  simple_barcode_scanner: ^0.0.8
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
