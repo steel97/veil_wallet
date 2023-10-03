@@ -12,6 +12,13 @@ import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/scan_qr.dart';
 
+class BalancesResponse {
+  final String available;
+  final String total;
+
+  BalancesResponse(this.available, this.total);
+}
+
 class MakeTx extends StatefulWidget {
   final String? address;
   final String? amount;
@@ -29,6 +36,7 @@ class MakeTxState extends State<MakeTx> {
   final _amountController = TextEditingController();
   bool _substractFeeFromAmount = false;
   String _availableAmount = '...';
+  String _overallAmount = '...';
 
   @override
   void initState() {
@@ -50,18 +58,28 @@ class MakeTxState extends State<MakeTx> {
 
     updateAvailableBalance(addrEl.accountType).then((value) => {
           setState(() {
-            _availableAmount = value;
+            _availableAmount = value.available;
+            _overallAmount = value.total;
           })
         });
   }
 
-  Future<String> updateAvailableBalance(AccountType type) async {
-    return WalletHelper.formatAmount(
-        await WalletHelper.getAvailableBalance(accountType: type));
+  Future<BalancesResponse> updateAvailableBalance(AccountType type) async {
+    var availableAmount =
+        await WalletHelper.getAvailableBalance(accountType: type);
+    var pending = await WalletHelper.getPendingBalance(accountType: type);
+
+    return BalancesResponse(WalletHelper.formatAmount(availableAmount),
+        WalletHelper.formatAmount(availableAmount + pending));
   }
 
   @override
   Widget build(BuildContext context) {
+    double availableAmountConverted = 0;
+    if (_availableAmount != '...') {
+      availableAmountConverted = double.parse(_availableAmount);
+    }
+
     return BackLayout(
         title: AppLocalizations.of(context)?.newTransactionTitle,
         back: () {
@@ -138,11 +156,13 @@ class MakeTxState extends State<MakeTx> {
                             contentPadding: const EdgeInsets.only(bottom: 0.0),
                             border: const UnderlineInputBorder(),
                             hintText: AppLocalizations.of(context)
-                                ?.sendAmountHint(_availableAmount),
+                                ?.sendAmountHint(
+                                    _availableAmount, _overallAmount),
                             label: Text(
                                 AppLocalizations.of(context)?.sendAmount ??
                                     stringNotFoundText),
-                            suffixText: '~30\$'),
+                            suffixText:
+                                '~${(availableAmountConverted * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$'),
                         controller: _amountController)),
                 Container(
                     margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),

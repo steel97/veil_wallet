@@ -1,11 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
-
+// ignore_for_file: use_build_context_synchronously, empty_catches
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
+import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
@@ -15,6 +16,46 @@ var rng = Random();
 
 class WalletHelper {
   static List<String> mempool = List.empty(growable: true);
+  static List<LightwalletAddress> _addresses = [];
+
+  static Future<void> uiReload() async {
+    await uiUpdateBalance();
+  }
+
+  static AccountType uiGetActiveAddressType() {
+    var addr = StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .selectedAddress;
+    var addrEl = StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .ownedAddresses
+        .firstWhere((element) => element.address == addr);
+
+    return addrEl?.accountType ?? AccountType.DEFAULT;
+  }
+
+  static Future<void> uiUpdateBalance() async {
+    var available =
+        await getAvailableBalance(accountType: uiGetActiveAddressType());
+    //var locked = await getLockedBalance(accountType: uiGetActiveAddressType());
+    var pending =
+        await getPendingBalance(accountType: uiGetActiveAddressType());
+
+    StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .setBalance(available + pending);
+  }
+
+  static updateConversionRate(double convRate) {
+    WalletStaticState.conversionRate = convRate;
+    uiUpdateConversionRate(convRate);
+  }
+
+  static uiUpdateConversionRate(double convRate) {
+    StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .setConversionRate(convRate);
+  }
 
   static Future<int> createOrImportWallet(
       String walletName,
@@ -79,14 +120,6 @@ class WalletHelper {
       await storageService
           .writeSecureData(StorageItem(prefsActiveAddress, '0'));
     }
-    await selectAddress(context);
-  }
-
-  static Future selectAddress(BuildContext context) async {
-    var storageService = StorageService();
-    var selectedAddressIndex = int.parse(
-        await storageService.readSecureData(prefsActiveAddress) ??
-            '0'); // 0 - stealth, 1 - change
 
     var mnemonic = await storageService.readSecureData(
         prefsWalletMnemonics + WalletStaticState.activeWallet.toString());
@@ -104,22 +137,38 @@ class WalletHelper {
     WalletStaticState.account =
         LightwalletAccount(WalletStaticState.lightwallet!);
 
-    List<OwnedAddress> addresses = List.empty(growable: true);
-    // for now only stealth and change addresses
-    addresses.add(OwnedAddress(
-        AccountType.STEALTH,
-        WalletStaticState.account!
-            .getAddress(AccountType.STEALTH)
-            .getStringAddress()));
-    addresses.add(OwnedAddress(
-        AccountType.CHANGE,
-        WalletStaticState.account!
-            .getAddress(AccountType.CHANGE)
-            .getStringAddress()));
+    // load all addresses
+    _addresses = [
+      WalletStaticState.account!.getAddress(AccountType.STEALTH),
+      WalletStaticState.account!.getAddress(AccountType.CHANGE)
+    ];
 
-    context.read<WalletState>().setOwnedAddresses(addresses);
+    await selectAddress(context);
 
-    await setSelectedAddress(addresses[selectedAddressIndex].address, context);
+    WalletStaticState.walletWatching = true;
+    for (var addr in WalletHelper.getAllAddresses()) {
+      await reloadTxes(addr);
+    }
+
+    await uiReload();
+  }
+
+  static Future selectAddress(BuildContext context) async {
+    var storageService = StorageService();
+    var selectedAddressIndex = int.parse(
+        await storageService.readSecureData(prefsActiveAddress) ??
+            '0'); // 0 - stealth, 1 - change
+
+    List<OwnedAddress> retAddrList = List.empty(growable: true);
+    for (LightwalletAddress element in _addresses) {
+      retAddrList.add(
+          OwnedAddress(element.getAccountType(), element.getStringAddress()));
+    }
+
+    context.read<WalletState>().setOwnedAddresses(retAddrList);
+
+    await setSelectedAddress(
+        retAddrList[selectedAddressIndex].address, context);
   }
 
   static Future setSelectedAddress(String address, BuildContext context) async {
@@ -138,6 +187,8 @@ class WalletHelper {
 
     await storageService.writeSecureData(
         StorageItem(prefsActiveAddress, activeAddressConvertedType.toString()));
+
+    await uiReload();
   }
 
   static Future prepareHomePage(BuildContext context) async {
@@ -184,10 +235,27 @@ class WalletHelper {
     }
   }
 
+  static LightwalletAddress getAddress(AccountType type) =>
+      _addresses.firstWhere((element) => element.getAccountType() == type);
+
+  static Future<double> getPendingBalance(
+      {AccountType accountType = AccountType.STEALTH}) async {
+    var address = getAddress(accountType);
+    var balance = await address.getBalance(null);
+    var balanceAvailable = await address.getBalance(mempool);
+    return balance - balanceAvailable;
+  }
+
+  static Future<double> getLockedBalance(
+      {AccountType accountType = AccountType.STEALTH}) async {
+    var address = getAddress(accountType);
+    return await address.getBalanceLocked();
+  }
+
   static Future<double> getAvailableBalance(
       {AccountType accountType = AccountType.STEALTH}) async {
-    var address = WalletStaticState.account?.getAddress(accountType);
-    var balance = await address!.getBalance(mempool);
+    var address = getAddress(accountType);
+    var balance = await address.getBalance(mempool);
     return balance;
   }
 
@@ -211,10 +279,10 @@ class WalletHelper {
     try {
       var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
 
-      var address = WalletStaticState.account?.getAddress(accountType);
+      var address = getAddress(accountType);
       var recipientAddress = CVeilAddress.parse(params, recipient);
 
-      var preparedUtxos = (await address!.getUnspentOutputs())
+      var preparedUtxos = (await address.getUnspentOutputs())
           .where((utxo) => !WalletHelper.mempool.contains(utxo.getId() ?? ""))
           .toList();
       var utxos = preparedUtxos;
@@ -246,28 +314,46 @@ class WalletHelper {
     }
   }
 
+  static List<LightwalletAddress> getAllAddresses() {
+    return _addresses;
+  }
+
   static Future<String?> publishTransaction(
       AccountType accountType, String rawTx) async {
     try {
-      var address = WalletStaticState.account?.getAddress(accountType);
+      var address = getAddress(accountType);
       var res = await Lightwallet.publishTransaction(rawTx);
       if (res.errorCode != null) {
         return null;
       }
 
-      // TO-DO
-      /*
-            try {
-                await LightwalletService.reloadTxes(address);
-            } catch(e1) {
+      try {
+        await reloadTxes(address);
+      } catch (e1) {}
 
-            }
-            coreUIStore.incrementForceScan();
-            */
+      await uiReload();
 
       return res.txid;
     } catch (e2) {
       return null;
     }
+  }
+
+  static reloadTxes(LightwalletAddress addr) async {
+    // fetch txes
+    await addr.fetchTxes();
+    // fetch mempool
+    var responseRes = await RpcRequester.send(
+        RpcRequest(jsonrpc: "1.0", method: "getrawmempool", params: []));
+    var result = GetRawMempool.fromJson(responseRes);
+
+    if (result.error == null) {
+      WalletHelper.mempool = result.result ?? [];
+    }
+  }
+
+  static String formatFiat(double coins, double conversionRate) {
+    var oCcy = NumberFormat("#,##0.00", "en_US");
+    return oCcy.format(coins * conversionRate);
   }
 }

@@ -14,19 +14,19 @@ class BalanceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 20),
             height: 195,
             child: AspectRatio(
                 aspectRatio: 1.586,
                 child: Card(
                   elevation: 0,
                   child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
+                            SizedBox(
                                 width: double.infinity,
                                 child: Row(
                                     mainAxisAlignment:
@@ -35,8 +35,8 @@ class BalanceWidget extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 0),
                                           width: 70 * 1.5,
                                           height: 28 * 1.5,
                                           decoration: const BoxDecoration(
@@ -51,24 +51,26 @@ class BalanceWidget extends StatelessWidget {
                                               children: [
                                             Container(
                                               width: double.infinity,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 12),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
                                               child: Text(
-                                                "3,059.25 \$",
+                                                '${WalletHelper.formatFiat(context.watch<WalletState>().balance, context.watch<WalletState>().conversionRate)} \$',
                                                 textAlign: TextAlign.end,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 24),
                                               ),
                                             ),
                                             Container(
                                               width: double.infinity,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 12),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
                                               child: Text(
-                                                "1456789.54207223 veil",
+                                                '${WalletHelper.formatAmount(context.watch<WalletState>().balance)} veil',
                                                 textAlign: TextAlign.end,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight:
                                                         FontWeight.normal),
                                               ),

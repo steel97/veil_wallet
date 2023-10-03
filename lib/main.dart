@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/extensions/misc.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
+import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/auth.dart';
@@ -14,6 +18,13 @@ import 'package:veil_wallet/src/views/welcome.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
+  Timer.periodic(
+      const Duration(seconds: walletWatchDelay), WalletBgTasks.runScanTask);
+  makePeriodicTimer(const Duration(seconds: conversionWatchDelay),
+      WalletBgTasks.runConversionTask,
+      fireNow: true);
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => WalletState()),
   ], child: const WalletAppWrap()));
@@ -42,6 +53,7 @@ class WalletAppWrap extends StatelessWidget {
         colorScheme: lightColorScheme,
         useMaterial3: true,
       ),
+      navigatorKey: StatesBridge.navigatorKey,
       home: const WalletApp(),
     );
   }

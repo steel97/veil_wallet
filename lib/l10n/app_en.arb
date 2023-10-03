@@ -326,13 +326,18 @@
   "@sendAmount": {
     "description": "Send amount text on new transaction screen"
   },
-  "sendAmountHint": "Available {amount} veil",
+  "sendAmountHint": "Available {amount} of {overall} veil",
   "@sendAmountHint": {
     "placeholders": {
       "amount": {
         "type": "String",
         "example": "123.456",
         "description": "Amount of available veil"
+      },
+      "overall": {
+        "type": "String",
+        "example": "123.456",
+        "description": "Amount of all veil on balance (locked/pending + available)"
       }
     },
     "description": "Send amount hint on new transaction screen"

@@ -9,7 +9,7 @@ const defaultWalletName = 'Default';
 const defaultNodeAddress = 'https://explorer-api.veil-project.com';
 const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
-const priceApiUrl = 'https://veil.tools/api/getprice';
+const conversionApiUrl = 'https://veil.tools/api/getprice';
 
 const prefsWalletsStorage = 'veil.wallets'; // format: <random_id>,<random_id>
 const prefsActiveWallet = 'veil.active_wallet'; // format: <wallet_id>
@@ -28,3 +28,7 @@ const prefsSettingsNodeAuth = 'veil.settings.node_auth';
 const prefsSettingsExplorerUrl = 'veil.settings.explorer_url';
 const prefsSettingsExplorerTxUrl = 'veil.settings.explorer_tx_url';
 const prefsSettingsUseMinimumUTXOs = 'veil.settings.use_minimum_utxos';
+
+// background tasks
+const walletWatchDelay = 30; // seconds
+const conversionWatchDelay = 600; // seconds

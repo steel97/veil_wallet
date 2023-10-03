@@ -78,7 +78,7 @@
   "recipientAddress": "Адрес получателя:",
   "recipientAddressHint": "Адрес получателя",
   "sendAmount": "Сумма к отправке:",
-  "sendAmountHint": "Доступно {amount} veil",
+  "sendAmountHint": "Доступно {amount} из {overall} veil",
   "substractFeeFromAmount": "Вычесть комиссию из суммы",
   "availableText": "Доступно:",
   "sendCoinsNextAction": "Далее",

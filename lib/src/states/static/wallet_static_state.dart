@@ -12,4 +12,8 @@ class WalletStaticState {
   static int activeWallet = -1;
   static Lightwallet? lightwallet;
   static LightwalletAccount? account;
+
+  static bool walletWatching = false;
+
+  static double conversionRate = 0.0;
 }
