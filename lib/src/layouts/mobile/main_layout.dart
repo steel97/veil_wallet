@@ -9,6 +9,7 @@ import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
+import 'package:veil_wallet/src/views/scan_qr.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class MainLayout extends StatefulWidget {
@@ -171,9 +172,10 @@ class _MainLayoutState extends State<MainLayout> {
                     }
                     // ignore: empty_catches
                   } catch (e) {}
-                }
-
-                if (index == 2) {
+                } else if (index == 1) {
+                  BaseStaticState.prevScreen = Screen.home;
+                  Navigator.of(context).push(_createScanQRRoute());
+                } else if (index == 2) {
                   BaseStaticState.prevScreen = Screen.home;
                   BaseStaticState.biometricsActive = await _checkBiometrics();
 
@@ -187,6 +189,24 @@ class _MainLayoutState extends State<MainLayout> {
           child: Container(child: widget.child),
         ));
   }
+}
+
+Route _createScanQRRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const ScanQR(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }
 
 Route _createSettingsRoute() {

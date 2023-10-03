@@ -412,5 +412,17 @@
   "transactionAlertSent": "Transaction sent! Tx id:",
   "@transactionAlertSent": {
     "description": "Transaction successfully sent alert"
+  },
+  "flashlightToolip": "Toggle flashlight",
+  "@flashlightToolip": {
+    "description": "QR scanner flashlight"
+  },
+  "cameraNoPermissions": "Application has no access to camera",
+  "@cameraNoPermissions": {
+    "description": "QR scanner camera no permissions error message"
+  },
+  "scanQRTitle": "Scan QR",
+  "@scanQRTitle": {
+    "description": "QR scanner screen title"
   }
 }

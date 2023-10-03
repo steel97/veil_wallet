@@ -97,5 +97,8 @@
   "transactionSummaryFee": "Комиссия:",
   "transactionSummaryTotal": "Всего:",
   "transactionAlertErrorSendGeneric": "Не удалось отправить транзакцию! Попробуйте ещё раз",
-  "transactionAlertSent": "Транзакция отправлена! Tx id:"
+  "transactionAlertSent": "Транзакция отправлена! Tx id:",
+  "flashlightToolip": "Фонарик",
+  "cameraNoPermissions": "У приложения нет доступа к камере",
+  "scanQRTitle": "Сканировать QR код"
 }

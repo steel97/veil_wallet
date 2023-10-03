@@ -10,9 +10,12 @@ import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
+import 'package:veil_wallet/src/views/scan_qr.dart';
 
 class MakeTx extends StatefulWidget {
-  const MakeTx({super.key});
+  final String? address;
+  final String? amount;
+  const MakeTx({super.key, this.address, this.amount});
 
   @override
   MakeTxState createState() {
@@ -30,6 +33,14 @@ class MakeTxState extends State<MakeTx> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.address != null) {
+      _recipientController.text = widget.address!;
+    }
+
+    if (widget.amount != null) {
+      _amountController.text = widget.amount!;
+    }
 
     var addr = context.read<WalletState>().selectedAddress;
     var addrEl = context
@@ -83,7 +94,7 @@ class MakeTxState extends State<MakeTx> {
                                   stringNotFoundText),
                           suffixIcon: IconButton(
                             onPressed: () {
-                              // TO-DO move to scan QR route
+                              Navigator.of(context).push(_createScanQRRoute());
                             },
                             icon: const Icon(Icons.qr_code_scanner_rounded),
                           ),
@@ -454,6 +465,24 @@ class MakeTxState extends State<MakeTx> {
               ]),
             )));
   }
+}
+
+Route _createScanQRRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const ScanQR(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }
 
 Route _createBackRoute() {
