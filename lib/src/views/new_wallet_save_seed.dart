@@ -98,7 +98,7 @@ class NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
                   style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(45)),
                   onPressed: () {
-                    BaseStaticState.prevScreen = Screen.newWallet;
+                    BaseStaticState.prevWalAdvancedScreen = Screen.newWallet;
                     Navigator.of(context).push(_createAdvancedRoute());
                   },
                   icon: const Icon(Icons.file_open_rounded),

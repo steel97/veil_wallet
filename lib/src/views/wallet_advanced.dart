@@ -87,7 +87,7 @@ class WalletAdvancedState extends State<WalletAdvanced> {
           )),
     ];
 
-    if (BaseStaticState.prevScreen != Screen.newWallet) {
+    if (BaseStaticState.prevWalAdvancedScreen != Screen.newWallet) {
       settingsAdvanced.add(Container(
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: OutlinedButton.icon(
@@ -153,7 +153,7 @@ class WalletAdvancedState extends State<WalletAdvanced> {
 Route _createBackRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    if (BaseStaticState.prevScreen == Screen.newWallet) {
+    if (BaseStaticState.prevWalAdvancedScreen == Screen.newWallet) {
       return const NewWalletSaveSeed();
     }
     return const ImportSeed();

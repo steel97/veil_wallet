@@ -113,7 +113,7 @@ class ImportSeedState extends State<ImportSeed> {
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {
-                      BaseStaticState.prevScreen = Screen.importSeed;
+                      BaseStaticState.prevWalAdvancedScreen = Screen.importSeed;
                       Navigator.of(context).push(_createAdvancedRoute());
                     },
                     icon: const Icon(Icons.file_open_rounded),

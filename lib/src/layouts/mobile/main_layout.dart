@@ -39,7 +39,7 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     var title = WalletStaticState.wallets?.firstWhere(
-        (element) => element.id == context.read<WalletState>().selectedWallet);
+        (element) => element.id == context.watch<WalletState>().selectedWallet);
     return Scaffold(
         appBar: AppBar(
           //backgroundColor: Colors.transparent,
