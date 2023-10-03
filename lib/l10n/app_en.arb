@@ -282,5 +282,32 @@
   "loadingAppSemantics": "Loading veil wallet",
   "@loadingAppSemantics": {
     "description": "Accesibility label for loader screen"
+  },
+  "shareTitle": "Receive coins",
+  "@shareTitle": {
+    "description": "Title text on receive coins screen"
+  },
+  "shareDescriptionText": "Use this QR code to receive coins",
+  "@shareDescriptionText": {
+    "description": "Description text on receive coins screen"
+  },
+  "shareAction": "Share QR",
+  "@shareAction": {
+    "description": "Share action on receive coins screen"
+  },
+  "shareSubject": "My QR code of Veil cryptocurrency address",
+  "@shareSubject": {
+    "description": "Share subject (used for e-mails)"
+  },
+  "shareText": "My Veil address: {address}",
+  "@shareText": {
+    "placeholders": {
+      "address": {
+        "type": "String",
+        "example": "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
+        "description": "Veil address"
+      }
+    },
+    "description": "Share default text"
   }
 }

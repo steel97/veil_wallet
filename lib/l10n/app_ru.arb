@@ -68,5 +68,10 @@
   "biometricsRemoveReason": "Пожалуйста авторизуйтесь для удаления биометрики",
   "settingsSaved": "Настройки сохранены",
   "removeBiometricsButton": "Удалить биометрику",
-  "loadingAppSemantics": "Загрузка кошелька veil"
+  "loadingAppSemantics": "Загрузка кошелька veil",
+  "shareTitle": "Получить veil",
+  "shareDescriptionText": "Используйте этот QR код для получения монет",
+  "shareAction": "Поделиться QR кодом",
+  "shareSubject": "Мой QR код для получения монеты Veil",
+  "shareText": "Мой Veil адрес: {address}"
 }
