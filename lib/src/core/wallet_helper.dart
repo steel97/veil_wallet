@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
@@ -13,6 +14,8 @@ import 'package:veil_wallet/src/storage/storage_service.dart';
 var rng = Random();
 
 class WalletHelper {
+  static List<String> mempool = List.empty(growable: true);
+
   static Future<int> createOrImportWallet(
       String walletName,
       List<String> mnemonic,
@@ -169,5 +172,102 @@ class WalletHelper {
     WalletStaticState.wallets = walletObjs;
 
     await setActiveWallet(activeWal, context, shouldSetActiveAddress: false);
+  }
+
+  static bool verifyAddress(String address) {
+    try {
+      CVeilAddress.parse(
+          WalletStaticState.lightwallet?.chainParams ?? mainNetParams, address);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<double> getAvailableBalance(
+      {AccountType accountType = AccountType.STEALTH}) async {
+    var address = WalletStaticState.account?.getAddress(accountType);
+    var balance = await address!.getBalance(mempool);
+    return balance;
+  }
+
+  static String formatAmount(double amount) {
+    return WalletStaticState.account!.formatAmount(amount);
+  }
+
+  static double getFee() {
+    var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
+    return (params.CENT.toDouble() / params.COIN.toDouble());
+  }
+
+  static double toDisplayValue(double input) {
+    var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
+    return (input / params.COIN.toDouble());
+  }
+
+  static Future<BuildTransactionResult?> buildTransaction(
+      AccountType accountType, double amount, String recipient,
+      {bool substractFee = false}) async {
+    try {
+      var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
+
+      var address = WalletStaticState.account?.getAddress(accountType);
+      var recipientAddress = CVeilAddress.parse(params, recipient);
+
+      var preparedUtxos = (await address!.getUnspentOutputs())
+          .where((utxo) => !WalletHelper.mempool.contains(utxo.getId() ?? ""))
+          .toList();
+      var utxos = preparedUtxos;
+      utxos.sort((a, b) => a.getAmount(params).compareTo(b.getAmount(params)));
+
+      List<CWatchOnlyTxWithIndex> targetUtxos = List.empty(growable: true);
+      var fee = getFee(); // TO-DO, real fee calculation
+      var amountPrepared = substractFee ? amount - fee : amount;
+      var targetAmount = substractFee ? amountPrepared + fee : amountPrepared;
+
+      double currentAmount = 0;
+      for (var utxo in utxos) {
+        currentAmount += utxo.getAmount(params);
+        targetUtxos.add(utxo);
+        if (currentAmount >= targetAmount) {
+          break;
+        }
+      }
+
+      var rawTx = await address.buildTransaction(
+          [CVeilRecipient(recipientAddress!, amountPrepared)],
+          targetUtxos,
+          BaseStaticState.useMinimumUTXOs);
+
+      return rawTx;
+    } catch (e) {
+      //print('can\'t build tx ${e}');
+      return null;
+    }
+  }
+
+  static Future<String?> publishTransaction(
+      AccountType accountType, String rawTx) async {
+    try {
+      var address = WalletStaticState.account?.getAddress(accountType);
+      var res = await Lightwallet.publishTransaction(rawTx);
+      if (res.errorCode != null) {
+        return null;
+      }
+
+      // TO-DO
+      /*
+            try {
+                await LightwalletService.reloadTxes(address);
+            } catch(e1) {
+
+            }
+            coreUIStore.incrementForceScan();
+            */
+
+      return res.txid;
+    } catch (e2) {
+      return null;
+    }
   }
 }

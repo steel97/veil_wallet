@@ -100,6 +100,7 @@ class ImportSeedState extends State<ImportSeed> {
                                 border: const UnderlineInputBorder(),
                                 hintText: '${index + 1}.',
                               ),
+                              autofillHints: Lightwallet.getValidWords(),
                               controller: _mnemonicInput[index],
                             ))
                           ],

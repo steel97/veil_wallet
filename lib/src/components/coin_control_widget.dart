@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/views/make_tx.dart';
 import 'package:veil_wallet/src/views/receive_coins.dart';
 
 class CoinControlWidget extends StatelessWidget {
@@ -18,7 +19,9 @@ class CoinControlWidget extends StatelessWidget {
             backgroundColor: Colors.transparent,
             selectedIndex: 0,
             onDestinationSelected: (value) async {
-              if (value == 1) {
+              if (value == 0) {
+                Navigator.of(context).push(_createMakeTxRoute());
+              } else if (value == 1) {
                 Navigator.of(context).push(_createReceiveRoute());
               } else if (value == 2) {
                 try {
@@ -48,6 +51,24 @@ class CoinControlWidget extends StatelessWidget {
               ),
             ]));
   }
+}
+
+Route _createMakeTxRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return const MakeTx();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createReceiveRoute() {

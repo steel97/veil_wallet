@@ -309,5 +309,108 @@
       }
     },
     "description": "Share default text"
+  },
+  "newTransactionTitle": "New transaction",
+  "@newTransactionTitle": {
+    "description": "Title text on new transaction screen"
+  },
+  "recipientAddress": "Recipient address:",
+  "@recipientAddress": {
+    "description": "Recipient address text on new transaction screen"
+  },
+  "recipientAddressHint": "Recipient address",
+  "@recipientAddressHint": {
+    "description": "Recipient address hint on new transaction screen"
+  },
+  "sendAmount": "Send amount:",
+  "@sendAmount": {
+    "description": "Send amount text on new transaction screen"
+  },
+  "sendAmountHint": "Available {amount} veil",
+  "@sendAmountHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "123.456",
+        "description": "Amount of available veil"
+      }
+    },
+    "description": "Send amount hint on new transaction screen"
+  },
+  "substractFeeFromAmount": "Substract fee from amount",
+  "@substractFeeFromAmount": {
+    "description": "Substract fee from amount text on new transaction screen"
+  },
+  "availableText": "Available:",
+  "@availableText": {
+    "description": "Available coins text on new transaction screen"
+  },
+  "sendCoinsNextAction": "Next",
+  "@sendCoinsNextAction": {
+    "description": "Send coins next action on new transaction screen"
+  },
+  "makeTxVerifyInvalidAddress": "Address is invalid",
+  "@makeTxVerifyInvalidAddress": {
+    "description": "Make tx verification address"
+  },
+  "makeTxVerifyAmountCantBeEmpty": "Amount can't be empty",
+  "@makeTxVerifyAmountCantBeEmpty": {
+    "description": "Make tx verification amount empty"
+  },
+  "makeTxVerifyAmountMustNotBeNegative": "Amount must be greater than zero",
+  "@makeTxVerifyAmountMustNotBeNegative": {
+    "description": "Make tx verification amount"
+  },
+  "makeTxVerifyAmountInvalid": "Amount is invalid",
+  "@makeTxVerifyAmountInvalid": {
+    "description": "Make tx verification amount"
+  },
+  "makeTxVerifyAmountNotEnough": "Amount is greater than available",
+  "@makeTxVerifyAmountNotEnough": {
+    "description": "Make tx verification amount greater than available"
+  },
+  "transactionAlertTitle": "Transaction",
+  "@transactionAlertTitle": {
+    "description": "Make tx transaction info or error alert title"
+  },
+  "transactionAlertErrorGeneric": "Error occured! Can't create transaction.",
+  "@transactionAlertErrorGeneric": {
+    "description": "Make tx transaction info or error alert generic error"
+  },
+  "alertOkAction": "Ok",
+  "@alertOkAction": {
+    "description": "Alert ok action"
+  },
+  "alertCancelAction": "Cancel",
+  "@alertCancelAction": {
+    "description": "Alert cancel action"
+  },
+  "alertSendAction": "Send",
+  "@alertSendAction": {
+    "description": "Alert send action"
+  },
+  "transactionSummaryRecipient": "Recipient:",
+  "@transactionSummaryRecipient": {
+    "description": "Transaction summary recipient label"
+  },
+  "transactionSummaryAmount": "Amount:",
+  "@transactionSummaryAmount": {
+    "description": "Transaction summary amount label"
+  },
+  "transactionSummaryFee": "Fee:",
+  "@transactionSummaryFee": {
+    "description": "Transaction summary fee label"
+  },
+  "transactionSummaryTotal": "Total:",
+  "@transactionSummaryTotal": {
+    "description": "Transaction summary total label"
+  },
+  "transactionAlertErrorSendGeneric": "Failed to send transaction! Please try again",
+  "@transactionAlertErrorSendGeneric": {
+    "description": "Failed to send transaction alert"
+  },
+  "transactionAlertSent": "Transaction sent! Tx id:",
+  "@transactionAlertSent": {
+    "description": "Transaction successfully sent alert"
   }
 }

@@ -96,6 +96,7 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                                 border: const UnderlineInputBorder(),
                                 hintText: '${index + 1}.',
                               ),
+                              autofillHints: Lightwallet.getValidWords(),
                             ))
                           ],
                         );
