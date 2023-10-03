@@ -5,6 +5,7 @@ class BaseStaticState {
   static List<String> newWalletWords = [];
   static Screen prevScreen = Screen.welcome;
   static Screen prevWalAdvancedScreen = Screen.importSeed;
+  static Screen prevScanQRScreen = Screen.home;
   static bool useHomeBack = false;
   static bool biometricsActive = false;
 

@@ -174,6 +174,7 @@ class _MainLayoutState extends State<MainLayout> {
                   } catch (e) {}
                 } else if (index == 1) {
                   BaseStaticState.prevScreen = Screen.home;
+                  BaseStaticState.prevScanQRScreen = Screen.makeTx;
                   Navigator.of(context).push(_createScanQRRoute());
                 } else if (index == 2) {
                   BaseStaticState.prevScreen = Screen.home;

@@ -7,5 +7,6 @@ enum Screen {
   setupBiometrics,
   settings,
   home,
-  about
+  about,
+  makeTx,
 }

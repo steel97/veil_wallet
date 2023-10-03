@@ -19,7 +19,7 @@ winget install Microsoft.NuGet
 
 android:
 ```
-recommended java version: 21+
+recommended java version: 21+ (for some reason android sdk may use android studio's java which may not be up to date, built is tested with openjdk 21)
 ```
 
 

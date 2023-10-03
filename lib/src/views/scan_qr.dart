@@ -4,8 +4,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 
@@ -188,7 +190,7 @@ Route _createMakeTxRoute(String address, String? amount) {
 Route _createBackRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
-    return const Home();
+    return BaseStaticState.prevScanQRScreen == Screen.home ? Home() : MakeTx();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(-1.0, 0.0);
     const end = Offset.zero;
