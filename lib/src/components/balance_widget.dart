@@ -15,7 +15,7 @@ class BalanceWidget extends StatelessWidget {
     return Center(
         child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
-            height: 190,
+            height: 195,
             child: AspectRatio(
                 aspectRatio: 1.586,
                 child: Card(
