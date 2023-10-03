@@ -9,6 +9,7 @@ const defaultWalletName = 'Default';
 const defaultNodeAddress = 'https://explorer-api.veil-project.com';
 const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
+const priceApiUrl = 'https://veil.tools/api/getprice';
 
 const prefsWalletsStorage = 'veil.wallets'; // format: <random_id>,<random_id>
 const prefsActiveWallet = 'veil.active_wallet'; // format: <wallet_id>

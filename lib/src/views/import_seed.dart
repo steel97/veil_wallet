@@ -135,7 +135,7 @@ class ImportSeedState extends State<ImportSeed> {
 
                       List<String> mnemonic = List.empty(growable: true);
                       for (var element in _mnemonicInput) {
-                        mnemonic.add(element.text);
+                        mnemonic.add(element.text.toLowerCase().trim());
                       }
 
                       if (BaseStaticState.prevScreen == Screen.settings) {
