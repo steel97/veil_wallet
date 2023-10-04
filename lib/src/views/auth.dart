@@ -7,8 +7,17 @@ import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
 
-class Auth extends StatelessWidget {
+class Auth extends StatefulWidget {
   const Auth({super.key});
+
+  @override
+  AuthState createState() {
+    return AuthState();
+  }
+}
+
+class AuthState extends State<Auth> {
+  bool _authLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,37 +42,63 @@ class Auth extends StatelessWidget {
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () async {
-                      var storageService = StorageService();
-                      var biometricsRequired = bool.parse(await storageService
-                              .readSecureData(prefsBiometricsEnabled) ??
-                          'false');
+                    onPressed: _authLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _authLoading = true;
+                            });
+                            var storageService = StorageService();
+                            var biometricsRequired = bool.parse(
+                                await storageService.readSecureData(
+                                        prefsBiometricsEnabled) ??
+                                    'false');
 
-                      if (biometricsRequired) {
-                        var auth = LocalAuthentication();
-                        WidgetsBinding.instance
-                            .scheduleFrameCallback((_) async {
-                          try {
-                            var didAuthenticate = await auth.authenticate(
-                                localizedReason: AppLocalizations.of(context)
-                                        ?.biometricsReason ??
-                                    stringNotFoundText,
-                                options: const AuthenticationOptions(
-                                    useErrorDialogs: true));
-                            if (didAuthenticate) {
-                              // ignore: use_build_context_synchronously
-                              await WalletHelper.prepareHomePage(context);
+                            if (biometricsRequired) {
+                              var auth = LocalAuthentication();
                               WidgetsBinding.instance
-                                  .scheduleFrameCallback((_) {
-                                Navigator.of(context).push(_createHomeRoute());
+                                  .scheduleFrameCallback((_) async {
+                                try {
+                                  var didAuthenticate = await auth.authenticate(
+                                      localizedReason:
+                                          AppLocalizations.of(context)
+                                                  ?.biometricsReason ??
+                                              stringNotFoundText,
+                                      options: const AuthenticationOptions(
+                                          useErrorDialogs: true));
+                                  if (didAuthenticate) {
+                                    // ignore: use_build_context_synchronously
+                                    await WalletHelper.prepareHomePage(context);
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      Navigator.of(context)
+                                          .push(_createHomeRoute());
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _authLoading = false;
+                                    });
+                                  }
+                                  // ignore: empty_catches
+                                } catch (e) {
+                                  setState(() {
+                                    _authLoading = false;
+                                  });
+                                }
                               });
                             }
-                            // ignore: empty_catches
-                          } catch (e) {}
-                        });
-                      }
-                    },
-                    icon: const Icon(Icons.fingerprint_rounded),
+                          },
+                    icon: _authLoading
+                        ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Icon(Icons.fingerprint_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.authenticateAction ??
                             stringNotFoundText,

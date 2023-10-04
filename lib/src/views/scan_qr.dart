@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -169,7 +171,9 @@ class _ScanQRState extends State<ScanQR> {
 
   @override
   void dispose() {
-    controller?.stopCamera();
+    try {
+      controller?.stopCamera();
+    } catch (e) {}
     controller?.dispose();
     super.dispose();
   }

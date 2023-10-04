@@ -2,6 +2,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 
 class BaseStaticState {
+  static List<String> importWalletWords = [];
   static List<String> newWalletWords = [];
   static Screen prevScreen = Screen.welcome;
   static Screen prevWalAdvancedScreen = Screen.importSeed;

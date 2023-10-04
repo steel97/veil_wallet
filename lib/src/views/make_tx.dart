@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, empty_catches
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +39,10 @@ class MakeTxState extends State<MakeTx> {
   bool _substractFeeFromAmount = false;
   String _availableAmount = '...';
   String _overallAmount = '...';
+
+  // loaders
+  bool _makeTxBusy = false;
+  bool _sendTxBusy = false;
 
   @override
   void initState() {
@@ -188,302 +192,335 @@ class MakeTxState extends State<MakeTx> {
                         ])),
                 Container(
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: FilledButton(
+                    child: FilledButton.icon(
                         style: FilledButton.styleFrom(
                             minimumSize: const Size.fromHeight(45)),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            var addr =
-                                context.read<WalletState>().selectedAddress;
-                            var addrEl = context
-                                .read<WalletState>()
-                                .ownedAddresses
-                                .firstWhere(
-                                    (element) => element.address == addr);
-                            var tx = await WalletHelper.buildTransaction(
-                                addrEl.accountType,
-                                double.parse(_amountController.text),
-                                _recipientController.text,
-                                substractFee: _substractFeeFromAmount);
+                        onPressed: _makeTxBusy
+                            ? null
+                            : () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
 
-                            if (tx == null) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(AppLocalizations.of(context)
-                                            ?.transactionAlertTitle ??
-                                        stringNotFoundText),
-                                    content: Text(AppLocalizations.of(context)
-                                            ?.transactionAlertErrorGeneric ??
-                                        stringNotFoundText),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                              AppLocalizations.of(context)
-                                                      ?.alertOkAction ??
-                                                  stringNotFoundText)),
-                                    ],
+                                setState(() {
+                                  _makeTxBusy = true;
+                                });
+
+                                BuildTransactionResult? tx;
+                                var addr =
+                                    context.read<WalletState>().selectedAddress;
+                                var addrEl = context
+                                    .read<WalletState>()
+                                    .ownedAddresses
+                                    .firstWhere(
+                                        (element) => element.address == addr);
+
+                                try {
+                                  tx = await WalletHelper.buildTransaction(
+                                      addrEl.accountType,
+                                      double.parse(_amountController.text),
+                                      _recipientController.text,
+                                      substractFee: _substractFeeFromAmount);
+                                } catch (e) {}
+                                setState(() {
+                                  _makeTxBusy = false;
+                                });
+
+                                if (tx == null) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(AppLocalizations.of(context)
+                                                ?.transactionAlertTitle ??
+                                            stringNotFoundText),
+                                        content: Text(AppLocalizations.of(
+                                                    context)
+                                                ?.transactionAlertErrorGeneric ??
+                                            stringNotFoundText),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                          ?.alertOkAction ??
+                                                      stringNotFoundText)),
+                                        ],
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            } else {
-                              var amount = WalletHelper.toDisplayValue(tx
-                                  .amountSent
-                                  .toDouble()); //double.parse(_amountController.text);
-                              var fee = WalletHelper.toDisplayValue(
-                                  tx.fee.toDouble());
+                                } else {
+                                  var amount = WalletHelper.toDisplayValue(tx
+                                      .amountSent
+                                      .toDouble()); //double.parse(_amountController.text);
+                                  var fee = WalletHelper.toDisplayValue(
+                                      tx.fee.toDouble());
 
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(AppLocalizations.of(context)
-                                            ?.transactionAlertTitle ??
-                                        stringNotFoundText),
-                                    content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(AppLocalizations.of(context)
+                                                ?.transactionAlertTitle ??
+                                            stringNotFoundText),
+                                        content: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text(
-                                                AppLocalizations.of(context)
-                                                        ?.transactionSummaryRecipient ??
-                                                    stringNotFoundText,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              const SizedBox(
-                                                  width: 10, height: 1),
-                                              Expanded(
-                                                  child: ExtendedText(
-                                                _recipientController.text,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                overflowWidget:
-                                                    const TextOverflowWidget(
-                                                  position: TextOverflowPosition
-                                                      .middle,
-                                                  align:
-                                                      TextOverflowAlign.center,
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '\u2026',
-                                                        style: TextStyle(
-                                                            fontSize: 12),
-                                                      )
-                                                    ],
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.transactionSummaryRecipient ??
+                                                        stringNotFoundText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
-                                                ),
-                                                style: const TextStyle(
-                                                    fontSize: 12),
-                                              ))
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                AppLocalizations.of(context)
-                                                        ?.transactionSummaryAmount ??
-                                                    stringNotFoundText,
-                                                overflow: TextOverflow.ellipsis,
+                                                  const SizedBox(
+                                                      width: 10, height: 1),
+                                                  Expanded(
+                                                      child: ExtendedText(
+                                                    _recipientController.text,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    overflowWidget:
+                                                        const TextOverflowWidget(
+                                                      position:
+                                                          TextOverflowPosition
+                                                              .middle,
+                                                      align: TextOverflowAlign
+                                                          .center,
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '\u2026',
+                                                            style: TextStyle(
+                                                                fontSize: 12),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ))
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                  width: 10, height: 1),
-                                              Text(WalletHelper.formatAmount(
-                                                  amount))
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                AppLocalizations.of(context)
-                                                        ?.transactionSummaryFee ??
-                                                    stringNotFoundText,
-                                                overflow: TextOverflow.ellipsis,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.transactionSummaryAmount ??
+                                                        stringNotFoundText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(
+                                                      width: 10, height: 1),
+                                                  Text(
+                                                      WalletHelper.formatAmount(
+                                                          amount))
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                  width: 10, height: 1),
-                                              Text(WalletHelper.formatAmount(
-                                                  fee))
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                AppLocalizations.of(context)
-                                                        ?.transactionSummaryTotal ??
-                                                    stringNotFoundText,
-                                                overflow: TextOverflow.ellipsis,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.transactionSummaryFee ??
+                                                        stringNotFoundText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(
+                                                      width: 10, height: 1),
+                                                  Text(
+                                                      WalletHelper.formatAmount(
+                                                          fee))
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                  width: 10, height: 1),
-                                              Text(WalletHelper.formatAmount(
-                                                  fee + amount))
-                                            ],
-                                          )
-                                        ]),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                              AppLocalizations.of(context)
-                                                      ?.alertCancelAction ??
-                                                  stringNotFoundText)),
-                                      TextButton(
-                                          onPressed: () async {
-                                            // send transaction here
-                                            var txid = await WalletHelper
-                                                .publishTransaction(
-                                                    addrEl.accountType,
-                                                    tx.txdata!);
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.transactionSummaryTotal ??
+                                                        stringNotFoundText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(
+                                                      width: 10, height: 1),
+                                                  Text(
+                                                      WalletHelper.formatAmount(
+                                                          fee + amount))
+                                                ],
+                                              )
+                                            ]),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: _sendTxBusy
+                                                  ? null
+                                                  : () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                          ?.alertCancelAction ??
+                                                      stringNotFoundText)),
+                                          TextButton(
+                                              onPressed: _sendTxBusy
+                                                  ? null
+                                                  : () async {
+                                                      // send transaction here
+                                                      setState(() {
+                                                        _sendTxBusy = true;
+                                                      });
 
-                                            Navigator.of(context).pop();
+                                                      String? txid;
+                                                      try {
+                                                        txid = await WalletHelper
+                                                            .publishTransaction(
+                                                                addrEl
+                                                                    .accountType,
+                                                                tx!.txdata!);
 
-                                            if (txid == null) {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                        title: Text(AppLocalizations
-                                                                    .of(context)
-                                                                ?.transactionAlertTitle ??
-                                                            stringNotFoundText),
-                                                        content: Text(AppLocalizations
-                                                                    .of(context)
-                                                                ?.transactionAlertErrorSendGeneric ??
-                                                            stringNotFoundText),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              child: Text(AppLocalizations.of(
-                                                                          context)
-                                                                      ?.alertOkAction ??
-                                                                  stringNotFoundText)),
-                                                        ]);
-                                                  });
-                                            } else {
-                                              // tx successfully sent
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                        title: Text(AppLocalizations
-                                                                    .of(context)
-                                                                ?.transactionAlertTitle ??
-                                                            stringNotFoundText),
-                                                        content: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            children: [
-                                                              Text(AppLocalizations.of(
-                                                                          context)
-                                                                      ?.transactionAlertSent ??
-                                                                  stringNotFoundText),
-                                                              TextButton.icon(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Clipboard.setData(ClipboardData(
-                                                                            text:
-                                                                                txid))
-                                                                        .then((value) =>
-                                                                            {
-                                                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                                                SnackBar(
-                                                                                  content: Text(AppLocalizations.of(context)?.copiedText ?? stringNotFoundText),
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      } catch (e) {}
+
+                                                      setState(() {
+                                                        _sendTxBusy = false;
+                                                      });
+
+                                                      if (txid == null) {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                  title: Text(AppLocalizations.of(
+                                                                              context)
+                                                                          ?.transactionAlertTitle ??
+                                                                      stringNotFoundText),
+                                                                  content: Text(
+                                                                      AppLocalizations.of(context)
+                                                                              ?.transactionAlertErrorSendGeneric ??
+                                                                          stringNotFoundText),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                        },
+                                                                        child: Text(AppLocalizations.of(context)?.alertOkAction ??
+                                                                            stringNotFoundText)),
+                                                                  ]);
+                                                            });
+                                                      } else {
+                                                        // tx successfully sent
+                                                        showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                  title: Text(AppLocalizations.of(
+                                                                              context)
+                                                                          ?.transactionAlertTitle ??
+                                                                      stringNotFoundText),
+                                                                  content: Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      children: [
+                                                                        Text(AppLocalizations.of(context)?.transactionAlertSent ??
+                                                                            stringNotFoundText),
+                                                                        TextButton.icon(
+                                                                            onPressed: () {
+                                                                              Clipboard.setData(ClipboardData(text: txid!)).then((value) => {
+                                                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                                                      SnackBar(
+                                                                                        content: Text(AppLocalizations.of(context)?.copiedText ?? stringNotFoundText),
+                                                                                      ),
+                                                                                    )
+                                                                                  });
+                                                                            },
+                                                                            icon: const Icon(Icons.copy_rounded),
+                                                                            label: ExtendedText(
+                                                                              txid!,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              maxLines: 1,
+                                                                              overflowWidget: const TextOverflowWidget(
+                                                                                position: TextOverflowPosition.middle,
+                                                                                align: TextOverflowAlign.center,
+                                                                                child: Row(
+                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                  children: <Widget>[
+                                                                                    Text(
+                                                                                      '\u2026',
+                                                                                      style: TextStyle(fontSize: 14),
+                                                                                    )
+                                                                                  ],
                                                                                 ),
-                                                                              )
-                                                                            });
-                                                                  },
-                                                                  icon: const Icon(
-                                                                      Icons
-                                                                          .copy_rounded),
-                                                                  label:
-                                                                      ExtendedText(
-                                                                    txid,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    maxLines: 1,
-                                                                    overflowWidget:
-                                                                        const TextOverflowWidget(
-                                                                      position:
-                                                                          TextOverflowPosition
-                                                                              .middle,
-                                                                      align: TextOverflowAlign
-                                                                          .center,
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.min,
-                                                                        children: <Widget>[
-                                                                          Text(
-                                                                            '\u2026',
-                                                                            style:
-                                                                                TextStyle(fontSize: 14),
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            14),
-                                                                  ))
-                                                            ]),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                                // back
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(
-                                                                        _createBackRoute());
-                                                              },
-                                                              child: Text(AppLocalizations.of(
-                                                                          context)
-                                                                      ?.alertOkAction ??
-                                                                  stringNotFoundText)),
-                                                        ]);
-                                                  });
-                                            }
-                                          },
-                                          child: Text(
-                                              AppLocalizations.of(context)
-                                                      ?.alertSendAction ??
-                                                  stringNotFoundText))
-                                    ],
+                                                                              ),
+                                                                              style: const TextStyle(fontSize: 14),
+                                                                            ))
+                                                                      ]),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .pop();
+                                                                          // back
+                                                                          Navigator.of(context)
+                                                                              .push(_createBackRoute());
+                                                                        },
+                                                                        child: Text(AppLocalizations.of(context)?.alertOkAction ??
+                                                                            stringNotFoundText)),
+                                                                  ]);
+                                                            });
+                                                      }
+                                                    },
+                                              child: Text(
+                                                  AppLocalizations.of(context)
+                                                          ?.alertSendAction ??
+                                                      stringNotFoundText))
+                                        ],
+                                      );
+                                    },
                                   );
-                                },
-                              );
-                            }
-                          }
-                        },
-                        child: Text(
+                                }
+                              },
+                        icon: _makeTxBusy
+                            ? Container(
+                                width: 24,
+                                height: 24,
+                                padding: const EdgeInsets.all(2.0),
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const SizedBox(width: 1, height: 1),
+                        label: Text(
                             AppLocalizations.of(context)?.sendCoinsNextAction ??
                                 stringNotFoundText)))
               ]),

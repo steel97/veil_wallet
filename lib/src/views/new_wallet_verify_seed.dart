@@ -23,6 +23,7 @@ class NewWalletVerifySeed extends StatefulWidget {
 
 class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
   final _formKey = GlobalKey<FormState>();
+  bool _createLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,46 +105,73 @@ class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                     )),
                 Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: FilledButton(
+                  child: FilledButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () async {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
+                    onPressed: _createLoading
+                        ? null
+                        : () async {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
 
-                      // move to biometrics if not opened from settings
-                      if (BaseStaticState.prevScreen == Screen.settings) {
-                        // create and save wallet
-                        var valName = BaseStaticState.tempWalletName;
-                        if (valName.trim().isEmpty) {
-                          valName = defaultWalletName;
-                        }
-                        await WalletHelper.createOrImportWallet(
-                            valName,
-                            BaseStaticState.newWalletWords,
-                            BaseStaticState.walletEncryptionPassword,
-                            true,
-                            context);
-                        // clear new wallet words
-                        BaseStaticState.newWalletWords = [];
-                        // move to home
-                        await WalletHelper.prepareHomePage(context);
-                        WidgetsBinding.instance.scheduleFrameCallback((_) {
-                          Navigator.of(context).push(_createHomeRoute());
-                        });
-                      } else {
-                        // move to biometrics
-                        BaseStaticState.walletMnemonic =
-                            BaseStaticState.newWalletWords;
-                        BaseStaticState.newWalletWords = [];
-                        Navigator.of(context).push(_createBiometricsRoute());
-                      }
-                    },
-                    child: Text(
+                            // move to biometrics if not opened from settings
+                            if (BaseStaticState.prevScreen == Screen.settings) {
+                              // create and save wallet
+                              try {
+                                setState(() {
+                                  _createLoading = true;
+                                });
+
+                                var valName = BaseStaticState.tempWalletName;
+                                if (valName.trim().isEmpty) {
+                                  valName = defaultWalletName;
+                                }
+                                await WalletHelper.createOrImportWallet(
+                                    valName,
+                                    BaseStaticState.newWalletWords,
+                                    BaseStaticState.walletEncryptionPassword,
+                                    true,
+                                    context);
+                                // clear new wallet words
+                                BaseStaticState.newWalletWords = [];
+                                BaseStaticState.tempWalletName = '';
+                                // move to home
+                                await WalletHelper.prepareHomePage(context);
+                                WidgetsBinding.instance
+                                    .scheduleFrameCallback((_) {
+                                  Navigator.of(context)
+                                      .push(_createHomeRoute());
+                                });
+                              } catch (e) {
+                                setState(() {
+                                  _createLoading = false;
+                                });
+                              }
+                            } else {
+                              // move to biometrics
+                              BaseStaticState.walletMnemonic =
+                                  BaseStaticState.newWalletWords;
+                              BaseStaticState.newWalletWords = [];
+                              Navigator.of(context)
+                                  .push(_createBiometricsRoute());
+                            }
+                          },
+                    label: Text(
                         AppLocalizations.of(context)?.createWalletButton ??
                             stringNotFoundText,
                         overflow: TextOverflow.ellipsis),
+                    icon: _createLoading
+                        ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const SizedBox(width: 1, height: 1),
                   ),
                 ),
               ]),

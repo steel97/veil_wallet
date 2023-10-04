@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "org.veilproject.wallet"
-        minSdkVersion 20
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -53,7 +53,7 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug 
         }
     }
 }

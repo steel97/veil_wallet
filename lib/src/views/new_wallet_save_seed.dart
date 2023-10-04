@@ -22,11 +22,20 @@ class NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
   final _walletNameInput = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    _walletNameInput.text = BaseStaticState.tempWalletName;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BackLayout(
         title: AppLocalizations.of(context)?.saveSeedPhraseTitle,
         back: () {
           BaseStaticState.walletEncryptionPassword = '';
+          BaseStaticState.tempWalletName = '';
+          BaseStaticState.newWalletWords = [];
           Navigator.of(context).push(_createBackRoute());
         },
         child: Container(
@@ -99,6 +108,7 @@ class NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
                       minimumSize: const Size.fromHeight(45)),
                   onPressed: () {
                     BaseStaticState.prevWalAdvancedScreen = Screen.newWallet;
+                    BaseStaticState.tempWalletName = _walletNameInput.text;
                     Navigator.of(context).push(_createAdvancedRoute());
                   },
                   icon: const Icon(Icons.file_open_rounded),

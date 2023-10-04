@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +119,33 @@ class _MainLayoutState extends State<MainLayout> {
               icon: Icon(Icons.wallet_rounded,
                   color: Theme.of(context).primaryColor),
               onSelected: (value) async {
-                WalletHelper.setActiveWallet(value, context);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: Text(AppLocalizations.of(context)
+                                  ?.loadingWalletTitle ??
+                              stringNotFoundText),
+                          content:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                            Text(AppLocalizations.of(context)
+                                    ?.loadingWalletText ??
+                                stringNotFoundText),
+                            const SizedBox(width: 2, height: 20),
+                            CircularProgressIndicator(
+                              semanticsLabel: AppLocalizations.of(context)
+                                  ?.loadingWalletText,
+                            ),
+                          ]));
+                    });
+
+                try {
+                  await WalletHelper.setActiveWallet(value, context);
+                } catch (e) {}
+
+                setState(() {
+                  Navigator.of(context).pop();
+                });
               },
               itemBuilder: (context) {
                 List<PopupMenuItem<int>> items = List.empty(growable: true);
@@ -170,7 +198,6 @@ class _MainLayoutState extends State<MainLayout> {
                     if (await canLaunchUrl(url)) {
                       await launchUrl(url);
                     }
-                    // ignore: empty_catches
                   } catch (e) {}
                 } else if (index == 1) {
                   BaseStaticState.prevScreen = Screen.home;

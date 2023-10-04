@@ -100,5 +100,7 @@
   "transactionAlertSent": "Транзакция отправлена! Tx id:",
   "flashlightToolip": "Фонарик",
   "cameraNoPermissions": "У приложения нет доступа к камере",
-  "scanQRTitle": "Сканировать QR код"
+  "scanQRTitle": "Сканировать QR код",
+  "loadingWalletTitle": "Кошелек загружается",
+  "loadingWalletText": "Загрузка может занять некоторое время, пожалуйста подождите"
 }

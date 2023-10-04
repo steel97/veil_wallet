@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, empty_catches
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,6 +27,20 @@ class ImportSeedState extends State<ImportSeed> {
   final _formKey = GlobalKey<FormState>();
   final _mnemonicInput = List.generate(24, (index) => TextEditingController());
   final _walletNameInput = TextEditingController();
+  bool _importLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _walletNameInput.text = BaseStaticState.tempWalletName;
+
+    var index = 0;
+    for (var element in BaseStaticState.importWalletWords) {
+      _mnemonicInput[index].text = element;
+      index++;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +48,8 @@ class ImportSeedState extends State<ImportSeed> {
         title: AppLocalizations.of(context)?.importSeedTitle,
         back: () {
           BaseStaticState.walletEncryptionPassword = '';
+          BaseStaticState.tempWalletName = '';
+          BaseStaticState.importWalletWords = [];
           Navigator.of(context).push(_createBackRoute());
         },
         child: Form(
@@ -114,6 +130,12 @@ class ImportSeedState extends State<ImportSeed> {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {
                       BaseStaticState.prevWalAdvancedScreen = Screen.importSeed;
+                      List<String> mnemonic = List.empty(growable: true);
+                      for (var element in _mnemonicInput) {
+                        mnemonic.add(element.text.toLowerCase().trim());
+                      }
+                      BaseStaticState.importWalletWords = mnemonic;
+                      BaseStaticState.tempWalletName = _walletNameInput.text;
                       Navigator.of(context).push(_createAdvancedRoute());
                     },
                     icon: const Icon(Icons.file_open_rounded),
@@ -128,41 +150,68 @@ class ImportSeedState extends State<ImportSeed> {
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () async {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
+                    onPressed: _importLoading
+                        ? null
+                        : () async {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
 
-                      List<String> mnemonic = List.empty(growable: true);
-                      for (var element in _mnemonicInput) {
-                        mnemonic.add(element.text.toLowerCase().trim());
-                      }
+                            List<String> mnemonic = List.empty(growable: true);
+                            for (var element in _mnemonicInput) {
+                              mnemonic.add(element.text.toLowerCase().trim());
+                            }
 
-                      if (BaseStaticState.prevScreen == Screen.settings) {
-                        // create and save wallet
-                        var valName = _walletNameInput.text;
-                        if (valName.trim().isEmpty) {
-                          valName = defaultWalletName;
-                        }
-                        await WalletHelper.createOrImportWallet(
-                            valName,
-                            mnemonic,
-                            BaseStaticState.walletEncryptionPassword,
-                            true,
-                            context);
-                        // move to home
-                        await WalletHelper.prepareHomePage(context);
-                        WidgetsBinding.instance.scheduleFrameCallback((_) {
-                          Navigator.of(context).push(_createHomeRoute());
-                        });
-                      } else {
-                        // move to biometrics
-                        BaseStaticState.tempWalletName = _walletNameInput.text;
-                        BaseStaticState.walletMnemonic = mnemonic;
-                        Navigator.of(context).push(_createBiometricsRoute());
-                      }
-                    },
-                    icon: const Icon(Icons.upload_rounded),
+                            if (BaseStaticState.prevScreen == Screen.settings) {
+                              // create and save wallet
+                              setState(() {
+                                _importLoading = true;
+                              });
+                              try {
+                                var valName = _walletNameInput.text;
+                                if (valName.trim().isEmpty) {
+                                  valName = defaultWalletName;
+                                }
+                                await WalletHelper.createOrImportWallet(
+                                    valName,
+                                    mnemonic,
+                                    BaseStaticState.walletEncryptionPassword,
+                                    true,
+                                    context);
+                                // move to home
+                                await WalletHelper.prepareHomePage(context);
+                                BaseStaticState.importWalletWords = [];
+                                WidgetsBinding.instance
+                                    .scheduleFrameCallback((_) {
+                                  Navigator.of(context)
+                                      .push(_createHomeRoute());
+                                });
+                              } catch (e) {
+                                setState(() {
+                                  _importLoading = false;
+                                });
+                              }
+                            } else {
+                              // move to biometrics
+                              BaseStaticState.tempWalletName =
+                                  _walletNameInput.text;
+                              BaseStaticState.walletMnemonic = mnemonic;
+                              BaseStaticState.importWalletWords = mnemonic;
+                              Navigator.of(context)
+                                  .push(_createBiometricsRoute());
+                            }
+                          },
+                    icon: _importLoading
+                        ? Container(
+                            width: 24,
+                            height: 24,
+                            padding: const EdgeInsets.all(2.0),
+                            child: const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          )
+                        : const Icon(Icons.upload_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.importWallet ??
                             stringNotFoundText,

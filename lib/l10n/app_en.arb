@@ -429,5 +429,13 @@
   "scanQRTitle": "Scan QR",
   "@scanQRTitle": {
     "description": "QR scanner screen title"
+  },
+  "loadingWalletTitle": "Loading wallet",
+  "@loadingWalletTitle": {
+    "description": "Loading wallet text"
+  },
+  "loadingWalletText": "It may take a while, please be patient",
+  "@loadingWalletText": {
+    "description": "Loading wallet text"
   }
 }

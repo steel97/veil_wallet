@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
@@ -17,7 +18,7 @@ import 'package:veil_wallet/src/views/loading.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  VeilLightBase.initialize();
 
   Timer.periodic(
       const Duration(seconds: walletWatchDelay), WalletBgTasks.runScanTask);
@@ -35,6 +36,9 @@ class WalletAppWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     var lightColorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primary: const Color.fromARGB(255, 35, 89, 247),

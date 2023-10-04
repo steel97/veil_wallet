@@ -137,6 +137,7 @@ class SettingsState extends State<Settings> {
                         minimumSize: const Size.fromHeight(45)),
                     onPressed: () {
                       BaseStaticState.prevScreen = Screen.settings;
+                      BaseStaticState.importWalletWords = [];
                       Navigator.of(context).push(_createImportRoute());
                     },
                     icon: const Icon(Icons.upload_rounded),

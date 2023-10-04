@@ -54,6 +54,7 @@ class Welcome extends StatelessWidget {
                   minimumSize: const Size.fromHeight(42)),
               onPressed: () {
                 BaseStaticState.prevScreen = Screen.welcome;
+                BaseStaticState.importWalletWords = [];
                 Navigator.of(context).push(_createImportRoute());
               },
               icon: const Icon(Icons.upload_rounded),
