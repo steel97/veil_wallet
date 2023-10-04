@@ -101,6 +101,6 @@
   "flashlightToolip": "Фонарик",
   "cameraNoPermissions": "У приложения нет доступа к камере",
   "scanQRTitle": "Сканировать QR код",
-  "loadingWalletTitle": "Кошелек загружается",
-  "loadingWalletText": "Загрузка может занять некоторое время, пожалуйста подождите"
+  "loadingWalletTitle": "Кошелек",
+  "loadingWalletText": "Загрузка кошелька может занять некоторое время, пожалуйста подождите"
 }
