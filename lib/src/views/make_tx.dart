@@ -14,11 +14,11 @@ import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/scan_qr.dart';
 
-class BalancesResponse {
+class _BalancesResponse {
   final String available;
   final String total;
 
-  BalancesResponse(this.available, this.total);
+  _BalancesResponse(this.available, this.total);
 }
 
 class MakeTx extends StatefulWidget {
@@ -27,18 +27,17 @@ class MakeTx extends StatefulWidget {
   const MakeTx({super.key, this.address, this.amount});
 
   @override
-  MakeTxState createState() {
-    return MakeTxState();
-  }
+  State<MakeTx> createState() => _MakeTxState();
 }
 
-class MakeTxState extends State<MakeTx> {
+class _MakeTxState extends State<MakeTx> {
   final _formKey = GlobalKey<FormState>();
   final _recipientController = TextEditingController();
   final _amountController = TextEditingController();
   bool _substractFeeFromAmount = false;
   String _availableAmount = '...';
   String _overallAmount = '...';
+  String _currentAmount = '...';
 
   // loaders
   bool _makeTxBusy = false;
@@ -70,12 +69,12 @@ class MakeTxState extends State<MakeTx> {
         });
   }
 
-  Future<BalancesResponse> updateAvailableBalance(AccountType type) async {
+  Future<_BalancesResponse> updateAvailableBalance(AccountType type) async {
     var availableAmount =
         await WalletHelper.getAvailableBalance(accountType: type);
     var pending = await WalletHelper.getPendingBalance(accountType: type);
 
-    return BalancesResponse(WalletHelper.formatAmount(availableAmount),
+    return _BalancesResponse(WalletHelper.formatAmount(availableAmount),
         WalletHelper.formatAmount(availableAmount + pending));
   }
 
@@ -170,7 +169,12 @@ class MakeTxState extends State<MakeTx> {
                                 AppLocalizations.of(context)?.sendAmount ??
                                     stringNotFoundText),
                             suffixText:
-                                '~${(availableAmountConverted * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$'),
+                                '~${(convertVal(_currentAmount, availableAmountConverted) * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$'),
+                        onChanged: (text) {
+                          setState(() {
+                            _currentAmount = text;
+                          });
+                        },
                         controller: _amountController)),
                 Container(
                     margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -562,4 +566,11 @@ Route _createBackRoute() {
       child: child,
     );
   });
+}
+
+double convertVal(String curVal, double defVal) {
+  try {
+    return double.parse(curVal);
+  } catch (e) {}
+  return defVal;
 }

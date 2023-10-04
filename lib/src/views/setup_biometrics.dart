@@ -19,12 +19,10 @@ class SetupBiometrics extends StatefulWidget {
   const SetupBiometrics({super.key});
 
   @override
-  SetupBiometricsState createState() {
-    return SetupBiometricsState();
-  }
+  State<SetupBiometrics> createState() => _SetupBiometricsState();
 }
 
-class SetupBiometricsState extends State<SetupBiometrics> {
+class _SetupBiometricsState extends State<SetupBiometrics> {
   bool _biometricsBusy = false;
   int _busyIndicatorIndex = 0;
 

@@ -14,12 +14,10 @@ class ReceiveCoins extends StatefulWidget {
   const ReceiveCoins({super.key});
 
   @override
-  ReceiveCoinsState createState() {
-    return ReceiveCoinsState();
-  }
+  State<ReceiveCoins> createState() => _ReceiveCoinsState();
 }
 
-class ReceiveCoinsState extends State<ReceiveCoins> {
+class _ReceiveCoinsState extends State<ReceiveCoins> {
   ScreenshotController screenshotController = ScreenshotController();
 
   @override

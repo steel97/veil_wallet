@@ -20,12 +20,10 @@ class Settings extends StatefulWidget {
   const Settings({super.key});
 
   @override
-  SettingsState createState() {
-    return SettingsState();
-  }
+  State<Settings> createState() => _SettingsState();
 }
 
-class SettingsState extends State<Settings> {
+class _SettingsState extends State<Settings> {
   final _formKey = GlobalKey<FormState>();
 
   final _nodeUrlController = TextEditingController();

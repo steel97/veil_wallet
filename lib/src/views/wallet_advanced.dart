@@ -15,12 +15,10 @@ class WalletAdvanced extends StatefulWidget {
   const WalletAdvanced({super.key});
 
   @override
-  WalletAdvancedState createState() {
-    return WalletAdvancedState();
-  }
+  State<WalletAdvanced> createState() => _WalletAdvancedState();
 }
 
-class WalletAdvancedState extends State<WalletAdvanced> {
+class _WalletAdvancedState extends State<WalletAdvanced> {
   final _formKey = GlobalKey<FormState>();
 
   final _passwordController = TextEditingController();

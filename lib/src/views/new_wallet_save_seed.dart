@@ -13,12 +13,10 @@ class NewWalletSaveSeed extends StatefulWidget {
   const NewWalletSaveSeed({super.key});
 
   @override
-  NewWalletSaveSeedState createState() {
-    return NewWalletSaveSeedState();
-  }
+  State<NewWalletSaveSeed> createState() => _NewWalletSaveSeedState();
 }
 
-class NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
+class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
   final _walletNameInput = TextEditingController();
 
   @override

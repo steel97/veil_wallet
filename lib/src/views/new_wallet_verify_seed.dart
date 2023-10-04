@@ -16,12 +16,10 @@ class NewWalletVerifySeed extends StatefulWidget {
   const NewWalletVerifySeed({super.key});
 
   @override
-  NewWalletVerifySeedState createState() {
-    return NewWalletVerifySeedState();
-  }
+  State<NewWalletVerifySeed> createState() => _NewWalletVerifySeedState();
 }
 
-class NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
+class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
   final _formKey = GlobalKey<FormState>();
   bool _createLoading = false;
 

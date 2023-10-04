@@ -18,12 +18,10 @@ class ImportSeed extends StatefulWidget {
   const ImportSeed({super.key});
 
   @override
-  ImportSeedState createState() {
-    return ImportSeedState();
-  }
+  State<ImportSeed> createState() => _ImportSeedState();
 }
 
-class ImportSeedState extends State<ImportSeed> {
+class _ImportSeedState extends State<ImportSeed> {
   final _formKey = GlobalKey<FormState>();
   final _mnemonicInput = List.generate(24, (index) => TextEditingController());
   final _walletNameInput = TextEditingController();

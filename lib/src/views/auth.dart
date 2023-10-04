@@ -11,12 +11,10 @@ class Auth extends StatefulWidget {
   const Auth({super.key});
 
   @override
-  AuthState createState() {
-    return AuthState();
-  }
+  State<Auth> createState() => _AuthState();
 }
 
-class AuthState extends State<Auth> {
+class _AuthState extends State<Auth> {
   bool _authLoading = false;
 
   @override
