@@ -9,6 +9,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
@@ -41,7 +42,6 @@ class _MakeTxState extends State<MakeTx> {
 
   // loaders
   bool _makeTxBusy = false;
-  bool _sendTxBusy = false;
 
   @override
   void initState() {
@@ -376,7 +376,9 @@ class _MakeTxState extends State<MakeTx> {
                                             ]),
                                         actions: [
                                           TextButton(
-                                              onPressed: _sendTxBusy
+                                              onPressed: context
+                                                      .watch<DialogsState>()
+                                                      .sendTxActive
                                                   ? null
                                                   : () {
                                                       Navigator.of(context)
@@ -387,122 +389,130 @@ class _MakeTxState extends State<MakeTx> {
                                                           ?.alertCancelAction ??
                                                       stringNotFoundText)),
                                           TextButton(
-                                              onPressed: _sendTxBusy
-                                                  ? null
-                                                  : () async {
-                                                      // send transaction here
-                                                      setState(() {
-                                                        _sendTxBusy = true;
-                                                      });
+                                              onPressed:
+                                                  context
+                                                          .watch<DialogsState>()
+                                                          .sendTxActive
+                                                      ? null
+                                                      : () async {
+                                                          // send transaction here
+                                                          context
+                                                              .read<
+                                                                  DialogsState>()
+                                                              .setSendTxActive(
+                                                                  true);
 
-                                                      String? txid;
-                                                      try {
-                                                        txid = await WalletHelper
-                                                            .publishTransaction(
-                                                                addrEl
-                                                                    .accountType,
-                                                                tx!.txdata!);
+                                                          String? txid;
+                                                          try {
+                                                            txid = await WalletHelper
+                                                                .publishTransaction(
+                                                                    addrEl
+                                                                        .accountType,
+                                                                    tx!.txdata!);
 
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      } catch (e) {}
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          } catch (e) {}
 
-                                                      setState(() {
-                                                        _sendTxBusy = false;
-                                                      });
+                                                          WidgetsBinding
+                                                              .instance
+                                                              .scheduleFrameCallback(
+                                                                  (_) {
+                                                            context
+                                                                .read<
+                                                                    DialogsState>()
+                                                                .setSendTxActive(
+                                                                    false);
+                                                          });
 
-                                                      if (txid == null) {
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                  title: Text(AppLocalizations.of(
-                                                                              context)
-                                                                          ?.transactionAlertTitle ??
-                                                                      stringNotFoundText),
-                                                                  content: Text(
-                                                                      AppLocalizations.of(context)
-                                                                              ?.transactionAlertErrorSendGeneric ??
-                                                                          stringNotFoundText),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
-                                                                        child: Text(AppLocalizations.of(context)?.alertOkAction ??
-                                                                            stringNotFoundText)),
-                                                                  ]);
-                                                            });
-                                                      } else {
-                                                        // tx successfully sent
-                                                        showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                  title: Text(AppLocalizations.of(
-                                                                              context)
-                                                                          ?.transactionAlertTitle ??
-                                                                      stringNotFoundText),
-                                                                  content: Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      children: [
-                                                                        Text(AppLocalizations.of(context)?.transactionAlertSent ??
-                                                                            stringNotFoundText),
-                                                                        TextButton.icon(
-                                                                            onPressed: () {
-                                                                              Clipboard.setData(ClipboardData(text: txid!)).then((value) => {
-                                                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                                                      SnackBar(
-                                                                                        content: Text(AppLocalizations.of(context)?.copiedText ?? stringNotFoundText),
-                                                                                      ),
-                                                                                    )
-                                                                                  });
+                                                          if (txid == null) {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                      title: Text(
+                                                                          AppLocalizations.of(context)?.transactionAlertTitle ??
+                                                                              stringNotFoundText),
+                                                                      content: Text(
+                                                                          AppLocalizations.of(context)?.transactionAlertErrorSendGeneric ??
+                                                                              stringNotFoundText),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
                                                                             },
-                                                                            icon: const Icon(Icons.copy_rounded),
-                                                                            label: ExtendedText(
-                                                                              txid!,
-                                                                              overflow: TextOverflow.ellipsis,
-                                                                              maxLines: 1,
-                                                                              overflowWidget: const TextOverflowWidget(
-                                                                                position: TextOverflowPosition.middle,
-                                                                                align: TextOverflowAlign.center,
-                                                                                child: Row(
-                                                                                  mainAxisSize: MainAxisSize.min,
-                                                                                  children: <Widget>[
-                                                                                    Text(
-                                                                                      '\u2026',
-                                                                                      style: TextStyle(fontSize: 14),
-                                                                                    )
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              style: const TextStyle(fontSize: 14),
-                                                                            ))
-                                                                      ]),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                          // back
-                                                                          Navigator.of(context)
-                                                                              .push(_createBackRoute());
-                                                                        },
-                                                                        child: Text(AppLocalizations.of(context)?.alertOkAction ??
-                                                                            stringNotFoundText)),
-                                                                  ]);
-                                                            });
-                                                      }
-                                                    },
+                                                                            child:
+                                                                                Text(AppLocalizations.of(context)?.alertOkAction ?? stringNotFoundText)),
+                                                                      ]);
+                                                                });
+                                                          } else {
+                                                            // tx successfully sent
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return AlertDialog(
+                                                                      title: Text(
+                                                                          AppLocalizations.of(context)?.transactionAlertTitle ??
+                                                                              stringNotFoundText),
+                                                                      content: Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          children: [
+                                                                            Text(AppLocalizations.of(context)?.transactionAlertSent ??
+                                                                                stringNotFoundText),
+                                                                            TextButton.icon(
+                                                                                onPressed: () {
+                                                                                  Clipboard.setData(ClipboardData(text: txid!)).then((value) => {
+                                                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                                                          SnackBar(
+                                                                                            content: Text(AppLocalizations.of(context)?.copiedText ?? stringNotFoundText),
+                                                                                          ),
+                                                                                        )
+                                                                                      });
+                                                                                },
+                                                                                icon: const Icon(Icons.copy_rounded),
+                                                                                label: ExtendedText(
+                                                                                  txid!,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  maxLines: 1,
+                                                                                  overflowWidget: const TextOverflowWidget(
+                                                                                    position: TextOverflowPosition.middle,
+                                                                                    align: TextOverflowAlign.center,
+                                                                                    child: Row(
+                                                                                      mainAxisSize: MainAxisSize.min,
+                                                                                      children: <Widget>[
+                                                                                        Text(
+                                                                                          '\u2026',
+                                                                                          style: TextStyle(fontSize: 14),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                  style: const TextStyle(fontSize: 14),
+                                                                                ))
+                                                                          ]),
+                                                                      actions: [
+                                                                        TextButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Navigator.of(context).pop();
+                                                                              // back
+                                                                              Navigator.of(context).push(_createBackRoute());
+                                                                            },
+                                                                            child:
+                                                                                Text(AppLocalizations.of(context)?.alertOkAction ?? stringNotFoundText)),
+                                                                      ]);
+                                                                });
+                                                          }
+                                                        },
                                               child: Text(
                                                   AppLocalizations.of(context)
                                                           ?.alertSendAction ??

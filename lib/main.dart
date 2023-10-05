@@ -8,9 +8,11 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/extensions/misc.dart';
+import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/storage/storage_item.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/auth.dart';
 import 'package:veil_wallet/src/views/home.dart';
@@ -28,6 +30,7 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => WalletState()),
+    ChangeNotifierProvider(create: (_) => DialogsState()),
   ], child: const WalletAppWrap()));
 }
 
@@ -80,8 +83,23 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     var wallets =
         (await storageService.readSecureData(prefsWalletsStorage) ?? '')
             .split(',');
+    if (wallets[0] == '' && wallets.length == 1) {
+      wallets = [];
+    }
     var activeWallet =
         (await storageService.readSecureData(prefsActiveWallet) ?? '');
+
+    if (!wallets.contains(activeWallet) && wallets.isNotEmpty) {
+      for (String wal in wallets) {
+        if (wal.isNotEmpty) {
+          await storageService
+              .writeSecureData(StorageItem(prefsActiveWallet, wal));
+          activeWallet = wal;
+          break;
+        }
+      }
+    }
+
     if (wallets.contains(activeWallet)) {
       // look for name, mnemonic, password
       var name =

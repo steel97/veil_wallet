@@ -37,7 +37,10 @@ class BalanceWidget extends StatelessWidget {
                                   WalletStaticState.activeWallet.toString()) ??
                           '';
 
-                      Navigator.of(context).push(_createWalletSettingsRoute());
+                      WidgetsBinding.instance.scheduleFrameCallback((_) {
+                        Navigator.of(context)
+                            .push(_createWalletSettingsRoute());
+                      });
                     },
                     child: Card(
                       elevation: 0,

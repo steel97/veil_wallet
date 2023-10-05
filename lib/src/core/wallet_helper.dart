@@ -67,6 +67,10 @@ class WalletHelper {
     var wallets =
         (await storageService.readSecureData(prefsWalletsStorage) ?? '')
             .split(',');
+    if (wallets[0] == '' && wallets.length == 1) {
+      wallets = [];
+    }
+
     List<String> reconstructedWallets = List.empty(growable: true);
     reconstructedWallets.addAll(wallets);
     // 1. save wallet id
@@ -103,8 +107,56 @@ class WalletHelper {
     return rndWalletId;
   }
 
+  static Future<int?> deleteWallet(int walId, BuildContext context) async {
+    var storageService = StorageService();
+    var wallets =
+        (await storageService.readSecureData(prefsWalletsStorage) ?? '')
+            .split(',');
+    if (wallets[0] == '' && wallets.length == 1) {
+      wallets = [];
+    }
+
+    // 1. remove wallet id
+    if (!wallets.remove(walId.toString())) {
+      return null;
+    }
+
+    await storageService
+        .writeSecureData(StorageItem(prefsWalletsStorage, wallets.join(',')));
+
+    // 2. remove wallet name
+    await storageService.deleteSecureData(prefsWalletNames + walId.toString());
+
+    // 3. remove mnemonic
+    await storageService
+        .deleteSecureData(prefsWalletMnemonics + walId.toString());
+
+    // 4. remove encryption password
+    await storageService
+        .deleteSecureData(prefsWalletEncryption + walId.toString());
+
+    // 5. set active if exists
+    int activeWal = -1;
+    try {
+      if (wallets.isNotEmpty) {
+        activeWal = int.parse(wallets[0]);
+        await storageService.writeSecureData(
+            StorageItem(prefsActiveWallet, activeWal.toString()));
+        await prepareHomePage(context);
+      } else {
+        storageService.deleteSecureData(prefsWalletsStorage);
+      }
+    } catch (e) {
+      storageService.deleteSecureData(prefsWalletsStorage);
+    }
+
+    return activeWal;
+  }
+
   static Future setActiveWallet(int activeWallet, BuildContext context,
       {bool shouldSetActiveAddress = true}) async {
+    await reloadWalletsCache();
+
     var storageService = StorageService();
     await storageService.writeSecureData(
         StorageItem(prefsActiveWallet, activeWallet.toString()));
@@ -191,11 +243,39 @@ class WalletHelper {
     await uiReload();
   }
 
+  static Future reloadWalletsCache() async {
+    var storageService = StorageService();
+    var wallets =
+        (await storageService.readSecureData(prefsWalletsStorage) ?? '')
+            .split(',');
+    if (wallets[0] == '' && wallets.length == 1) {
+      wallets = [];
+    }
+
+    List<WalletEntry> walletObjs = List.empty(growable: true);
+
+    for (var walletId in wallets) {
+      if (walletId == '') {
+        continue;
+      }
+
+      var name =
+          await storageService.readSecureData(prefsWalletNames + walletId);
+      walletObjs
+          .add(WalletEntry(name ?? defaultWalletName, int.parse(walletId)));
+    }
+    WalletStaticState.wallets = walletObjs;
+  }
+
   static Future prepareHomePage(BuildContext context) async {
     var storageService = StorageService();
     var wallets =
         (await storageService.readSecureData(prefsWalletsStorage) ?? '')
             .split(',');
+    if (wallets[0] == '' && wallets.length == 1) {
+      wallets = [];
+    }
+
     var activeWallet =
         (await storageService.readSecureData(prefsActiveWallet) ?? '');
 

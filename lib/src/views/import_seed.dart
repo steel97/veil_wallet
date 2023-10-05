@@ -126,16 +126,20 @@ class _ImportSeedState extends State<ImportSeed> {
                   child: OutlinedButton.icon(
                     style: FilledButton.styleFrom(
                         minimumSize: const Size.fromHeight(45)),
-                    onPressed: () {
-                      BaseStaticState.prevWalAdvancedScreen = Screen.importSeed;
-                      List<String> mnemonic = List.empty(growable: true);
-                      for (var element in _mnemonicInput) {
-                        mnemonic.add(element.text.toLowerCase().trim());
-                      }
-                      BaseStaticState.importWalletWords = mnemonic;
-                      BaseStaticState.tempWalletName = _walletNameInput.text;
-                      Navigator.of(context).push(_createAdvancedRoute());
-                    },
+                    onPressed: _importLoading
+                        ? null
+                        : () {
+                            BaseStaticState.prevWalAdvancedScreen =
+                                Screen.importSeed;
+                            List<String> mnemonic = List.empty(growable: true);
+                            for (var element in _mnemonicInput) {
+                              mnemonic.add(element.text.toLowerCase().trim());
+                            }
+                            BaseStaticState.importWalletWords = mnemonic;
+                            BaseStaticState.tempWalletName =
+                                _walletNameInput.text;
+                            Navigator.of(context).push(_createAdvancedRoute());
+                          },
                     icon: const Icon(Icons.file_open_rounded),
                     label: Text(
                         AppLocalizations.of(context)?.walletAdvancedButton ??
@@ -184,11 +188,10 @@ class _ImportSeedState extends State<ImportSeed> {
                                   Navigator.of(context)
                                       .push(_createHomeRoute());
                                 });
-                              } catch (e) {
-                                setState(() {
-                                  _importLoading = false;
-                                });
-                              }
+                              } catch (e) {}
+                              setState(() {
+                                _importLoading = false;
+                              });
                             } else {
                               // move to biometrics
                               BaseStaticState.tempWalletName =

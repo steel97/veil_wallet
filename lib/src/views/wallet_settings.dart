@@ -1,17 +1,18 @@
 // ignore_for_file: empty_catches
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
-import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
+import 'package:veil_wallet/src/views/welcome.dart';
 
 // Create a Form widget.
 class WalletSettings extends StatefulWidget {
@@ -30,7 +31,6 @@ class _WalletSettingsState extends State<WalletSettings> {
 
   bool _actionBusy = false;
   bool _saveBusy = false;
-  bool _deleteWalletBusy = false;
 
   @override
   void initState() {
@@ -219,7 +219,9 @@ class _WalletSettingsState extends State<WalletSettings> {
                                 ]),
                             actions: [
                               TextButton(
-                                  onPressed: _deleteWalletBusy
+                                  onPressed: context
+                                          .watch<DialogsState>()
+                                          .deleteWalletActive
                                       ? null
                                       : () {
                                           Navigator.of(context).pop();
@@ -227,21 +229,70 @@ class _WalletSettingsState extends State<WalletSettings> {
                                   child: Text(
                                       AppLocalizations.of(context)?.noAction ??
                                           stringNotFoundText)),
-                              TextButton(
-                                  onPressed: _deleteWalletBusy
+                              TextButton.icon(
+                                  onPressed: context
+                                          .watch<DialogsState>()
+                                          .deleteWalletActive
                                       ? null
-                                      : () {
-                                          setState(() {
-                                            _deleteWalletBusy = true;
-                                          });
+                                      : () async {
+                                          context
+                                              .read<DialogsState>()
+                                              .setDeleteWalletActive(true);
 
-                                          try {} catch (e) {
-                                            setState(() {
-                                              _deleteWalletBusy = false;
-                                            });
-                                          }
+                                          try {
+                                            // delete wallet
+                                            var res =
+                                                await WalletHelper.deleteWallet(
+                                                    BaseStaticState
+                                                        .walSettingsId,
+                                                    context);
+                                            BaseStaticState.walSettingsId = -1;
+                                            if (res == null) {
+                                              // error, wallet not found, move to home page
+                                              WidgetsBinding.instance
+                                                  .scheduleFrameCallback((_) {
+                                                Navigator.of(context)
+                                                    .push(_createBackRoute());
+                                              });
+                                            } else if (res == -1) {
+                                              // all wallets deleted, move to welcome screen
+                                              WidgetsBinding.instance
+                                                  .scheduleFrameCallback((_) {
+                                                Navigator.of(context).push(
+                                                    _createWelcomeRoute());
+                                              });
+                                            } else {
+                                              // move to home page (new wallet selected)
+                                              WidgetsBinding.instance
+                                                  .scheduleFrameCallback((_) {
+                                                Navigator.of(context)
+                                                    .push(_createBackRoute());
+                                              });
+                                            }
+                                          } catch (e) {}
+
+                                          WidgetsBinding.instance
+                                              .scheduleFrameCallback((_) {
+                                            context
+                                                .read<DialogsState>()
+                                                .setDeleteWalletActive(false);
+                                          });
                                         },
-                                  child: Text(
+                                  icon: context
+                                          .watch<DialogsState>()
+                                          .deleteWalletActive
+                                      ? Container(
+                                          width: 24,
+                                          height: 24,
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: CircularProgressIndicator(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            strokeWidth: 3,
+                                          ),
+                                        )
+                                      : const SizedBox(width: 1, height: 1),
+                                  label: Text(
                                       AppLocalizations.of(context)?.yesAction ??
                                           stringNotFoundText))
                             ]);
@@ -279,24 +330,38 @@ class _WalletSettingsState extends State<WalletSettings> {
 
 Route _createBackRoute() {
   return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) {
-    if (false) {
-      // check if we have wallets, if no - move to welcome
-      return const NewWalletSaveSeed();
-    }
-    return const Home();
-  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    const begin = Offset(-1.0, 0.0);
-    const end = Offset.zero;
-    const curve = Curves.ease;
+      pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
 
-    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-    return SlideTransition(
-      position: animation.drive(tween),
-      child: child,
-    );
-  });
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createWelcomeRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Welcome(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }
 
 void _resetState() {
