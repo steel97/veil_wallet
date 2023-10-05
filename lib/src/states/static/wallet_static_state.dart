@@ -1,8 +1,8 @@
 import 'package:veil_light_plugin/veil_light.dart';
 
 class WalletEntry {
-  final String name;
-  final int id;
+  String name;
+  int id;
 
   WalletEntry(this.name, this.id);
 }

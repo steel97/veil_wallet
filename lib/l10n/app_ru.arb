@@ -102,5 +102,11 @@
   "cameraNoPermissions": "У приложения нет доступа к камере",
   "scanQRTitle": "Сканировать QR код",
   "loadingWalletTitle": "Кошелек",
-  "loadingWalletText": "Загрузка кошелька может занять некоторое время, пожалуйста подождите"
+  "loadingWalletText": "Загрузка кошелька может занять некоторое время, пожалуйста подождите",
+  "walletSettingsTitle": "Настройки кошелька",
+  "deleteWalletAction": "Удалить кошелек",
+  "deleteWalletConfirmationTitle": "Удалить кошелек",
+  "deleteWalletConfirmation": "Вы действительно хотите удалить кошелек?",
+  "yesAction": "Да",
+  "noAction": "Нет"
 }

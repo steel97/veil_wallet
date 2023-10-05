@@ -21,4 +21,9 @@ class BaseStaticState {
   static String explorerAddress = defaultExplorerAddress;
   static String txExplorerAddress = defaultTxExplorerAddress;
   static bool useMinimumUTXOs = false;
+
+  // wallet settings
+  static int walSettingsId = -1;
+  static String walSettingsName = '';
+  static String walSettingsPassword = '';
 }

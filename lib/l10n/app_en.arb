@@ -437,5 +437,29 @@
   "loadingWalletText": "Wallet loading may take a while, please be patient",
   "@loadingWalletText": {
     "description": "Loading wallet text"
+  },
+  "walletSettingsTitle": "Wallet settings",
+  "@walletSettingsTitle": {
+    "description": "Wallet settings screen title"
+  },
+  "deleteWalletAction": "Delete wallet",
+  "@deleteWalletAction": {
+    "description": "Delete wallet action text (wallet settings)"
+  },
+  "deleteWalletConfirmationTitle": "Delete wallet",
+  "@deleteWalletConfirmationTitle": {
+    "description": "Delete wallet title"
+  },
+  "deleteWalletConfirmation": "Are you sure you want to delete the wallet?",
+  "@deleteWalletConfirmation": {
+    "description": "Delete wallet description"
+  },
+  "yesAction": "Yes",
+  "@yesAction": {
+    "description": "Yes action text"
+  },
+  "noAction": "No",
+  "@noAction": {
+    "description": "No action text"
   }
 }
