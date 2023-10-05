@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
@@ -85,7 +82,8 @@ class _WalletAdvancedState extends State<WalletAdvanced> {
           )),
     ];
 
-    if (BaseStaticState.prevWalAdvancedScreen != Screen.newWallet) {
+    // TO-DO create transactions.json logic
+    /*if (BaseStaticState.prevWalAdvancedScreen != Screen.newWallet) {
       settingsAdvanced.add(Container(
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: OutlinedButton.icon(
@@ -110,7 +108,7 @@ class _WalletAdvancedState extends State<WalletAdvanced> {
               overflow: TextOverflow.ellipsis),
         ),
       ));
-    }
+    }*/
 
     settingsAdvanced.add(Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),

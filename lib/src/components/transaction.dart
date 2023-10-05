@@ -1,9 +1,9 @@
 // ignore_for_file: empty_catches
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+//import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:veil_wallet/src/core/constants.dart';
+//import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/transactions.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 
@@ -37,12 +37,17 @@ class Transaction extends StatelessWidget {
 
     return Icon(
       size: 28,
-      Icons.device_unknown_rounded,
+      Icons.arrow_outward_rounded, //outwards
       color: Theme.of(context).primaryColor,
     );
   }
 
   Text getTypeText(BuildContext context) {
+    return const Text(
+      'RingCT',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
+    /*
     if (type == TxType.sent) {
       return Text(
         AppLocalizations.of(context)?.txTypeSent ?? stringNotFoundText,
@@ -58,7 +63,7 @@ class Transaction extends StatelessWidget {
     return Text(
       AppLocalizations.of(context)?.txTypeUnknown ?? stringNotFoundText,
       style: const TextStyle(fontWeight: FontWeight.bold),
-    );
+    );*/
   }
 
   Text getAmountText(BuildContext context) {
@@ -76,9 +81,10 @@ class Transaction extends StatelessWidget {
     }
 
     return Text(' $amountTmp veil',
-        style: const TextStyle(
+        style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 148, 148, 148)));
+            color: Theme.of(context)
+                .primaryColor)); //color: Color.fromARGB(255, 148, 148, 148)));
   }
 
   @override

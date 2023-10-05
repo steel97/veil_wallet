@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/extensions/encryption/aes_cbc.dart';
@@ -23,6 +22,7 @@ class TransactionModel {
 
 class TransactionCache {
   static List<TransactionModel> currentTxList = [];
+  // below lines is TO-DO, currently not used
   static List<String> unknownTransactions = List.empty(growable: true);
   static List<String> sentTransactions = List.empty(growable: true);
 
@@ -124,8 +124,6 @@ class TransactionCache {
     final decryptedBytes = unpad(paddedDecryptedBytes);
     var jsonText =
         json.decode(utf8.decode(decryptedBytes)) as Map<String, dynamic>;
-    print('load');
-    print(jsonText);
 
     unknownTransactions = List.empty(growable: true);
     for (dynamic val in (jsonText["unknownTransactions"] as List<dynamic>)) {

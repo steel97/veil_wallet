@@ -113,5 +113,6 @@
   "nodeFailedDescription": "Не удалось подключится к ноде, попробуйте ещё раз",
   "nodeFailedAction": "Переподключится",
   "nodeFailedAlertTitle": "Ошибка",
-  "nodeFailedAlertDescription": "Не удалось подключится к ноде, попробуйте ещё раз"
+  "nodeFailedAlertDescription": "Не удалось подключится к ноде, попробуйте ещё раз",
+  "transactionsListEmpty": "Транзакции не найдены или ещё не загружены"
 }

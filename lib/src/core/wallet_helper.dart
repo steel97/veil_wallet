@@ -227,9 +227,10 @@ class WalletHelper {
     ];
 
     await selectAddress(context);
-    await TransactionCache.loadData(WalletStaticState.activeWallet);
+    //await TransactionCache.loadData(WalletStaticState.activeWallet);
 
     WalletStaticState.walletWatching = true;
+
     for (var addr in WalletHelper.getAllAddresses()) {
       await reloadTxes(addr, shouldSetInitialTxes: shouldSetInitialTxes);
     }
@@ -259,6 +260,11 @@ class WalletHelper {
   }
 
   static Future setSelectedAddress(String address, BuildContext context) async {
+    TransactionCache.currentTxList = [];
+    StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .incrementTxRerender();
+
     var storageService = StorageService();
     var walEntry = context
         .read<WalletState>()
@@ -266,6 +272,9 @@ class WalletHelper {
         .firstWhere((element) => element.address == address);
 
     context.read<WalletState>().setSelectedAddress(walEntry.address);
+
+    var addr = getAddress(walEntry.accountType);
+    await reloadTxes(addr);
 
     var activeAddressConvertedType = 0;
     if (walEntry.accountType == AccountType.CHANGE) {
@@ -448,8 +457,8 @@ class WalletHelper {
 
       await uiReload();
 
-      TransactionCache.addSentTransaction(WalletStaticState.activeWallet,
-          address.getStringAddress(), res.txid ?? '');
+      /*TransactionCache.addSentTransaction(WalletStaticState.activeWallet,
+          address.getStringAddress(), res.txid ?? '');*/
       return res.txid;
     } catch (e2) {
       return null;
@@ -477,16 +486,18 @@ class WalletHelper {
       WalletHelper.mempool = result.result ?? [];
     }
 
-    if (shouldSetInitialTxes) {
+    /*if (shouldSetInitialTxes) {
       await TransactionCache.setInitialTxes(
           WalletStaticState.activeWallet, txes ?? []);
     } else {
       await TransactionCache.updateTxList(
           WalletStaticState.activeWallet, txes ?? []);
-    }
+    }*/
 
     // TO-DO check latest scanned tx
     if (incrementUpdate) {
+      await TransactionCache.updateTxList(
+          WalletStaticState.activeWallet, txes ?? []);
       // update current txes and save transactions.json
 
       StatesBridge.navigatorKey.currentContext

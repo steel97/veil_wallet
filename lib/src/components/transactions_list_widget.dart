@@ -18,7 +18,7 @@ class TransactionsListWidget extends StatelessWidget {
       var hasTxSent = TransactionCache.sentTransactions.contains(tx.txId);
       var hasTxUnk = TransactionCache.unknownTransactions.contains(tx.txId);
 
-      var type = TxType.received;
+      var type = TxType.unknown;
       if (hasTxSent) {
         type = TxType.sent;
       } else if (hasTxUnk) {
@@ -28,6 +28,14 @@ class TransactionsListWidget extends StatelessWidget {
       txes.add(Transaction(
           incKey: incrementVal, type: type, txid: tx.txId, amount: tx.amount));
       txes.add(const SizedBox(height: 5));
+    }
+
+    if (TransactionCache.currentTxList.isEmpty) {
+      txes.add(Text(
+        AppLocalizations.of(context)?.transactionsListEmpty ??
+            stringNotFoundText,
+        textAlign: TextAlign.center,
+      ));
     }
 
     return Container(

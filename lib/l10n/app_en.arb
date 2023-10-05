@@ -481,5 +481,9 @@
   "nodeFailedAlertDescription": "Failed to connect to node, please try again",
   "@nodeFailedAlertDescription": {
     "description": "Node failed alert description"
+  },
+  "transactionsListEmpty": "Transactions not found or not yet loaded",
+  "@transactionsListEmpty": {
+    "description": "Transactions list empty text on home page"
   }
 }
