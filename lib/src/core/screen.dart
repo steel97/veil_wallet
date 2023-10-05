@@ -1,4 +1,5 @@
 enum Screen {
+  notset,
   welcome,
   importSeed,
   newWallet,
@@ -9,4 +10,6 @@ enum Screen {
   home,
   about,
   makeTx,
+  auth,
+  nodeFail
 }

@@ -108,5 +108,10 @@
   "deleteWalletConfirmationTitle": "Удалить кошелек",
   "deleteWalletConfirmation": "Вы действительно хотите удалить кошелек?",
   "yesAction": "Да",
-  "noAction": "Нет"
+  "noAction": "Нет",
+  "nodeFailedTitle": "Ошибка",
+  "nodeFailedDescription": "Не удалось подключится к ноде, попробуйте ещё раз",
+  "nodeFailedAction": "Переподключится",
+  "nodeFailedAlertTitle": "Ошибка",
+  "nodeFailedAlertDescription": "Не удалось подключится к ноде, попробуйте ещё раз"
 }

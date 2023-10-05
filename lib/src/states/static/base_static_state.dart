@@ -7,6 +7,7 @@ class BaseStaticState {
   static Screen prevScreen = Screen.welcome;
   static Screen prevWalAdvancedScreen = Screen.importSeed;
   static Screen prevScanQRScreen = Screen.home;
+  static Screen prevNodeFailSceren = Screen.notset;
   static bool useHomeBack = false;
   static bool biometricsActive = false;
 

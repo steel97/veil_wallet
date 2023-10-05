@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,7 @@ import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/auth.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/loading.dart';
+import 'package:veil_wallet/src/views/node_fail.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 
 void main() async {
@@ -122,19 +125,32 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                 'false');
 
         if (biometricsRequired) {
-          // go to auth retry screen
+          // go to auth screen
           WidgetsBinding.instance.scheduleFrameCallback((_) {
             Navigator.of(context).push(_createAuthRetryRoute());
           });
         } else {
           // go to home
-          if (moveToScreen) {
-            // ignore: use_build_context_synchronously
-            await WalletHelper.prepareHomePage(context);
-            WidgetsBinding.instance.scheduleFrameCallback((_) {
-              Navigator.of(context).push(_createHomeRoute());
-            });
-          }
+          WidgetsBinding.instance.scheduleFrameCallback((_) async {
+            if (moveToScreen) {
+              // ignore: use_build_context_synchronously
+              try {
+                await WalletHelper.prepareHomePage(context);
+                WidgetsBinding.instance.scheduleFrameCallback((_) async {
+                  WidgetsBinding.instance.scheduleFrameCallback((_) {
+                    Navigator.of(context).push(_createHomeRoute());
+                  });
+                });
+              } catch (e) {
+                // move to retry screen
+                WidgetsBinding.instance.scheduleFrameCallback((_) async {
+                  WidgetsBinding.instance.scheduleFrameCallback((_) {
+                    Navigator.of(context).push(_createNodeFailRoute());
+                  });
+                });
+              }
+            }
+          });
         }
       }
     } else {
@@ -163,6 +179,10 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     BaseStaticState.useMinimumUTXOs = bool.parse(
         await storageService.readSecureData(prefsSettingsUseMinimumUTXOs) ??
             'false');
+
+    RpcRequester.NODE_URL =
+        'http://127.0.0.1:456'; //BaseStaticState.nodeAddress;
+    RpcRequester.NODE_PASSWORD = BaseStaticState.nodeAuth;
   }
 
   @override
@@ -182,7 +202,6 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       if (_isInForeground && _isInForeground != curState) {
         checkWalletAccess(false);
       }
-      // ignore: empty_catches
     } catch (e) {}
     _isInForeground = curState;
   }
@@ -240,6 +259,24 @@ Route _createWelcomeRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
     return const Welcome();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
+}
+
+Route _createNodeFailRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return const NodeFail();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(1.0, 0.0);
     const end = Offset.zero;

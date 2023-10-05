@@ -461,5 +461,25 @@
   "noAction": "No",
   "@noAction": {
     "description": "No action text"
+  },
+  "nodeFailedTitle": "Error",
+  "@nodeFailedTitle": {
+    "description": "Node failed screen title"
+  },
+  "nodeFailedDescription": "Failed to connect to node, please try again",
+  "@nodeFailedDescription": {
+    "description": "Node failed screen description"
+  },
+  "nodeFailedAction": "Reconnect",
+  "@nodeFailedAction": {
+    "description": "Node failed screen action"
+  },
+  "nodeFailedAlertTitle": "Error",
+  "@nodeFailedAlertTitle": {
+    "description": "Node failed alert title"
+  },
+  "nodeFailedAlertDescription": "Failed to connect to node, please try again",
+  "@nodeFailedAlertDescription": {
+    "description": "Node failed alert description"
   }
 }

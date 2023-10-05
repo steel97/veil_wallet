@@ -142,6 +142,38 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                                       .push(_createHomeRoute());
                                 });
                               } catch (e) {
+                                WidgetsBinding.instance
+                                    .scheduleFrameCallback((_) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text(AppLocalizations.of(
+                                                        context)
+                                                    ?.nodeFailedAlertTitle ??
+                                                stringNotFoundText),
+                                            content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(AppLocalizations.of(
+                                                              context)
+                                                          ?.nodeFailedAlertDescription ??
+                                                      stringNotFoundText)
+                                                ]),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.alertOkAction ??
+                                                          stringNotFoundText))
+                                            ]);
+                                      });
+                                });
+
                                 setState(() {
                                   _createLoading = false;
                                 });

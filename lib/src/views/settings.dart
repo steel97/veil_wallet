@@ -9,9 +9,11 @@ import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/about.dart';
+import 'package:veil_wallet/src/views/auth.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/import_seed.dart';
 import 'package:veil_wallet/src/views/new_wallet_save_seed.dart';
+import 'package:veil_wallet/src/views/node_fail.dart';
 import 'package:veil_wallet/src/views/setup_biometrics.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
 import 'package:veil_light_plugin/veil_light.dart';
@@ -316,6 +318,11 @@ class _SettingsState extends State<Settings> {
                                 BaseStaticState.useMinimumUTXOs =
                                     _useMinimumUTXOs;
 
+                                RpcRequester.NODE_URL =
+                                    BaseStaticState.nodeAddress;
+                                RpcRequester.NODE_PASSWORD =
+                                    BaseStaticState.nodeAuth;
+
                                 var storageService = StorageService();
                                 await storageService.writeSecureData(
                                     StorageItem(prefsSettingsNodeUrl,
@@ -386,6 +393,15 @@ Route _createBackRoute() {
         BaseStaticState.useHomeBack) {
       return const Home();
     }
+
+    if (BaseStaticState.prevNodeFailSceren == Screen.auth) {
+      return const Auth();
+    }
+
+    if (BaseStaticState.prevNodeFailSceren == Screen.nodeFail) {
+      return const NodeFail();
+    }
+
     return const Welcome();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
     const begin = Offset(-1.0, 0.0);
