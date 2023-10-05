@@ -180,8 +180,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         await storageService.readSecureData(prefsSettingsUseMinimumUTXOs) ??
             'false');
 
-    RpcRequester.NODE_URL =
-        'http://127.0.0.1:456'; //BaseStaticState.nodeAddress;
+    RpcRequester.NODE_URL = BaseStaticState.nodeAddress;
     RpcRequester.NODE_PASSWORD = BaseStaticState.nodeAuth;
   }
 

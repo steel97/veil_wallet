@@ -1,84 +1,154 @@
+// ignore_for_file: empty_catches
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/transactions.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 
 class Transaction extends StatelessWidget {
-  const Transaction({super.key});
+  final int incKey;
+  final TxType type;
+  final String txid;
+  final double amount;
+
+  const Transaction(
+      {super.key,
+      required this.incKey,
+      required this.type,
+      required this.txid,
+      required this.amount});
+
+  Icon getTypeIcon(BuildContext context) {
+    if (type == TxType.sent) {
+      return Icon(
+        size: 28,
+        Icons.arrow_upward_rounded,
+        color: Theme.of(context).primaryColor,
+      );
+    } else if (type == TxType.received) {
+      return Icon(
+        size: 28,
+        Icons.arrow_downward_rounded,
+        color: Theme.of(context).primaryColor,
+      );
+    }
+
+    return Icon(
+      size: 28,
+      Icons.device_unknown_rounded,
+      color: Theme.of(context).primaryColor,
+    );
+  }
+
+  Text getTypeText(BuildContext context) {
+    if (type == TxType.sent) {
+      return Text(
+        AppLocalizations.of(context)?.txTypeSent ?? stringNotFoundText,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
+    } else if (type == TxType.received) {
+      return Text(
+        AppLocalizations.of(context)?.txTypeReceived ?? stringNotFoundText,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      );
+    }
+
+    return Text(
+      AppLocalizations.of(context)?.txTypeUnknown ?? stringNotFoundText,
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Text getAmountText(BuildContext context) {
+    var amountTmp = amount.toStringAsFixed(2);
+    if (type == TxType.sent) {
+      return Text('-$amountTmp veil',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor));
+    } else if (type == TxType.received) {
+      return Text('+$amountTmp veil',
+          style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 0, 211, 84)));
+    }
+
+    return Text(' $amountTmp veil',
+        style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 148, 148, 148)));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         width: double.infinity,
-        child: Card(
-            elevation: 0,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Row(children: [
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(120),
-                    color: Theme.of(context).colorScheme.background,
-                    //border: Border.all(width: 2)
-                  ),
-                  child: Icon(
-                    Icons.arrow_downward_rounded,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                SizedBox(width: 15),
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)?.txTypeReceived ??
-                          stringNotFoundText,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    //SizedBox(height: 5),
-                    /*Text(
-                      "6371d2a6307c42fbf9e9d277c651049ce436e98d8ea536772309f913d67278c6",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 13),
-                    )*/
-                    ExtendedText(
-                      "6371d2a6307c42fbf9e9d277c651049ce436e98d8ea536772309f913d67278c6",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      overflowWidget: TextOverflowWidget(
-                        position: TextOverflowPosition.middle,
-                        align: TextOverflowAlign.center,
-                        child: Container(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text(
-                                '\u2026',
-                                style: TextStyle(fontSize: 12),
-                              )
-                            ],
-                          ),
-                        ),
+        child: GestureDetector(
+            onTap: () async {
+              try {
+                var url = Uri.parse(BaseStaticState.txExplorerAddress
+                    .replaceAll('{txid}', txid));
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+              } catch (e) {}
+            },
+            child: Card(
+                elevation: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(children: [
+                    // icon
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(130),
+                        color: Theme.of(context).colorScheme.background,
+                        //border: Border.all(width: 2)
                       ),
-                      style: TextStyle(fontSize: 12),
+                      child: getTypeIcon(context),
                     ),
-                  ],
-                )),
-                SizedBox(width: 15),
-                Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                  Text("+ 0,99 veil",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 0, 211, 84))),
-                  //SizedBox(height: 5),
-                  Text(
-                    "20:44",
-                    style: TextStyle(fontSize: 12),
-                  )
-                ]),
-              ]),
-            )));
+                    // spacing between icon and data
+                    const SizedBox(width: 15),
+                    // all data
+                    Expanded(
+                        child: Column(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              getTypeText(context),
+                              const SizedBox(height: 5),
+                              getAmountText(context)
+                            ]),
+                        const SizedBox(width: 1, height: 5),
+                        Row(children: [
+                          Expanded(
+                              child: ExtendedText(
+                            txid,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            overflowWidget: const TextOverflowWidget(
+                              position: TextOverflowPosition.middle,
+                              align: TextOverflowAlign.center,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    '\u2026',
+                                    style: TextStyle(fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            ),
+                            style: const TextStyle(fontSize: 12),
+                          )),
+                        ])
+                      ],
+                    )),
+                  ]),
+                ))));
   }
 }

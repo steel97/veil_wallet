@@ -1,10 +1,13 @@
 // ignore_for_file: use_build_context_synchronously, empty_catches
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/transactions.dart';
+import 'package:veil_wallet/src/extensions/encryption/aes_cbc.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
@@ -62,7 +65,8 @@ class WalletHelper {
       List<String> mnemonic,
       String encryptionPassword,
       bool setActive,
-      BuildContext context) async {
+      BuildContext context,
+      {String transactionsJSON = ''}) async {
     var storageService = StorageService();
     var wallets =
         (await storageService.readSecureData(prefsWalletsStorage) ?? '')
@@ -99,9 +103,26 @@ class WalletHelper {
     await storageService.writeSecureData(StorageItem(
         prefsWalletEncryption + rndWalletId.toString(), encryptionPassword));
 
-    // 5. set active if required
+    // 5. generate and save tx encryption data
+    // IV for both encrypt and decrypt (must ALWAYS be 128 bits for AES)
+    var iv = generateRandomBytes(128 ~/ 8)!;
+    var key = generateRandomBytes(256 ~/ 8)!; // 256 bit decrypt key
+
+    final ivB64 = base64.encode(iv);
+    final keyB64 = base64.encode(key);
+
+    await storageService.writeSecureData(
+        StorageItem(prefsWalletTxEncIV + rndWalletId.toString(), ivB64));
+    await storageService.writeSecureData(
+        StorageItem(prefsWalletTxEncKey + rndWalletId.toString(), keyB64));
+
+    // 6. encrypt and save transactions.json if transactionsJSON != ''
+    bool txesImported = false;
+
+    // 7. set active if required
     if (setActive) {
-      await setActiveWallet(rndWalletId, context);
+      await setActiveWallet(rndWalletId, context,
+          shouldSetInitialTxes: !txesImported);
     }
 
     return rndWalletId;
@@ -135,7 +156,15 @@ class WalletHelper {
     await storageService
         .deleteSecureData(prefsWalletEncryption + walId.toString());
 
-    // 5. set active if exists
+    // 5. remove encryption keys for tx list
+    await storageService
+        .deleteSecureData(prefsWalletTxEncIV + walId.toString());
+    await storageService
+        .deleteSecureData(prefsWalletTxEncKey + walId.toString());
+
+    // TO-DO delete transactions list if exists
+
+    // 6. set active if exists
     int activeWal = -1;
     try {
       if (wallets.isNotEmpty) {
@@ -154,12 +183,14 @@ class WalletHelper {
   }
 
   static Future setActiveWallet(int activeWallet, BuildContext context,
-      {bool shouldSetActiveAddress = true}) async {
+      {bool shouldSetActiveAddress = true,
+      shouldSetInitialTxes = false}) async {
     await reloadWalletsCache();
 
     var storageService = StorageService();
     await storageService.writeSecureData(
         StorageItem(prefsActiveWallet, activeWallet.toString()));
+    WalletStaticState.walletWatching = false;
     WalletStaticState.activeWallet = activeWallet;
 
     //await storageService.deleteAllSecureData();
@@ -196,12 +227,16 @@ class WalletHelper {
     ];
 
     await selectAddress(context);
+    await TransactionCache.loadData(WalletStaticState.activeWallet);
 
     WalletStaticState.walletWatching = true;
     for (var addr in WalletHelper.getAllAddresses()) {
-      await reloadTxes(addr);
+      await reloadTxes(addr, shouldSetInitialTxes: shouldSetInitialTxes);
     }
 
+    StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .incrementTxRerender();
     await uiReload();
   }
 
@@ -413,15 +448,26 @@ class WalletHelper {
 
       await uiReload();
 
+      TransactionCache.addSentTransaction(WalletStaticState.activeWallet,
+          address.getStringAddress(), res.txid ?? '');
       return res.txid;
     } catch (e2) {
       return null;
     }
   }
 
-  static reloadTxes(LightwalletAddress addr) async {
+  static reloadTxes(LightwalletAddress addr,
+      {shouldSetInitialTxes = false}) async {
+    var activeAddr = StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .selectedAddress;
+
+    var incrementUpdate = false;
+    if (addr.getStringAddress() == activeAddr) {
+      incrementUpdate = true;
+    }
     // fetch txes
-    await addr.fetchTxes();
+    var txes = await addr.fetchTxes();
     // fetch mempool
     var responseRes = await RpcRequester.send(
         RpcRequest(jsonrpc: "1.0", method: "getrawmempool", params: []));
@@ -429,6 +475,23 @@ class WalletHelper {
 
     if (result.error == null) {
       WalletHelper.mempool = result.result ?? [];
+    }
+
+    if (shouldSetInitialTxes) {
+      await TransactionCache.setInitialTxes(
+          WalletStaticState.activeWallet, txes ?? []);
+    } else {
+      await TransactionCache.updateTxList(
+          WalletStaticState.activeWallet, txes ?? []);
+    }
+
+    // TO-DO check latest scanned tx
+    if (incrementUpdate) {
+      // update current txes and save transactions.json
+
+      StatesBridge.navigatorKey.currentContext
+          ?.read<WalletState>()
+          .incrementTxRerender();
     }
   }
 

@@ -62,6 +62,7 @@ class _NodeFailState extends State<NodeFail> {
                                 });
                                 // ignore: empty_catches
                               } catch (e) {
+                                print(e);
                                 WidgetsBinding.instance
                                     .scheduleFrameCallback((_) {
                                   showDialog(

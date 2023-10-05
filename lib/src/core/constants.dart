@@ -19,6 +19,8 @@ const prefsWalletMnemonics =
     'veil.wallet_mnemonics.'; // example veil.wallet_mnemonics.123 = <mnemonic phrase separated by spaces>
 const prefsWalletEncryption =
     'veil.wallet_encryption.'; // example veil.wallet_mnemonics.123 = <encryption passphrase>
+const prefsWalletTxEncIV = 'veil.wallet_txenciv.';
+const prefsWalletTxEncKey = 'veil.wallet_txenckey.';
 const prefsBiometricsEnabled = 'veil.biometrics_enabled'; // true/false
 const prefsActiveAddress = 'veil.active_address';
 

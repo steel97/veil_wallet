@@ -93,8 +93,9 @@ class BalanceWidget extends StatelessWidget {
                                                       .symmetric(
                                                       horizontal: 12),
                                                   child: Text(
-                                                    '${WalletHelper.formatAmount(context.watch<WalletState>().balance)} veil',
+                                                    ' ${WalletHelper.formatAmount(context.watch<WalletState>().balance)}', // show veil?
                                                     textAlign: TextAlign.end,
+                                                    maxLines: 1,
                                                     style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.normal),
