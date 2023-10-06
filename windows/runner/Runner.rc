@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "veil_wallet" "\0"
+            VALUE "CompanyName", "org.veilproject" "\0"
+            VALUE "FileDescription", "veil-wallet" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "veil_wallet" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "veil_wallet.exe" "\0"
-            VALUE "ProductName", "veil_wallet" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 veil-project. All rights reserved." "\0"
+            VALUE "OriginalFilename", "veil-wallet.exe" "\0"
+            VALUE "ProductName", "veil-wallet" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

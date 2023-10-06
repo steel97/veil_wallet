@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,8 +22,24 @@ import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/loading.dart';
 import 'package:veil_wallet/src/views/node_fail.dart';
 import 'package:veil_wallet/src/views/welcome.dart';
+import 'package:window_size/window_size.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('Veil Wallet');
+    double width = 720;
+    double height = 1280;
+    getCurrentScreen().then((screen) {
+      setWindowFrame(Rect.fromCenter(
+        center: screen!.frame.center,
+        width: width,
+        height: height,
+      ));
+    });
+  }
+
   VeilLightBase.initialize();
 
   Timer.periodic(

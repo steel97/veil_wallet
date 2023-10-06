@@ -48,7 +48,7 @@ class _MainLayoutState extends State<MainLayout> {
           forceMaterialTransparency: true,
           centerTitle: true,
           leadingWidth: 61,
-          leading: Row(children: [
+          /*leading: Row(children: [
             const SizedBox(width: 5),
             IconButton(
               icon: const Icon(Icons.notifications_rounded),
@@ -64,7 +64,8 @@ class _MainLayoutState extends State<MainLayout> {
                         image:
                             AssetImage('./assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
-          ]),
+          ]),*/
+          automaticallyImplyLeading: false,
           title: Text(
             title?.name ??
                 (AppLocalizations.of(context)?.walletTitle ??
