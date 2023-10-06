@@ -23,46 +23,48 @@ class _WelcomeLayoutState extends State<WelcomeLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-        label: AppLocalizations.of(context)?.welcomeTitle,
-        child: Scaffold(
-            appBar: AppBar(
-              //backgroundColor: Colors.transparent,
-              forceMaterialTransparency: true,
-              centerTitle: false,
-              automaticallyImplyLeading: false,
+    return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Semantics(
+            label: AppLocalizations.of(context)?.welcomeTitle,
+            child: Scaffold(
+                appBar: AppBar(
+                  //backgroundColor: Colors.transparent,
+                  forceMaterialTransparency: true,
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
 
-              /*leading: IconButton(
+                  /*leading: IconButton(
               icon: const Icon(Icons.notifications_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {}),*/
-              title: Container(
-                  width: 70,
-                  height: 28,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image:
-                              AssetImage('./assets/images/logo_full_light.png'),
-                          fit: BoxFit.fitHeight))),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.settings_rounded),
-                  color: Theme.of(context).colorScheme.primary,
-                  onPressed: () {
-                    BaseStaticState.prevScreen = Screen.welcome;
-                    BaseStaticState.useHomeBack = false;
-                    Navigator.of(context).push(_createSettingsRoute());
-                  },
-                  tooltip: AppLocalizations.of(context)?.settingsButton,
+                  title: Container(
+                      width: 70,
+                      height: 28,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  './assets/images/logo_full_light.png'),
+                              fit: BoxFit.fitHeight))),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.settings_rounded),
+                      color: Theme.of(context).colorScheme.primary,
+                      onPressed: () {
+                        BaseStaticState.prevScreen = Screen.welcome;
+                        BaseStaticState.useHomeBack = false;
+                        Navigator.of(context).push(_createSettingsRoute());
+                      },
+                      tooltip: AppLocalizations.of(context)?.settingsButton,
+                    ),
+                    const SizedBox(width: 10)
+                  ],
                 ),
-                const SizedBox(width: 10)
-              ],
-            ),
-            extendBody: true,
-            resizeToAvoidBottomInset: true,
-            body: SafeArea(
-              child: Container(child: widget.child),
-            )));
+                extendBody: true,
+                resizeToAvoidBottomInset: true,
+                body: SafeArea(
+                  child: Container(child: widget.child),
+                ))));
   }
 }
 

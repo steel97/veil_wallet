@@ -73,6 +73,7 @@ class WalletAppWrap extends StatelessWidget {
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      showSemanticsDebugger: false,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

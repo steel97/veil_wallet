@@ -20,19 +20,21 @@ class _LoadingLayoutState extends State<LoadingLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-        label: AppLocalizations.of(context)?.loadingAppSemantics,
-        child: Scaffold(
-            appBar: AppBar(
-              //backgroundColor: Colors.transparent,
-              forceMaterialTransparency: true,
-              centerTitle: false,
-              automaticallyImplyLeading: false,
-            ),
-            extendBody: true,
-            resizeToAvoidBottomInset: true,
-            body: SafeArea(
-              child: Container(child: widget.child),
-            )));
+    return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Semantics(
+            label: AppLocalizations.of(context)?.loadingAppSemantics,
+            child: Scaffold(
+                appBar: AppBar(
+                  //backgroundColor: Colors.transparent,
+                  forceMaterialTransparency: true,
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                ),
+                extendBody: true,
+                resizeToAvoidBottomInset: true,
+                body: SafeArea(
+                  child: Container(child: widget.child),
+                ))));
   }
 }

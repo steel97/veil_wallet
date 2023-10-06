@@ -25,23 +25,25 @@ class _BackLayoutState extends State<BackLayout> {
   @override
   Widget build(BuildContext context) {
     var backFunc = widget.back;
-    return Semantics(
-        label: widget.title,
-        child: Scaffold(
-            appBar: AppBar(
-              //backgroundColor: Colors.transparent,
-              forceMaterialTransparency: true,
-              centerTitle: true,
-              leading: IconButton(
-                  icon: const Icon(Icons.chevron_left_rounded),
-                  color: Theme.of(context).colorScheme.primary,
-                  onPressed: backFunc),
-              title: Text(widget.title ?? ""),
-            ),
-            extendBody: true,
-            resizeToAvoidBottomInset: true,
-            body: SafeArea(
-              child: Container(child: widget.child),
-            )));
+    return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Semantics(
+            label: widget.title,
+            child: Scaffold(
+                appBar: AppBar(
+                  //backgroundColor: Colors.transparent,
+                  forceMaterialTransparency: true,
+                  centerTitle: true,
+                  leading: IconButton(
+                      icon: const Icon(Icons.chevron_left_rounded),
+                      color: Theme.of(context).colorScheme.primary,
+                      onPressed: backFunc),
+                  title: Text(widget.title ?? ""),
+                ),
+                extendBody: true,
+                resizeToAvoidBottomInset: true,
+                body: SafeArea(
+                  child: Container(child: widget.child),
+                ))));
   }
 }
