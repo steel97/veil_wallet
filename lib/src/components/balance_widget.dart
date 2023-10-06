@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -162,8 +164,44 @@ class BalanceWidget extends StatelessWidget {
                                             color:
                                                 Theme.of(context).primaryColor),
                                         onSelected: (value) async {
-                                          await WalletHelper.setSelectedAddress(
-                                              value, context);
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                    title: Text(AppLocalizations
+                                                                .of(context)
+                                                            ?.loadingAddressTitle ??
+                                                        stringNotFoundText),
+                                                    content: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text(AppLocalizations
+                                                                      .of(context)
+                                                                  ?.loadingAddressDescription ??
+                                                              stringNotFoundText),
+                                                          const SizedBox(
+                                                              width: 2,
+                                                              height: 20),
+                                                          CircularProgressIndicator(
+                                                            semanticsLabel:
+                                                                AppLocalizations.of(
+                                                                        context)
+                                                                    ?.loadingAddressDescription,
+                                                          ),
+                                                        ]));
+                                              });
+
+                                          try {
+                                            await WalletHelper
+                                                .setSelectedAddress(
+                                                    value, context);
+                                          } catch (e) {}
+
+                                          WidgetsBinding.instance
+                                              .scheduleFrameCallback((_) {
+                                            Navigator.of(context).pop();
+                                          });
                                         },
                                         itemBuilder: (context) {
                                           List<PopupMenuItem<String>>

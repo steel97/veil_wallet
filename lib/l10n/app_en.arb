@@ -215,6 +215,10 @@
   "@homeNavSettings": {
     "description": "Bottom nav bar settings button label"
   },
+  "homeNavWebsite": "Website",
+  "@homeNavWebsite": {
+    "description": "Bottom nav bar website button label"
+  },
   "passwordsNotMatch": "Passwords doesn't match",
   "@passwordsNotMatch": {
     "description": "Advanced import/create settings password validation error"
@@ -432,11 +436,19 @@
   },
   "loadingWalletTitle": "Loading",
   "@loadingWalletTitle": {
-    "description": "Loading wallet text"
+    "description": "Loading wallet title"
   },
-  "loadingWalletText": "Wallet loading may take a while, please be patient",
-  "@loadingWalletText": {
-    "description": "Loading wallet text"
+  "loadingWalletDescription": "Wallet loading may take a while, please be patient",
+  "@loadingWalletDescription": {
+    "description": "Loading wallet description"
+  },
+  "loadingAddressTitle": "Loading",
+  "@loadingAddressTitle": {
+    "description": "Loading address title"
+  },
+  "loadingAddressDescription": "Address loading may take a while, please be patient",
+  "@loadingAddressDescription": {
+    "description": "Loading address description"
   },
   "walletSettingsTitle": "Wallet settings",
   "@walletSettingsTitle": {

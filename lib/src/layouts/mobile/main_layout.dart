@@ -51,15 +51,24 @@ class _MainLayoutState extends State<MainLayout> {
                   forceMaterialTransparency: true,
                   centerTitle: true,
                   leadingWidth: 61,
-                  /*leading: Row(children: [
-            const SizedBox(width: 5),
-            IconButton(
-              icon: const Icon(Icons.notifications_rounded),
-              color: Theme.of(context).colorScheme.primary,
-              onPressed: () {},
-              tooltip: AppLocalizations.of(context)?.notificationsAction,
-            ),
-            /*Container(
+                  leading: Row(children: [
+                    const SizedBox(width: 5),
+                    /*IconButton(
+                      icon: const Icon(Icons.notifications_rounded),
+                      color: Theme.of(context).colorScheme.primary,
+                      onPressed: null,
+                      tooltip:
+                          AppLocalizations.of(context)?.notificationsAction,
+                    ),*/
+                    IconButton(
+                      icon: const Icon(Icons.qr_code_scanner_rounded),
+                      color: Theme.of(context).colorScheme.primary,
+                      onPressed: () {
+                        _scanQRRoute();
+                      },
+                      tooltip: AppLocalizations.of(context)?.homeNavScanQR,
+                    ),
+                    /*Container(
                 width: 70,
                 height: 28,
                 decoration: const BoxDecoration(
@@ -67,7 +76,7 @@ class _MainLayoutState extends State<MainLayout> {
                         image:
                             AssetImage('./assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
-          ]),*/
+                  ]),
                   automaticallyImplyLeading: false,
                   title: Text(
                     title?.name ??
@@ -134,13 +143,13 @@ class _MainLayoutState extends State<MainLayout> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(AppLocalizations.of(context)
-                                                ?.loadingWalletText ??
+                                                ?.loadingWalletDescription ??
                                             stringNotFoundText),
                                         const SizedBox(width: 2, height: 20),
                                         CircularProgressIndicator(
                                           semanticsLabel:
                                               AppLocalizations.of(context)
-                                                  ?.loadingWalletText,
+                                                  ?.loadingWalletDescription,
                                         ),
                                       ]));
                             });
@@ -149,7 +158,7 @@ class _MainLayoutState extends State<MainLayout> {
                           await WalletHelper.setActiveWallet(value, context);
                         } catch (e) {}
 
-                        setState(() {
+                        WidgetsBinding.instance.scheduleFrameCallback((_) {
                           Navigator.of(context).pop();
                         });
                       },
@@ -188,9 +197,14 @@ class _MainLayoutState extends State<MainLayout> {
                               AppLocalizations.of(context)?.homeNavExplorer ??
                                   stringNotFoundText,
                         ),
-                        NavigationDestination(
+                        /*NavigationDestination(
                           icon: const Icon(Icons.qr_code_scanner_rounded),
                           label: AppLocalizations.of(context)?.homeNavScanQR ??
+                              stringNotFoundText,
+                        ),*/
+                        NavigationDestination(
+                          icon: const Icon(Icons.web_rounded),
+                          label: AppLocalizations.of(context)?.homeNavWebsite ??
                               stringNotFoundText,
                         ),
                         NavigationDestination(
@@ -211,10 +225,13 @@ class _MainLayoutState extends State<MainLayout> {
                             }
                           } catch (e) {}
                         } else if (index == 1) {
-                          BaseStaticState.prevScreen = Screen.home;
-                          BaseStaticState.prevScanQRScreen = Screen.home;
-                          Navigator.of(context)
-                              .pushReplacement(_createScanQRRoute());
+                          //_scanQRRoute();
+                          try {
+                            var url = Uri.parse(websiteAddress);
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            }
+                          } catch (e) {}
                         } else if (index == 2) {
                           BaseStaticState.prevScreen = Screen.home;
                           BaseStaticState.biometricsActive =
@@ -229,6 +246,12 @@ class _MainLayoutState extends State<MainLayout> {
                 body: SafeArea(
                   child: Container(child: widget.child),
                 ))));
+  }
+
+  _scanQRRoute() {
+    BaseStaticState.prevScreen = Screen.home;
+    BaseStaticState.prevScanQRScreen = Screen.home;
+    Navigator.of(context).pushReplacement(_createScanQRRoute());
   }
 }
 

@@ -260,6 +260,11 @@ class WalletHelper {
   }
 
   static Future setSelectedAddress(String address, BuildContext context) async {
+    var curAddr = context.read<WalletState>().selectedAddress;
+    if (curAddr == address) {
+      return;
+    }
+
     TransactionCache.currentTxList = [];
     StatesBridge.navigatorKey.currentContext
         ?.read<WalletState>()

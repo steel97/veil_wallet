@@ -2,6 +2,7 @@ const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
 const donationsAddress =
     'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
 const buyCryptoLink = 'https://nonkyc.io?ref=651b52ea55acbaf736300f57';
+const websiteAddress = 'https://veil-project.com';
 
 const stringNotFoundText = 'STRING_NOT_FOUND';
 const defaultWalletName = 'Default';

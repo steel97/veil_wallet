@@ -21,6 +21,8 @@ android:
 ```
 recommended java version: 19+
 check java to be compatible with gradle
+minSdkVersion must be equal in veil_wallet and veil_light_plugin dependency
+dependencies/classpath must be equal in veil_wallet and veil_light_plugin dependency
 ```
 
 

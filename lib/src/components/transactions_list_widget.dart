@@ -14,7 +14,7 @@ class TransactionsListWidget extends StatelessWidget {
     var incrementVal = context.watch<WalletState>().txRerender;
 
     List<Widget> txes = List.empty(growable: true);
-    for (TransactionModel tx in TransactionCache.currentTxList) {
+    for (TransactionModel tx in TransactionCache.currentTxList.reversed) {
       var hasTxSent = TransactionCache.sentTransactions.contains(tx.txId);
       var hasTxUnk = TransactionCache.unknownTransactions.contains(tx.txId);
 
