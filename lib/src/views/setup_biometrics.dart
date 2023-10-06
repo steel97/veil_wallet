@@ -240,8 +240,8 @@ class _SetupBiometricsState extends State<SetupBiometrics> {
                             width: 24,
                             height: 24,
                             padding: const EdgeInsets.all(2.0),
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
+                            child: CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor,
                               strokeWidth: 3,
                             ),
                           )
