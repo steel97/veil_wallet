@@ -1,5 +1,4 @@
 // ignore_for_file: empty_catches
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -42,13 +41,15 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     var title = WalletStaticState.wallets?.firstWhere(
         (element) => element.id == context.watch<WalletState>().selectedWallet);
-    return Scaffold(
-        appBar: AppBar(
-          //backgroundColor: Colors.transparent,
-          forceMaterialTransparency: true,
-          centerTitle: true,
-          leadingWidth: 61,
-          /*leading: Row(children: [
+    return Semantics(
+        label: title?.name,
+        child: Scaffold(
+            appBar: AppBar(
+              //backgroundColor: Colors.transparent,
+              forceMaterialTransparency: true,
+              centerTitle: true,
+              leadingWidth: 61,
+              /*leading: Row(children: [
             const SizedBox(width: 5),
             IconButton(
               icon: const Icon(Icons.notifications_rounded),
@@ -65,14 +66,14 @@ class _MainLayoutState extends State<MainLayout> {
                             AssetImage('./assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
           ]),*/
-          automaticallyImplyLeading: false,
-          title: Text(
-            title?.name ??
-                (AppLocalizations.of(context)?.walletTitle ??
-                    stringNotFoundText),
-            overflow: TextOverflow.ellipsis,
-          ),
-          /*title: Container(
+              automaticallyImplyLeading: false,
+              title: Text(
+                title?.name ??
+                    (AppLocalizations.of(context)?.walletTitle ??
+                        stringNotFoundText),
+                overflow: TextOverflow.ellipsis,
+              ),
+              /*title: Container(
               child: Theme(
                   data: Theme.of(context).copyWith(
                     splashColor: Colors.transparent,
@@ -97,126 +98,131 @@ class _MainLayoutState extends State<MainLayout> {
                       //setState(() => _value = value);
                     },
                   )))),*/
-          actions: [
-            /*IconButton(
+              actions: [
+                /*IconButton(
               icon: const Icon(Icons.notifications_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {},
               tooltip: "Notifications",
             ),*/
-            /*IconButton(
+                /*IconButton(
               icon: const Icon(Icons.qr_code_scanner_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {}, //null = disabled
               tooltip: "Scan QR",
             ),*/
-            /*IconButton(
+                /*IconButton(
               icon: const Icon(Icons.settings_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {},
               tooltip: "Settings",
             ),*/
-            PopupMenuButton<int>(
-              icon: Icon(Icons.wallet_rounded,
-                  color: Theme.of(context).primaryColor),
-              onSelected: (value) async {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                          title: Text(AppLocalizations.of(context)
-                                  ?.loadingWalletTitle ??
-                              stringNotFoundText),
-                          content:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                            Text(AppLocalizations.of(context)
-                                    ?.loadingWalletText ??
-                                stringNotFoundText),
-                            const SizedBox(width: 2, height: 20),
-                            CircularProgressIndicator(
-                              semanticsLabel: AppLocalizations.of(context)
-                                  ?.loadingWalletText,
-                            ),
-                          ]));
+                PopupMenuButton<int>(
+                  icon: Icon(Icons.wallet_rounded,
+                      color: Theme.of(context).primaryColor),
+                  onSelected: (value) async {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              title: Text(AppLocalizations.of(context)
+                                      ?.loadingWalletTitle ??
+                                  stringNotFoundText),
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(AppLocalizations.of(context)
+                                            ?.loadingWalletText ??
+                                        stringNotFoundText),
+                                    const SizedBox(width: 2, height: 20),
+                                    CircularProgressIndicator(
+                                      semanticsLabel:
+                                          AppLocalizations.of(context)
+                                              ?.loadingWalletText,
+                                    ),
+                                  ]));
+                        });
+
+                    try {
+                      await WalletHelper.setActiveWallet(value, context);
+                    } catch (e) {}
+
+                    setState(() {
+                      Navigator.of(context).pop();
                     });
+                  },
+                  itemBuilder: (context) {
+                    List<PopupMenuItem<int>> items = List.empty(growable: true);
 
-                try {
-                  await WalletHelper.setActiveWallet(value, context);
-                } catch (e) {}
+                    for (WalletEntry element
+                        in WalletStaticState.wallets ?? []) {
+                      items.add(PopupMenuItem<int>(
+                          value: element.id,
+                          child: Text(element.name,
+                              overflow: TextOverflow.ellipsis)));
+                    }
 
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-              },
-              itemBuilder: (context) {
-                List<PopupMenuItem<int>> items = List.empty(growable: true);
-
-                for (WalletEntry element in WalletStaticState.wallets ?? []) {
-                  items.add(PopupMenuItem<int>(
-                      value: element.id,
-                      child:
-                          Text(element.name, overflow: TextOverflow.ellipsis)));
-                }
-
-                return items;
-              },
+                    return items;
+                  },
+                ),
+                const SizedBox(width: 10)
+              ],
             ),
-            const SizedBox(width: 10)
-          ],
-        ),
-        extendBody: true,
-        resizeToAvoidBottomInset: true,
-        bottomNavigationBar: Focus(
-            autofocus: true,
-            child: NavigationBar(
-              destinations: [
-                /*NavigationDestination(
+            extendBody: true,
+            resizeToAvoidBottomInset: true,
+            bottomNavigationBar: Focus(
+                autofocus: true,
+                child: NavigationBar(
+                  destinations: [
+                    /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
                   label: AppLocalizations.of(context)?.homeNavHome ??
                       stringNotFoundText,
                 ),*/
-                NavigationDestination(
-                  icon: const Icon(Icons.explore_rounded),
-                  label: AppLocalizations.of(context)?.homeNavExplorer ??
-                      stringNotFoundText,
-                ),
-                NavigationDestination(
-                  icon: const Icon(Icons.qr_code_scanner_rounded),
-                  label: AppLocalizations.of(context)?.homeNavScanQR ??
-                      stringNotFoundText,
-                ),
-                NavigationDestination(
-                  icon: const Icon(Icons.settings_rounded),
-                  label: AppLocalizations.of(context)?.homeNavSettings ??
-                      stringNotFoundText,
-                ),
-              ],
-              onDestinationSelected: (index) async {
-                BaseStaticState.useHomeBack = true;
-                if (index == 0) {
-                  try {
-                    var url = Uri.parse(BaseStaticState.explorerAddress);
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
-                    }
-                  } catch (e) {}
-                } else if (index == 1) {
-                  BaseStaticState.prevScreen = Screen.home;
-                  BaseStaticState.prevScanQRScreen = Screen.home;
-                  Navigator.of(context).pushReplacement(_createScanQRRoute());
-                } else if (index == 2) {
-                  BaseStaticState.prevScreen = Screen.home;
-                  BaseStaticState.biometricsActive = await _checkBiometrics();
+                    NavigationDestination(
+                      icon: const Icon(Icons.explore_rounded),
+                      label: AppLocalizations.of(context)?.homeNavExplorer ??
+                          stringNotFoundText,
+                    ),
+                    NavigationDestination(
+                      icon: const Icon(Icons.qr_code_scanner_rounded),
+                      label: AppLocalizations.of(context)?.homeNavScanQR ??
+                          stringNotFoundText,
+                    ),
+                    NavigationDestination(
+                      icon: const Icon(Icons.settings_rounded),
+                      label: AppLocalizations.of(context)?.homeNavSettings ??
+                          stringNotFoundText,
+                    ),
+                  ],
+                  onDestinationSelected: (index) async {
+                    BaseStaticState.useHomeBack = true;
+                    if (index == 0) {
+                      try {
+                        var url = Uri.parse(BaseStaticState.explorerAddress);
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
+                      } catch (e) {}
+                    } else if (index == 1) {
+                      BaseStaticState.prevScreen = Screen.home;
+                      BaseStaticState.prevScanQRScreen = Screen.home;
+                      Navigator.of(context)
+                          .pushReplacement(_createScanQRRoute());
+                    } else if (index == 2) {
+                      BaseStaticState.prevScreen = Screen.home;
+                      BaseStaticState.biometricsActive =
+                          await _checkBiometrics();
 
-                  WidgetsBinding.instance.scheduleFrameCallback((_) {
-                    Navigator.of(context).push(_createSettingsRoute());
-                  });
-                }
-              },
-            )),
-        body: SafeArea(
-          child: Container(child: widget.child),
-        ));
+                      WidgetsBinding.instance.scheduleFrameCallback((_) {
+                        Navigator.of(context).push(_createSettingsRoute());
+                      });
+                    }
+                  },
+                )),
+            body: SafeArea(
+              child: Container(child: widget.child),
+            )));
   }
 }
 
