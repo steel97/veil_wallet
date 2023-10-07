@@ -49,6 +49,7 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
                       child: PrettyQrView.data(
                           data:
                               'veil:${context.watch<WalletState>().selectedAddress}',
+                          errorCorrectLevel: QrErrorCorrectLevel.M,
                           decoration: PrettyQrDecoration(
                             shape: PrettyQrSmoothSymbol(
                               color: Theme.of(context).colorScheme.primary,

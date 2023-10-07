@@ -9,6 +9,31 @@ import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 class TransactionsListWidget extends StatelessWidget {
   const TransactionsListWidget({super.key});
 
+  Widget getAddressStatusWidget(BuildContext context, SyncState syncState) {
+    if (syncState == SyncState.synced) {
+      return Icon(Icons.check_rounded,
+          color: Theme.of(context).primaryColor,
+          semanticLabel:
+              AppLocalizations.of(context)?.syncStatusSyncedSemantics);
+    }
+
+    if (syncState == SyncState.failed) {
+      return Icon(Icons.close_rounded,
+          color: Theme.of(context).colorScheme.error,
+          semanticLabel:
+              AppLocalizations.of(context)?.syncStatusScanningFailedSemantics);
+    }
+
+    return SizedBox(
+        height: 24.0,
+        width: 24.0,
+        child: Center(
+            child: CircularProgressIndicator(
+          semanticsLabel:
+              AppLocalizations.of(context)?.syncStatusScanningSemantics,
+        )));
+  }
+
   @override
   Widget build(BuildContext context) {
     var incrementVal = context.watch<WalletState>().txRerender;
@@ -52,6 +77,8 @@ class TransactionsListWidget extends StatelessWidget {
                             stringNotFoundText,
                         style: const TextStyle(fontSize: 24),
                       ),
+                      getAddressStatusWidget(
+                          context, context.watch<WalletState>().syncState)
                       //Icon(Icons.refresh_rounded)
                       /*IconButton.filled(
                   onPressed: () {}, icon: const Icon(Icons.refresh_rounded))*/

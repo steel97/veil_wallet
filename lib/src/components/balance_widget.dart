@@ -164,7 +164,7 @@ class BalanceWidget extends StatelessWidget {
                                             color:
                                                 Theme.of(context).primaryColor),
                                         onSelected: (value) async {
-                                          showDialog(
+                                          /*showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
@@ -190,18 +190,19 @@ class BalanceWidget extends StatelessWidget {
                                                                     ?.loadingAddressDescription,
                                                           ),
                                                         ]));
-                                              });
+                                              });*/
 
                                           try {
                                             await WalletHelper
                                                 .setSelectedAddress(
-                                                    value, context);
+                                                    value, context,
+                                                    shouldForceReload: false);
                                           } catch (e) {}
 
-                                          WidgetsBinding.instance
+                                          /*WidgetsBinding.instance
                                               .scheduleFrameCallback((_) {
                                             Navigator.of(context).pop();
-                                          });
+                                          });*/
                                         },
                                         itemBuilder: (context) {
                                           List<PopupMenuItem<String>>

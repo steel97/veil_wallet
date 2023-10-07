@@ -388,7 +388,25 @@ class _MakeTxState extends State<MakeTx> {
                                                   AppLocalizations.of(context)
                                                           ?.alertCancelAction ??
                                                       stringNotFoundText)),
-                                          TextButton(
+                                          TextButton.icon(
+                                              icon: context
+                                                      .watch<DialogsState>()
+                                                      .sendTxActive
+                                                  ? Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2.0),
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        strokeWidth: 3,
+                                                      ),
+                                                    )
+                                                  : const SizedBox(
+                                                      width: 1, height: 1),
                                               onPressed:
                                                   context
                                                           .watch<DialogsState>()
@@ -513,7 +531,7 @@ class _MakeTxState extends State<MakeTx> {
                                                                 });
                                                           }
                                                         },
-                                              child: Text(
+                                              label: Text(
                                                   AppLocalizations.of(context)
                                                           ?.alertSendAction ??
                                                       stringNotFoundText))

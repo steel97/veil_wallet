@@ -8,6 +8,8 @@ class OwnedAddress {
   OwnedAddress(this.accountType, this.address);
 }
 
+enum SyncState { synced, scanning, failed }
+
 class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   int _selectedWallet = -1;
   String _selectedAddress = '';
@@ -15,6 +17,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   double _balance = 0.0;
   double _conversionRate = 0.0;
   int _txRerender = 0;
+  SyncState _syncState = SyncState.scanning;
 
   int get selectedWallet => _selectedWallet;
   String get selectedAddress => _selectedAddress;
@@ -22,6 +25,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   double get balance => _balance;
   double get conversionRate => _conversionRate;
   int get txRerender => _txRerender;
+  SyncState get syncState => _syncState;
 
   void setSelectedWallet(int wal) {
     _selectedWallet = wal;
@@ -50,6 +54,11 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
 
   void incrementTxRerender() {
     _txRerender++;
+    notifyListeners();
+  }
+
+  void setSyncState(SyncState val) {
+    _syncState = val;
     notifyListeners();
   }
 

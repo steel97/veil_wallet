@@ -259,16 +259,17 @@ class WalletHelper {
         retAddrList[selectedAddressIndex].address, context);
   }
 
-  static Future setSelectedAddress(String address, BuildContext context) async {
+  static Future setSelectedAddress(String address, BuildContext context,
+      {shouldForceReload = true}) async {
     var curAddr = context.read<WalletState>().selectedAddress;
     if (curAddr == address) {
       return;
     }
 
-    TransactionCache.currentTxList = [];
+    /*TransactionCache.currentTxList = [];
     StatesBridge.navigatorKey.currentContext
         ?.read<WalletState>()
-        .incrementTxRerender();
+        .incrementTxRerender();*/
 
     var storageService = StorageService();
     var walEntry = context
@@ -279,17 +280,23 @@ class WalletHelper {
     context.read<WalletState>().setSelectedAddress(walEntry.address);
 
     var addr = getAddress(walEntry.accountType);
-    await reloadTxes(addr);
+    if (shouldForceReload) {
+      await reloadTxes(addr);
+    } else {
+      await TransactionCache.updateTxList(
+          WalletStaticState.activeWallet, addr.getAllOutputs() ?? []);
+    }
 
     var activeAddressConvertedType = 0;
     if (walEntry.accountType == AccountType.CHANGE) {
       activeAddressConvertedType = 1;
     }
 
+    checkScanningState(addr);
+    await uiReload();
+
     await storageService.writeSecureData(
         StorageItem(prefsActiveAddress, activeAddressConvertedType.toString()));
-
-    await uiReload();
   }
 
   static Future reloadWalletsCache() async {
@@ -481,7 +488,7 @@ class WalletHelper {
       incrementUpdate = true;
     }
     // fetch txes
-    var txes = await addr.fetchTxes();
+    await addr.fetchTxes();
     // fetch mempool
     var responseRes = await RpcRequester.send(
         RpcRequest(jsonrpc: "1.0", method: "getrawmempool", params: []));
@@ -501,8 +508,9 @@ class WalletHelper {
 
     // TO-DO check latest scanned tx
     if (incrementUpdate) {
+      checkScanningState(addr);
       await TransactionCache.updateTxList(
-          WalletStaticState.activeWallet, txes ?? []);
+          WalletStaticState.activeWallet, addr.getAllOutputs() ?? []);
       // update current txes and save transactions.json
 
       StatesBridge.navigatorKey.currentContext
@@ -514,5 +522,22 @@ class WalletHelper {
   static String formatFiat(double coins, double conversionRate) {
     var oCcy = NumberFormat("#,##0.00", "en_US");
     return oCcy.format(coins * conversionRate);
+  }
+
+  static void checkScanningState(LightwalletAddress addr) {
+    //scanning, synced, failed
+    if (addr.getSyncStatus() == "scanning") {
+      StatesBridge.navigatorKey.currentContext
+          ?.read<WalletState>()
+          .setSyncState(SyncState.scanning);
+    } else if (addr.getSyncStatus() == "synced") {
+      StatesBridge.navigatorKey.currentContext
+          ?.read<WalletState>()
+          .setSyncState(SyncState.synced);
+    } else if (addr.getSyncStatus() == "failed") {
+      StatesBridge.navigatorKey.currentContext
+          ?.read<WalletState>()
+          .setSyncState(SyncState.failed);
+    }
   }
 }

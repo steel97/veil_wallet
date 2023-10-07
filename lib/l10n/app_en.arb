@@ -497,5 +497,17 @@
   "transactionsListEmpty": "Transactions not found or not yet loaded",
   "@transactionsListEmpty": {
     "description": "Transactions list empty text on home page"
+  },
+  "syncStatusSyncedSemantics": "Address is synced with node",
+  "@syncStatusSyncedSemantics": {
+    "description": "Lightwallet address sync semantics when address sucessfully synced"
+  },
+  "syncStatusScanningFailedSemantics": "Address sync failed",
+  "@syncStatusScanningFailedSemantics": {
+    "description": "Lightwallet address sync semantics when error occured"
+  },
+  "syncStatusScanningSemantics": "Node is now scanning your address",
+  "@syncStatusScanningSemantics": {
+    "description": "Lightwallet address sync semantics when scanning in progress"
   }
 }
