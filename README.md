@@ -9,7 +9,7 @@ A crossplatform veil light wallet written with dart/flutter.
 - [CMake](https://cmake.org/download/)
 
 #### Windows:
-- visual studio 2022 with c++ support, for android download
+- visual studio 2022 with c++ support
 
 #### Android:
 - [JDK 21](https://jdk.java.net/21/) (release builds are made with openjdk 21 under windows platform)
