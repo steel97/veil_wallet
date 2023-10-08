@@ -35,7 +35,7 @@ You may find solutions for common problems here: [flutter-notes.md](flutter-note
 
 ### Building project:
 
-Android:
+#### Android:
 ```
 # debug on device
 flutter run -d <device_id>
@@ -47,13 +47,13 @@ flutter build appbundle --release
 flutter build apk --release
 ```
 
-Windows:
+#### Windows:
 ```
 # release
 flutter build windows --release
 ```
 
-Viewing logs:
+#### Viewing logs:
 ```
 # flutter logs
 flutter logs
