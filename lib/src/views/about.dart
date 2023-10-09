@@ -1,5 +1,6 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var packageInfo = PackageInfo.fromPlatform();
     return BackLayout(
         title: AppLocalizations.of(context)?.aboutTitle,
         back: () {
@@ -86,7 +88,19 @@ class About extends StatelessWidget {
                         ),
                       ),
                       style: TextStyle(fontSize: 14),
-                    ))
+                    )),
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FutureBuilder(
+                        future: packageInfo,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<PackageInfo> snapshot) {
+                          return Text('ver. ${snapshot.data?.version}');
+                        })
+                  ],
+                ))
               ]),
         ));
   }

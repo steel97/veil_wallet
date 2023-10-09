@@ -205,7 +205,10 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
+    BaseStaticState.biometricsTimestamp = DateTime.now().millisecondsSinceEpoch;
+
     loadState();
     checkWalletAccess(true);
   }
@@ -217,7 +220,13 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         state == AppLifecycleState.inactive;
     try {
       if (_isInForeground && _isInForeground != curState) {
-        checkWalletAccess(false);
+        if (BaseStaticState.biometricsTimestamp + biometricsAuthTimeout <
+            DateTime.now().millisecondsSinceEpoch) {
+          checkWalletAccess(false);
+        }
+      } else if (!_isInForeground && _isInForeground != curState) {
+        BaseStaticState.biometricsTimestamp =
+            DateTime.now().millisecondsSinceEpoch;
       }
     } catch (e) {}
     _isInForeground = curState;

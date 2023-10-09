@@ -55,7 +55,6 @@ flutter build windows --release
 
 #### Viewing logs:
 ```
-# flutter logs
 flutter logs
 ```
 
