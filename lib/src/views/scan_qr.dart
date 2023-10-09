@@ -1,6 +1,5 @@
 // ignore_for_file: empty_catches
-
-import 'dart:developer';
+//import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class _ScanQRState extends State<ScanQR> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool _navBusy = false;
+  bool _prmActive = true;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -94,23 +94,29 @@ class _ScanQRState extends State<ScanQR> {
             : MediaQuery.of(context).size.height * 0.6;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
-    return QRView(
-      key: qrKey,
-      onQRViewCreated: _onQRViewCreated,
-      formatsAllowed: const [BarcodeFormat.qrcode],
-      overlay: QrScannerOverlayShape(
-          borderColor: Theme.of(context).primaryColor,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: scanArea),
-      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-    );
+    return _prmActive
+        ? QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            formatsAllowed: const [BarcodeFormat.qrcode],
+            overlay: QrScannerOverlayShape(
+                borderColor: Theme.of(context).primaryColor,
+                borderRadius: 10,
+                borderLength: 30,
+                borderWidth: 10,
+                cutOutSize: scanArea),
+            onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+          )
+        : const SizedBox(
+            width: 5,
+            height: 5,
+          );
   }
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
+      controller.resumeCamera();
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
@@ -159,13 +165,21 @@ class _ScanQRState extends State<ScanQR> {
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
-    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    //log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
+      _prmActive = false;
+      try {
+        controller?.stopCamera();
+      } catch (e) {}
+      controller?.dispose();
+      //WidgetsBinding.instance.scheduleFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(AppLocalizations.of(context)?.cameraNoPermissions ??
                 stringNotFoundText)),
       );
+      Navigator.of(context).pushReplacement(_createHomeRoute());
+      //});
     }
   }
 

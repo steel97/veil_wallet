@@ -218,13 +218,14 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     var curState = state == AppLifecycleState.resumed ||
         state == AppLifecycleState.inactive;
+
     try {
-      if (_isInForeground && _isInForeground != curState) {
+      if (curState && _isInForeground != curState) {
         if (BaseStaticState.biometricsTimestamp + biometricsAuthTimeout <
             DateTime.now().millisecondsSinceEpoch) {
           checkWalletAccess(false);
         }
-      } else if (!_isInForeground && _isInForeground != curState) {
+      } else if (!curState && _isInForeground != curState) {
         BaseStaticState.biometricsTimestamp =
             DateTime.now().millisecondsSinceEpoch;
       }
