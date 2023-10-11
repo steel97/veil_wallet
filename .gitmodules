@@ -1,0 +1,3 @@
+[submodule "deps/veil_light_plugin"]
+	path = deps/veil_light_plugin
+	url = https://github.com/steel97/veil_light_plugin.git
