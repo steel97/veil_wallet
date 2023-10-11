@@ -124,23 +124,23 @@ class _ScanQRState extends State<ScanQR> {
 
         var decodedString = result?.code;
         // check veil:<> address
-        var target = "";
-        if (decodedString?.contains(":") ?? false) {
-          var dstr = decodedString!.split(":");
-          if (dstr[0].toLowerCase() == "veil") {
+        var target = '';
+        if (decodedString?.contains(':') ?? false) {
+          var dstr = decodedString!.split(':');
+          if (dstr[0].toLowerCase() == 'veil') {
             target = dstr[1];
           } else {
             return;
           }
         } else {
-          target = decodedString ?? "";
+          target = decodedString ?? '';
         }
 
         // check amounts
         var uri = Uri.parse(target);
         String? localAmount = uri.queryParameters['amount'];
 
-        target = target.split("?")[0];
+        target = target.split('?')[0];
 
         // verify address
         if (!WalletHelper.verifyAddress(target)) {
@@ -149,7 +149,7 @@ class _ScanQRState extends State<ScanQR> {
 
         String? formattedAmount;
         if (localAmount != null) {
-          var amountNum = double.parse(localAmount.replaceAll(",", "."));
+          var amountNum = double.parse(localAmount.replaceAll(',', '.'));
           if (amountNum > 0 && amountNum.isFinite && !amountNum.isNaN) {
             formattedAmount = WalletHelper.formatAmount(amountNum);
           }

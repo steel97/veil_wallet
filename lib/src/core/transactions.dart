@@ -65,7 +65,7 @@ class TransactionCache {
 
   static Future addSentTransaction(
       int walletId, String fromAddress, String txId) async {
-    sentTransactions.add("$fromAddress:$txId");
+    sentTransactions.add('$fromAddress:$txId');
     // save json file to secure storage
     await saveData(walletId);
   }
@@ -126,12 +126,12 @@ class TransactionCache {
         json.decode(utf8.decode(decryptedBytes)) as Map<String, dynamic>;
 
     unknownTransactions = List.empty(growable: true);
-    for (dynamic val in (jsonText["unknownTransactions"] as List<dynamic>)) {
+    for (dynamic val in (jsonText['unknownTransactions'] as List<dynamic>)) {
       unknownTransactions.add(val.toString());
     }
 
     sentTransactions = List.empty(growable: true);
-    for (dynamic val in (jsonText["sentTransactions"] as List<dynamic>)) {
+    for (dynamic val in (jsonText['sentTransactions'] as List<dynamic>)) {
       sentTransactions.add(val.toString());
     }
   }

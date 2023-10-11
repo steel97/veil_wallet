@@ -91,7 +91,7 @@ class _WalletAdvancedState extends State<WalletAdvanced> {
           onPressed: () async {
             FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
-                allowedExtensions: ["json"],
+                allowedExtensions: ['json'],
                 withData: true);
 
             if (result != null) {

@@ -419,7 +419,7 @@ class WalletHelper {
       var recipientAddress = CVeilAddress.parse(params, recipient);
 
       var preparedUtxos = (await address.getUnspentOutputs())
-          .where((utxo) => !WalletHelper.mempool.contains(utxo.getId() ?? ""))
+          .where((utxo) => !WalletHelper.mempool.contains(utxo.getId() ?? ''))
           .toList();
       var utxos = preparedUtxos;
       utxos.sort((a, b) => a.getAmount(params).compareTo(b.getAmount(params)));
@@ -491,7 +491,7 @@ class WalletHelper {
     await addr.fetchTxes();
     // fetch mempool
     var responseRes = await RpcRequester.send(
-        RpcRequest(jsonrpc: "1.0", method: "getrawmempool", params: []));
+        RpcRequest(jsonrpc: '1.0', method: 'getrawmempool', params: []));
     var result = GetRawMempool.fromJson(responseRes);
 
     if (result.error == null) {
@@ -520,21 +520,21 @@ class WalletHelper {
   }
 
   static String formatFiat(double coins, double conversionRate) {
-    var oCcy = NumberFormat("#,##0.00", "en_US");
+    var oCcy = NumberFormat('#,##0.00', 'en_US');
     return oCcy.format(coins * conversionRate);
   }
 
   static void checkScanningState(LightwalletAddress addr) {
     //scanning, synced, failed
-    if (addr.getSyncStatus() == "scanning") {
+    if (addr.getSyncStatus() == 'scanning') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.scanning);
-    } else if (addr.getSyncStatus() == "synced") {
+    } else if (addr.getSyncStatus() == 'synced') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.synced);
-    } else if (addr.getSyncStatus() == "failed") {
+    } else if (addr.getSyncStatus() == 'failed') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.failed);

@@ -38,7 +38,7 @@ class _BackLayoutState extends State<BackLayout> {
                       icon: const Icon(Icons.chevron_left_rounded),
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: backFunc),
-                  title: Text(widget.title ?? ""),
+                  title: Text(widget.title ?? ''),
                 ),
                 extendBody: true,
                 resizeToAvoidBottomInset: true,

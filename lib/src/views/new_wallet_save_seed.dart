@@ -84,7 +84,7 @@ class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
                           /*Container(
                                 margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
-                                width: 24, child: Text("${index + 1}."))),*/
+                                width: 24, child: Text('${index + 1}.'))),*/
                           Expanded(
                               child: TextField(
                                   readOnly: true,

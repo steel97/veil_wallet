@@ -17,7 +17,7 @@ class WalletBgTasks {
     try {
       var response = await http.get(Uri.parse(conversionApiUrl));
       var json = jsonDecode(response.body);
-      double convRate = json["price"].toDouble();
+      double convRate = json['price'].toDouble();
       WalletHelper.updateConversionRate(convRate);
     } catch (e) {}
   }

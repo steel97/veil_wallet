@@ -93,7 +93,7 @@ class _ImportSeedState extends State<ImportSeed> {
                             /*Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
-                                width: 24, child: Text("${index + 1}."))),*/
+                                width: 24, child: Text('${index + 1}.'))),*/
                             Expanded(
                                 child: TextFormField(
                               validator: (value) {
