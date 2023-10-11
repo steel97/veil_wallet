@@ -192,6 +192,11 @@ class _MainLayoutState extends State<MainLayout> {
                       stringNotFoundText,
                 ),*/
                         NavigationDestination(
+                          icon: const Icon(Icons.web_rounded),
+                          label: AppLocalizations.of(context)?.homeNavWebsite ??
+                              stringNotFoundText,
+                        ),
+                        NavigationDestination(
                           icon: const Icon(Icons.explore_rounded),
                           label:
                               AppLocalizations.of(context)?.homeNavExplorer ??
@@ -203,11 +208,6 @@ class _MainLayoutState extends State<MainLayout> {
                               stringNotFoundText,
                         ),*/
                         NavigationDestination(
-                          icon: const Icon(Icons.web_rounded),
-                          label: AppLocalizations.of(context)?.homeNavWebsite ??
-                              stringNotFoundText,
-                        ),
-                        NavigationDestination(
                           icon: const Icon(Icons.settings_rounded),
                           label:
                               AppLocalizations.of(context)?.homeNavSettings ??
@@ -216,7 +216,7 @@ class _MainLayoutState extends State<MainLayout> {
                       ],
                       onDestinationSelected: (index) async {
                         BaseStaticState.useHomeBack = true;
-                        if (index == 0) {
+                        if (index == 1) {
                           try {
                             var url =
                                 Uri.parse(BaseStaticState.explorerAddress);
@@ -224,7 +224,7 @@ class _MainLayoutState extends State<MainLayout> {
                               await launchUrl(url);
                             }
                           } catch (e) {}
-                        } else if (index == 1) {
+                        } else if (index == 0) {
                           //_scanQRRoute();
                           try {
                             var url = Uri.parse(websiteAddress);

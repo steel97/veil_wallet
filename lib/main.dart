@@ -5,7 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:l10n_esperanto/l10n_esperanto.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
@@ -72,10 +74,12 @@ class WalletAppWrap extends StatelessWidget {
       //onSecondaryContainer: const Color.fromARGB(255, 35, 89, 247),
     );
     return MaterialApp(
+      locale: context.watch<WalletState>().locale,
       debugShowCheckedModeBanner: false,
       showSemanticsDebugger: false,
       onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: AppLocalizations.localizationsDelegates +
+          [MaterialLocalizationsEo.delegate],
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -202,6 +206,23 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     RpcRequester.NODE_PASSWORD = BaseStaticState.nodeAuth;
   }
 
+  Future<void> loadLocale() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var locale = prefs.getString(prefsLocaleStorage);
+    if (locale == null) {
+      return;
+    }
+    var localeObj = knownLanguages.firstWhere(
+        (element) => element.code == locale,
+        orElse: () => knownLanguages.first);
+
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
+      context
+          .read<WalletState>()
+          .setLocale(Locale.fromSubtags(languageCode: localeObj.code));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -209,6 +230,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     BaseStaticState.biometricsTimestamp = DateTime.now().millisecondsSinceEpoch;
 
+    loadLocale();
     loadState();
     checkWalletAccess(true);
   }

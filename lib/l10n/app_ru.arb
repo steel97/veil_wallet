@@ -120,5 +120,6 @@
 	"transactionsListEmpty": "Транзакции не найдены или ещё не загружены",
 	"syncStatusSyncedSemantics": "Адрес синхронизирован с нодой",
 	"syncStatusScanningFailedSemantics": "Не удалось синхронизировать адрес",
-	"syncStatusScanningSemantics": "Нода сканирует ваш адрес"
+	"syncStatusScanningSemantics": "Нода сканирует ваш адрес",
+	"localeSelectionTitle": "Выберите язык"
 }

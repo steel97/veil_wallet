@@ -509,5 +509,9 @@
 	"syncStatusScanningSemantics": "Node is now scanning your address",
 	"@syncStatusScanningSemantics": {
 		"description": "Lightwallet address sync semantics when scanning in progress"
+	},
+	"localeSelectionTitle": "Select language",
+	"@localeSelectionTitle": {
+		"description": "Locale selection dialog title"
 	}
 }

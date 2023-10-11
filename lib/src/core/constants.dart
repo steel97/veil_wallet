@@ -1,3 +1,12 @@
+import 'package:veil_wallet/src/core/locale_entry.dart';
+
+var knownLanguages = [
+  LocaleEntry('English', 'en'),
+  LocaleEntry('Español', 'es'),
+  LocaleEntry('Esperanto', 'eo'),
+  LocaleEntry('Русский', 'ru'),
+];
+
 const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
 const donationsAddress =
     'sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp';
@@ -12,6 +21,7 @@ const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
 const conversionApiUrl = 'https://veil.tools/api/getprice';
 
+const prefsLocaleStorage = 'veil.locale';
 const prefsWalletsStorage = 'veil.wallets'; // format: <random_id>,<random_id>
 const prefsActiveWallet = 'veil.active_wallet'; // format: <wallet_id>
 const prefsWalletNames =

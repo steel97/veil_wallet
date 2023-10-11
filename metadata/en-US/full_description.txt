@@ -1,0 +1,35 @@
+Veil - Privacy without compromise
+
+Veil is creating an encrypted equivalent of the cash economy, where privacy is the most convenient choice. Learn more, download the wallet, and join the journey. 
+
+PRIVACY BY DEFAULT
+
+Privacy should not be optional. Veil aims to make full-time privacy the most convenient choice.
+
+INCENTIVIZED PARTICIPATION
+
+By holding Veil, our users not only contribute to broadly distributed network security, but earn staking rewards — anonymously!
+
+FAIR LAUNCH
+
+No ICO. No premine. Veil's blockchain is secured via Proof-of-Work and Proof-of-Stake in order to combine both security and fair distribution.
+
+USER-FOCUSED
+
+In a digital cash society, participation extends to everybody, not just those who read user manuals. Veil aims to be one of the most user-friendly wallets in crypto.
+
+SELF-SUSTAINING
+
+The Veil network includes built-in self-funding for project development, operations, customer support, and ongoing research and development.
+
+FUTURE-SAFE
+
+Veil will continue to push the limits of cryptography and blockchain technology through Veil Labs, an entity dedicated to R&D and partnerships with leading academic institutions.
+
+
+Project website:
+https://veil-project.com
+Source code:
+https://github.com/steel97/veil_wallet
+Discord
+https://discord.veil-project.com

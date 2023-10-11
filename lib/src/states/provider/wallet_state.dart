@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 
 class OwnedAddress {
@@ -18,6 +19,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   double _conversionRate = 0.0;
   int _txRerender = 0;
   SyncState _syncState = SyncState.scanning;
+  Locale? _locale;
 
   int get selectedWallet => _selectedWallet;
   String get selectedAddress => _selectedAddress;
@@ -26,6 +28,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   double get conversionRate => _conversionRate;
   int get txRerender => _txRerender;
   SyncState get syncState => _syncState;
+  Locale? get locale => _locale;
 
   void setSelectedWallet(int wal) {
     _selectedWallet = wal;
@@ -59,6 +62,11 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
 
   void setSyncState(SyncState val) {
     _syncState = val;
+    notifyListeners();
+  }
+
+  void setLocale(Locale? val) {
+    _locale = val;
     notifyListeners();
   }
 

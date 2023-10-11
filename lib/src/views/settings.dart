@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/locale_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
@@ -34,6 +38,7 @@ class _SettingsState extends State<Settings> {
   final _txExplorerUrlController = TextEditingController();
   bool _useMinimumUTXOs = false;
   bool _isBiometricsActive = false;
+  String _locale = '';
 
   @override
   void initState() {
@@ -52,6 +57,14 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    if (_locale == '') {
+      final Locale appLocale = Localizations.localeOf(context);
+      _locale = appLocale.languageCode;
+    }
+
+    var curLocale =
+        knownLanguages.firstWhere((locale) => locale.code == _locale);
+
     List<Widget> authActions = [];
 
     if (BaseStaticState.prevScreen != Screen.welcome) {
@@ -296,6 +309,74 @@ class _SettingsState extends State<Settings> {
                                         });
                                       }),
                                 ])),
+                      ] +
+                      [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: OutlinedButton.icon(
+                              style: FilledButton.styleFrom(
+                                  minimumSize: const Size.fromHeight(45)),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                          title: Text(
+                                              AppLocalizations.of(context)
+                                                      ?.localeSelectionTitle ??
+                                                  stringNotFoundText),
+                                          content: StatefulBuilder(
+                                              // You need this, notice the parameters below:
+                                              builder: (BuildContext context,
+                                                  StateSetter setState) {
+                                            List<Widget> locales =
+                                                List.empty(growable: true);
+                                            for (LocaleEntry locale
+                                                in knownLanguages) {
+                                              locales.add(ListTile(
+                                                title: Text(locale.name),
+                                                leading: Radio<String>(
+                                                  value: locale.code,
+                                                  groupValue: _locale,
+                                                  onChanged:
+                                                      (String? value) async {
+                                                    setState(() {
+                                                      _locale = value ?? 'en';
+                                                      context
+                                                          .read<WalletState>()
+                                                          .setLocale(Locale
+                                                              .fromSubtags(
+                                                                  languageCode:
+                                                                      _locale));
+                                                    });
+                                                    final SharedPreferences
+                                                        prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    prefs.setString(
+                                                        prefsLocaleStorage,
+                                                        _locale);
+                                                    WidgetsBinding.instance
+                                                        .scheduleFrameCallback(
+                                                            (_) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    });
+                                                  },
+                                                ),
+                                              ));
+                                            }
+
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: locales,
+                                            );
+                                          }));
+                                    });
+                              },
+                              icon: const Icon(Icons.language_rounded),
+                              label: Text(curLocale.name)),
+                        ),
                       ] +
                       authActions +
                       [
