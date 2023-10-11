@@ -121,5 +121,6 @@
 	"syncStatusSyncedSemantics": "Адрес синхронизирован с нодой",
 	"syncStatusScanningFailedSemantics": "Не удалось синхронизировать адрес",
 	"syncStatusScanningSemantics": "Нода сканирует ваш адрес",
-	"localeSelectionTitle": "Выберите язык"
+	"localeSelectionTitle": "Выберите язык",
+	"nodeSelectionTitle": "Доступные ноды"
 }

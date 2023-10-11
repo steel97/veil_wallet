@@ -513,5 +513,9 @@
 	"localeSelectionTitle": "Select language",
 	"@localeSelectionTitle": {
 		"description": "Locale selection dialog title"
+	},
+	"nodeSelectionTitle": "Available nodes",
+	"@nodeSelectionTitle": {
+		"description": "Node selection dialog title"
 	}
 }

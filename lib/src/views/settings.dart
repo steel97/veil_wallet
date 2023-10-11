@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/locale_entry.dart';
+import 'package:veil_wallet/src/core/node_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
@@ -39,6 +40,8 @@ class _SettingsState extends State<Settings> {
   bool _useMinimumUTXOs = false;
   bool _isBiometricsActive = false;
   String _locale = '';
+  String _localeTmp = '';
+  String _selectedNode = defaultNodeAddress;
 
   @override
   void initState() {
@@ -202,10 +205,81 @@ class _SettingsState extends State<Settings> {
                                       stringNotFoundText),
                                   suffixIcon: IconButton(
                                     onPressed: () {
-                                      _nodeUrlController.text =
-                                          defaultNodeAddress;
+                                      //_nodeUrlController.text = defaultNodeAddress;
+                                      _selectedNode = _nodeUrlController.text;
+
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                                title: Text(AppLocalizations.of(
+                                                            context)
+                                                        ?.nodeSelectionTitle ??
+                                                    stringNotFoundText),
+                                                content: StatefulBuilder(
+                                                    // You need this, notice the parameters below:
+                                                    builder: (BuildContext
+                                                            context,
+                                                        StateSetter setState) {
+                                                  List<Widget> nodes =
+                                                      List.empty(
+                                                          growable: true);
+                                                  for (NodeEntry node
+                                                      in knownNodes) {
+                                                    nodes.add(ListTile(
+                                                      title: Text(node.name),
+                                                      leading: Radio<String>(
+                                                        value: node.url,
+                                                        groupValue:
+                                                            _selectedNode,
+                                                        onChanged: (String?
+                                                            value) async {
+                                                          setState(() {
+                                                            _selectedNode = value ??
+                                                                defaultNodeAddress;
+                                                          });
+                                                        },
+                                                      ),
+                                                    ));
+                                                  }
+
+                                                  return Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: nodes,
+                                                  );
+                                                }),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text(AppLocalizations
+                                                                  .of(context)
+                                                              ?.alertCancelAction ??
+                                                          stringNotFoundText)),
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        WidgetsBinding.instance
+                                                            .scheduleFrameCallback(
+                                                                (_) {
+                                                          _nodeUrlController
+                                                                  .text =
+                                                              _selectedNode;
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                      },
+                                                      child: Text(AppLocalizations
+                                                                  .of(context)
+                                                              ?.saveButton ??
+                                                          stringNotFoundText)),
+                                                ]);
+                                          });
                                     },
-                                    icon: const Icon(Icons.restore_rounded),
+                                    icon: const Icon(
+                                        Icons.miscellaneous_services_rounded),
                                   ),
                                 ),
                                 controller: _nodeUrlController)),
@@ -317,6 +391,7 @@ class _SettingsState extends State<Settings> {
                               style: FilledButton.styleFrom(
                                   minimumSize: const Size.fromHeight(45)),
                               onPressed: () {
+                                _localeTmp = _locale;
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -337,30 +412,12 @@ class _SettingsState extends State<Settings> {
                                                 title: Text(locale.name),
                                                 leading: Radio<String>(
                                                   value: locale.code,
-                                                  groupValue: _locale,
+                                                  groupValue: _localeTmp,
                                                   onChanged:
                                                       (String? value) async {
                                                     setState(() {
-                                                      _locale = value ?? 'en';
-                                                      context
-                                                          .read<WalletState>()
-                                                          .setLocale(Locale
-                                                              .fromSubtags(
-                                                                  languageCode:
-                                                                      _locale));
-                                                    });
-                                                    final SharedPreferences
-                                                        prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    prefs.setString(
-                                                        prefsLocaleStorage,
-                                                        _locale);
-                                                    WidgetsBinding.instance
-                                                        .scheduleFrameCallback(
-                                                            (_) {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      _localeTmp =
+                                                          value ?? 'en';
                                                     });
                                                   },
                                                 ),
@@ -371,7 +428,45 @@ class _SettingsState extends State<Settings> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: locales,
                                             );
-                                          }));
+                                          }),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(AppLocalizations.of(
+                                                            context)
+                                                        ?.alertCancelAction ??
+                                                    stringNotFoundText)),
+                                            TextButton(
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    _locale = _localeTmp;
+                                                  });
+                                                  context
+                                                      .read<WalletState>()
+                                                      .setLocale(
+                                                          Locale.fromSubtags(
+                                                              languageCode:
+                                                                  _localeTmp));
+                                                  final SharedPreferences
+                                                      prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  prefs.setString(
+                                                      prefsLocaleStorage,
+                                                      _localeTmp);
+                                                  WidgetsBinding.instance
+                                                      .scheduleFrameCallback(
+                                                          (_) {
+                                                    Navigator.of(context).pop();
+                                                  });
+                                                },
+                                                child: Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.saveButton ??
+                                                        stringNotFoundText)),
+                                          ]);
                                     });
                               },
                               icon: const Icon(Icons.language_rounded),

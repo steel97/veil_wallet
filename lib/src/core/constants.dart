@@ -1,10 +1,16 @@
 import 'package:veil_wallet/src/core/locale_entry.dart';
+import 'package:veil_wallet/src/core/node_entry.dart';
 
 var knownLanguages = [
   LocaleEntry('English', 'en'),
   LocaleEntry('Español', 'es'),
   LocaleEntry('Esperanto', 'eo'),
   LocaleEntry('Русский', 'ru'),
+];
+
+var knownNodes = [
+  NodeEntry('US 1 (explorer)', 'https://explorer-api.veil-project.com'),
+  NodeEntry('EU 2', 'https://node02.veil-project.com'),
 ];
 
 const sourceCodeUrl = 'https://github.com/steel97/veil_wallet';
