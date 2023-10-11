@@ -13,9 +13,6 @@ rm pubspec.lock
 flutter pub get
 ```
 
-## For all OS-es:
-use veil_light_plugin as subdirectory (or with relative/absolute path), do not install directly from git!
-
 
 ## Additional packages that may be required:
 ### Windows:

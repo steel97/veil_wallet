@@ -27,7 +27,10 @@ A crossplatform veil light wallet written with dart/flutter.
 Project developed with [VS Code](https://code.visualstudio.com/)
 
 
-Before building it is important to clone [veil_light_plugin](https://github.com/steel97/veil_light_plugin) repository somewhere near copy of this repository (see recommended path here: [pubspec.yaml](pubspec.yaml))
+Before building it's important to download submodules
+```
+git submodule update --init --recursive
+```
 
 Also see requirements for [veil_light_plugin](https://github.com/steel97/veil_light_plugin)
 
