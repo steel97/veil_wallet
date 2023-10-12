@@ -13,6 +13,17 @@ rm pubspec.lock
 flutter pub get
 ```
 
+# veil_light_plugin
+## Errors in IDE
+If you expirience errors in your IDE on `deps/veil_light_plugin` folder:
+```
+cd deps/veil_light_plugin
+dart pub get
+
+cd cargokit/build_tool
+dart pub get
+```
+
 
 ## Additional packages that may be required:
 ### Windows:
