@@ -87,29 +87,3 @@ jobs:
         with:
           name: ${{ env.build_package_name }}
           path: build/macos/runner/Release/
-
-  osx-arm64:
-    name: osx arm64
-    runs-on: macos-latest
-    env:
-      build_package_name: veil-wallet osx-arm64
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          architecture: arm64
-      - name: Install dependencies
-        run: |
-          flutter config --no-analytics
-          flutter config --enable-macos-desktop
-          flutter pub get
-      - name: Build executable
-        run: flutter build macos --release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.build_package_name }}
-          path: build/macos/runner/Release/
