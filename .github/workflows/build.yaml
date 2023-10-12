@@ -82,7 +82,7 @@ jobs:
           flutter config --enable-macos-desktop
           flutter pub get
       - name: Build executable
-        run: flutter build macos --release --no-codesign
+        run: flutter build macos --release
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
