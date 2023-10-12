@@ -72,15 +72,17 @@ jobs:
         with:
           channel: stable
           architecture: x64
+          cache: false
       - name: Install dependencies
         run: |
           flutter config --no-analytics
-          flutter config --enable-macos-desktop
-          flutter clean
+          flutter config --enable-macos-desktop          
           flutter pub cache clean
           flutter pub get
       - name: Build executable
-        run: flutter build macos
+        run: |
+          flutter clean
+          flutter build macos
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
