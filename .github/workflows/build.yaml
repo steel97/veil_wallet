@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  windows-x86_64:
+    name: windows x86_64
+    runs-on: windows-latest
+    env:
+      build_package_name: veil-wallet win-x86_64 (msvc)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: flutter-actions/setup-flutter@v2
+        with:
+          channel: stable
+          version: 3.13.7
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build executable
+        run: flutter build windows --release
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.build_package_name }}
+          path: build/windows/runner/Release/
