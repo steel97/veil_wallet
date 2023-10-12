@@ -71,10 +71,15 @@ class _MainLayoutState extends State<MainLayout> {
                     /*Container(
                 width: 70,
                 height: 28,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     image: DecorationImage(
                         image:
-                            AssetImage('./assets/images/logo_full_light.png'),
+                            AssetImage(context
+                                                              .watch<
+                                                                  WalletState>()
+                                                              .darkMode
+                                                          ? './assets/images/logo_full.png'
+                                                          : './assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
                   ]),
                   automaticallyImplyLeading: false,

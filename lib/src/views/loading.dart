@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/layouts/mobile/loading_layout.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 
 class Loading extends StatelessWidget {
   const Loading({super.key});
@@ -16,9 +18,11 @@ class Loading extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
             width: 70 * 1.8,
             height: 28 * 1.8,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('./assets/images/logo_full_light.png'),
+                    image: AssetImage(context.watch<WalletState>().darkMode
+                        ? './assets/images/logo_full.png'
+                        : './assets/images/logo_full_light.png'),
                     fit: BoxFit.fitWidth))),
         CircularProgressIndicator(
           semanticsLabel: AppLocalizations.of(context)?.loadingAppSemantics,

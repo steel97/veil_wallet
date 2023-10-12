@@ -65,10 +65,14 @@ class BalanceWidget extends StatelessWidget {
                                                   0, 0, 0, 0),
                                               width: 70 * 1.5,
                                               height: 28 * 1.5,
-                                              decoration: const BoxDecoration(
+                                              decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                      image: AssetImage(
-                                                          './assets/images/logo_full_light.png'),
+                                                      image: AssetImage(context
+                                                              .watch<
+                                                                  WalletState>()
+                                                              .darkMode
+                                                          ? './assets/images/logo_full.png'
+                                                          : './assets/images/logo_full_light.png'),
                                                       fit: BoxFit.fitWidth))),
                                           Expanded(
                                               child: Column(

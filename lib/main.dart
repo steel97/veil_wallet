@@ -82,6 +82,7 @@ class WalletAppWrap extends StatelessWidget {
       seedColor: const Color.fromARGB(255, 1, 139, 247),
       background: const Color.fromARGB(255, 18, 18, 18),
       primary: const Color.fromARGB(255, 1, 139, 247),
+      onPrimary: const Color.fromARGB(255, 227, 226, 230),
       surface: const Color.fromARGB(255, 28, 28, 28),
       //Color.fromARGB(233, 247, 247, 247), // color of cards, dropdowns etc
       //
