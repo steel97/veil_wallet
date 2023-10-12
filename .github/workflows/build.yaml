@@ -82,8 +82,8 @@ jobs:
           flutter config --enable-macos-desktop
           flutter pub get
       - name: Build executable
-        run: flutter build macos --release
+        run: flutter build macos --debug
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/macos/Build/Products/Release/
+          path: build/macos/Build/Products/Debug/
