@@ -1,0 +1,1 @@
+d:/Android/Sdk/build-tools/34.0.0/zipalign -p -f -v 4 ./build/app/outputs/bundle/release/app-release.aab ./build/app/outputs/bundle/release/app-release-aligned.aab

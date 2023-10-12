@@ -1,0 +1,1 @@
+d:/Android/Sdk/build-tools/34.0.0/apksigner sign --ks C:/Users/steel/upload-keystore.jks --ks-key-alias upload --ks-pass file:android/key.pass --min-sdk-version 23 --out ./build/app/outputs/bundle/release/app-release-signed.aab ./build/app/outputs/bundle/release/app-release-aligned.aab
