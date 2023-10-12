@@ -20,9 +20,10 @@ jobs:
         with:
           channel: stable
       - name: Install dependencies
-        run: flutter config --no-analytics
-        run: flutter config --enable-windows-desktop
-        run: flutter pub get
+        run: |
+          flutter config --no-analytics
+          flutter config --enable-windows-desktop
+          flutter pub get
       - name: Build executable
         run: flutter build windows --release
       - uses: actions/upload-artifact@v3
