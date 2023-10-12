@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:veil_wallet/src/components/balance_widget.dart';
+import 'package:veil_wallet/src/components/coin_control_widget.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
@@ -249,7 +251,17 @@ class _MainLayoutState extends State<MainLayout> {
                       },
                     )),
                 body: SafeArea(
-                  child: Container(child: widget.child),
+                  child: ListView(
+                    children: [
+                      const BalanceWidget(),
+                      const SizedBox(height: 10),
+                      const CoinControlWidget(),
+                      const SizedBox(height: 10),
+                      widget.child != null
+                          ? widget.child!
+                          : const SizedBox(height: 1)
+                    ],
+                  ), //widget.child
                 ))));
   }
 
