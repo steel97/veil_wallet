@@ -25,20 +25,20 @@ class Transaction extends StatelessWidget {
       return Icon(
         size: 28,
         Icons.arrow_upward_rounded,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
       );
     } else if (type == TxType.received) {
       return Icon(
         size: 28,
         Icons.arrow_downward_rounded,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
       );
     }
 
     return Icon(
       size: 28,
       Icons.arrow_outward_rounded, //outwards
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 
@@ -72,7 +72,7 @@ class Transaction extends StatelessWidget {
       return Text('-$amountTmp veil',
           style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor));
+              color: Theme.of(context).colorScheme.primary));
     } else if (type == TxType.received) {
       return Text('+$amountTmp veil',
           style: const TextStyle(
@@ -84,7 +84,8 @@ class Transaction extends StatelessWidget {
         style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context)
-                .primaryColor)); //color: Color.fromARGB(255, 148, 148, 148)));
+                .colorScheme
+                .primary)); //color: Color.fromARGB(255, 148, 148, 148)));
   }
 
   @override

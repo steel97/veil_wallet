@@ -61,13 +61,28 @@ class WalletAppWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    var brightness = MediaQuery.of(context).platformBrightness;
+    var isDarkMode = brightness == Brightness.dark;
+
+    SystemChrome.setSystemUIOverlayStyle(
+        isDarkMode ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     var lightColorScheme = ColorScheme.fromSeed(
       seedColor: Colors.blue,
       primary: const Color.fromARGB(255, 35, 89, 247),
       surface: const Color.fromARGB(255, 233, 239, 247),
+      //Color.fromARGB(233, 247, 247, 247), // color of cards, dropdowns etc
+      //
+      //secondaryContainer: const Color.fromARGB(255, 249, 249, 249),
+      //onSecondaryContainer: const Color.fromARGB(255, 35, 89, 247),
+    );
+    var darkColorScheme = ColorScheme.fromSeed(
+      brightness: Brightness.dark,
+      seedColor: const Color.fromARGB(255, 1, 139, 247),
+      background: const Color.fromARGB(255, 18, 18, 18),
+      primary: const Color.fromARGB(255, 1, 139, 247),
+      surface: const Color.fromARGB(255, 28, 28, 28),
       //Color.fromARGB(233, 247, 247, 247), // color of cards, dropdowns etc
       //
       //secondaryContainer: const Color.fromARGB(255, 249, 249, 249),
@@ -81,8 +96,13 @@ class WalletAppWrap extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates +
           [MaterialLocalizationsEo.delegate],
       supportedLocales: AppLocalizations.supportedLocales,
+      themeMode: context.watch<WalletState>().darkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
-        colorScheme: lightColorScheme,
+        colorScheme: context.watch<WalletState>().darkMode
+            ? darkColorScheme
+            : lightColorScheme,
         useMaterial3: true,
       ),
       navigatorKey: StatesBridge.navigatorKey,
@@ -206,6 +226,16 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     RpcRequester.NODE_PASSWORD = BaseStaticState.nodeAuth;
   }
 
+  Future<void> loadTheme() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var res = prefs.getBool(prefsDarkMode);
+    if (res != null) {
+      WidgetsBinding.instance.scheduleFrameCallback((_) {
+        context.read<WalletState>().setDarkMode(res);
+      });
+    }
+  }
+
   Future<void> loadLocale() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var locale = prefs.getString(prefsLocaleStorage);
@@ -230,6 +260,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     BaseStaticState.biometricsTimestamp = DateTime.now().millisecondsSinceEpoch;
 
+    loadTheme();
     loadLocale();
     loadState();
     checkWalletAccess(true);

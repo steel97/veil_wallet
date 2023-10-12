@@ -12,7 +12,7 @@ class TransactionsListWidget extends StatelessWidget {
   Widget getAddressStatusWidget(BuildContext context, SyncState syncState) {
     if (syncState == SyncState.synced) {
       return Icon(Icons.check_rounded,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.primary,
           semanticLabel:
               AppLocalizations.of(context)?.syncStatusSyncedSemantics);
     }

@@ -44,7 +44,7 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
                 Screenshot(
                   controller: screenshotController,
                   child: Container(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.background,
                       padding: const EdgeInsets.all(30),
                       child: PrettyQrView.data(
                           data:

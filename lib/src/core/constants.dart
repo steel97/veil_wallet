@@ -28,6 +28,7 @@ const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
 const conversionApiUrl = 'https://veil.tools/api/getprice';
 
 const prefsLocaleStorage = 'veil.locale';
+const prefsDarkMode = 'veil.theme';
 const prefsWalletsStorage = 'veil.wallets'; // format: <random_id>,<random_id>
 const prefsActiveWallet = 'veil.active_wallet'; // format: <wallet_id>
 const prefsWalletNames =

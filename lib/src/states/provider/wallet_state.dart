@@ -20,6 +20,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   int _txRerender = 0;
   SyncState _syncState = SyncState.scanning;
   Locale? _locale;
+  bool _darkMode = false;
 
   int get selectedWallet => _selectedWallet;
   String get selectedAddress => _selectedAddress;
@@ -29,6 +30,7 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
   int get txRerender => _txRerender;
   SyncState get syncState => _syncState;
   Locale? get locale => _locale;
+  bool get darkMode => _darkMode;
 
   void setSelectedWallet(int wal) {
     _selectedWallet = wal;
@@ -67,6 +69,11 @@ class WalletState with ChangeNotifier, DiagnosticableTreeMixin {
 
   void setLocale(Locale? val) {
     _locale = val;
+    notifyListeners();
+  }
+
+  void setDarkMode(bool val) {
+    _darkMode = val;
     notifyListeners();
   }
 

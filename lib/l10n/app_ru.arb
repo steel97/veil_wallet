@@ -122,5 +122,6 @@
 	"syncStatusScanningFailedSemantics": "Не удалось синхронизировать адрес",
 	"syncStatusScanningSemantics": "Нода сканирует ваш адрес",
 	"localeSelectionTitle": "Выберите язык",
-	"nodeSelectionTitle": "Доступные ноды"
+	"nodeSelectionTitle": "Доступные ноды",
+	"darkMode": "Темная тема"
 }

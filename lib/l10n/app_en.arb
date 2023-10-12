@@ -517,5 +517,9 @@
 	"nodeSelectionTitle": "Available nodes",
 	"@nodeSelectionTitle": {
 		"description": "Node selection dialog title"
+	},
+	"darkMode": "Use dark theme",
+	"@darkMode": {
+		"description": "Dark theme setting"
 	}
 }

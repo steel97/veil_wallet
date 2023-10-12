@@ -39,6 +39,7 @@ class _SettingsState extends State<Settings> {
   final _txExplorerUrlController = TextEditingController();
   bool _useMinimumUTXOs = false;
   bool _isBiometricsActive = false;
+  bool _darkMode = false;
   String _locale = '';
   String _localeTmp = '';
   String _selectedNode = defaultNodeAddress;
@@ -67,6 +68,8 @@ class _SettingsState extends State<Settings> {
 
     var curLocale =
         knownLanguages.firstWhere((locale) => locale.code == _locale);
+
+    _darkMode = context.read<WalletState>().darkMode;
 
     List<Widget> authActions = [];
 
@@ -380,6 +383,36 @@ class _SettingsState extends State<Settings> {
                                       onChanged: (val) {
                                         setState(() {
                                           _useMinimumUTXOs = val;
+                                        });
+                                      }),
+                                ])),
+                        Container(
+                            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      AppLocalizations.of(context)?.darkMode ??
+                                          stringNotFoundText,
+                                      style: const TextStyle(fontSize: 16)),
+                                  Switch(
+                                      value: _darkMode,
+                                      onChanged: (val) async {
+                                        setState(() {
+                                          _darkMode = val;
+                                        });
+
+                                        final SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        prefs.setBool(prefsDarkMode, _darkMode);
+
+                                        WidgetsBinding.instance
+                                            .scheduleFrameCallback((_) {
+                                          context
+                                              .read<WalletState>()
+                                              .setDarkMode(_darkMode);
                                         });
                                       }),
                                 ])),

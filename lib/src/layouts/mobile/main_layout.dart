@@ -130,7 +130,7 @@ class _MainLayoutState extends State<MainLayout> {
             ),*/
                     PopupMenuButton<int>(
                       icon: Icon(Icons.wallet_rounded,
-                          color: Theme.of(context).primaryColor),
+                          color: Theme.of(context).colorScheme.primary),
                       onSelected: (value) async {
                         showDialog(
                             context: context,

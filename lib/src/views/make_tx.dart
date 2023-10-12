@@ -401,7 +401,8 @@ class _MakeTxState extends State<MakeTx> {
                                                       child:
                                                           CircularProgressIndicator(
                                                         color: Theme.of(context)
-                                                            .primaryColor,
+                                                            .colorScheme
+                                                            .primary,
                                                         strokeWidth: 3,
                                                       ),
                                                     )

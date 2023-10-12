@@ -161,8 +161,9 @@ class BalanceWidget extends StatelessWidget {
                                       )),
                                       PopupMenuButton<String>(
                                         icon: Icon(Icons.expand_more_outlined,
-                                            color:
-                                                Theme.of(context).primaryColor),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
                                         onSelected: (value) async {
                                           /*showDialog(
                                               context: context,
