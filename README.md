@@ -1,4 +1,5 @@
 # Veil light wallet
+[![Build](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml/badge.svg)](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml)
 
 A crossplatform veil light wallet written with dart/flutter.
 

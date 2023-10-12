@@ -78,7 +78,7 @@ jobs:
           flutter config --enable-macos-desktop
           flutter pub get
       - name: Build executable
-        run: flutter build macos --release
+        run: flutter build macos
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
@@ -103,8 +103,8 @@ jobs:
           flutter config --no-analytics
           flutter pub get
       - name: Build executable
-        run: flutter build ios --release --no-codesign
+        run: flutter build ipa --release --no-codesign
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/ios/iphoneos
+          path: build/ios/ipa/*.ipa
