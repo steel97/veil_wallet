@@ -8,7 +8,6 @@ A crossplatform veil light wallet written with dart/flutter.
 ### Requirements:
 - [dart/flutter](https://docs.flutter.dev/get-started/install)
 - [rust + cargo](https://www.rust-lang.org/tools/install)
-- [CMake](https://cmake.org/download/)
 
 #### Windows:
 - visual studio 2022 with c++ support
