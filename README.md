@@ -2,6 +2,8 @@
 
 A crossplatform veil light wallet written with dart/flutter.
 
+[![Foo](docs/images/google-play-badge_downscale.png)](https://play.google.com/store/apps/details?id=org.veilproject.wallet)
+
 ## Getting Started
 ### Requirements:
 - [dart/flutter](https://docs.flutter.dev/get-started/install)
@@ -34,7 +36,7 @@ git submodule update --init --recursive
 
 Also see requirements for [veil_light_plugin](https://github.com/steel97/veil_light_plugin)
 
-You may find solutions for common problems here: [flutter-notes.md](flutter-notes.md)
+You may find solutions for common problems here: [flutter-notes.md](docs/flutter-notes.md)
 
 ### Building project:
 
