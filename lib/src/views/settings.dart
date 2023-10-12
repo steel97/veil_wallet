@@ -76,7 +76,7 @@ class _SettingsState extends State<Settings> {
     if (BaseStaticState.prevScreen != Screen.welcome) {
       if (_isBiometricsActive) {
         authActions.add(Container(
-          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
           child: OutlinedButton.icon(
             style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(45),
@@ -110,7 +110,7 @@ class _SettingsState extends State<Settings> {
         ));
       } else {
         authActions.add(Container(
-          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
           child: OutlinedButton.icon(
             style:
                 FilledButton.styleFrom(minimumSize: const Size.fromHeight(45)),
@@ -419,7 +419,7 @@ class _SettingsState extends State<Settings> {
                       ] +
                       [
                         Container(
-                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                           child: OutlinedButton.icon(
                               style: FilledButton.styleFrom(
                                   minimumSize: const Size.fromHeight(45)),
