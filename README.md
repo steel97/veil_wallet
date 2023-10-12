@@ -12,17 +12,25 @@ A crossplatform veil light wallet written with dart/flutter.
 #### Windows:
 - visual studio 2022 with c++ support
 
-#### Android:
-- [JDK 21](https://jdk.java.net/21/) (release builds are made with openjdk 21 under windows platform)
-- [SDK](https://developer.android.com/tools/releases/platform-tools)
-- [NDK](https://developer.android.com/ndk)
-- or install both sdk and ndk via [Android studio](https://developer.android.com/studio)
+#### Linux:
+- required libs
+```
+sudo apt update
+sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
+```
+- it's highly recommended to NOT install flutter via snap
 
 #### MacOS:
 - TO-DO
 
 #### iOS:
 - TO-DO
+
+#### Android:
+- [JDK 21](https://jdk.java.net/21/) (release builds are made with openjdk 21 under windows platform)
+- [SDK](https://developer.android.com/tools/releases/platform-tools)
+- [NDK](https://developer.android.com/ndk)
+- or install both sdk and ndk via [Android studio](https://developer.android.com/studio)
 
 #### IDE:
 Project developed with [VS Code](https://code.visualstudio.com/)

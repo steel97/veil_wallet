@@ -2,6 +2,7 @@
 version: 1
 script:
  - which mksquashfs || apt install squashfs-tools
+ - apt install libsecret-1-0
  - rm -rf AppDir || true
  - cp -r build/linux/x64/release/bundle AppDir
  - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
@@ -13,7 +14,7 @@ AppDir:
     id: org.veilproject.wallet
     name: Veil Wallet
     icon: logo_64x64
-    version: latest
+    version: 1.0.3
     exec: veil-wallet
     exec_args: $@
   apt:
@@ -26,6 +27,7 @@ AppDir:
     - sourceline: deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
     include:
     - libgtk-3-0
+    - libsecret-1-0
     exclude:
     - humanity-icon-theme
     - hicolor-icon-theme
