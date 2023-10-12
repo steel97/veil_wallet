@@ -20,6 +20,8 @@ jobs:
         with:
           channel: stable
       - name: Install dependencies
+        run: flutter config --no-analytics
+        run: flutter config --enable-windows-desktop
         run: flutter pub get
       - name: Build executable
         run: flutter build windows --release
