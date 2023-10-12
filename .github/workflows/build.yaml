@@ -82,7 +82,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/macos/Build/Products/Release/
+          path: build/macos/Build/Products/Release/veil_wallet.app
 
   ios:
     name: ios
@@ -103,8 +103,8 @@ jobs:
           flutter config --no-analytics
           flutter pub get
       - name: Build executable
-        run: flutter build ipa --release --no-codesign
+        run: flutter build ios --release --no-codesign
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/ios/ipa/*.ipa
+          path: build/ios/iphoneos
