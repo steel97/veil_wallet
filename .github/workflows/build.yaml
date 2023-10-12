@@ -76,6 +76,8 @@ jobs:
         run: |
           flutter config --no-analytics
           flutter config --enable-macos-desktop
+          flutter clean
+          flutter pub cache clean
           flutter pub get
       - name: Build executable
         run: flutter build macos
