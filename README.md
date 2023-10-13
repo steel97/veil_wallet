@@ -46,16 +46,16 @@ Also see requirements for [veil_light_plugin](https://github.com/steel97/veil_li
 
 You may find solutions for common problems here: [flutter-notes.md](docs/flutter-notes.md)
 
-#### Linux:
-```
-# release
-flutter build linux --release
-```
-
 #### Windows:
 ```
 # release
 flutter build windows --release
+```
+
+#### Linux:
+```
+# release
+flutter build linux --release
 ```
 
 #### Android:
