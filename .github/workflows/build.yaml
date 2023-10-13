@@ -112,3 +112,33 @@ jobs:
         with:
           name: ${{ env.build_package_name }}
           path: build/ios/iphoneos
+
+  android:
+    name: android
+    runs-on: ubuntu-latest
+    env:
+      build_package_name: veil-wallet android
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          architecture: x64
+      - name: Install dependencies
+        run: |
+          flutter config --no-analytics
+          flutter pub get
+      - name: Build executable
+        run: flutter build apk --release
+      - name: Sign executable
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.build_package_name }}
+          path: build/android/iphoneos
