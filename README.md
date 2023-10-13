@@ -46,6 +46,18 @@ Also see requirements for [veil_light_plugin](https://github.com/steel97/veil_li
 
 You may find solutions for common problems here: [flutter-notes.md](docs/flutter-notes.md)
 
+#### Linux:
+```
+# release
+flutter build linux --release
+```
+
+#### Windows:
+```
+# release
+flutter build windows --release
+```
+
 #### Android:
 ```
 # debug on device
@@ -56,12 +68,6 @@ flutter build appbundle --release
 
 # release build in apk format
 flutter build apk --release
-```
-
-#### Windows:
-```
-# release
-flutter build windows --release
 ```
 
 #### Viewing logs:
