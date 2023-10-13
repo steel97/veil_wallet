@@ -1,0 +1,5 @@
+- added Spanish and Esperanto languages
+- added language selection button in setings
+- added dark theme
+- added predefined node selection menu in settings
+- swapped website and explorer buttons
