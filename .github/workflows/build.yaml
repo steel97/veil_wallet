@@ -89,7 +89,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/macos/Build/
+          path: build/macos/Build/Products/Release/veil-wallet.app
 
   ios:
     name: ios
