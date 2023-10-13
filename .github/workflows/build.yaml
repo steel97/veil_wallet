@@ -62,7 +62,7 @@ jobs:
 
   osx-x64:
     name: osx x86_64
-    runs-on: macos-12
+    runs-on: macos-latest
     environment: macos
     env:
       build_package_name: veil-wallet osx-x86_64
