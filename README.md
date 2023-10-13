@@ -28,7 +28,7 @@ sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
 - TO-DO
 
 #### Android:
-- [JDK 21](https://jdk.java.net/21/) (release builds are made with openjdk 21 under windows platform)
+- [JDK 19](https://jdk.java.net/19/) (FYI: google play release builds are made with [openjdk 21](https://jdk.java.net/21/) under windows platform)
 - [SDK](https://developer.android.com/tools/releases/platform-tools)
 - [NDK](https://developer.android.com/ndk)
 - or install both sdk and ndk via [Android studio](https://developer.android.com/studio)
@@ -36,7 +36,7 @@ sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
 #### IDE:
 Project developed with [VS Code](https://code.visualstudio.com/)
 
-
+### Building project:
 Before building it's important to download submodules
 ```
 git submodule update --init --recursive
@@ -45,8 +45,6 @@ git submodule update --init --recursive
 Also see requirements for [veil_light_plugin](https://github.com/steel97/veil_light_plugin)
 
 You may find solutions for common problems here: [flutter-notes.md](docs/flutter-notes.md)
-
-### Building project:
 
 #### Android:
 ```

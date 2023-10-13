@@ -58,35 +58,35 @@ jobs:
           name: ${{ env.build_package_name }}
           path: 'build/linux/x64/release/bundle/'
 
-#  osx-x64:
-#    name: osx x86_64
-#    runs-on: macos-latest
-#    env:
-#      build_package_name: veil-wallet osx-x86_64
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          submodules: true
-#      - uses: dtolnay/rust-toolchain@stable
-#      - uses: subosito/flutter-action@v2
-#        with:
-#          channel: stable
-#          architecture: x64
-#          cache: false
-#      - name: Install dependencies
-#        run: |
-#          flutter config --no-analytics
-#          flutter config --enable-macos-desktop          
-#          flutter pub cache clean
-#          flutter pub get
-#      - name: Build executable
-#        run: |
-#          flutter clean
-#          flutter build macos
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{ env.build_package_name }}
-#          path: build/macos/Build/Products/Release/veil_wallet.app
+  osx-x64:
+    name: osx x86_64
+    runs-on: macos-12
+    env:
+      build_package_name: veil-wallet osx-x86_64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          architecture: x64
+          cache: false
+      - name: Install dependencies
+        run: |
+          flutter config --no-analytics
+          flutter config --enable-macos-desktop          
+          flutter pub cache clean
+          flutter pub get
+      - name: Build executable
+        run: |
+          flutter clean
+          flutter build macos
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.build_package_name }}
+          path: build/macos/Build/Products/Release/veil_wallet.app
 
   ios:
     name: ios
