@@ -9,6 +9,7 @@ jobs:
   windows-x86_64:
     name: windows x86_64
     runs-on: windows-latest
+    environment: windows
     env:
       build_package_name: veil-wallet win-x86_64
     steps:
@@ -34,6 +35,7 @@ jobs:
   linux-x86_64:
     name: linux x86_64
     runs-on: ubuntu-latest
+    environment: linux
     env:
       build_package_name: veil-wallet linux-x86_64
     steps:
@@ -61,6 +63,7 @@ jobs:
   osx-x64:
     name: osx x86_64
     runs-on: macos-12
+    environment: macos
     env:
       build_package_name: veil-wallet osx-x86_64
     steps:
@@ -91,6 +94,7 @@ jobs:
   ios:
     name: ios
     runs-on: macos-latest
+    environment: ios
     env:
       build_package_name: veil-wallet ios
     steps:
