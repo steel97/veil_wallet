@@ -118,7 +118,8 @@ class BalanceWidget extends StatelessWidget {
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       icon: const Icon(
-                                          Icons.miscellaneous_services_rounded,
+                                          Icons
+                                              .settings_rounded, //miscellaneous_services_rounded
                                           size: 18)),
                                   Expanded(
                                       child: TextButton(

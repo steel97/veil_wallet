@@ -209,7 +209,7 @@ class _MainLayoutState extends State<MainLayout> {
             : Focus(
                 autofocus: true,
                 child: NavigationBar(
-                  selectedIndex: (_selectedIndex ?? 0),
+                  selectedIndex: (_selectedIndex ?? 123),
                   destinations: [
                     /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
