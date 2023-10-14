@@ -42,6 +42,7 @@ class _MakeTxState extends State<MakeTx> {
   String _availableAmount = '...';
   String _overallAmount = '...';
   String _currentAmount = '...';
+  String _curAddr = '';
 
   // loaders
   bool _makeTxBusy = false;
@@ -63,6 +64,7 @@ class _MakeTxState extends State<MakeTx> {
         .read<WalletState>()
         .ownedAddresses
         .firstWhere((element) => element.address == addr);
+    _curAddr = addr;
 
     updateAvailableBalance(addrEl.accountType).then((value) => {
           setState(() {
@@ -88,6 +90,22 @@ class _MakeTxState extends State<MakeTx> {
 
     if (_availableAmount != '...') {
       availableAmountConverted = double.parse(_availableAmount);
+    }
+
+    var addr = context.watch<WalletState>().selectedAddress;
+    if (addr != _curAddr) {
+      _curAddr = addr;
+      var addrEl = context
+          .read<WalletState>()
+          .ownedAddresses
+          .firstWhere((element) => element.address == addr);
+
+      updateAvailableBalance(addrEl.accountType).then((value) => {
+            setState(() {
+              _availableAmount = value.available;
+              _overallAmount = value.total;
+            })
+          });
     }
 
     var container = Form(
