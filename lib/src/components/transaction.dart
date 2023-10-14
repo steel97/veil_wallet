@@ -92,70 +92,73 @@ class Transaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        child: GestureDetector(
-            onTap: () async {
-              try {
-                var url = Uri.parse(BaseStaticState.txExplorerAddress
-                    .replaceAll('{txid}', txid));
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                }
-              } catch (e) {}
-            },
-            child: Card(
-                elevation: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(children: [
-                    // icon
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(130),
-                        color: Theme.of(context).colorScheme.background,
-                        //border: Border.all(width: 2)
-                      ),
-                      child: getTypeIcon(context),
-                    ),
-                    // spacing between icon and data
-                    const SizedBox(width: 15),
-                    // all data
-                    Expanded(
-                        child: Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              getTypeText(context),
-                              const SizedBox(height: 5),
-                              getAmountText(context)
-                            ]),
-                        const SizedBox(width: 1, height: 5),
-                        Row(children: [
-                          Expanded(
-                              child: ExtendedText(
-                            txid,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            overflowWidget: const TextOverflowWidget(
-                              position: TextOverflowPosition.middle,
-                              align: TextOverflowAlign.center,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    '\u2026',
-                                    style: TextStyle(fontSize: 12),
-                                  )
-                                ],
-                              ),
-                            ),
-                            style: const TextStyle(fontSize: 12),
-                          )),
-                        ])
-                      ],
-                    )),
-                  ]),
-                ))));
+        child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+                onTap: () async {
+                  try {
+                    var url = Uri.parse(BaseStaticState.txExplorerAddress
+                        .replaceAll('{txid}', txid));
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    }
+                  } catch (e) {}
+                },
+                child: Card(
+                    elevation: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(children: [
+                        // icon
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(130),
+                            color: Theme.of(context).colorScheme.background,
+                            //border: Border.all(width: 2)
+                          ),
+                          child: getTypeIcon(context),
+                        ),
+                        // spacing between icon and data
+                        const SizedBox(width: 15),
+                        // all data
+                        Expanded(
+                            child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  getTypeText(context),
+                                  const SizedBox(height: 5),
+                                  getAmountText(context)
+                                ]),
+                            const SizedBox(width: 1, height: 5),
+                            Row(children: [
+                              Expanded(
+                                  child: ExtendedText(
+                                txid,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                overflowWidget: const TextOverflowWidget(
+                                  position: TextOverflowPosition.middle,
+                                  align: TextOverflowAlign.center,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(
+                                        '\u2026',
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                style: const TextStyle(fontSize: 12),
+                              )),
+                            ])
+                          ],
+                        )),
+                      ]),
+                    )))));
   }
 }

@@ -31,9 +31,23 @@ void main() async {
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Veil Wallet');
-    double width = 720;
-    double height = 1280;
+    //double width = 720;
+    //double height = 1280;
+    double width = 1100;
     getCurrentScreen().then((screen) {
+      var screenSize = (screen?.frame.width ?? 1920);
+      if (screenSize > 4096) {
+        screenSize = 2500;
+      }
+
+      width = screenSize / 2;
+      double height = width / 1.47;
+
+      if (screenSize < 1280) {
+        width = 350;
+        height = 700;
+      }
+
       setWindowFrame(Rect.fromCenter(
         center: screen!.frame.center,
         width: width,

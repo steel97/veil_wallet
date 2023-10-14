@@ -63,21 +63,24 @@ class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
                     textAlign: TextAlign.left,
                   )),
               Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GridView.count(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    //
-                    crossAxisCount: 3,
-                    childAspectRatio: 2,
-                    crossAxisSpacing: 5,
-                    // Generate 100 widgets that display their index in the List.
-                    children: BaseStaticState.newWalletWords
-                        .asMap()
-                        .entries
-                        .map((entry) {
+                    itemCount: 24,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisExtent: 62,
+                            crossAxisSpacing: 5),
+                    itemBuilder: (_, index) {
+                      // hot reload fix
+                      if (BaseStaticState.newWalletWords.length <= index) {
+                        return const SizedBox(width: 1);
+                      }
+                      var entry = BaseStaticState.newWalletWords[index];
                       var txt = TextEditingController();
-                      txt.text = '${entry.key + 1}. ${entry.value}';
+                      txt.text = '${index + 1}. $entry';
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -92,13 +95,13 @@ class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
                                     contentPadding:
                                         const EdgeInsets.only(bottom: 0.0),
                                     border: const UnderlineInputBorder(),
-                                    hintText: '${entry.key + 1}.',
+                                    hintText: '${index + 1}.',
                                   ),
                                   controller: txt))
                         ],
                       );
-                    }).toList(),
-                  )),
+                    }),
+              ),
               Container(
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: OutlinedButton.icon(

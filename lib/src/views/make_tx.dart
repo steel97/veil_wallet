@@ -8,6 +8,7 @@ import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/functions_check.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
@@ -116,11 +117,14 @@ class _MakeTxState extends State<MakeTx> {
                               AppLocalizations.of(context)?.recipientAddress ??
                                   stringNotFoundText),
                           suffixIcon: IconButton(
-                            onPressed: () {
-                              BaseStaticState.prevScanQRScreen = Screen.makeTx;
-                              Navigator.of(context)
-                                  .pushReplacement(_createScanQRRoute());
-                            },
+                            onPressed: checkScanQROS()
+                                ? () {
+                                    BaseStaticState.prevScanQRScreen =
+                                        Screen.makeTx;
+                                    Navigator.of(context)
+                                        .pushReplacement(_createScanQRRoute());
+                                  }
+                                : null,
                             icon: const Icon(Icons.qr_code_scanner_rounded),
                           ),
                         ),

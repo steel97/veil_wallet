@@ -45,16 +45,17 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                       textAlign: TextAlign.left,
                     )),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GridView.count(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      //
-                      crossAxisCount: 3,
-                      childAspectRatio: 2,
-                      crossAxisSpacing: 5,
-                      // Generate 100 widgets that display their index in the List.
-                      children: List.generate(24, (index) {
+                      itemCount: 24,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisExtent: 62,
+                              crossAxisSpacing: 5),
+                      itemBuilder: (_, index) {
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -100,7 +101,7 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                           ],
                         );
                       }),
-                    )),
+                ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: FilledButton.icon(

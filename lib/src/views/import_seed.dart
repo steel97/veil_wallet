@@ -77,50 +77,51 @@ class _ImportSeedState extends State<ImportSeed> {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     )),
                 Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GridView.count(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      //
-                      crossAxisCount: 3,
-                      childAspectRatio: 2,
-                      crossAxisSpacing: 5,
-                      // Generate 100 widgets that display their index in the List.
-                      children: List.generate(24, (index) {
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            /*Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 24,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisExtent: 62,
+                            crossAxisSpacing: 5),
+                    itemBuilder: (_, index) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          /*Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
                                 width: 24, child: Text('${index + 1}.'))),*/
-                            Expanded(
-                                child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppLocalizations.of(context)
-                                      ?.seedWordCantBeEmpty;
-                                }
+                          Expanded(
+                              child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return AppLocalizations.of(context)
+                                    ?.seedWordCantBeEmpty;
+                              }
 
-                                var word = value.toLowerCase().trim();
-                                return Lightwallet.verifyWord(word)
-                                    ? null
-                                    : AppLocalizations.of(context)
-                                        ?.seedWordWrong;
-                              },
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(bottom: 0.0),
-                                border: const UnderlineInputBorder(),
-                                hintText: '${index + 1}.',
-                              ),
-                              autofillHints: Lightwallet.getValidWords(),
-                              controller: _mnemonicInput[index],
-                            ))
-                          ],
-                        );
-                      }),
-                    )),
+                              var word = value.toLowerCase().trim();
+                              return Lightwallet.verifyWord(word)
+                                  ? null
+                                  : AppLocalizations.of(context)?.seedWordWrong;
+                            },
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  const EdgeInsets.only(bottom: 0.0),
+                              border: const UnderlineInputBorder(),
+                              hintText: '${index + 1}.',
+                            ),
+                            autofillHints: Lightwallet.getValidWords(),
+                            controller: _mnemonicInput[index],
+                          ))
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                   child: OutlinedButton.icon(

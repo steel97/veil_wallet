@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/components/transaction.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/transactions.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 
 class TransactionsListWidget extends StatelessWidget {
@@ -37,6 +38,7 @@ class TransactionsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var incrementVal = context.watch<WalletState>().txRerender;
+    var bigScreen = isBigScreen(context);
 
     List<Widget> txes = List.empty(growable: true);
     for (TransactionModel tx in TransactionCache.currentTxList.reversed) {
@@ -90,6 +92,8 @@ class TransactionsListWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                 ] +
-                txes));
+                (bigScreen
+                    ? [Expanded(child: ListView(children: txes))]
+                    : txes)));
   }
 }

@@ -22,6 +22,7 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
 
   @override
   Widget build(BuildContext context) {
+    double qrMaxSize = 300;
     return BackLayout(
         title: AppLocalizations.of(context)?.shareTitle,
         back: () {
@@ -44,6 +45,8 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
                 Screenshot(
                   controller: screenshotController,
                   child: Container(
+                      constraints: BoxConstraints(
+                          maxWidth: qrMaxSize, maxHeight: qrMaxSize),
                       color: Theme.of(context).colorScheme.background,
                       padding: const EdgeInsets.all(30),
                       child: PrettyQrView.data(

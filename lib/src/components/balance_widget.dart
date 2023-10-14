@@ -24,152 +24,154 @@ class BalanceWidget extends StatelessWidget {
             height: 195,
             child: AspectRatio(
                 aspectRatio: 1.586,
-                child: GestureDetector(
-                    onTap: () async {
-                      BaseStaticState.walSettingsId =
-                          context.read<WalletState>().selectedWallet;
-
-                      var storageService = StorageService();
-                      BaseStaticState.walSettingsName =
-                          await storageService.readSecureData(prefsWalletNames +
-                                  WalletStaticState.activeWallet.toString()) ??
-                              '';
-                      BaseStaticState.walSettingsPassword = await storageService
-                              .readSecureData(prefsWalletEncryption +
-                                  WalletStaticState.activeWallet.toString()) ??
-                          '';
-
-                      WidgetsBinding.instance.scheduleFrameCallback((_) {
-                        Navigator.of(context)
-                            .push(_createWalletSettingsRoute());
-                      });
-                    },
-                    child: Card(
-                      elevation: 0,
-                      child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    width: double.infinity,
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 0),
-                                              width: 70 * 1.5,
-                                              height: 28 * 1.5,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(context
-                                                              .watch<
-                                                                  WalletState>()
-                                                              .darkMode
-                                                          ? './assets/images/logo_full.png'
-                                                          : './assets/images/logo_full_light.png'),
-                                                      fit: BoxFit.fitWidth))),
-                                          Expanded(
-                                              child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  margin: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 12),
-                                                  child: Text(
-                                                    '${WalletHelper.formatFiat(context.watch<WalletState>().balance, context.watch<WalletState>().conversionRate)} \$',
-                                                    textAlign: TextAlign.end,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 24),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: double.infinity,
-                                                  margin: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 12),
-                                                  child: Text(
-                                                    ' ${WalletHelper.formatAmount(context.watch<WalletState>().balance)}', // show veil?
-                                                    textAlign: TextAlign.end,
-                                                    maxLines: 1,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
-                                                )
-                                              ]))
-                                        ])),
-                                const SizedBox(height: 45),
-                                Row(
+                child: Card(
+                  elevation: 0,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 15, 15),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                width: double.infinity,
+                                child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
+                                      Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                width: 70 * 1.5,
+                                                height: 28 * 1.5,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage(context
+                                                                .watch<
+                                                                    WalletState>()
+                                                                .darkMode
+                                                            ? './assets/images/logo_full.png'
+                                                            : './assets/images/logo_full_light.png'),
+                                                        fit: BoxFit.fitWidth))),
+                                            /*TextButton(
+                                                    onPressed: () {},
+                                                    child: Text(
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.settingsButton ??
+                                                          stringNotFoundText,
+                                                      style: const TextStyle(
+                                                          fontSize: 12),
+                                                    ))*/
+                                          ]),
                                       Expanded(
-                                          child: TextButton.icon(
-                                        icon: const Icon(
-                                          Icons.copy_rounded,
-                                          size: 18,
-                                        ),
-                                        onPressed: () {
-                                          Clipboard.setData(ClipboardData(
-                                                  text: context
-                                                      .read<WalletState>()
-                                                      .selectedAddress))
-                                              .then((value) => {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(AppLocalizations
-                                                                    .of(context)
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                            Container(
+                                              width: double.infinity,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
+                                              child: Text(
+                                                '${WalletHelper.formatFiat(context.watch<WalletState>().balance, context.watch<WalletState>().conversionRate)} \$',
+                                                textAlign: TextAlign.end,
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 24),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: double.infinity,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
+                                              child: Text(
+                                                ' ${WalletHelper.formatAmount(context.watch<WalletState>().balance)}', // show veil?
+                                                textAlign: TextAlign.end,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            )
+                                          ]))
+                                    ])),
+                            const SizedBox(height: 45),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconButton(
+                                      onPressed: () =>
+                                          _gotoWalletSettings(context),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      icon: const Icon(
+                                          Icons.miscellaneous_services_rounded,
+                                          size: 18)),
+                                  Expanded(
+                                      child: TextButton(
+                                    /*icon: const Icon(
+                                      Icons.copy_rounded,
+                                      size: 18,
+                                    ),*/
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(
+                                              text: context
+                                                  .read<WalletState>()
+                                                  .selectedAddress))
+                                          .then((value) => {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        AppLocalizations.of(
+                                                                    context)
                                                                 ?.copiedText ??
                                                             stringNotFoundText),
-                                                      ),
-                                                    )
-                                                  });
-                                        },
-                                        label: ExtendedText(
-                                          context
-                                              .watch<WalletState>()
-                                              .selectedAddress,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          overflowWidget:
-                                              const TextOverflowWidget(
-                                            position:
-                                                TextOverflowPosition.middle,
-                                            align: TextOverflowAlign.center,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Text(
-                                                  '\u2026',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
+                                                  ),
                                                 )
-                                              ],
-                                            ),
-                                          ),
-                                          style: const TextStyle(fontSize: 12),
+                                              });
+                                    },
+                                    child: ExtendedText(
+                                      context
+                                          .watch<WalletState>()
+                                          .selectedAddress,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      overflowWidget: const TextOverflowWidget(
+                                        position: TextOverflowPosition.middle,
+                                        align: TextOverflowAlign.center,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(
+                                              '\u2026',
+                                              style: TextStyle(fontSize: 12),
+                                            )
+                                          ],
                                         ),
-                                      )),
-                                      PopupMenuButton<String>(
-                                        icon: Icon(Icons.expand_more_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary),
-                                        onSelected: (value) async {
-                                          /*showDialog(
+                                      ),
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  )),
+                                  PopupMenuButton<String>(
+                                    icon: Icon(Icons.expand_more_outlined,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    onSelected: (value) async {
+                                      /*showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
@@ -197,55 +199,74 @@ class BalanceWidget extends StatelessWidget {
                                                         ]));
                                               });*/
 
-                                          try {
-                                            await WalletHelper
-                                                .setSelectedAddress(
-                                                    value, context,
-                                                    shouldForceReload: false);
-                                          } catch (e) {}
+                                      try {
+                                        await WalletHelper.setSelectedAddress(
+                                            value, context,
+                                            shouldForceReload: false);
+                                      } catch (e) {}
 
-                                          /*WidgetsBinding.instance
+                                      /*WidgetsBinding.instance
                                               .scheduleFrameCallback((_) {
                                             Navigator.of(context).pop();
                                           });*/
-                                        },
-                                        itemBuilder: (context) {
-                                          List<PopupMenuItem<String>>
-                                              addresses =
-                                              List.empty(growable: true);
-                                          context
-                                              .read<WalletState>()
-                                              .ownedAddresses
-                                              .forEach((element) {
-                                            addresses.add(PopupMenuItem<String>(
-                                                value: element.address,
-                                                child: ExtendedText(
-                                                    element.address,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    overflowWidget:
-                                                        const TextOverflowWidget(
-                                                      position:
-                                                          TextOverflowPosition
-                                                              .middle,
-                                                      align: TextOverflowAlign
-                                                          .center,
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: <Widget>[
-                                                          Text('\u2026')
-                                                        ],
-                                                      ),
-                                                    ))));
-                                          });
-                                          return addresses;
-                                        },
-                                      )
-                                    ])
-                              ])),
-                    )))));
+                                    },
+                                    itemBuilder: (context) {
+                                      List<PopupMenuItem<String>> addresses =
+                                          List.empty(growable: true);
+                                      context
+                                          .read<WalletState>()
+                                          .ownedAddresses
+                                          .forEach((element) {
+                                        addresses.add(PopupMenuItem<String>(
+                                            value: element.address,
+                                            child: ExtendedText(element.address,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                overflowWidget:
+                                                    const TextOverflowWidget(
+                                                  position: TextOverflowPosition
+                                                      .middle,
+                                                  align:
+                                                      TextOverflowAlign.center,
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text('\u2026')
+                                                    ],
+                                                  ),
+                                                ))));
+                                      });
+                                      return addresses;
+                                    },
+                                  ),
+                                  /*IconButton(
+                                          onPressed: () {},
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          icon: const Icon(Icons
+                                              .miscellaneous_services_rounded))*/
+                                ])
+                          ])),
+                ))));
+  }
+
+  _gotoWalletSettings(BuildContext context) async {
+    BaseStaticState.walSettingsId = context.read<WalletState>().selectedWallet;
+
+    var storageService = StorageService();
+    BaseStaticState.walSettingsName = await storageService.readSecureData(
+            prefsWalletNames + WalletStaticState.activeWallet.toString()) ??
+        '';
+    BaseStaticState.walSettingsPassword = await storageService.readSecureData(
+            prefsWalletEncryption +
+                WalletStaticState.activeWallet.toString()) ??
+        '';
+
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
+      Navigator.of(context).push(_createWalletSettingsRoute());
+    });
   }
 }
 

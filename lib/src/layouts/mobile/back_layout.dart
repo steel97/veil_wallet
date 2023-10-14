@@ -43,7 +43,11 @@ class _BackLayoutState extends State<BackLayout> {
                 extendBody: true,
                 resizeToAvoidBottomInset: true,
                 body: SafeArea(
-                  child: Container(child: widget.child),
+                  child: Center(
+                      child: Container(
+                          constraints: const BoxConstraints(
+                              minWidth: 100, maxWidth: 600),
+                          child: widget.child)),
                 ))));
   }
 }

@@ -8,6 +8,8 @@ import 'package:veil_wallet/src/components/coin_control_widget.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/functions_check.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
@@ -25,7 +27,7 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  late int selectedIndex;
+  int _selectedIndex = 0;
 
   Future<bool> _checkBiometrics() async {
     var storageService = StorageService();
@@ -45,32 +47,42 @@ class _MainLayoutState extends State<MainLayout> {
         (element) => element.id == context.watch<WalletState>().selectedWallet);
     return Directionality(
         textDirection: TextDirection.ltr,
-        child: Semantics(
-            label: title?.name,
-            child: Scaffold(
-                appBar: AppBar(
-                  //backgroundColor: Colors.transparent,
-                  forceMaterialTransparency: true,
-                  centerTitle: true,
-                  leadingWidth: 61,
-                  leading: Row(children: [
-                    const SizedBox(width: 5),
-                    /*IconButton(
+        child:
+            Semantics(label: _getTitle(title), child: _buildScaffold(title)));
+  }
+
+  Scaffold _buildScaffold(WalletEntry? title) {
+    var useVerticalBar = isBigScreen(context);
+    return Scaffold(
+        extendBodyBehindAppBar: false,
+        appBar: AppBar(
+          //backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          backgroundColor:
+              useVerticalBar ? Theme.of(context).colorScheme.surface : null,
+          forceMaterialTransparency: useVerticalBar ? false : true,
+          centerTitle: true,
+          leadingWidth: 61,
+          leading: Row(children: [
+            const SizedBox(width: 5),
+            /*IconButton(
                       icon: const Icon(Icons.notifications_rounded),
                       color: Theme.of(context).colorScheme.primary,
                       onPressed: null,
                       tooltip:
                           AppLocalizations.of(context)?.notificationsAction,
                     ),*/
-                    IconButton(
-                      icon: const Icon(Icons.qr_code_scanner_rounded),
-                      color: Theme.of(context).colorScheme.primary,
-                      onPressed: () {
-                        _scanQRRoute();
-                      },
-                      tooltip: AppLocalizations.of(context)?.homeNavScanQR,
-                    ),
-                    /*Container(
+            IconButton(
+              icon: const Icon(Icons.qr_code_scanner_rounded),
+              color: Theme.of(context).colorScheme.primary,
+              onPressed: checkScanQROS()
+                  ? () {
+                      _scanQRRoute();
+                    }
+                  : null,
+              tooltip: AppLocalizations.of(context)?.homeNavScanQR,
+            ),
+            /*Container(
                 width: 70,
                 height: 28,
                 decoration: BoxDecoration(
@@ -83,15 +95,13 @@ class _MainLayoutState extends State<MainLayout> {
                                                           ? './assets/images/logo_full.png'
                                                           : './assets/images/logo_full_light.png'),
                         fit: BoxFit.fitWidth))),*/
-                  ]),
-                  automaticallyImplyLeading: false,
-                  title: Text(
-                    title?.name ??
-                        (AppLocalizations.of(context)?.walletTitle ??
-                            stringNotFoundText),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  /*title: Container(
+          ]),
+          automaticallyImplyLeading: false,
+          title: Text(
+            _getTitle(title),
+            overflow: TextOverflow.ellipsis,
+          ),
+          /*title: Container(
               child: Theme(
                   data: Theme.of(context).copyWith(
                     splashColor: Colors.transparent,
@@ -116,153 +126,244 @@ class _MainLayoutState extends State<MainLayout> {
                       //setState(() => _value = value);
                     },
                   )))),*/
-                  actions: [
-                    /*IconButton(
+          actions: [
+            /*IconButton(
               icon: const Icon(Icons.notifications_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {},
               tooltip: 'Notifications',
             ),*/
-                    /*IconButton(
+            /*IconButton(
               icon: const Icon(Icons.qr_code_scanner_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {}, //null = disabled
               tooltip: 'Scan QR',
             ),*/
-                    /*IconButton(
+            /*IconButton(
               icon: const Icon(Icons.settings_rounded),
               color: Theme.of(context).colorScheme.primary,
               onPressed: () {},
               tooltip: 'Settings',
             ),*/
-                    PopupMenuButton<int>(
-                      icon: Icon(Icons.wallet_rounded,
-                          color: Theme.of(context).colorScheme.primary),
-                      onSelected: (value) async {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                  title: Text(AppLocalizations.of(context)
-                                          ?.loadingWalletTitle ??
-                                      stringNotFoundText),
-                                  content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(AppLocalizations.of(context)
-                                                ?.loadingWalletDescription ??
-                                            stringNotFoundText),
-                                        const SizedBox(width: 2, height: 20),
-                                        CircularProgressIndicator(
-                                          semanticsLabel:
-                                              AppLocalizations.of(context)
-                                                  ?.loadingWalletDescription,
-                                        ),
-                                      ]));
-                            });
+            PopupMenuButton<int>(
+              icon: Icon(Icons.wallet_rounded,
+                  color: Theme.of(context).colorScheme.primary),
+              onSelected: (value) async {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: Text(AppLocalizations.of(context)
+                                  ?.loadingWalletTitle ??
+                              stringNotFoundText),
+                          content:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                            Text(AppLocalizations.of(context)
+                                    ?.loadingWalletDescription ??
+                                stringNotFoundText),
+                            const SizedBox(width: 2, height: 20),
+                            CircularProgressIndicator(
+                              semanticsLabel: AppLocalizations.of(context)
+                                  ?.loadingWalletDescription,
+                            ),
+                          ]));
+                    });
 
-                        try {
-                          await WalletHelper.setActiveWallet(value, context);
-                        } catch (e) {}
+                try {
+                  await WalletHelper.setActiveWallet(value, context);
+                } catch (e) {}
 
-                        WidgetsBinding.instance.scheduleFrameCallback((_) {
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      itemBuilder: (context) {
-                        List<PopupMenuItem<int>> items =
-                            List.empty(growable: true);
+                WidgetsBinding.instance.scheduleFrameCallback((_) {
+                  Navigator.of(context).pop();
+                });
+              },
+              itemBuilder: (context) {
+                List<PopupMenuItem<int>> items = List.empty(growable: true);
 
-                        for (WalletEntry element
-                            in WalletStaticState.wallets ?? []) {
-                          items.add(PopupMenuItem<int>(
-                              value: element.id,
-                              child: Text(element.name,
-                                  overflow: TextOverflow.ellipsis)));
-                        }
+                for (WalletEntry element in WalletStaticState.wallets ?? []) {
+                  items.add(PopupMenuItem<int>(
+                      value: element.id,
+                      child:
+                          Text(element.name, overflow: TextOverflow.ellipsis)));
+                }
 
-                        return items;
-                      },
-                    ),
-                    const SizedBox(width: 10)
-                  ],
-                ),
-                extendBody: true,
-                resizeToAvoidBottomInset: true,
-                bottomNavigationBar: Focus(
-                    autofocus: true,
-                    child: NavigationBar(
-                      destinations: [
-                        /*NavigationDestination(
+                return items;
+              },
+            ),
+            const SizedBox(width: 10)
+          ],
+        ),
+        extendBody: true,
+        resizeToAvoidBottomInset: true,
+        bottomNavigationBar: useVerticalBar
+            ? null
+            : Focus(
+                autofocus: true,
+                child: NavigationBar(
+                  selectedIndex: _selectedIndex,
+                  destinations: [
+                    /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
                   label: AppLocalizations.of(context)?.homeNavHome ??
                       stringNotFoundText,
                 ),*/
-                        NavigationDestination(
-                          icon: const Icon(Icons.web_rounded),
-                          label: AppLocalizations.of(context)?.homeNavWebsite ??
-                              stringNotFoundText,
-                        ),
-                        NavigationDestination(
-                          icon: const Icon(Icons.explore_rounded),
-                          label:
-                              AppLocalizations.of(context)?.homeNavExplorer ??
-                                  stringNotFoundText,
-                        ),
-                        /*NavigationDestination(
+                    NavigationDestination(
+                      icon: const Icon(Icons.web_rounded),
+                      label: AppLocalizations.of(context)?.homeNavWebsite ??
+                          stringNotFoundText,
+                    ),
+                    NavigationDestination(
+                      icon: const Icon(Icons.explore_rounded),
+                      label: AppLocalizations.of(context)?.homeNavExplorer ??
+                          stringNotFoundText,
+                    ),
+                    /*NavigationDestination(
                           icon: const Icon(Icons.qr_code_scanner_rounded),
                           label: AppLocalizations.of(context)?.homeNavScanQR ??
                               stringNotFoundText,
                         ),*/
-                        NavigationDestination(
-                          icon: const Icon(Icons.settings_rounded),
-                          label:
-                              AppLocalizations.of(context)?.homeNavSettings ??
-                                  stringNotFoundText,
-                        ),
-                      ],
-                      onDestinationSelected: (index) async {
-                        BaseStaticState.useHomeBack = true;
-                        if (index == 1) {
-                          try {
-                            var url =
-                                Uri.parse(BaseStaticState.explorerAddress);
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            }
-                          } catch (e) {}
-                        } else if (index == 0) {
-                          //_scanQRRoute();
-                          try {
-                            var url = Uri.parse(websiteAddress);
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            }
-                          } catch (e) {}
-                        } else if (index == 2) {
-                          BaseStaticState.prevScreen = Screen.home;
-                          BaseStaticState.biometricsActive =
-                              await _checkBiometrics();
+                    NavigationDestination(
+                      icon: const Icon(Icons.settings_rounded),
+                      label: AppLocalizations.of(context)?.homeNavSettings ??
+                          stringNotFoundText,
+                    ),
+                  ],
+                  onDestinationSelected: _destinationSelected,
+                )),
+        body: SafeArea(
+          child: useVerticalBar
+              ? Row(
+                  children: [
+                    Focus(
+                        autofocus: true,
+                        child: NavigationRail(
+                          selectedIndex: _selectedIndex,
+                          labelType: NavigationRailLabelType.all,
+                          destinations: [
+                            /*NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  icon: const Icon(Icons.home_rounded),
+                  label: Text(AppLocalizations.of(context)?.homeNavHome ??
+                      stringNotFoundText),
+                ),*/
+                            NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              icon: const Icon(Icons.web_rounded),
+                              label: Text(AppLocalizations.of(context)
+                                      ?.homeNavWebsite ??
+                                  stringNotFoundText),
+                            ),
+                            NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              icon: const Icon(Icons.explore_rounded),
+                              label: Text(AppLocalizations.of(context)
+                                      ?.homeNavExplorer ??
+                                  stringNotFoundText),
+                            ),
+                            /*NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                          icon: const Icon(Icons.qr_code_scanner_rounded),
+                          label: Text(AppLocalizations.of(context)?.homeNavScanQR ??
+                              stringNotFoundText),
+                        ),*/
+                            NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              icon: const Icon(Icons.settings_rounded),
+                              label: Text(AppLocalizations.of(context)
+                                      ?.homeNavSettings ??
+                                  stringNotFoundText),
+                            ),
+                          ],
+                          onDestinationSelected: _destinationSelected,
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(25, 25, 0, 25),
+                        constraints:
+                            const BoxConstraints(minWidth: 350, maxWidth: 350),
+                        child: Column(children: [
+                          Container(
+                              padding: const EdgeInsets.fromLTRB(25, 0, 0, 10),
+                              width: double.infinity,
+                              child: Text(
+                                title?.name ??
+                                    (AppLocalizations.of(context)
+                                            ?.walletTitle ??
+                                        stringNotFoundText),
+                                style: const TextStyle(fontSize: 24),
+                                textAlign: TextAlign.left,
+                              )),
+                          const BalanceWidget(),
+                          const SizedBox(height: 10),
+                          const CoinControlWidget(),
+                          const SizedBox(height: 10),
+                        ])),
+                    Expanded(
+                        child: Container(
+                            margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                            child: useVerticalBar
+                                ? widget.child != null
+                                    ? widget.child!
+                                    : const SizedBox(height: 1)
+                                : ListView(
+                                    children: [
+                                      widget.child != null
+                                          ? widget.child!
+                                          : const SizedBox(height: 1)
+                                    ],
+                                  )))
+                  ],
+                )
+              : ListView(
+                  children: [
+                    const BalanceWidget(),
+                    const SizedBox(height: 10),
+                    const CoinControlWidget(),
+                    const SizedBox(height: 10),
+                    widget.child != null
+                        ? widget.child!
+                        : const SizedBox(height: 1)
+                  ],
+                ), //widget.child
+        ));
+  }
 
-                          WidgetsBinding.instance.scheduleFrameCallback((_) {
-                            Navigator.of(context).push(_createSettingsRoute());
-                          });
-                        }
-                      },
-                    )),
-                body: SafeArea(
-                  child: ListView(
-                    children: [
-                      const BalanceWidget(),
-                      const SizedBox(height: 10),
-                      const CoinControlWidget(),
-                      const SizedBox(height: 10),
-                      widget.child != null
-                          ? widget.child!
-                          : const SizedBox(height: 1)
-                    ],
-                  ), //widget.child
-                ))));
+  _destinationSelected(index) async {
+    _selectedIndex = index;
+    BaseStaticState.useHomeBack = true;
+    if (index == 1) {
+      try {
+        var url = Uri.parse(BaseStaticState.explorerAddress);
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        }
+      } catch (e) {}
+    } else if (index == 0) {
+      //_scanQRRoute();
+      try {
+        var url = Uri.parse(websiteAddress);
+        if (await canLaunchUrl(url)) {
+          await launchUrl(url);
+        }
+      } catch (e) {}
+    } else if (index == 2) {
+      BaseStaticState.prevScreen = Screen.home;
+      BaseStaticState.biometricsActive = await _checkBiometrics();
+
+      WidgetsBinding.instance.scheduleFrameCallback((_) {
+        Navigator.of(context).push(_createSettingsRoute());
+      });
+    }
+  }
+
+  String _getTitle(WalletEntry? entry) {
+    var bigScreen = isBigScreen(context);
+    return bigScreen
+        ? AppLocalizations.of(context)?.walletTitle ?? stringNotFoundText
+        : entry?.name ??
+            (AppLocalizations.of(context)?.walletTitle ?? stringNotFoundText);
   }
 
   _scanQRRoute() {
