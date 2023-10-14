@@ -4,7 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
@@ -43,6 +45,8 @@ class _WalletSettingsState extends State<WalletSettings> {
 
   @override
   Widget build(BuildContext context) {
+    var useVerticalBar = isBigScreen(context);
+
     List<Widget> settingsAdvanced = [
       Container(
           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -161,7 +165,15 @@ class _WalletSettingsState extends State<WalletSettings> {
                     _resetState();
 
                     WidgetsBinding.instance.scheduleFrameCallback((_) {
-                      Navigator.of(context).push(_createBackRoute());
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              AppLocalizations.of(context)?.settingsSaved ??
+                                  stringNotFoundText),
+                        ),
+                      );
+                      Navigator.of(context)
+                          .push(_createBackRoute(useVerticalBar));
                     });
                   } catch (e) {}
 
@@ -210,13 +222,16 @@ class _WalletSettingsState extends State<WalletSettings> {
                             title: Text(AppLocalizations.of(context)
                                     ?.deleteWalletConfirmationTitle ??
                                 stringNotFoundText),
-                            content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(AppLocalizations.of(context)
-                                          ?.deleteWalletConfirmation ??
-                                      stringNotFoundText)
-                                ]),
+                            content: Container(
+                                constraints: const BoxConstraints(
+                                    maxWidth: responsiveMaxDialogWidth),
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(AppLocalizations.of(context)
+                                              ?.deleteWalletConfirmation ??
+                                          stringNotFoundText)
+                                    ])),
                             actions: [
                               TextButton(
                                   onPressed: context
@@ -251,8 +266,9 @@ class _WalletSettingsState extends State<WalletSettings> {
                                               // error, wallet not found, move to home page
                                               WidgetsBinding.instance
                                                   .scheduleFrameCallback((_) {
-                                                Navigator.of(context)
-                                                    .push(_createBackRoute());
+                                                Navigator.of(context).push(
+                                                    _createBackRoute(
+                                                        useVerticalBar));
                                               });
                                             } else if (res == -1) {
                                               // all wallets deleted, move to welcome screen
@@ -265,8 +281,9 @@ class _WalletSettingsState extends State<WalletSettings> {
                                               // move to home page (new wallet selected)
                                               WidgetsBinding.instance
                                                   .scheduleFrameCallback((_) {
-                                                Navigator.of(context)
-                                                    .push(_createBackRoute());
+                                                Navigator.of(context).push(
+                                                    _createBackRoute(
+                                                        useVerticalBar));
                                               });
                                             }
                                           } catch (e) {}
@@ -310,29 +327,41 @@ class _WalletSettingsState extends State<WalletSettings> {
       ),
     ));
 
-    return BackLayout(
-        title: AppLocalizations.of(context)?.walletSettingsTitle,
-        back: () {
-          _resetState();
-          Navigator.of(context).push(_createBackRoute());
-        },
-        child: Form(
-            key: _formKey,
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: settingsAdvanced),
-            )));
+    return useVerticalBar
+        ? MainLayout(
+            overrideTitle: AppLocalizations.of(context)?.walletSettingsTitle,
+            child: _createDataForLayout(settingsAdvanced))
+        : BackLayout(
+            title: AppLocalizations.of(context)?.walletSettingsTitle,
+            back: () {
+              _resetState();
+              Navigator.of(context).push(_createBackRoute(useVerticalBar));
+            },
+            child: _createDataForLayout(settingsAdvanced));
+  }
+
+  Widget _createDataForLayout(List<Widget> settingsAdvanced) {
+    return Form(
+        key: _formKey,
+        child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: settingsAdvanced),
+        ));
   }
 }
 
-Route _createBackRoute() {
+Route _createBackRoute(bool useVerticalBar) {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const Home(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        if (useVerticalBar) {
+          return child;
+        }
+
         const begin = Offset(-1.0, 0.0);
         const end = Offset.zero;
         const curve = Curves.ease;

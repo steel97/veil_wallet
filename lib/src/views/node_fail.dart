@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/views/home.dart';
@@ -62,7 +63,6 @@ class _NodeFailState extends State<NodeFail> {
                                 });
                                 // ignore: empty_catches
                               } catch (e) {
-                                print(e);
                                 WidgetsBinding.instance
                                     .scheduleFrameCallback((_) {
                                   showDialog(
@@ -73,14 +73,19 @@ class _NodeFailState extends State<NodeFail> {
                                                         context)
                                                     ?.nodeFailedAlertTitle ??
                                                 stringNotFoundText),
-                                            content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(AppLocalizations.of(
-                                                              context)
-                                                          ?.nodeFailedAlertDescription ??
-                                                      stringNotFoundText)
-                                                ]),
+                                            content: Container(
+                                                constraints: const BoxConstraints(
+                                                    maxWidth:
+                                                        responsiveMaxDialogWidth),
+                                                child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(AppLocalizations.of(
+                                                                  context)
+                                                              ?.nodeFailedAlertDescription ??
+                                                          stringNotFoundText)
+                                                    ])),
                                             actions: [
                                               TextButton(
                                                   onPressed: () {

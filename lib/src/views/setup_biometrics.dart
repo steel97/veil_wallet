@@ -6,6 +6,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
@@ -209,14 +210,19 @@ class _SetupBiometricsState extends State<SetupBiometrics> {
                                               AppLocalizations.of(context)
                                                       ?.nodeFailedAlertTitle ??
                                                   stringNotFoundText),
-                                          content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(AppLocalizations.of(
-                                                            context)
-                                                        ?.nodeFailedAlertDescription ??
-                                                    stringNotFoundText)
-                                              ]),
+                                          content: Container(
+                                              constraints: const BoxConstraints(
+                                                  maxWidth:
+                                                      responsiveMaxDialogWidth),
+                                              child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(AppLocalizations.of(
+                                                                context)
+                                                            ?.nodeFailedAlertDescription ??
+                                                        stringNotFoundText)
+                                                  ])),
                                           actions: [
                                             TextButton(
                                                 onPressed: () {

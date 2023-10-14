@@ -14,20 +14,22 @@ import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
+import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/scan_qr.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key, @required this.child});
+  const MainLayout({super.key, @required this.child, this.overrideTitle});
 
   final Widget? child;
+  final String? overrideTitle;
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  int _selectedIndex = 0;
+  int? _selectedIndex;
 
   Future<bool> _checkBiometrics() async {
     var storageService = StorageService();
@@ -156,17 +158,22 @@ class _MainLayoutState extends State<MainLayout> {
                           title: Text(AppLocalizations.of(context)
                                   ?.loadingWalletTitle ??
                               stringNotFoundText),
-                          content:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                            Text(AppLocalizations.of(context)
-                                    ?.loadingWalletDescription ??
-                                stringNotFoundText),
-                            const SizedBox(width: 2, height: 20),
-                            CircularProgressIndicator(
-                              semanticsLabel: AppLocalizations.of(context)
-                                  ?.loadingWalletDescription,
-                            ),
-                          ]));
+                          content: Container(
+                              constraints: const BoxConstraints(
+                                  maxWidth: responsiveMaxDialogWidth),
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(AppLocalizations.of(context)
+                                            ?.loadingWalletDescription ??
+                                        stringNotFoundText),
+                                    const SizedBox(width: 2, height: 20),
+                                    CircularProgressIndicator(
+                                      semanticsLabel:
+                                          AppLocalizations.of(context)
+                                              ?.loadingWalletDescription,
+                                    ),
+                                  ])));
                     });
 
                 try {
@@ -200,7 +207,7 @@ class _MainLayoutState extends State<MainLayout> {
             : Focus(
                 autofocus: true,
                 child: NavigationBar(
-                  selectedIndex: _selectedIndex,
+                  selectedIndex: (_selectedIndex ?? 0),
                   destinations: [
                     /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
@@ -240,12 +247,14 @@ class _MainLayoutState extends State<MainLayout> {
                           selectedIndex: _selectedIndex,
                           labelType: NavigationRailLabelType.all,
                           destinations: [
-                            /*NavigationRailDestination(
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  icon: const Icon(Icons.home_rounded),
-                  label: Text(AppLocalizations.of(context)?.homeNavHome ??
-                      stringNotFoundText),
-                ),*/
+                            NavigationRailDestination(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              icon: const Icon(Icons.home_rounded),
+                              label: Text(
+                                  AppLocalizations.of(context)?.homeNavHome ??
+                                      stringNotFoundText),
+                            ),
                             NavigationRailDestination(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 10),
@@ -331,16 +340,21 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   _destinationSelected(index) async {
-    _selectedIndex = index;
+    var useVerticalBar = isBigScreen(context);
+    var baseActionsOffset = useVerticalBar ? 1 : 0;
+    //_selectedIndex = index;
     BaseStaticState.useHomeBack = true;
-    if (index == 1) {
+    if (index == 0 && useVerticalBar) {
+      // navigate to home
+      Navigator.of(context).pushReplacement(_createHomeRoute());
+    } else if (index - baseActionsOffset == 1) {
       try {
         var url = Uri.parse(BaseStaticState.explorerAddress);
         if (await canLaunchUrl(url)) {
           await launchUrl(url);
         }
       } catch (e) {}
-    } else if (index == 0) {
+    } else if (index - baseActionsOffset == 0) {
       //_scanQRRoute();
       try {
         var url = Uri.parse(websiteAddress);
@@ -348,7 +362,7 @@ class _MainLayoutState extends State<MainLayout> {
           await launchUrl(url);
         }
       } catch (e) {}
-    } else if (index == 2) {
+    } else if (index - baseActionsOffset == 2) {
       BaseStaticState.prevScreen = Screen.home;
       BaseStaticState.biometricsActive = await _checkBiometrics();
 
@@ -360,6 +374,10 @@ class _MainLayoutState extends State<MainLayout> {
 
   String _getTitle(WalletEntry? entry) {
     var bigScreen = isBigScreen(context);
+    if (widget.overrideTitle != null) {
+      return widget.overrideTitle!;
+    }
+
     return bigScreen
         ? AppLocalizations.of(context)?.walletTitle ?? stringNotFoundText
         : entry?.name ??
@@ -371,6 +389,14 @@ class _MainLayoutState extends State<MainLayout> {
     BaseStaticState.prevScanQRScreen = Screen.home;
     Navigator.of(context).pushReplacement(_createScanQRRoute());
   }
+}
+
+Route _createHomeRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Home(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return child;
+      });
 }
 
 Route _createScanQRRoute() {

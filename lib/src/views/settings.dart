@@ -8,6 +8,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/locale_entry.dart';
 import 'package:veil_wallet/src/core/node_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
@@ -219,39 +220,48 @@ class _SettingsState extends State<Settings> {
                                                             context)
                                                         ?.nodeSelectionTitle ??
                                                     stringNotFoundText),
-                                                content: StatefulBuilder(
-                                                    // You need this, notice the parameters below:
-                                                    builder: (BuildContext
-                                                            context,
-                                                        StateSetter setState) {
-                                                  List<Widget> nodes =
-                                                      List.empty(
-                                                          growable: true);
-                                                  for (NodeEntry node
-                                                      in knownNodes) {
-                                                    nodes.add(ListTile(
-                                                      title: Text(node.name),
-                                                      leading: Radio<String>(
-                                                        value: node.url,
-                                                        groupValue:
-                                                            _selectedNode,
-                                                        onChanged: (String?
-                                                            value) async {
-                                                          setState(() {
-                                                            _selectedNode = value ??
-                                                                defaultNodeAddress;
-                                                          });
-                                                        },
-                                                      ),
-                                                    ));
-                                                  }
+                                                content: Container(
+                                                    constraints:
+                                                        const BoxConstraints(
+                                                            maxWidth:
+                                                                responsiveMaxDialogWidth),
+                                                    child: StatefulBuilder(
+                                                        // You need this, notice the parameters below:
+                                                        builder: (BuildContext
+                                                                context,
+                                                            StateSetter
+                                                                setState) {
+                                                      List<Widget> nodes =
+                                                          List.empty(
+                                                              growable: true);
+                                                      for (NodeEntry node
+                                                          in knownNodes) {
+                                                        nodes.add(ListTile(
+                                                          title:
+                                                              Text(node.name),
+                                                          leading:
+                                                              Radio<String>(
+                                                            value: node.url,
+                                                            groupValue:
+                                                                _selectedNode,
+                                                            onChanged: (String?
+                                                                value) async {
+                                                              setState(() {
+                                                                _selectedNode =
+                                                                    value ??
+                                                                        defaultNodeAddress;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ));
+                                                      }
 
-                                                  return Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: nodes,
-                                                  );
-                                                }),
+                                                      return Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: nodes,
+                                                      );
+                                                    })),
                                                 actions: [
                                                   TextButton(
                                                       onPressed: () {
@@ -433,35 +443,41 @@ class _SettingsState extends State<Settings> {
                                               AppLocalizations.of(context)
                                                       ?.localeSelectionTitle ??
                                                   stringNotFoundText),
-                                          content: StatefulBuilder(
-                                              // You need this, notice the parameters below:
-                                              builder: (BuildContext context,
-                                                  StateSetter setState) {
-                                            List<Widget> locales =
-                                                List.empty(growable: true);
-                                            for (LocaleEntry locale
-                                                in knownLanguages) {
-                                              locales.add(ListTile(
-                                                title: Text(locale.name),
-                                                leading: Radio<String>(
-                                                  value: locale.code,
-                                                  groupValue: _localeTmp,
-                                                  onChanged:
-                                                      (String? value) async {
-                                                    setState(() {
-                                                      _localeTmp =
-                                                          value ?? 'en';
-                                                    });
-                                                  },
-                                                ),
-                                              ));
-                                            }
+                                          content: Container(
+                                              constraints: const BoxConstraints(
+                                                  maxWidth:
+                                                      responsiveMaxDialogWidth),
+                                              child: StatefulBuilder(
+                                                  // You need this, notice the parameters below:
+                                                  builder: (BuildContext
+                                                          context,
+                                                      StateSetter setState) {
+                                                List<Widget> locales =
+                                                    List.empty(growable: true);
+                                                for (LocaleEntry locale
+                                                    in knownLanguages) {
+                                                  locales.add(ListTile(
+                                                    title: Text(locale.name),
+                                                    leading: Radio<String>(
+                                                      value: locale.code,
+                                                      groupValue: _localeTmp,
+                                                      onChanged: (String?
+                                                          value) async {
+                                                        setState(() {
+                                                          _localeTmp =
+                                                              value ?? 'en';
+                                                        });
+                                                      },
+                                                    ),
+                                                  ));
+                                                }
 
-                                            return Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: locales,
-                                            );
-                                          }),
+                                                return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: locales,
+                                                );
+                                              })),
                                           actions: [
                                             TextButton(
                                                 onPressed: () {

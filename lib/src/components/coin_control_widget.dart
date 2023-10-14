@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 import 'package:veil_wallet/src/views/receive_coins.dart';
 
@@ -10,6 +11,8 @@ class CoinControlWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var useVerticalBar = isBigScreen(context);
+
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 10),
         width: double.infinity,
@@ -20,9 +23,9 @@ class CoinControlWidget extends StatelessWidget {
             selectedIndex: 0,
             onDestinationSelected: (value) async {
               if (value == 0) {
-                Navigator.of(context).push(_createMakeTxRoute());
+                Navigator.of(context).push(_createMakeTxRoute(useVerticalBar));
               } else if (value == 1) {
-                Navigator.of(context).push(_createReceiveRoute());
+                Navigator.of(context).push(_createReceiveRoute(useVerticalBar));
               } else if (value == 2) {
                 try {
                   var url = Uri.parse(buyCryptoLink);
@@ -53,11 +56,15 @@ class CoinControlWidget extends StatelessWidget {
   }
 }
 
-Route _createMakeTxRoute() {
+Route _createMakeTxRoute(bool useVerticalBar) {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
     return const MakeTx();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    if (useVerticalBar) {
+      return child;
+    }
+
     const begin = Offset(1.0, 0.0);
     const end = Offset.zero;
     const curve = Curves.ease;
@@ -71,11 +78,15 @@ Route _createMakeTxRoute() {
   });
 }
 
-Route _createReceiveRoute() {
+Route _createReceiveRoute(bool useVerticalBar) {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
     return const ReceiveCoins();
   }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    if (useVerticalBar) {
+      return child;
+    }
+
     const begin = Offset(1.0, 0.0);
     const end = Offset.zero;
     const curve = Curves.ease;

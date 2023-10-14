@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
@@ -179,7 +180,8 @@ class BalanceWidget extends StatelessWidget {
                                                                 .of(context)
                                                             ?.loadingAddressTitle ??
                                                         stringNotFoundText),
-                                                    content: Column(
+                                                    content: Container(constraints: const BoxConstraints(
+                                  maxWidth: responsiveMaxDialogWidth), child:Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: [
@@ -196,7 +198,7 @@ class BalanceWidget extends StatelessWidget {
                                                                         context)
                                                                     ?.loadingAddressDescription,
                                                           ),
-                                                        ]));
+                                                        ])));
                                               });*/
 
                                       try {
@@ -265,17 +267,22 @@ class BalanceWidget extends StatelessWidget {
         '';
 
     WidgetsBinding.instance.scheduleFrameCallback((_) {
-      Navigator.of(context).push(_createWalletSettingsRoute());
+      var useVerticalBar = isBigScreen(context);
+      Navigator.of(context).push(_createWalletSettingsRoute(useVerticalBar));
     });
   }
 }
 
-Route _createWalletSettingsRoute() {
+Route _createWalletSettingsRoute(bool useVerticalBar) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) {
       return const WalletSettings();
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      if (useVerticalBar) {
+        return child;
+      }
+
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
       const curve = Curves.ease;
