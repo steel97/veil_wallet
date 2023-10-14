@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:veil_wallet/src/helpers/responsive.dart';
 
 typedef VoidCallback = void Function();
 
@@ -46,7 +47,7 @@ class _BackLayoutState extends State<BackLayout> {
                   child: Center(
                       child: Container(
                           constraints: const BoxConstraints(
-                              minWidth: 100, maxWidth: 600),
+                              minWidth: 100, maxWidth: responsiveMaxMainWidth),
                           child: widget.child)),
                 ))));
   }

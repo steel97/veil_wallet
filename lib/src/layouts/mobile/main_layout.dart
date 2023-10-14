@@ -19,10 +19,12 @@ import 'package:veil_wallet/src/views/scan_qr.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key, @required this.child, this.overrideTitle});
+  const MainLayout(
+      {super.key, @required this.child, this.overrideTitle, this.noWidthLimit});
 
   final Widget? child;
   final String? overrideTitle;
+  final bool? noWidthLimit;
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -310,19 +312,17 @@ class _MainLayoutState extends State<MainLayout> {
                           const SizedBox(height: 10),
                         ])),
                     Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
-                            child: useVerticalBar
-                                ? widget.child != null
+                        child: Center(
+                            child: Container(
+                                constraints: BoxConstraints(
+                                    minWidth: 100,
+                                    maxWidth: (widget.noWidthLimit ?? false)
+                                        ? double.infinity
+                                        : responsiveMaxMainWidth),
+                                margin: const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                                child: widget.child != null
                                     ? widget.child!
-                                    : const SizedBox(height: 1)
-                                : ListView(
-                                    children: [
-                                      widget.child != null
-                                          ? widget.child!
-                                          : const SizedBox(height: 1)
-                                    ],
-                                  )))
+                                    : const SizedBox(height: 1))))
                   ],
                 )
               : ListView(

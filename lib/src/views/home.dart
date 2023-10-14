@@ -8,6 +8,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
+      noWidthLimit: true,
       child: Container(
           width: double.infinity,
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
