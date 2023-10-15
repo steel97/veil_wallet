@@ -70,7 +70,13 @@ flutter build appbundle --release
 flutter build apk --release
 ```
 
-#### Viewing logs:
+## Developing
+Updating `veil_light_plugin` dependency
+```
+git submodule update --remote --merge
+```
+
+Viewing logs:
 ```
 flutter logs
 ```
