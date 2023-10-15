@@ -14,95 +14,103 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var packageInfo = PackageInfo.fromPlatform();
-    return BackLayout(
-        title: AppLocalizations.of(context)?.aboutTitle,
-        back: () {
+    return WillPopScope(
+        onWillPop: () async {
           Navigator.of(context).push(_createBackRoute());
+          return false;
         },
-        child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: Text(
-                        AppLocalizations.of(context)?.aboutText ??
-                            stringNotFoundText,
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                        textAlign: TextAlign.center)),
-                TextButton(
-                    onPressed: () async {
-                      try {
-                        var url = Uri.parse(sourceCodeUrl);
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url);
-                        }
-                        // ignore: empty_catches
-                      } catch (e) {}
-                    },
-                    child: const Text(
-                      sourceCodeUrl,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14),
-                    )),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: Text(
-                        AppLocalizations.of(context)?.aboutText2 ??
-                            stringNotFoundText,
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                        textAlign: TextAlign.center)),
-                TextButton.icon(
-                    onPressed: () {
-                      Clipboard.setData(
-                              const ClipboardData(text: donationsAddress))
-                          .then((value) => {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(AppLocalizations.of(context)
-                                            ?.copiedText ??
-                                        stringNotFoundText),
-                                  ),
-                                )
-                              });
-                    },
-                    icon: const Icon(Icons.copy_rounded),
-                    label: const ExtendedText(
-                      donationsAddress,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      overflowWidget: TextOverflowWidget(
-                        position: TextOverflowPosition.middle,
-                        align: TextOverflowAlign.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              '\u2026',
-                              style: TextStyle(fontSize: 14),
-                            )
-                          ],
-                        ),
-                      ),
-                      style: TextStyle(fontSize: 14),
-                    )),
-                Expanded(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.aboutTitle,
+            back: () {
+              Navigator.of(context).push(_createBackRoute());
+            },
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FutureBuilder(
-                        future: packageInfo,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<PackageInfo> snapshot) {
-                          return Text('ver. ${snapshot.data?.version}');
-                        })
-                  ],
-                ))
-              ]),
-        ));
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Text(
+                            AppLocalizations.of(context)?.aboutText ??
+                                stringNotFoundText,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.normal),
+                            textAlign: TextAlign.center)),
+                    TextButton(
+                        onPressed: () async {
+                          try {
+                            var url = Uri.parse(sourceCodeUrl);
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            }
+                            // ignore: empty_catches
+                          } catch (e) {}
+                        },
+                        child: const Text(
+                          sourceCodeUrl,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14),
+                        )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Text(
+                            AppLocalizations.of(context)?.aboutText2 ??
+                                stringNotFoundText,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.normal),
+                            textAlign: TextAlign.center)),
+                    TextButton.icon(
+                        onPressed: () {
+                          Clipboard.setData(
+                                  const ClipboardData(text: donationsAddress))
+                              .then((value) => {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            AppLocalizations.of(context)
+                                                    ?.copiedText ??
+                                                stringNotFoundText),
+                                      ),
+                                    )
+                                  });
+                        },
+                        icon: const Icon(Icons.copy_rounded),
+                        label: const ExtendedText(
+                          donationsAddress,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          overflowWidget: TextOverflowWidget(
+                            position: TextOverflowPosition.middle,
+                            align: TextOverflowAlign.center,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  '\u2026',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
+                            ),
+                          ),
+                          style: TextStyle(fontSize: 14),
+                        )),
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        FutureBuilder(
+                            future: packageInfo,
+                            builder: (BuildContext context,
+                                AsyncSnapshot<PackageInfo> snapshot) {
+                              return Text('ver. ${snapshot.data?.version}');
+                            })
+                      ],
+                    ))
+                  ]),
+            )));
   }
 }
 

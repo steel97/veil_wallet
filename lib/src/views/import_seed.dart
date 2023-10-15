@@ -43,223 +43,243 @@ class _ImportSeedState extends State<ImportSeed> {
 
   @override
   Widget build(BuildContext context) {
-    return BackLayout(
-        title: AppLocalizations.of(context)?.importSeedTitle,
-        back: () {
-          BaseStaticState.walletEncryptionPassword = '';
-          BaseStaticState.tempWalletName = '';
-          BaseStaticState.importWalletWords = [];
-          Navigator.of(context).push(_createBackRoute());
+    return WillPopScope(
+        onWillPop: () async {
+          _backAction();
+          return false;
         },
-        child: Form(
-            key: _formKey,
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: ListView(children: [
-                Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: TextFormField(
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(bottom: 0.0),
-                            border: const UnderlineInputBorder(),
-                            hintText: AppLocalizations.of(context)
-                                ?.walletNameInputFieldHint,
-                            label: Text(AppLocalizations.of(context)
-                                    ?.walletNameInputField ??
-                                stringNotFoundText)),
-                        controller: _walletNameInput)),
-                Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    width: double.infinity,
-                    child: Text(
-                      AppLocalizations.of(context)?.importSeedDescription ??
-                          stringNotFoundText,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 24,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisExtent: 62,
-                            crossAxisSpacing: 5),
-                    itemBuilder: (_, index) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          /*Container(
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.importSeedTitle,
+            back: () {
+              _backAction();
+            },
+            child: Form(
+                key: _formKey,
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: ListView(children: [
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 0.0),
+                                border: const UnderlineInputBorder(),
+                                hintText: AppLocalizations.of(context)
+                                    ?.walletNameInputFieldHint,
+                                label: Text(AppLocalizations.of(context)
+                                        ?.walletNameInputField ??
+                                    stringNotFoundText)),
+                            controller: _walletNameInput)),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        width: double.infinity,
+                        child: Text(
+                          AppLocalizations.of(context)?.importSeedDescription ??
+                              stringNotFoundText,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        )),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 24,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisExtent: 62,
+                                crossAxisSpacing: 5),
+                        itemBuilder: (_, index) {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              /*Container(
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: SizedBox(
                                 width: 24, child: Text('${index + 1}.'))),*/
-                          Expanded(
-                              child: TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return AppLocalizations.of(context)
-                                    ?.seedWordCantBeEmpty;
-                              }
+                              Expanded(
+                                  child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLocalizations.of(context)
+                                        ?.seedWordCantBeEmpty;
+                                  }
 
-                              var word = value.toLowerCase().trim();
-                              return Lightwallet.verifyWord(word)
-                                  ? null
-                                  : AppLocalizations.of(context)?.seedWordWrong;
-                            },
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsets.only(bottom: 0.0),
-                              border: const UnderlineInputBorder(),
-                              hintText: '${index + 1}.',
-                            ),
-                            autofillHints: Lightwallet.getValidWords(),
-                            controller: _mnemonicInput[index],
-                          ))
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: OutlinedButton.icon(
-                    style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(45)),
-                    onPressed: _importLoading
-                        ? null
-                        : () {
-                            BaseStaticState.prevWalAdvancedScreen =
-                                Screen.importSeed;
-                            List<String> mnemonic = List.empty(growable: true);
-                            for (var element in _mnemonicInput) {
-                              mnemonic.add(element.text.toLowerCase().trim());
-                            }
-                            BaseStaticState.importWalletWords = mnemonic;
-                            BaseStaticState.tempWalletName =
-                                _walletNameInput.text;
-                            Navigator.of(context).push(_createAdvancedRoute());
-                          },
-                    icon: const Icon(Icons.file_open_rounded),
-                    label: Text(
-                        AppLocalizations.of(context)?.walletAdvancedButton ??
-                            stringNotFoundText,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(45)),
-                    onPressed: _importLoading
-                        ? null
-                        : () async {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-
-                            List<String> mnemonic = List.empty(growable: true);
-                            for (var element in _mnemonicInput) {
-                              mnemonic.add(element.text.toLowerCase().trim());
-                            }
-
-                            if (BaseStaticState.prevScreen == Screen.settings) {
-                              // create and save wallet
-                              setState(() {
-                                _importLoading = true;
-                              });
-                              try {
-                                var valName = _walletNameInput.text;
-                                if (valName.trim().isEmpty) {
-                                  valName = defaultWalletName;
+                                  var word = value.toLowerCase().trim();
+                                  return Lightwallet.verifyWord(word)
+                                      ? null
+                                      : AppLocalizations.of(context)
+                                          ?.seedWordWrong;
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(bottom: 0.0),
+                                  border: const UnderlineInputBorder(),
+                                  hintText: '${index + 1}.',
+                                ),
+                                autofillHints: Lightwallet.getValidWords(),
+                                controller: _mnemonicInput[index],
+                              ))
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: OutlinedButton.icon(
+                        style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(45)),
+                        onPressed: _importLoading
+                            ? null
+                            : () {
+                                BaseStaticState.prevWalAdvancedScreen =
+                                    Screen.importSeed;
+                                List<String> mnemonic =
+                                    List.empty(growable: true);
+                                for (var element in _mnemonicInput) {
+                                  mnemonic
+                                      .add(element.text.toLowerCase().trim());
                                 }
-                                await WalletHelper.createOrImportWallet(
-                                    valName,
-                                    mnemonic,
-                                    BaseStaticState.walletEncryptionPassword,
-                                    true,
-                                    context);
-                                // move to home
-                                await WalletHelper.prepareHomePage(context);
-                                BaseStaticState.importWalletWords = [];
-                                WidgetsBinding.instance
-                                    .scheduleFrameCallback((_) {
-                                  Navigator.of(context)
-                                      .push(_createHomeRoute());
-                                });
-                              } catch (e) {
-                                WidgetsBinding.instance
-                                    .scheduleFrameCallback((_) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                            title: Text(AppLocalizations.of(
-                                                        context)
-                                                    ?.nodeFailedAlertTitle ??
-                                                stringNotFoundText),
-                                            content: Container(
-                                                constraints: const BoxConstraints(
-                                                    maxWidth:
-                                                        responsiveMaxDialogWidth),
-                                                child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(AppLocalizations.of(
-                                                                  context)
-                                                              ?.nodeFailedAlertDescription ??
-                                                          stringNotFoundText)
-                                                    ])),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(
-                                                      AppLocalizations.of(
-                                                                  context)
+                                BaseStaticState.importWalletWords = mnemonic;
+                                BaseStaticState.tempWalletName =
+                                    _walletNameInput.text;
+                                Navigator.of(context)
+                                    .push(_createAdvancedRoute());
+                              },
+                        icon: const Icon(Icons.file_open_rounded),
+                        label: Text(
+                            AppLocalizations.of(context)
+                                    ?.walletAdvancedButton ??
+                                stringNotFoundText,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(45)),
+                        onPressed: _importLoading
+                            ? null
+                            : () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+
+                                List<String> mnemonic =
+                                    List.empty(growable: true);
+                                for (var element in _mnemonicInput) {
+                                  mnemonic
+                                      .add(element.text.toLowerCase().trim());
+                                }
+
+                                if (BaseStaticState.prevScreen ==
+                                    Screen.settings) {
+                                  // create and save wallet
+                                  setState(() {
+                                    _importLoading = true;
+                                  });
+                                  try {
+                                    var valName = _walletNameInput.text;
+                                    if (valName.trim().isEmpty) {
+                                      valName = defaultWalletName;
+                                    }
+                                    await WalletHelper.createOrImportWallet(
+                                        valName,
+                                        mnemonic,
+                                        BaseStaticState
+                                            .walletEncryptionPassword,
+                                        true,
+                                        context);
+                                    // move to home
+                                    await WalletHelper.prepareHomePage(context);
+                                    BaseStaticState.importWalletWords = [];
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      Navigator.of(context)
+                                          .push(_createHomeRoute());
+                                    });
+                                  } catch (e) {
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                                title: Text(AppLocalizations.of(
+                                                            context)
+                                                        ?.nodeFailedAlertTitle ??
+                                                    stringNotFoundText),
+                                                content: Container(
+                                                    constraints:
+                                                        const BoxConstraints(
+                                                            maxWidth:
+                                                                responsiveMaxDialogWidth),
+                                                    child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text(AppLocalizations
+                                                                      .of(context)
+                                                                  ?.nodeFailedAlertDescription ??
+                                                              stringNotFoundText)
+                                                        ])),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text(AppLocalizations
+                                                                  .of(context)
                                                               ?.alertOkAction ??
                                                           stringNotFoundText))
-                                            ]);
-                                      });
-                                });
-                              }
-                              setState(() {
-                                _importLoading = false;
-                              });
-                            } else {
-                              // move to biometrics
-                              BaseStaticState.tempWalletName =
-                                  _walletNameInput.text;
-                              BaseStaticState.walletMnemonic = mnemonic;
-                              BaseStaticState.importWalletWords = mnemonic;
-                              Navigator.of(context)
-                                  .push(_createBiometricsRoute());
-                            }
-                          },
-                    icon: _importLoading
-                        ? Container(
-                            width: 24,
-                            height: 24,
-                            padding: const EdgeInsets.all(2.0),
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 3,
-                            ),
-                          )
-                        : const Icon(Icons.upload_rounded),
-                    label: Text(
-                        AppLocalizations.of(context)?.importWallet ??
-                            stringNotFoundText,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-              ]),
-            )));
+                                                ]);
+                                          });
+                                    });
+                                  }
+                                  setState(() {
+                                    _importLoading = false;
+                                  });
+                                } else {
+                                  // move to biometrics
+                                  BaseStaticState.tempWalletName =
+                                      _walletNameInput.text;
+                                  BaseStaticState.walletMnemonic = mnemonic;
+                                  BaseStaticState.importWalletWords = mnemonic;
+                                  Navigator.of(context)
+                                      .push(_createBiometricsRoute());
+                                }
+                              },
+                        icon: _importLoading
+                            ? Container(
+                                width: 24,
+                                height: 24,
+                                padding: const EdgeInsets.all(2.0),
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const Icon(Icons.upload_rounded),
+                        label: Text(
+                            AppLocalizations.of(context)?.importWallet ??
+                                stringNotFoundText,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                  ]),
+                ))));
+  }
+
+  _backAction() {
+    BaseStaticState.walletEncryptionPassword = '';
+    BaseStaticState.tempWalletName = '';
+    BaseStaticState.importWalletWords = [];
+    Navigator.of(context).push(_createBackRoute());
   }
 }
 

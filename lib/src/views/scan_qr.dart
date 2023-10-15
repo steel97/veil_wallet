@@ -39,51 +39,60 @@ class _ScanQRState extends State<ScanQR> {
 
   @override
   Widget build(BuildContext context) {
-    return BackLayout(
-      title: AppLocalizations.of(context)?.scanQRTitle,
-      back: () {
-        if (BaseStaticState.prevScanQRScreen == Screen.home) {
-          Navigator.of(context).push(_createHomeRoute());
-        } else {
-          Navigator.of(context).push(_createMakeTxRoute('', null));
-        }
-      },
-      child: Stack(
-        children: <Widget>[
-          _buildQrView(context),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+    return WillPopScope(
+        onWillPop: () async {
+          _backAction();
+          return false;
+        },
+        child: BackLayout(
+          title: AppLocalizations.of(context)?.scanQRTitle,
+          back: () {
+            _backAction();
+          },
+          child: Stack(
+            children: <Widget>[
+              _buildQrView(context),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(15),
-                        child: IconButton.filled(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            style: IconButton.styleFrom(
-                                minimumSize: const Size.square(64)),
-                            tooltip:
-                                AppLocalizations.of(context)?.flashlightToolip,
-                            icon: const Icon(Icons.flashlight_on_rounded)),
-                      )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.all(15),
+                            child: IconButton.filled(
+                                onPressed: () async {
+                                  await controller?.toggleFlash();
+                                  setState(() {});
+                                },
+                                style: IconButton.styleFrom(
+                                    minimumSize: const Size.square(64)),
+                                tooltip: AppLocalizations.of(context)
+                                    ?.flashlightToolip,
+                                icon: const Icon(Icons.flashlight_on_rounded)),
+                          )
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+
+  _backAction() {
+    if (BaseStaticState.prevScanQRScreen == Screen.home) {
+      Navigator.of(context).push(_createHomeRoute());
+    } else {
+      Navigator.of(context).push(_createMakeTxRoute('', null));
+    }
   }
 
   Widget _buildQrView(BuildContext context) {

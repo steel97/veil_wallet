@@ -28,113 +28,124 @@ class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
 
   @override
   Widget build(BuildContext context) {
-    return BackLayout(
-        title: AppLocalizations.of(context)?.saveSeedPhraseTitle,
-        back: () {
-          BaseStaticState.walletEncryptionPassword = '';
-          BaseStaticState.tempWalletName = '';
-          BaseStaticState.newWalletWords = [];
-          Navigator.of(context).push(_createBackRoute());
+    return WillPopScope(
+        onWillPop: () async {
+          _backAction();
+          return false;
         },
-        child: Container(
-            width: double.infinity,
-            margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: ListView(children: [
-              Container(
-                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.only(bottom: 0.0),
-                        border: const UnderlineInputBorder(),
-                        hintText: AppLocalizations.of(context)
-                            ?.walletNameInputFieldHint,
-                        label: Text(AppLocalizations.of(context)
-                                ?.walletNameInputField ??
-                            stringNotFoundText)),
-                    controller: _walletNameInput,
-                  )),
-              Container(
-                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  width: double.infinity,
-                  child: Text(
-                    AppLocalizations.of(context)?.saveSeedPhraseDescription ??
-                        stringNotFoundText,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left,
-                  )),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 24,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisExtent: 62,
-                            crossAxisSpacing: 5),
-                    itemBuilder: (_, index) {
-                      // hot reload fix
-                      if (BaseStaticState.newWalletWords.length <= index) {
-                        return const SizedBox(width: 1);
-                      }
-                      var entry = BaseStaticState.newWalletWords[index];
-                      var txt = TextEditingController();
-                      txt.text = '${index + 1}. $entry';
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          /*Container(
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.saveSeedPhraseTitle,
+            back: () {
+              _backAction();
+            },
+            child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: ListView(children: [
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(bottom: 0.0),
+                            border: const UnderlineInputBorder(),
+                            hintText: AppLocalizations.of(context)
+                                ?.walletNameInputFieldHint,
+                            label: Text(AppLocalizations.of(context)
+                                    ?.walletNameInputField ??
+                                stringNotFoundText)),
+                        controller: _walletNameInput,
+                      )),
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      width: double.infinity,
+                      child: Text(
+                        AppLocalizations.of(context)
+                                ?.saveSeedPhraseDescription ??
+                            stringNotFoundText,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.left,
+                      )),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 24,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisExtent: 62,
+                                crossAxisSpacing: 5),
+                        itemBuilder: (_, index) {
+                          // hot reload fix
+                          if (BaseStaticState.newWalletWords.length <= index) {
+                            return const SizedBox(width: 1);
+                          }
+                          var entry = BaseStaticState.newWalletWords[index];
+                          var txt = TextEditingController();
+                          txt.text = '${index + 1}. $entry';
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              /*Container(
                                 margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
                                 width: 24, child: Text('${index + 1}.'))),*/
-                          Expanded(
-                              child: TextField(
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    contentPadding:
-                                        const EdgeInsets.only(bottom: 0.0),
-                                    border: const UnderlineInputBorder(),
-                                    hintText: '${index + 1}.',
-                                  ),
-                                  controller: txt))
-                        ],
-                      );
-                    }),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: OutlinedButton.icon(
-                  style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(45)),
-                  onPressed: () {
-                    BaseStaticState.prevWalAdvancedScreen = Screen.newWallet;
-                    BaseStaticState.tempWalletName = _walletNameInput.text;
-                    Navigator.of(context).push(_createAdvancedRoute());
-                  },
-                  icon: const Icon(Icons.file_open_rounded),
-                  label: Text(
-                      AppLocalizations.of(context)?.walletAdvancedButton ??
-                          stringNotFoundText,
-                      overflow: TextOverflow.ellipsis),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                child: FilledButton(
-                  style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(45)),
-                  onPressed: () {
-                    BaseStaticState.tempWalletName = _walletNameInput.text;
-                    Navigator.of(context).push(_createVerifySeedRoute());
-                  },
-                  child: Text(
-                      AppLocalizations.of(context)?.nextButton ??
-                          stringNotFoundText,
-                      overflow: TextOverflow.ellipsis),
-                ),
-              ),
-            ])));
+                              Expanded(
+                                  child: TextField(
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.only(bottom: 0.0),
+                                        border: const UnderlineInputBorder(),
+                                        hintText: '${index + 1}.',
+                                      ),
+                                      controller: txt))
+                            ],
+                          );
+                        }),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: OutlinedButton.icon(
+                      style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(45)),
+                      onPressed: () {
+                        BaseStaticState.prevWalAdvancedScreen =
+                            Screen.newWallet;
+                        BaseStaticState.tempWalletName = _walletNameInput.text;
+                        Navigator.of(context).push(_createAdvancedRoute());
+                      },
+                      icon: const Icon(Icons.file_open_rounded),
+                      label: Text(
+                          AppLocalizations.of(context)?.walletAdvancedButton ??
+                              stringNotFoundText,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                    child: FilledButton(
+                      style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(45)),
+                      onPressed: () {
+                        BaseStaticState.tempWalletName = _walletNameInput.text;
+                        Navigator.of(context).push(_createVerifySeedRoute());
+                      },
+                      child: Text(
+                          AppLocalizations.of(context)?.nextButton ??
+                              stringNotFoundText,
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                  ),
+                ]))));
+  }
+
+  _backAction() {
+    BaseStaticState.walletEncryptionPassword = '';
+    BaseStaticState.tempWalletName = '';
+    BaseStaticState.newWalletWords = [];
+    Navigator.of(context).push(_createBackRoute());
   }
 }
 

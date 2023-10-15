@@ -9,25 +9,29 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingLayout(
-        child: Container(
-      width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-            margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-            width: 70 * 1.8,
-            height: 28 * 1.8,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(context.watch<WalletState>().darkMode
-                        ? './assets/images/logo_full.png'
-                        : './assets/images/logo_full_light.png'),
-                    fit: BoxFit.fitWidth))),
-        CircularProgressIndicator(
-          semanticsLabel: AppLocalizations.of(context)?.loadingAppSemantics,
-        ),
-      ]),
-    ));
+    return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: LoadingLayout(
+            child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                width: 70 * 1.8,
+                height: 28 * 1.8,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(context.watch<WalletState>().darkMode
+                            ? './assets/images/logo_full.png'
+                            : './assets/images/logo_full_light.png'),
+                        fit: BoxFit.fitWidth))),
+            CircularProgressIndicator(
+              semanticsLabel: AppLocalizations.of(context)?.loadingAppSemantics,
+            ),
+          ]),
+        )));
   }
 }

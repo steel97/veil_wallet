@@ -588,16 +588,22 @@ class _MakeTxState extends State<MakeTx> {
           ]),
         ));
 
-    return useVerticalBar
-        ? MainLayout(
-            overrideTitle: AppLocalizations.of(context)?.newTransactionTitle,
-            child: container)
-        : BackLayout(
-            title: AppLocalizations.of(context)?.newTransactionTitle,
-            back: () {
-              Navigator.of(context).push(_createBackRoute(useVerticalBar));
-            },
-            child: container);
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+          return false;
+        },
+        child: useVerticalBar
+            ? MainLayout(
+                overrideTitle:
+                    AppLocalizations.of(context)?.newTransactionTitle,
+                child: container)
+            : BackLayout(
+                title: AppLocalizations.of(context)?.newTransactionTitle,
+                back: () {
+                  Navigator.of(context).push(_createBackRoute(useVerticalBar));
+                },
+                child: container));
   }
 }
 

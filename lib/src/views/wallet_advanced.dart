@@ -128,21 +128,26 @@ class _WalletAdvancedState extends State<WalletAdvanced> {
       ),
     ));
 
-    return BackLayout(
-        title: AppLocalizations.of(context)?.walletAdvancedTitle,
-        back: () {
+    return WillPopScope(
+        onWillPop: () async {
           Navigator.of(context).push(_createBackRoute());
+          return false;
         },
-        child: Form(
-            key: _formKey,
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: settingsAdvanced),
-            )));
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.walletAdvancedTitle,
+            back: () {
+              Navigator.of(context).push(_createBackRoute());
+            },
+            child: Form(
+                key: _formKey,
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: settingsAdvanced),
+                ))));
   }
 }
 

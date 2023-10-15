@@ -7,12 +7,14 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(
-      noWidthLimit: true,
-      child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: const TransactionsListWidget()),
-    );
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: MainLayout(
+          noWidthLimit: true,
+          child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: const TransactionsListWidget()),
+        ));
   }
 }

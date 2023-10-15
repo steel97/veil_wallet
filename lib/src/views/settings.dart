@@ -170,444 +170,470 @@ class _SettingsState extends State<Settings> {
           ])));
     }
 
-    return BackLayout(
-        title: AppLocalizations.of(context)?.settingsTitle,
-        back: () {
+    return WillPopScope(
+        onWillPop: () async {
           Navigator.of(context).push(_createBackRoute());
+          return false;
         },
-        child: Form(
-            key: _formKey,
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              child: ListView(
-                  //mainAxisAlignment: MainAxisAlignment.start,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return null;
-                                  }
-                                  return value.startsWith('http://') ||
-                                          value.startsWith('https://')
-                                      ? null
-                                      : '';
-                                },
-                                enableSuggestions: true,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(bottom: 0.0),
-                                  border: const UnderlineInputBorder(),
-                                  hintText: AppLocalizations.of(context)
-                                      ?.nodeUrlInputFieldHint,
-                                  label: Text(AppLocalizations.of(context)
-                                          ?.nodeUrlInputField ??
-                                      stringNotFoundText),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      //_nodeUrlController.text = defaultNodeAddress;
-                                      _selectedNode = _nodeUrlController.text;
-
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                                title: Text(AppLocalizations.of(
-                                                            context)
-                                                        ?.nodeSelectionTitle ??
-                                                    stringNotFoundText),
-                                                content: Container(
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                            maxWidth:
-                                                                responsiveMaxDialogWidth),
-                                                    child: StatefulBuilder(
-                                                        // You need this, notice the parameters below:
-                                                        builder: (BuildContext
-                                                                context,
-                                                            StateSetter
-                                                                setState) {
-                                                      List<Widget> nodes =
-                                                          List.empty(
-                                                              growable: true);
-                                                      for (NodeEntry node
-                                                          in knownNodes) {
-                                                        nodes.add(ListTile(
-                                                          title:
-                                                              Text(node.name),
-                                                          leading:
-                                                              Radio<String>(
-                                                            value: node.url,
-                                                            groupValue:
-                                                                _selectedNode,
-                                                            onChanged: (String?
-                                                                value) async {
-                                                              setState(() {
-                                                                _selectedNode =
-                                                                    value ??
-                                                                        defaultNodeAddress;
-                                                              });
-                                                            },
-                                                          ),
-                                                        ));
-                                                      }
-
-                                                      return Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: nodes,
-                                                      );
-                                                    })),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: Text(AppLocalizations
-                                                                  .of(context)
-                                                              ?.alertCancelAction ??
-                                                          stringNotFoundText)),
-                                                  TextButton(
-                                                      onPressed: () async {
-                                                        WidgetsBinding.instance
-                                                            .scheduleFrameCallback(
-                                                                (_) {
-                                                          _nodeUrlController
-                                                                  .text =
-                                                              _selectedNode;
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        });
-                                                      },
-                                                      child: Text(AppLocalizations
-                                                                  .of(context)
-                                                              ?.saveButton ??
-                                                          stringNotFoundText)),
-                                                ]);
-                                          });
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.settingsTitle,
+            back: () {
+              Navigator.of(context).push(_createBackRoute());
+            },
+            child: Form(
+                key: _formKey,
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: ListView(
+                      //mainAxisAlignment: MainAxisAlignment.start,
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                            Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                child: TextFormField(
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return null;
+                                      }
+                                      return value.startsWith('http://') ||
+                                              value.startsWith('https://')
+                                          ? null
+                                          : '';
                                     },
-                                    icon: const Icon(
-                                        Icons.miscellaneous_services_rounded),
-                                  ),
-                                ),
-                                controller: _nodeUrlController)),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            child: TextFormField(
-                                enableSuggestions: true,
-                                autocorrect: false,
-                                decoration: InputDecoration(
+                                    enableSuggestions: true,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.only(bottom: 0.0),
+                                      border: const UnderlineInputBorder(),
+                                      hintText: AppLocalizations.of(context)
+                                          ?.nodeUrlInputFieldHint,
+                                      label: Text(AppLocalizations.of(context)
+                                              ?.nodeUrlInputField ??
+                                          stringNotFoundText),
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          //_nodeUrlController.text = defaultNodeAddress;
+                                          _selectedNode =
+                                              _nodeUrlController.text;
+
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                    title: Text(AppLocalizations
+                                                                .of(context)
+                                                            ?.nodeSelectionTitle ??
+                                                        stringNotFoundText),
+                                                    content: Container(
+                                                        constraints:
+                                                            const BoxConstraints(
+                                                                maxWidth:
+                                                                    responsiveMaxDialogWidth),
+                                                        child: StatefulBuilder(
+                                                            // You need this, notice the parameters below:
+                                                            builder: (BuildContext
+                                                                    context,
+                                                                StateSetter
+                                                                    setState) {
+                                                          List<Widget> nodes =
+                                                              List.empty(
+                                                                  growable:
+                                                                      true);
+                                                          for (NodeEntry node
+                                                              in knownNodes) {
+                                                            nodes.add(ListTile(
+                                                              title: Text(
+                                                                  node.name),
+                                                              leading:
+                                                                  Radio<String>(
+                                                                value: node.url,
+                                                                groupValue:
+                                                                    _selectedNode,
+                                                                onChanged: (String?
+                                                                    value) async {
+                                                                  setState(() {
+                                                                    _selectedNode =
+                                                                        value ??
+                                                                            defaultNodeAddress;
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ));
+                                                          }
+
+                                                          return Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: nodes,
+                                                          );
+                                                        })),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text(AppLocalizations
+                                                                      .of(context)
+                                                                  ?.alertCancelAction ??
+                                                              stringNotFoundText)),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            WidgetsBinding
+                                                                .instance
+                                                                .scheduleFrameCallback(
+                                                                    (_) {
+                                                              _nodeUrlController
+                                                                      .text =
+                                                                  _selectedNode;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            });
+                                                          },
+                                                          child: Text(AppLocalizations
+                                                                      .of(context)
+                                                                  ?.saveButton ??
+                                                              stringNotFoundText)),
+                                                    ]);
+                                              });
+                                        },
+                                        icon: const Icon(Icons
+                                            .miscellaneous_services_rounded),
+                                      ),
+                                    ),
+                                    controller: _nodeUrlController)),
+                            Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                child: TextFormField(
+                                    enableSuggestions: true,
+                                    autocorrect: false,
+                                    decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.only(bottom: 0.0),
+                                        border: const UnderlineInputBorder(),
+                                        hintText: AppLocalizations.of(context)
+                                            ?.basicAuthInputFieldHint,
+                                        label: Text(AppLocalizations.of(context)
+                                                ?.basicAuthInputField ??
+                                            stringNotFoundText)),
+                                    controller: _nodeAuthController)),
+                            Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return null;
+                                    }
+                                    return value.startsWith('http://') ||
+                                            value.startsWith('https://')
+                                        ? null
+                                        : '';
+                                  },
+                                  enableSuggestions: true,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
                                     contentPadding:
                                         const EdgeInsets.only(bottom: 0.0),
                                     border: const UnderlineInputBorder(),
                                     hintText: AppLocalizations.of(context)
-                                        ?.basicAuthInputFieldHint,
+                                        ?.explorerUrlInputFieldHint,
                                     label: Text(AppLocalizations.of(context)
-                                            ?.basicAuthInputField ??
-                                        stringNotFoundText)),
-                                controller: _nodeAuthController)),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return null;
-                                }
-                                return value.startsWith('http://') ||
-                                        value.startsWith('https://')
-                                    ? null
-                                    : '';
-                              },
-                              enableSuggestions: true,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(bottom: 0.0),
-                                border: const UnderlineInputBorder(),
-                                hintText: AppLocalizations.of(context)
-                                    ?.explorerUrlInputFieldHint,
-                                label: Text(AppLocalizations.of(context)
-                                        ?.explorerUrlInputField ??
-                                    stringNotFoundText),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    _explorerUrlController.text =
-                                        defaultExplorerAddress;
+                                            ?.explorerUrlInputField ??
+                                        stringNotFoundText),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        _explorerUrlController.text =
+                                            defaultExplorerAddress;
+                                      },
+                                      icon: const Icon(Icons.restore_rounded),
+                                    ),
+                                  ),
+                                  controller: _explorerUrlController,
+                                )),
+                            Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return null;
+                                    }
+                                    return value.startsWith('http://') ||
+                                            value.startsWith('https://')
+                                        ? null
+                                        : '';
                                   },
-                                  icon: const Icon(Icons.restore_rounded),
-                                ),
-                              ),
-                              controller: _explorerUrlController,
-                            )),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return null;
-                                }
-                                return value.startsWith('http://') ||
-                                        value.startsWith('https://')
-                                    ? null
-                                    : '';
-                              },
-                              enableSuggestions: true,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(bottom: 0.0),
-                                border: const UnderlineInputBorder(),
-                                hintText: AppLocalizations.of(context)
-                                    ?.explorerTxInputFieldHint,
-                                label: Text(AppLocalizations.of(context)
-                                        ?.explorerTxInputField ??
-                                    stringNotFoundText),
-                                suffixIcon: IconButton(
+                                  enableSuggestions: true,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
+                                    contentPadding:
+                                        const EdgeInsets.only(bottom: 0.0),
+                                    border: const UnderlineInputBorder(),
+                                    hintText: AppLocalizations.of(context)
+                                        ?.explorerTxInputFieldHint,
+                                    label: Text(AppLocalizations.of(context)
+                                            ?.explorerTxInputField ??
+                                        stringNotFoundText),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        _txExplorerUrlController.text =
+                                            defaultTxExplorerAddress;
+                                      },
+                                      icon: const Icon(Icons.restore_rounded),
+                                    ),
+                                  ),
+                                  controller: _txExplorerUrlController,
+                                )),
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          AppLocalizations.of(context)
+                                                  ?.useMinimumUTXOs ??
+                                              stringNotFoundText,
+                                          style: const TextStyle(fontSize: 16)),
+                                      Switch(
+                                          value: _useMinimumUTXOs,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              _useMinimumUTXOs = val;
+                                            });
+                                          }),
+                                    ])),
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          AppLocalizations.of(context)
+                                                  ?.darkMode ??
+                                              stringNotFoundText,
+                                          style: const TextStyle(fontSize: 16)),
+                                      Switch(
+                                          value: _darkMode,
+                                          onChanged: (val) async {
+                                            setState(() {
+                                              _darkMode = val;
+                                            });
+
+                                            final SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            prefs.setBool(
+                                                prefsDarkMode, _darkMode);
+
+                                            WidgetsBinding.instance
+                                                .scheduleFrameCallback((_) {
+                                              context
+                                                  .read<WalletState>()
+                                                  .setDarkMode(_darkMode);
+                                            });
+                                          }),
+                                    ])),
+                          ] +
+                          [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              child: OutlinedButton.icon(
+                                  style: FilledButton.styleFrom(
+                                      minimumSize: const Size.fromHeight(45)),
                                   onPressed: () {
-                                    _txExplorerUrlController.text =
-                                        defaultTxExplorerAddress;
-                                  },
-                                  icon: const Icon(Icons.restore_rounded),
-                                ),
-                              ),
-                              controller: _txExplorerUrlController,
-                            )),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      AppLocalizations.of(context)
-                                              ?.useMinimumUTXOs ??
-                                          stringNotFoundText,
-                                      style: const TextStyle(fontSize: 16)),
-                                  Switch(
-                                      value: _useMinimumUTXOs,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          _useMinimumUTXOs = val;
-                                        });
-                                      }),
-                                ])),
-                        Container(
-                            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      AppLocalizations.of(context)?.darkMode ??
-                                          stringNotFoundText,
-                                      style: const TextStyle(fontSize: 16)),
-                                  Switch(
-                                      value: _darkMode,
-                                      onChanged: (val) async {
-                                        setState(() {
-                                          _darkMode = val;
-                                        });
-
-                                        final SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        prefs.setBool(prefsDarkMode, _darkMode);
-
-                                        WidgetsBinding.instance
-                                            .scheduleFrameCallback((_) {
-                                          context
-                                              .read<WalletState>()
-                                              .setDarkMode(_darkMode);
-                                        });
-                                      }),
-                                ])),
-                      ] +
-                      [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                          child: OutlinedButton.icon(
-                              style: FilledButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(45)),
-                              onPressed: () {
-                                _localeTmp = _locale;
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                          title: Text(
-                                              AppLocalizations.of(context)
+                                    _localeTmp = _locale;
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                              title: Text(AppLocalizations.of(
+                                                          context)
                                                       ?.localeSelectionTitle ??
                                                   stringNotFoundText),
-                                          content: Container(
-                                              constraints: const BoxConstraints(
-                                                  maxWidth:
-                                                      responsiveMaxDialogWidth),
-                                              child: StatefulBuilder(
-                                                  // You need this, notice the parameters below:
-                                                  builder: (BuildContext
-                                                          context,
-                                                      StateSetter setState) {
-                                                List<Widget> locales =
-                                                    List.empty(growable: true);
-                                                for (LocaleEntry locale
-                                                    in knownLanguages) {
-                                                  locales.add(ListTile(
-                                                    title: Text(locale.name),
-                                                    leading: Radio<String>(
-                                                      value: locale.code,
-                                                      groupValue: _localeTmp,
-                                                      onChanged: (String?
-                                                          value) async {
-                                                        setState(() {
-                                                          _localeTmp =
-                                                              value ?? 'en';
-                                                        });
-                                                      },
-                                                    ),
-                                                  ));
-                                                }
+                                              content: Container(
+                                                  constraints: const BoxConstraints(
+                                                      maxWidth:
+                                                          responsiveMaxDialogWidth),
+                                                  child: StatefulBuilder(
+                                                      // You need this, notice the parameters below:
+                                                      builder:
+                                                          (BuildContext context,
+                                                              StateSetter
+                                                                  setState) {
+                                                    List<Widget> locales =
+                                                        List.empty(
+                                                            growable: true);
+                                                    for (LocaleEntry locale
+                                                        in knownLanguages) {
+                                                      locales.add(ListTile(
+                                                        title:
+                                                            Text(locale.name),
+                                                        leading: Radio<String>(
+                                                          value: locale.code,
+                                                          groupValue:
+                                                              _localeTmp,
+                                                          onChanged: (String?
+                                                              value) async {
+                                                            setState(() {
+                                                              _localeTmp =
+                                                                  value ?? 'en';
+                                                            });
+                                                          },
+                                                        ),
+                                                      ));
+                                                    }
 
-                                                return Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: locales,
-                                                );
-                                              })),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(AppLocalizations.of(
-                                                            context)
-                                                        ?.alertCancelAction ??
-                                                    stringNotFoundText)),
-                                            TextButton(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _locale = _localeTmp;
-                                                  });
-                                                  context
-                                                      .read<WalletState>()
-                                                      .setLocale(
-                                                          Locale.fromSubtags(
-                                                              languageCode:
-                                                                  _localeTmp));
-                                                  final SharedPreferences
-                                                      prefs =
-                                                      await SharedPreferences
-                                                          .getInstance();
-                                                  prefs.setString(
-                                                      prefsLocaleStorage,
-                                                      _localeTmp);
-                                                  WidgetsBinding.instance
-                                                      .scheduleFrameCallback(
-                                                          (_) {
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                },
-                                                child: Text(
-                                                    AppLocalizations.of(context)
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: locales,
+                                                    );
+                                                  })),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(AppLocalizations
+                                                                .of(context)
+                                                            ?.alertCancelAction ??
+                                                        stringNotFoundText)),
+                                                TextButton(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _locale = _localeTmp;
+                                                      });
+                                                      context
+                                                          .read<WalletState>()
+                                                          .setLocale(Locale
+                                                              .fromSubtags(
+                                                                  languageCode:
+                                                                      _localeTmp));
+                                                      final SharedPreferences
+                                                          prefs =
+                                                          await SharedPreferences
+                                                              .getInstance();
+                                                      prefs.setString(
+                                                          prefsLocaleStorage,
+                                                          _localeTmp);
+                                                      WidgetsBinding.instance
+                                                          .scheduleFrameCallback(
+                                                              (_) {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      });
+                                                    },
+                                                    child: Text(AppLocalizations
+                                                                .of(context)
                                                             ?.saveButton ??
                                                         stringNotFoundText)),
-                                          ]);
-                                    });
-                              },
-                              icon: const Icon(Icons.language_rounded),
-                              label: Text(curLocale.name)),
-                        ),
-                      ] +
-                      authActions +
-                      [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                          child: FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                                minimumSize: const Size.fromHeight(45)),
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                // done
-                                BaseStaticState.nodeAddress =
-                                    _nodeUrlController.text;
-                                BaseStaticState.nodeAuth =
-                                    _nodeAuthController.text;
-                                BaseStaticState.explorerAddress =
-                                    _explorerUrlController.text;
-                                BaseStaticState.txExplorerAddress =
-                                    _txExplorerUrlController.text;
-                                BaseStaticState.useMinimumUTXOs =
-                                    _useMinimumUTXOs;
+                                              ]);
+                                        });
+                                  },
+                                  icon: const Icon(Icons.language_rounded),
+                                  label: Text(curLocale.name)),
+                            ),
+                          ] +
+                          authActions +
+                          [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              child: FilledButton.icon(
+                                style: FilledButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(45)),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    // done
+                                    BaseStaticState.nodeAddress =
+                                        _nodeUrlController.text;
+                                    BaseStaticState.nodeAuth =
+                                        _nodeAuthController.text;
+                                    BaseStaticState.explorerAddress =
+                                        _explorerUrlController.text;
+                                    BaseStaticState.txExplorerAddress =
+                                        _txExplorerUrlController.text;
+                                    BaseStaticState.useMinimumUTXOs =
+                                        _useMinimumUTXOs;
 
-                                RpcRequester.NODE_URL =
-                                    BaseStaticState.nodeAddress;
-                                RpcRequester.NODE_PASSWORD =
-                                    BaseStaticState.nodeAuth;
+                                    RpcRequester.NODE_URL =
+                                        BaseStaticState.nodeAddress;
+                                    RpcRequester.NODE_PASSWORD =
+                                        BaseStaticState.nodeAuth;
 
-                                var storageService = StorageService();
-                                await storageService.writeSecureData(
-                                    StorageItem(prefsSettingsNodeUrl,
-                                        BaseStaticState.nodeAddress));
-                                await storageService.writeSecureData(
-                                    StorageItem(prefsSettingsNodeAuth,
-                                        BaseStaticState.nodeAuth));
-                                await storageService.writeSecureData(
-                                    StorageItem(prefsSettingsExplorerUrl,
-                                        BaseStaticState.explorerAddress));
-                                await storageService.writeSecureData(
-                                    StorageItem(prefsSettingsExplorerTxUrl,
-                                        BaseStaticState.txExplorerAddress));
-                                await storageService.writeSecureData(
-                                    StorageItem(
-                                        prefsSettingsUseMinimumUTXOs,
-                                        BaseStaticState.useMinimumUTXOs
-                                            .toString()));
+                                    var storageService = StorageService();
+                                    await storageService.writeSecureData(
+                                        StorageItem(prefsSettingsNodeUrl,
+                                            BaseStaticState.nodeAddress));
+                                    await storageService.writeSecureData(
+                                        StorageItem(prefsSettingsNodeAuth,
+                                            BaseStaticState.nodeAuth));
+                                    await storageService.writeSecureData(
+                                        StorageItem(prefsSettingsExplorerUrl,
+                                            BaseStaticState.explorerAddress));
+                                    await storageService.writeSecureData(
+                                        StorageItem(prefsSettingsExplorerTxUrl,
+                                            BaseStaticState.txExplorerAddress));
+                                    await storageService.writeSecureData(
+                                        StorageItem(
+                                            prefsSettingsUseMinimumUTXOs,
+                                            BaseStaticState.useMinimumUTXOs
+                                                .toString()));
 
-                                /*WidgetsBinding.instance
+                                    /*WidgetsBinding.instance
                                     .addPostFrameCallback((_) {
                                   Navigator.of(context)
                                       .push(_createBackRoute());
                                 });*/
-                                WidgetsBinding.instance
-                                    .scheduleFrameCallback((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(AppLocalizations.of(context)
-                                              ?.settingsSaved ??
-                                          stringNotFoundText),
-                                    ),
-                                  );
-                                });
-                              }
-                            },
-                            icon: const Icon(Icons.save_rounded),
-                            label: Text(
-                                AppLocalizations.of(context)?.saveButton ??
-                                    stringNotFoundText,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                          child: FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                                minimumSize: const Size.fromHeight(45)),
-                            onPressed: () {
-                              Navigator.of(context).push(_createAboutRoute());
-                            },
-                            icon: const Icon(Icons.info_rounded),
-                            label: Text(
-                                AppLocalizations.of(context)?.aboutButton ??
-                                    stringNotFoundText,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        ),
-                      ]),
-            )));
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                              AppLocalizations.of(context)
+                                                      ?.settingsSaved ??
+                                                  stringNotFoundText),
+                                        ),
+                                      );
+                                    });
+                                  }
+                                },
+                                icon: const Icon(Icons.save_rounded),
+                                label: Text(
+                                    AppLocalizations.of(context)?.saveButton ??
+                                        stringNotFoundText,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                              child: FilledButton.icon(
+                                style: FilledButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(45)),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .push(_createAboutRoute());
+                                },
+                                icon: const Icon(Icons.info_rounded),
+                                label: Text(
+                                    AppLocalizations.of(context)?.aboutButton ??
+                                        stringNotFoundText,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                            ),
+                          ]),
+                ))));
   }
 }
 

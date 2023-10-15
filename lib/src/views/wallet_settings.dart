@@ -327,17 +327,24 @@ class _WalletSettingsState extends State<WalletSettings> {
       ),
     ));
 
-    return useVerticalBar
-        ? MainLayout(
-            overrideTitle: AppLocalizations.of(context)?.walletSettingsTitle,
-            child: _createDataForLayout(settingsAdvanced))
-        : BackLayout(
-            title: AppLocalizations.of(context)?.walletSettingsTitle,
-            back: () {
-              _resetState();
-              Navigator.of(context).push(_createBackRoute(useVerticalBar));
-            },
-            child: _createDataForLayout(settingsAdvanced));
+    return WillPopScope(
+        onWillPop: () async {
+          _resetState();
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+          return false;
+        },
+        child: useVerticalBar
+            ? MainLayout(
+                overrideTitle:
+                    AppLocalizations.of(context)?.walletSettingsTitle,
+                child: _createDataForLayout(settingsAdvanced))
+            : BackLayout(
+                title: AppLocalizations.of(context)?.walletSettingsTitle,
+                back: () {
+                  _resetState();
+                  Navigator.of(context).push(_createBackRoute(useVerticalBar));
+                },
+                child: _createDataForLayout(settingsAdvanced)));
   }
 
   Widget _createDataForLayout(List<Widget> settingsAdvanced) {

@@ -79,16 +79,21 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
           ]),
     );
 
-    return useVerticalBar
-        ? MainLayout(
-            overrideTitle: AppLocalizations.of(context)?.shareTitle,
-            child: container)
-        : BackLayout(
-            title: AppLocalizations.of(context)?.shareTitle,
-            back: () {
-              Navigator.of(context).push(_createBackRoute(useVerticalBar));
-            },
-            child: container);
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+          return false;
+        },
+        child: useVerticalBar
+            ? MainLayout(
+                overrideTitle: AppLocalizations.of(context)?.shareTitle,
+                child: container)
+            : BackLayout(
+                title: AppLocalizations.of(context)?.shareTitle,
+                back: () {
+                  Navigator.of(context).push(_createBackRoute(useVerticalBar));
+                },
+                child: container));
   }
 }
 

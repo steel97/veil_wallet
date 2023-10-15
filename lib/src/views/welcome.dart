@@ -13,58 +13,60 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WelcomeLayout(
-        child: Container(
-      width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text(
-          AppLocalizations.of(context)?.welcomeTitle ?? stringNotFoundText,
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        Text(
-          AppLocalizations.of(context)?.welcomeDescription ??
-              stringNotFoundText,
-          style: const TextStyle(fontSize: 14),
-          textAlign: TextAlign.center,
-        ),
-        Container(
-            width: 170,
-            margin: const EdgeInsets.fromLTRB(0, 15, 0, 6),
-            child: FilledButton.icon(
-              style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(42)),
-              onPressed: () {
-                BaseStaticState.prevScreen = Screen.welcome;
-                var mnemonic = Lightwallet.generateMnemonic();
-                BaseStaticState.newWalletWords = mnemonic;
-                Navigator.of(context).push(_createSaveRoute());
-              },
-              icon: const Icon(Icons.new_label_rounded),
-              label: Text(
-                  AppLocalizations.of(context)?.createWallet ??
-                      stringNotFoundText,
-                  overflow: TextOverflow.ellipsis),
-            )),
-        SizedBox(
-            width: 170,
-            child: OutlinedButton.icon(
-              style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(42)),
-              onPressed: () {
-                BaseStaticState.prevScreen = Screen.welcome;
-                BaseStaticState.importWalletWords = [];
-                Navigator.of(context).push(_createImportRoute());
-              },
-              icon: const Icon(Icons.upload_rounded),
-              label: Text(
-                  AppLocalizations.of(context)?.importWallet ??
-                      stringNotFoundText,
-                  overflow: TextOverflow.ellipsis),
-            )),
-      ]),
-    ));
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: WelcomeLayout(
+            child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 100),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              AppLocalizations.of(context)?.welcomeTitle ?? stringNotFoundText,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              AppLocalizations.of(context)?.welcomeDescription ??
+                  stringNotFoundText,
+              style: const TextStyle(fontSize: 14),
+              textAlign: TextAlign.center,
+            ),
+            Container(
+                width: 170,
+                margin: const EdgeInsets.fromLTRB(0, 15, 0, 6),
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(42)),
+                  onPressed: () {
+                    BaseStaticState.prevScreen = Screen.welcome;
+                    var mnemonic = Lightwallet.generateMnemonic();
+                    BaseStaticState.newWalletWords = mnemonic;
+                    Navigator.of(context).push(_createSaveRoute());
+                  },
+                  icon: const Icon(Icons.new_label_rounded),
+                  label: Text(
+                      AppLocalizations.of(context)?.createWallet ??
+                          stringNotFoundText,
+                      overflow: TextOverflow.ellipsis),
+                )),
+            SizedBox(
+                width: 170,
+                child: OutlinedButton.icon(
+                  style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(42)),
+                  onPressed: () {
+                    BaseStaticState.prevScreen = Screen.welcome;
+                    BaseStaticState.importWalletWords = [];
+                    Navigator.of(context).push(_createImportRoute());
+                  },
+                  icon: const Icon(Icons.upload_rounded),
+                  label: Text(
+                      AppLocalizations.of(context)?.importWallet ??
+                          stringNotFoundText,
+                      overflow: TextOverflow.ellipsis),
+                )),
+          ]),
+        )));
   }
 }
 

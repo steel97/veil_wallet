@@ -36,230 +36,248 @@ class _SetupBiometricsState extends State<SetupBiometrics> {
 
   @override
   Widget build(BuildContext context) {
-    return BackLayout(
-        title: AppLocalizations.of(context)?.biometricsTitle,
-        back: () async {
-          if (BaseStaticState.useHomeBack) {
-            // return to settings
-            BaseStaticState.prevScreen = Screen.home;
-            BaseStaticState.biometricsActive = await _checkBiometrics();
-
-            WidgetsBinding.instance.scheduleFrameCallback((_) {
-              Navigator.of(context).push(_createSettingsRoute());
-            });
-            return;
-          }
-          Navigator.of(context).push(_createBackRoute());
+    return WillPopScope(
+        onWillPop: () async {
+          await _backAction();
+          return false;
         },
-        child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-                    child: Text(
-                        AppLocalizations.of(context)?.biometricsDescription ??
-                            stringNotFoundText,
-                        style: const TextStyle(fontWeight: FontWeight.normal),
-                        textAlign: TextAlign.center)),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(45)),
-                    onPressed: _biometricsBusy
-                        ? null
-                        : () async {
-                            var auth = LocalAuthentication();
-                            try {
-                              setState(() {
-                                _busyIndicatorIndex = 0;
-                                _biometricsBusy = true;
-                              });
+        child: BackLayout(
+            title: AppLocalizations.of(context)?.biometricsTitle,
+            back: () async {
+              await _backAction();
+            },
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+                        child: Text(
+                            AppLocalizations.of(context)
+                                    ?.biometricsDescription ??
+                                stringNotFoundText,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.normal),
+                            textAlign: TextAlign.center)),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(45)),
+                        onPressed: _biometricsBusy
+                            ? null
+                            : () async {
+                                var auth = LocalAuthentication();
+                                try {
+                                  setState(() {
+                                    _busyIndicatorIndex = 0;
+                                    _biometricsBusy = true;
+                                  });
 
-                              var didAuthenticate = await auth.authenticate(
-                                  localizedReason: AppLocalizations.of(context)
-                                          ?.biometricsSetupReason ??
-                                      stringNotFoundText,
-                                  options: const AuthenticationOptions(
-                                      useErrorDialogs: true));
-                              if (didAuthenticate) {
-                                var storageService = StorageService();
-                                await storageService.writeSecureData(
-                                    StorageItem(prefsBiometricsEnabled,
-                                        true.toString()));
-                                if (BaseStaticState.useHomeBack) {
-                                  // return to settings
-                                  BaseStaticState.biometricsActive =
-                                      await _checkBiometrics();
+                                  var didAuthenticate = await auth.authenticate(
+                                      localizedReason:
+                                          AppLocalizations.of(context)
+                                                  ?.biometricsSetupReason ??
+                                              stringNotFoundText,
+                                      options: const AuthenticationOptions(
+                                          useErrorDialogs: true));
+                                  if (didAuthenticate) {
+                                    var storageService = StorageService();
+                                    await storageService.writeSecureData(
+                                        StorageItem(prefsBiometricsEnabled,
+                                            true.toString()));
+                                    if (BaseStaticState.useHomeBack) {
+                                      // return to settings
+                                      BaseStaticState.biometricsActive =
+                                          await _checkBiometrics();
 
+                                      WidgetsBinding.instance
+                                          .scheduleFrameCallback((_) {
+                                        Navigator.of(context)
+                                            .push(_createSettingsRoute());
+                                      });
+                                      return;
+                                    }
+                                    // create and save wallet
+                                    var valName =
+                                        BaseStaticState.tempWalletName;
+                                    if (valName.trim().isEmpty) {
+                                      valName = defaultWalletName;
+                                    }
+                                    await WalletHelper.createOrImportWallet(
+                                        valName,
+                                        BaseStaticState.walletMnemonic,
+                                        BaseStaticState
+                                            .walletEncryptionPassword,
+                                        true,
+                                        context);
+
+                                    // clear mnemonic
+                                    BaseStaticState.walletMnemonic = [];
+                                    BaseStaticState.importWalletWords = [];
+                                    BaseStaticState.tempWalletName = '';
+
+                                    await WalletHelper.prepareHomePage(context);
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      Navigator.of(context)
+                                          .push(_createHomeRoute());
+                                    });
+                                  }
+                                  // ignore: empty_catches
+                                } catch (e) {
+                                  setState(() {
+                                    _biometricsBusy = false;
+                                  });
+                                }
+                              },
+                        icon: _biometricsBusy && _busyIndicatorIndex == 0
+                            ? Container(
+                                width: 24,
+                                height: 24,
+                                padding: const EdgeInsets.all(2.0),
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const Icon(Icons.fingerprint_rounded),
+                        label: Text(
+                            AppLocalizations.of(context)
+                                    ?.setupBiometricsButton ??
+                                stringNotFoundText,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: OutlinedButton.icon(
+                        style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(45)),
+                        onPressed: _biometricsBusy
+                            ? null
+                            : () async {
+                                try {
+                                  setState(() {
+                                    _busyIndicatorIndex = 1;
+                                    _biometricsBusy = true;
+                                  });
+
+                                  if (BaseStaticState.useHomeBack) {
+                                    // return to settings
+                                    BaseStaticState.biometricsActive =
+                                        await _checkBiometrics();
+
+                                    WidgetsBinding.instance
+                                        .scheduleFrameCallback((_) {
+                                      Navigator.of(context)
+                                          .push(_createSettingsRoute());
+                                    });
+                                    return;
+                                  }
+                                  // create and save wallet
+                                  var valName = BaseStaticState.tempWalletName;
+                                  if (valName.trim().isEmpty) {
+                                    valName = defaultWalletName;
+                                  }
+                                  await WalletHelper.createOrImportWallet(
+                                      valName,
+                                      BaseStaticState.walletMnemonic,
+                                      BaseStaticState.walletEncryptionPassword,
+                                      true,
+                                      context);
+
+                                  // clear mnemonic
+                                  BaseStaticState.walletMnemonic = [];
+                                  BaseStaticState.importWalletWords = [];
+                                  BaseStaticState.tempWalletName = '';
+
+                                  await WalletHelper.prepareHomePage(context);
                                   WidgetsBinding.instance
                                       .scheduleFrameCallback((_) {
                                     Navigator.of(context)
-                                        .push(_createSettingsRoute());
+                                        .push(_createHomeRoute());
                                   });
-                                  return;
-                                }
-                                // create and save wallet
-                                var valName = BaseStaticState.tempWalletName;
-                                if (valName.trim().isEmpty) {
-                                  valName = defaultWalletName;
-                                }
-                                await WalletHelper.createOrImportWallet(
-                                    valName,
-                                    BaseStaticState.walletMnemonic,
-                                    BaseStaticState.walletEncryptionPassword,
-                                    true,
-                                    context);
-
-                                // clear mnemonic
-                                BaseStaticState.walletMnemonic = [];
-                                BaseStaticState.importWalletWords = [];
-                                BaseStaticState.tempWalletName = '';
-
-                                await WalletHelper.prepareHomePage(context);
-                                WidgetsBinding.instance
-                                    .scheduleFrameCallback((_) {
-                                  Navigator.of(context)
-                                      .push(_createHomeRoute());
-                                });
-                              }
-                              // ignore: empty_catches
-                            } catch (e) {
-                              setState(() {
-                                _biometricsBusy = false;
-                              });
-                            }
-                          },
-                    icon: _biometricsBusy && _busyIndicatorIndex == 0
-                        ? Container(
-                            width: 24,
-                            height: 24,
-                            padding: const EdgeInsets.all(2.0),
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 3,
-                            ),
-                          )
-                        : const Icon(Icons.fingerprint_rounded),
-                    label: Text(
-                        AppLocalizations.of(context)?.setupBiometricsButton ??
-                            stringNotFoundText,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                  child: OutlinedButton.icon(
-                    style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(45)),
-                    onPressed: _biometricsBusy
-                        ? null
-                        : () async {
-                            try {
-                              setState(() {
-                                _busyIndicatorIndex = 1;
-                                _biometricsBusy = true;
-                              });
-
-                              if (BaseStaticState.useHomeBack) {
-                                // return to settings
-                                BaseStaticState.biometricsActive =
-                                    await _checkBiometrics();
-
-                                WidgetsBinding.instance
-                                    .scheduleFrameCallback((_) {
-                                  Navigator.of(context)
-                                      .push(_createSettingsRoute());
-                                });
-                                return;
-                              }
-                              // create and save wallet
-                              var valName = BaseStaticState.tempWalletName;
-                              if (valName.trim().isEmpty) {
-                                valName = defaultWalletName;
-                              }
-                              await WalletHelper.createOrImportWallet(
-                                  valName,
-                                  BaseStaticState.walletMnemonic,
-                                  BaseStaticState.walletEncryptionPassword,
-                                  true,
-                                  context);
-
-                              // clear mnemonic
-                              BaseStaticState.walletMnemonic = [];
-                              BaseStaticState.importWalletWords = [];
-                              BaseStaticState.tempWalletName = '';
-
-                              await WalletHelper.prepareHomePage(context);
-                              WidgetsBinding.instance
-                                  .scheduleFrameCallback((_) {
-                                Navigator.of(context).push(_createHomeRoute());
-                              });
-                            } catch (e) {
-                              WidgetsBinding.instance
-                                  .scheduleFrameCallback((_) {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                          title: Text(
-                                              AppLocalizations.of(context)
+                                } catch (e) {
+                                  WidgetsBinding.instance
+                                      .scheduleFrameCallback((_) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                              title: Text(AppLocalizations.of(
+                                                          context)
                                                       ?.nodeFailedAlertTitle ??
                                                   stringNotFoundText),
-                                          content: Container(
-                                              constraints: const BoxConstraints(
-                                                  maxWidth:
-                                                      responsiveMaxDialogWidth),
-                                              child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Text(AppLocalizations.of(
-                                                                context)
-                                                            ?.nodeFailedAlertDescription ??
-                                                        stringNotFoundText)
-                                                  ])),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(
-                                                    AppLocalizations.of(context)
+                                              content: Container(
+                                                  constraints: const BoxConstraints(
+                                                      maxWidth:
+                                                          responsiveMaxDialogWidth),
+                                                  child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(AppLocalizations
+                                                                    .of(context)
+                                                                ?.nodeFailedAlertDescription ??
+                                                            stringNotFoundText)
+                                                      ])),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(AppLocalizations
+                                                                .of(context)
                                                             ?.alertOkAction ??
                                                         stringNotFoundText))
-                                          ]);
-                                    });
-                              });
+                                              ]);
+                                        });
+                                  });
 
-                              setState(() {
-                                _biometricsBusy = false;
-                              });
-                            }
-                          },
-                    icon: _biometricsBusy && _busyIndicatorIndex == 1
-                        ? Container(
-                            width: 24,
-                            height: 24,
-                            padding: const EdgeInsets.all(2.0),
-                            child: CircularProgressIndicator(
-                              color: Theme.of(context).colorScheme.primary,
-                              strokeWidth: 3,
-                            ),
-                          )
-                        : const Icon(Icons.arrow_circle_right),
-                    label: Text(
-                        AppLocalizations.of(context)?.skipBiometricsButton ??
-                            stringNotFoundText,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-              ]),
-        ));
+                                  setState(() {
+                                    _biometricsBusy = false;
+                                  });
+                                }
+                              },
+                        icon: _biometricsBusy && _busyIndicatorIndex == 1
+                            ? Container(
+                                width: 24,
+                                height: 24,
+                                padding: const EdgeInsets.all(2.0),
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : const Icon(Icons.arrow_circle_right),
+                        label: Text(
+                            AppLocalizations.of(context)
+                                    ?.skipBiometricsButton ??
+                                stringNotFoundText,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ),
+                  ]),
+            )));
+  }
+
+  _backAction() async {
+    if (BaseStaticState.useHomeBack) {
+      // return to settings
+      BaseStaticState.prevScreen = Screen.home;
+      BaseStaticState.biometricsActive = await _checkBiometrics();
+
+      WidgetsBinding.instance.scheduleFrameCallback((_) {
+        Navigator.of(context).push(_createSettingsRoute());
+      });
+      return;
+    }
+    Navigator.of(context).push(_createBackRoute());
   }
 }
 
