@@ -27,6 +27,8 @@ const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
 const conversionApiUrl = 'https://veil.tools/api/getprice';
 
+const hiddenBalanceMask = '******';
+
 const prefsLocaleStorage = 'veil.locale';
 const prefsDarkMode = 'veil.theme';
 const prefsWalletsStorage = 'veil.wallets'; // format: <random_id>,<random_id>
@@ -41,6 +43,7 @@ const prefsWalletTxEncIV = 'veil.wallet_txenciv.';
 const prefsWalletTxEncKey = 'veil.wallet_txenckey.';
 const prefsBiometricsEnabled = 'veil.biometrics_enabled'; // true/false
 const prefsActiveAddress = 'veil.active_address';
+const prefsWalletHiddenBalances = 'veil.hidden_balances';
 
 // settings
 const prefsSettingsNodeUrl = 'veil.settings.node_url';

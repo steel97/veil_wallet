@@ -241,6 +241,20 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     RpcRequester.NODE_PASSWORD = BaseStaticState.nodeAuth;
   }
 
+  Future<void> loadBalanceHidden() async {
+    try {
+      var storageService = StorageService();
+      var curState =
+          await storageService.readSecureData(prefsWalletHiddenBalances) ??
+              defaultNodeAddress;
+      WidgetsBinding.instance.scheduleFrameCallback((_) {
+        try {
+          context.read<WalletState>().setHideBalance(bool.parse(curState));
+        } catch (e) {}
+      });
+    } catch (e) {}
+  }
+
   Future<void> loadTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var res = prefs.getBool(prefsDarkMode);
@@ -275,6 +289,7 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     BaseStaticState.biometricsTimestamp = DateTime.now().millisecondsSinceEpoch;
 
+    loadBalanceHidden();
     loadTheme();
     loadLocale();
     loadState();

@@ -1,10 +1,13 @@
 // ignore_for_file: empty_catches
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:veil_wallet/src/core/constants.dart';
 //import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/transactions.dart';
+import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 
 class Transaction extends StatelessWidget {
@@ -69,18 +72,27 @@ class Transaction extends StatelessWidget {
   Text getAmountText(BuildContext context) {
     var amountTmp = amount.toStringAsFixed(2);
     if (type == TxType.sent) {
-      return Text('-$amountTmp veil',
+      return Text(
+          context.watch<WalletState>().hideBalance
+              ? ' $hiddenBalanceMask'
+              : '-$amountTmp veil',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary));
     } else if (type == TxType.received) {
-      return Text('+$amountTmp veil',
+      return Text(
+          context.watch<WalletState>().hideBalance
+              ? ' $hiddenBalanceMask'
+              : '+$amountTmp veil',
           style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 0, 211, 84)));
     }
 
-    return Text(' $amountTmp veil',
+    return Text(
+        context.watch<WalletState>().hideBalance
+            ? ' $hiddenBalanceMask'
+            : ' $amountTmp veil',
         style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Theme.of(context)
