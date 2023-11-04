@@ -1,4 +1,5 @@
 {
+	"@@locale": "es",
 	"aboutButton": "Acerca de la aplicación",
 	"aboutText": "Veil wallet - billetera móvil de criptomonedas Veil",
 	"aboutText2": "Dirección de donaciones:",
@@ -119,5 +120,8 @@
 	"walletTitle": "Billetera",
 	"welcomeDescription": "Importe billetera existente o cree nueva",
 	"welcomeTitle": "¡Bienvenido a Veil!",
-	"yesAction": "Sí"
+	"yesAction": "Sí",
+	"localeSelectionTitle": "Elige lengua",
+	"nodeSelectionTitle": "Nodos disponibles",
+	"darkMode": "Tema oscuro"
 }
