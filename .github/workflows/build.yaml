@@ -1,6 +1,7 @@
 name: Build
 
 on:
+  workflow_call:
   push:
     branches:
       - main
@@ -143,7 +144,7 @@ jobs:
       - name: Retrieve base64 keystore and decode it to a file
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
-        run: echo $KEYSTORE_BASE64 | base64 --decode > "${{ github.workspace }}/android-keystore.jks"
+        run: echo $KEYSTORE_BASE64 | base64 --decode > '${{ github.workspace }}/android-keystore.jks'
       - name: Create keystore.properties file
         env:
           KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/android/key.properties

@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag name (without "v" prefix, ex. 1.0.0)'
+        default: '1.0.0'
+      draft:
+        description: 'Should new release be a draft?'
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+
+  create_release:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+    steps:
+    # 1) artifact (veil-wallet win-x86_64)
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet win-x86_64
+        path: './veil-wallet win-x86_64'
+    - run: |
+        rm -rf 'veil light (win-x86_64).zip'
+        zip -r 'veil light (win-x86_64).zip' './veil-wallet win-x86_64'
+    # 2) artifact (veil-wallet linux-x86_64)
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet linux-x86_64
+        path: './veil-wallet linux-x86_64'
+    - run: |
+        rm -rf 'veil-wallet (linux-x86_64).zip'
+        zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
+    # 3) artifact (veil-wallet osx-x86_64)
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet osx-x86_64
+        path: './veil-wallet.app'
+    - run: |
+        rm -rf 'veil-wallet (osx-x86_64).zip'
+        zip -r 'veil-wallet (osx-x86_64).zip' './veil-wallet.app'
+    # 4) artifact (veil-wallet ios)
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet ios
+        path: './veil-wallet-ios.app'
+    - run: |
+        rm -rf 'veil-wallet (ios).ipa'
+        zip -r 'veil-wallet (ios).ipa' './veil-wallet-ios.app'
+    # 5) artifact (veil-wallet android)    
+    # upload release
+    - uses: ncipollo/release-action@v1
+      with:
+        commit: 'main'
+        tag: 'v${{ inputs.tag }}'
+        allowUpdates: true
+        artifactErrorsFailBuild: true
+        generateReleaseNotes: true
+        draft: '${{ inputs.draft }}'
+        name: 'Some unique name ${{ inputs.tag }}'
+        removeArtifacts: true
+        artifacts: '*.zip,*.apk,*.ipa'
