@@ -4,13 +4,9 @@ on:
   workflow_call:
     secrets:
       KEYSTORE_FILE_BASE64:
-        required: true
       KEYSTORE_KEY_ALIAS:
-        required: true
       KEYSTORE_PASSWORD:
-        required: true
       KEYSTORE_KEY_PASSWORD:
-        required: true
   push:
     branches:
       - main
