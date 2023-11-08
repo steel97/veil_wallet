@@ -1,4 +1,5 @@
 {
+	"@@locale": "eo",
 	"aboutButton": "Pri la aplikaĵo",
 	"aboutText": "Veil wallet - poŝtelefona monujo de kripto de Veil",
 	"aboutText2": "Donaca adreso:",
@@ -119,5 +120,8 @@
 	"walletTitle": "Monujo",
 	"welcomeDescription": "Importu ekzistantan monujon aŭ kreu novan",
 	"welcomeTitle": "Bonvenon al Veil!",
-	"yesAction": "Jes"
+	"yesAction": "Jes",
+	"localeSelectionTitle": "Elektu lingvon",
+	"nodeSelectionTitle": "Disponeblaj nodoj",
+	"darkMode": "Malhelan temon"
 }
