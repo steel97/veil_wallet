@@ -2,12 +2,21 @@ name: Build
 
 on:
   workflow_call:
+    secrets:
+      KEYSTORE_FILE_BASE64:
+        required: true
+      KEYSTORE_KEY_ALIAS:
+        required: true
+      KEYSTORE_PASSWORD:
+        required: true
+      KEYSTORE_KEY_PASSWORD:
+        required: true
   push:
     branches:
       - main
 
 jobs:
-  windows-x86_64:
+  windows:
     name: windows x86_64
     runs-on: windows-latest
     environment: windows
@@ -33,7 +42,7 @@ jobs:
           name: ${{ env.build_package_name }}
           path: build/windows/runner/Release/
 
-  linux-x86_64:
+  linux:
     name: linux x86_64
     runs-on: ubuntu-latest
     environment: linux
@@ -61,7 +70,7 @@ jobs:
           name: ${{ env.build_package_name }}
           path: 'build/linux/x64/release/bundle/'
 
-  osx-x64:
+  osx:
     name: osx x86_64
     runs-on: macos-latest
     environment: macos
