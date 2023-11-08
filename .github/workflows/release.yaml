@@ -51,11 +51,15 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: veil-wallet ios
-        path: './veil-wallet-ios.app'
+        path: './'
     - run: |
         rm -rf 'veil-wallet (ios).ipa'
-        zip -r 'veil-wallet (ios).ipa' './veil-wallet-ios.app'
+        zip -r 'veil-wallet (ios).ipa' './Runner.app'
     # 5) artifact (veil-wallet android)    
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet android
+        path: './veil-wallet (android).apk'
     # upload release
     - uses: ncipollo/release-action@v1
       with:
@@ -65,6 +69,6 @@ jobs:
         artifactErrorsFailBuild: true
         generateReleaseNotes: true
         draft: '${{ inputs.draft }}'
-        name: 'Some unique name ${{ inputs.tag }}'
+        name: 'Veil Wallet ${{ inputs.tag }}'
         removeArtifacts: true
         artifacts: '*.zip,*.apk,*.ipa'
