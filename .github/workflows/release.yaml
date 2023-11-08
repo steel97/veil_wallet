@@ -59,7 +59,9 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: veil-wallet android
-        path: './veil-wallet (android).apk'
+        path: './veil-wallet android'
+    - run: |
+        mv './veil-wallet android/app-release.apk' ./veil-wallet (android).apk
     # upload release
     - uses: ncipollo/release-action@v1
       with:
