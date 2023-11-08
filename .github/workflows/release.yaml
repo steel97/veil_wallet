@@ -61,7 +61,7 @@ jobs:
         name: veil-wallet android
         path: './veil-wallet android'
     - run: |
-        mv './veil-wallet android/app-release.apk' ./veil-wallet (android).apk
+        mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
     # upload release
     - uses: ncipollo/release-action@v1
       with:
