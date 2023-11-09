@@ -29,8 +29,8 @@ jobs:
         name: veil-wallet win-x86_64
         path: './veil-wallet win-x86_64'
     - run: |
-        rm -rf 'veil light (win-x86_64).zip'
-        zip -r 'veil light (win-x86_64).zip' './veil-wallet win-x86_64'
+        rm -rf 'veil-wallet (win-x86_64).zip'
+        zip -r 'veil-wallet (win-x86_64).zip' './veil-wallet win-x86_64'
     # 2) artifact (veil-wallet linux-x86_64)
     - uses: actions/download-artifact@v3
       with:
