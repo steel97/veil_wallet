@@ -135,7 +135,7 @@ jobs:
         run: |
           cd ios
           rm -rf Runner.xcarchive/Products/Applications/Runner.app/Frameworks/*.framework/Frameworks/
-          find myfolder -type f -name '*.*'
+          find ./ -type f -name '*.*'
           ldid -SRunner/Runner.entitlements Runner.xcarchive/Products/Applications/Runner.app/Runner
       - name: Build ipa
         run: |
