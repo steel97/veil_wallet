@@ -114,14 +114,45 @@ jobs:
           architecture: x64
       - name: Install dependencies
         run: |
+          brew install ldid
           flutter config --no-analytics
           flutter pub get
       - name: Build executable
-        run: flutter build ios --release --no-codesign
+        run: |
+          flutter build ios --release --no-codesign
+          cd ios
+          xcodebuild \
+          -workspace Runner.xcworkspace \
+          -scheme Runner \
+          -sdk iphoneos \
+          archive -archivePath Runner.xcarchive \
+				  CODE_SIGNING_REQUIRED=NO \
+				  AD_HOC_CODE_SIGNING_ALLOWED=YES \
+				  CODE_SIGNING_ALLOWED=NO \
+				  DEVELOPMENT_TEAM=XYZ0123456 \
+				  ORG_IDENTIFIER=org.veilproject \
+				  DWARF_DSYM_FOLDER_PATH="." | xcpretty && exit ${PIPESTATUS[0]}
+      - name: Fakesign app
+        run: |
+          cd ios
+          rm -rf Runner.xcarchive/Products/Applications/Runner.app/Frameworks/*.framework/Frameworks/
+          ldid -S Runner/Runner.entitlements Runner.xcarchive/Products/Applications/Runner.app/Runner
+      - name: Build ipa
+        run: |
+          cd ios
+          mkdir Payload
+	        mkdir Payload/Runner.app
+	        cp -R archive.xcarchive/Products/Applications/Runner.app/ Payload/Runner.app/
+	        zip -r ../app-release.ipa Payload
+      - name: Cleanup
+        run: |
+          cd ios
+          rm -fr Runner.xcarchive
+          rm -fr Payload
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.build_package_name }}
-          path: build/ios/iphoneos
+          path: app-release.ipa
 
   android:
     name: android

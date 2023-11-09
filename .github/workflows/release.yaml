@@ -51,10 +51,9 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: veil-wallet ios
-        path: './'
+        path: './veil-wallet ios'
     - run: |
-        rm -rf 'veil-wallet (ios).ipa'
-        zip -r 'veil-wallet (ios).ipa' './Runner.app'
+        mv './veil-wallet ios/app-release.ipa' './veil-wallet (ios).ipa'
     # 5) artifact (veil-wallet android)    
     - uses: actions/download-artifact@v3
       with:
