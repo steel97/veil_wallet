@@ -135,7 +135,7 @@ jobs:
         run: |
           cd ios
           rm -rf Runner.xcarchive/Products/Applications/Runner.app/Frameworks/*.framework/Frameworks/
-          ldid -S Runner/Release.entitlements Runner.xcarchive/Products/Applications/Runner.app/Runner
+          ldid -SRunner/Release.entitlements Runner.xcarchive/Products/Applications/Runner.app/Runner
       - name: Build ipa
         run: |
           cd ios
