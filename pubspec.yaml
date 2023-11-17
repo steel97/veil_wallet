@@ -18,12 +18,12 @@ dependencies:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
-  extended_text: ^11.1.0
+  extended_text: ^12.0.0
   file_picker: ^6.1.1
   flutter_secure_storage: ^9.0.0
   local_auth: ^2.1.7
   url_launcher: ^6.1.14
-  provider: ^6.0.5  
+  provider: ^6.1.1  
   pretty_qr_code: ^3.0.0
   screenshot: ^2.1.0
   share_plus: ^7.1.0
@@ -34,7 +34,10 @@ dependencies:
   path_provider: ^2.1.1
   package_info_plus: ^4.1.0
   shared_preferences: ^2.2.2
-  l10n_esperanto: ^2.0.6
+  l10n_esperanto:
+    git:
+      url: https://github.com/deakjahn/l10n_esperanto
+      ref: master
 
 dev_dependencies:
   flutter_test:
