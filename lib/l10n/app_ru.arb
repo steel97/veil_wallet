@@ -123,5 +123,9 @@
 	"syncStatusScanningSemantics": "Нода сканирует ваш адрес",
 	"localeSelectionTitle": "Выберите язык",
 	"nodeSelectionTitle": "Доступные ноды",
-	"darkMode": "Темная тема"
+	"darkMode": "Темная тема",
+	"discordInfo": "Оффициальный discord:",
+	"discordFaucetInfo": "* Вы можете получить veil через кран доступный в оффициальном дискорде",
+	"legalInfo": "Правовая информация",
+	"legalTitle": "Правовая информация"
 }

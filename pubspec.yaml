@@ -53,6 +53,7 @@ flutter:
     - assets/images/logo_full.png
     - assets/images/logo_full_light.png
     - assets/images/pattern.png
+    - assets/res/legal.txt
 
 flutter_native_splash:
   android_disable_fullscreen: true

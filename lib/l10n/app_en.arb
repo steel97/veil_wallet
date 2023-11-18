@@ -521,5 +521,21 @@
 	"darkMode": "Use dark theme",
 	"@darkMode": {
 		"description": "Dark theme setting"
+	},
+	"discordInfo": "Official discord:",
+	"@discordInfo": {
+		"description": "About screen label, discord link"
+	},
+	"discordFaucetInfo": "* You can get some coins via faucet, available in official discord",
+	"@discordFaucetInfo": {
+		"description": "Info about faucet"
+	},
+	"legalInfo": "Legal info",
+	"@legalInfo": {
+		"description": "Legal info button in about screen"
+	},
+	"legalTitle": "Legal info",
+	"@legalTitle": {
+		"description": "Legal info screen title"
 	}
 }

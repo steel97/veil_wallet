@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
+import 'package:veil_wallet/src/views/legal.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class About extends StatelessWidget {
@@ -93,6 +94,40 @@ class About extends StatelessWidget {
                           ),
                           style: TextStyle(fontSize: 14),
                         )),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Text(
+                            AppLocalizations.of(context)?.discordInfo ??
+                                stringNotFoundText,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.normal),
+                            textAlign: TextAlign.center)),
+                    TextButton.icon(
+                        onPressed: () async {
+                          try {
+                            var url = Uri.parse(discordAddress);
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            }
+                          } catch (e) {}
+                        },
+                        icon: const Icon(Icons.discord_outlined),
+                        label: const Text(discordLabel)),
+                    Container(
+                        margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                        child: Text(
+                            AppLocalizations.of(context)?.discordFaucetInfo ??
+                                stringNotFoundText,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 12),
+                            textAlign: TextAlign.center)),
+                    FilledButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(_createLegalRoute());
+                        },
+                        icon: const Icon(Icons.info_outline),
+                        label: Text(AppLocalizations.of(context)?.legalInfo ??
+                            stringNotFoundText)),
                     Expanded(
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -108,6 +143,24 @@ class About extends StatelessWidget {
                   ]),
             )));
   }
+}
+
+Route _createLegalRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return const Legal();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createBackRoute() {
