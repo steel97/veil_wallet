@@ -14,11 +14,7 @@ class About extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var packageInfo = PackageInfo.fromPlatform();
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).push(_createBackRoute());
-          return false;
-        },
+    return PopScope(
         child: BackLayout(
             title: AppLocalizations.of(context)?.aboutTitle,
             back: () {

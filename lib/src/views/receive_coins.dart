@@ -79,11 +79,8 @@ class _ReceiveCoinsState extends State<ReceiveCoins> {
           ]),
     );
 
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).push(_createBackRoute(useVerticalBar));
-          return false;
-        },
+    return PopScope(
+        canPop: false,
         child: useVerticalBar
             ? MainLayout(
                 overrideTitle: AppLocalizations.of(context)?.shareTitle,

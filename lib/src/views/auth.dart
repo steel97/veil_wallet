@@ -23,10 +23,8 @@ class _AuthState extends State<Auth> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
+    return PopScope(
+        canPop: false,
         child: BackLayout(
             title: AppLocalizations.of(context)?.authenticateTitle,
             child: Container(

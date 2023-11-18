@@ -39,11 +39,8 @@ class _ScanQRState extends State<ScanQR> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          _backAction();
-          return false;
-        },
+    return PopScope(
+        canPop: false,
         child: BackLayout(
           title: AppLocalizations.of(context)?.scanQRTitle,
           back: () {

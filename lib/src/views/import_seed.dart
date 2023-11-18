@@ -43,11 +43,8 @@ class _ImportSeedState extends State<ImportSeed> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          _backAction();
-          return false;
-        },
+    return PopScope(
+        canPop: false,
         child: BackLayout(
             title: AppLocalizations.of(context)?.importSeedTitle,
             back: () {
@@ -275,10 +272,14 @@ class _ImportSeedState extends State<ImportSeed> {
                 ))));
   }
 
-  _backAction() {
+  _resetState() {
     BaseStaticState.walletEncryptionPassword = '';
     BaseStaticState.tempWalletName = '';
     BaseStaticState.importWalletWords = [];
+  }
+
+  _backAction() {
+    _resetState();
     Navigator.of(context).push(_createBackRoute());
   }
 }

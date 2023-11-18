@@ -588,11 +588,7 @@ class _MakeTxState extends State<MakeTx> {
           ]),
         ));
 
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).push(_createBackRoute(useVerticalBar));
-          return false;
-        },
+    return PopScope(
         child: useVerticalBar
             ? MainLayout(
                 overrideTitle:

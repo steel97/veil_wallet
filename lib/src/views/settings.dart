@@ -170,11 +170,8 @@ class _SettingsState extends State<Settings> {
           ])));
     }
 
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).push(_createBackRoute());
-          return false;
-        },
+    return PopScope(
+        canPop: false,
         child: BackLayout(
             title: AppLocalizations.of(context)?.settingsTitle,
             back: () {

@@ -26,11 +26,7 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          Navigator.of(context).push(_createBackRoute());
-          return false;
-        },
+    return PopScope(
         child: BackLayout(
             title: AppLocalizations.of(context)?.verifySeedPhraseTitle,
             back: () {
