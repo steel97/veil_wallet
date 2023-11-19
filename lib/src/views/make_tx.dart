@@ -66,7 +66,7 @@ class _MakeTxState extends State<MakeTx> {
         .firstWhere((element) => element.address == addr);
     _curAddr = addr;
 
-    updateAvailableBalance(addrEl.accountType).then((value) => {
+    updateAvailableBalance(addrEl.accountType, addrEl.index).then((value) => {
           setState(() {
             _availableAmount = value.available;
             _overallAmount = value.total;
@@ -74,10 +74,12 @@ class _MakeTxState extends State<MakeTx> {
         });
   }
 
-  Future<_BalancesResponse> updateAvailableBalance(AccountType type) async {
+  Future<_BalancesResponse> updateAvailableBalance(
+      AccountType type, int index) async {
     var availableAmount =
-        await WalletHelper.getAvailableBalance(accountType: type);
-    var pending = await WalletHelper.getPendingBalance(accountType: type);
+        await WalletHelper.getAvailableBalance(accountType: type, index: index);
+    var pending =
+        await WalletHelper.getPendingBalance(accountType: type, index: index);
 
     return _BalancesResponse(WalletHelper.formatAmount(availableAmount),
         WalletHelper.formatAmount(availableAmount + pending));
@@ -100,7 +102,7 @@ class _MakeTxState extends State<MakeTx> {
           .ownedAddresses
           .firstWhere((element) => element.address == addr);
 
-      updateAvailableBalance(addrEl.accountType).then((value) => {
+      updateAvailableBalance(addrEl.accountType, addrEl.index).then((value) => {
             setState(() {
               _availableAmount = value.available;
               _overallAmount = value.total;
@@ -241,6 +243,7 @@ class _MakeTxState extends State<MakeTx> {
                             try {
                               tx = await WalletHelper.buildTransaction(
                                   addrEl.accountType,
+                                  addrEl.index,
                                   double.parse(_amountController.text),
                                   _recipientController.text,
                                   substractFee: _substractFeeFromAmount);
@@ -448,6 +451,7 @@ class _MakeTxState extends State<MakeTx> {
                                                             .publishTransaction(
                                                                 addrEl
                                                                     .accountType,
+                                                                addrEl.index,
                                                                 tx!.txdata!);
 
                                                         Navigator.of(context)

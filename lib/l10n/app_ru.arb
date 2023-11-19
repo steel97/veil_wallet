@@ -127,5 +127,7 @@
 	"discordInfo": "Оффициальный discord:",
 	"discordFaucetInfo": "* Вы можете получить veil через кран доступный в оффициальном дискорде",
 	"legalInfo": "Правовая информация",
-	"legalTitle": "Правовая информация"
+	"legalTitle": "Правовая информация",
+	"createAddress": "Новый адрес",
+	"addressCreated": "Адрес создан"
 }

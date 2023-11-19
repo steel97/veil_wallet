@@ -37,12 +37,25 @@ class WalletHelper {
     return addrEl?.accountType ?? AccountType.DEFAULT;
   }
 
+  static int uiGetActiveAddressIndex() {
+    var addr = StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .selectedAddress;
+    var addrEl = StatesBridge.navigatorKey.currentContext
+        ?.read<WalletState>()
+        .ownedAddresses
+        .firstWhere((element) => element.address == addr);
+
+    return addrEl?.index ?? 1;
+  }
+
   static Future<void> uiUpdateBalance() async {
-    var available =
-        await getAvailableBalance(accountType: uiGetActiveAddressType());
-    //var locked = await getLockedBalance(accountType: uiGetActiveAddressType());
-    var pending =
-        await getPendingBalance(accountType: uiGetActiveAddressType());
+    var index = uiGetActiveAddressIndex();
+    var available = await getAvailableBalance(
+        accountType: uiGetActiveAddressType(), index: index);
+    //var locked = await getLockedBalance(accountType: uiGetActiveAddressType(), index: index);
+    var pending = await getPendingBalance(
+        accountType: uiGetActiveAddressType(), index: index);
 
     StatesBridge.navigatorKey.currentContext
         ?.read<WalletState>()
@@ -263,6 +276,9 @@ class WalletHelper {
     }
 
     context.read<WalletState>().setOwnedAddresses(retAddrList);
+    if (retAddrList.length <= selectedAddressIndex) {
+      selectedAddressIndex = 0;
+    }
 
     await setSelectedAddress(
         retAddrList[selectedAddressIndex].address, context);
@@ -288,7 +304,7 @@ class WalletHelper {
 
     context.read<WalletState>().setSelectedAddress(walEntry.address);
 
-    var addr = getAddress(walEntry.accountType);
+    var addr = getAddress(walEntry.accountType, index: walEntry.index);
     if (shouldForceReload) {
       await reloadTxes(addr);
     } else {
@@ -384,26 +400,27 @@ class WalletHelper {
     }
   }
 
-  static LightwalletAddress getAddress(AccountType type) =>
-      _addresses.firstWhere((element) => element.getAccountType() == type);
+  static LightwalletAddress getAddress(AccountType type, {index = 1}) =>
+      _addresses.firstWhere((element) =>
+          element.getAccountType() == type && element.getIndex() == index);
 
   static Future<double> getPendingBalance(
-      {AccountType accountType = AccountType.STEALTH}) async {
-    var address = getAddress(accountType);
+      {AccountType accountType = AccountType.STEALTH, int index = 1}) async {
+    var address = getAddress(accountType, index: index);
     var balance = await address.getBalance(null);
     var balanceAvailable = await address.getBalance(mempool);
     return balance - balanceAvailable;
   }
 
   static Future<double> getLockedBalance(
-      {AccountType accountType = AccountType.STEALTH}) async {
-    var address = getAddress(accountType);
+      {AccountType accountType = AccountType.STEALTH, int index = 1}) async {
+    var address = getAddress(accountType, index: index);
     return await address.getBalanceLocked();
   }
 
   static Future<double> getAvailableBalance(
-      {AccountType accountType = AccountType.STEALTH}) async {
-    var address = getAddress(accountType);
+      {AccountType accountType = AccountType.STEALTH, int index = 1}) async {
+    var address = getAddress(accountType, index: index);
     var balance = await address.getBalance(mempool);
     return balance;
   }
@@ -426,12 +443,12 @@ class WalletHelper {
   }
 
   static Future<BuildTransactionResult?> buildTransaction(
-      AccountType accountType, double amount, String recipient,
+      AccountType accountType, int index, double amount, String recipient,
       {bool substractFee = false}) async {
     try {
       var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
 
-      var address = getAddress(accountType);
+      var address = getAddress(accountType, index: index);
       var recipientAddress = CVeilAddress.parse(params, recipient);
 
       var preparedUtxos = (await address.getUnspentOutputs())
@@ -471,9 +488,9 @@ class WalletHelper {
   }
 
   static Future<String?> publishTransaction(
-      AccountType accountType, String rawTx) async {
+      AccountType accountType, int index, String rawTx) async {
     try {
-      var address = getAddress(accountType);
+      var address = getAddress(accountType, index: index);
       var res = await Lightwallet.publishTransaction(rawTx);
       if (res.errorCode != null) {
         return null;

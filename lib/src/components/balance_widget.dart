@@ -9,6 +9,7 @@ import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
+import 'package:veil_wallet/src/states/states_bridge.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_item.dart';
@@ -215,7 +216,9 @@ class BalanceWidget extends StatelessWidget {
                                             .colorScheme
                                             .primary),
                                     onSelected: (value) async {
-                                      /*showDialog(
+                                      try {
+                                        if (value == 'createaddress') {
+                                          showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
                                                 return AlertDialog(
@@ -223,31 +226,78 @@ class BalanceWidget extends StatelessWidget {
                                                                 .of(context)
                                                             ?.loadingAddressTitle ??
                                                         stringNotFoundText),
-                                                    content: Container(constraints: const BoxConstraints(
-                                  maxWidth: responsiveMaxDialogWidth), child:Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Text(AppLocalizations
-                                                                      .of(context)
-                                                                  ?.loadingAddressDescription ??
-                                                              stringNotFoundText),
-                                                          const SizedBox(
-                                                              width: 2,
-                                                              height: 20),
-                                                          CircularProgressIndicator(
-                                                            semanticsLabel:
-                                                                AppLocalizations.of(
-                                                                        context)
-                                                                    ?.loadingAddressDescription,
-                                                          ),
-                                                        ])));
-                                              });*/
+                                                    content: Container(
+                                                        constraints:
+                                                            const BoxConstraints(
+                                                                maxWidth:
+                                                                    responsiveMaxDialogWidth),
+                                                        child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Text(AppLocalizations.of(
+                                                                          context)
+                                                                      ?.loadingAddressDescription ??
+                                                                  stringNotFoundText),
+                                                              const SizedBox(
+                                                                  width: 2,
+                                                                  height: 20),
+                                                              CircularProgressIndicator(
+                                                                semanticsLabel:
+                                                                    AppLocalizations.of(
+                                                                            context)
+                                                                        ?.loadingAddressDescription,
+                                                              ),
+                                                            ])));
+                                              });
 
-                                      try {
-                                        await WalletHelper.setSelectedAddress(
-                                            value, context,
-                                            shouldForceReload: false);
+                                          var storageService = StorageService();
+                                          var lastAddr = int.parse(
+                                              (await storageService.readSecureData(
+                                                      prefsWalletAddressIndex +
+                                                          WalletStaticState
+                                                              .activeWallet
+                                                              .toString()) ??
+                                                  '1'));
+                                          lastAddr++;
+                                          await storageService.writeSecureData(
+                                              StorageItem(
+                                                  prefsWalletAddressIndex +
+                                                      WalletStaticState
+                                                          .activeWallet
+                                                          .toString(),
+                                                  lastAddr.toString()));
+                                          await storageService.writeSecureData(
+                                              StorageItem(
+                                                  prefsActiveAddress, value));
+
+                                          try {
+                                            await WalletHelper.setActiveWallet(
+                                                WalletStaticState.activeWallet,
+                                                StatesBridge.navigatorKey
+                                                        .currentContext ??
+                                                    context);
+                                          } catch (e) {}
+
+                                          WidgetsBinding.instance
+                                              .scheduleFrameCallback((_) {
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.addressCreated ??
+                                                        stringNotFoundText),
+                                              ),
+                                            );
+                                          });
+                                        } else {
+                                          await WalletHelper.setSelectedAddress(
+                                              value, context,
+                                              shouldForceReload: false);
+                                        }
                                       } catch (e) {}
 
                                       /*WidgetsBinding.instance
@@ -282,6 +332,25 @@ class BalanceWidget extends StatelessWidget {
                                                   ),
                                                 ))));
                                       });
+                                      addresses.add(PopupMenuItem<String>(
+                                          value: 'createaddress',
+                                          child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                const Icon(
+                                                    Icons.add_card_outlined),
+                                                Container(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                    AppLocalizations.of(context)
+                                                            ?.createAddress ??
+                                                        stringNotFoundText,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1)
+                                              ])));
                                       return addresses;
                                     },
                                   ),
