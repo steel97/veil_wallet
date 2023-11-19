@@ -5,8 +5,9 @@ import 'package:veil_light_plugin/veil_light.dart';
 class OwnedAddress {
   final AccountType accountType;
   final String address;
+  final int index;
 
-  OwnedAddress(this.accountType, this.address);
+  OwnedAddress(this.accountType, this.address, this.index);
 }
 
 enum SyncState { synced, scanning, failed }

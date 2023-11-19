@@ -19,7 +19,7 @@ var rng = Random();
 
 class WalletHelper {
   static List<String> mempool = List.empty(growable: true);
-  static List<LightwalletAddress> _addresses = [];
+  static List<LightwalletAddress> _addresses = List.empty(growable: true);
 
   static Future<void> uiReload() async {
     await uiUpdateBalance();
@@ -221,10 +221,19 @@ class WalletHelper {
         LightwalletAccount(WalletStaticState.lightwallet!);
 
     // load all addresses
+    var lastAddr = int.parse((await storageService.readSecureData(
+            prefsWalletAddressIndex +
+                WalletStaticState.activeWallet.toString()) ??
+        '1'));
     _addresses = [
       WalletStaticState.account!.getAddress(AccountType.STEALTH),
       WalletStaticState.account!.getAddress(AccountType.CHANGE)
     ];
+
+    for (var i = 2; i <= lastAddr; i++) {
+      _addresses.add(
+          WalletStaticState.account!.getAddress(AccountType.STEALTH, index: i));
+    }
 
     await selectAddress(context);
     //await TransactionCache.loadData(WalletStaticState.activeWallet);
@@ -245,12 +254,12 @@ class WalletHelper {
     var storageService = StorageService();
     var selectedAddressIndex = int.parse(
         await storageService.readSecureData(prefsActiveAddress) ??
-            '0'); // 0 - stealth, 1 - change
+            '0'); // 0 - stealth, 1 - change, 2+ new stealth addrs
 
     List<OwnedAddress> retAddrList = List.empty(growable: true);
     for (LightwalletAddress element in _addresses) {
-      retAddrList.add(
-          OwnedAddress(element.getAccountType(), element.getStringAddress()));
+      retAddrList.add(OwnedAddress(element.getAccountType(),
+          element.getStringAddress(), element.getIndex()));
     }
 
     context.read<WalletState>().setOwnedAddresses(retAddrList);
@@ -290,6 +299,10 @@ class WalletHelper {
     var activeAddressConvertedType = 0;
     if (walEntry.accountType == AccountType.CHANGE) {
       activeAddressConvertedType = 1;
+    }
+
+    if (walEntry.index > 1 && walEntry.accountType == AccountType.STEALTH) {
+      activeAddressConvertedType = walEntry.index;
     }
 
     checkScanningState(addr);

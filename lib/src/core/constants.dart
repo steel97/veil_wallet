@@ -43,6 +43,7 @@ const prefsWalletEncryption =
     'veil.wallet_encryption.'; // example veil.wallet_mnemonics.123 = <encryption passphrase>
 const prefsWalletTxEncIV = 'veil.wallet_txenciv.';
 const prefsWalletTxEncKey = 'veil.wallet_txenckey.';
+const prefsWalletAddressIndex = 'veil.wallet_address_index.';
 const prefsBiometricsEnabled = 'veil.biometrics_enabled'; // true/false
 const prefsActiveAddress = 'veil.active_address';
 const prefsWalletHiddenBalances = 'veil.hidden_balances';
