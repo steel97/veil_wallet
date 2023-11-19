@@ -46,9 +46,16 @@
 	<string>This app needs camera access to scan QR codes</string>
 	<key>FlutterDeepLinkingEnabled</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
+	<key>CFBundleURLTypes</key>
 	<array>
-		<string>veil</string>
-	</array>	
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>org.veilproject.wallet</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>veil</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
