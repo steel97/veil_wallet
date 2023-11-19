@@ -144,9 +144,13 @@ class _ScanQRState extends State<ScanQR> {
 
         // check amounts
         var uri = Uri.parse(target);
-        String? localAmount = uri.queryParameters['amount'];
+        String? localAmount =
+            uri.queryParameters['amount']; // TO-DO message, label?
 
         target = target.split('?')[0];
+        if (target.endsWith('/')) {
+          target = target.substring(0, target.length - 1);
+        }
 
         // verify address
         if (!WalletHelper.verifyAddress(target)) {
@@ -154,12 +158,14 @@ class _ScanQRState extends State<ScanQR> {
         }
 
         String? formattedAmount;
-        if (localAmount != null) {
-          var amountNum = double.parse(localAmount.replaceAll(',', '.'));
-          if (amountNum > 0 && amountNum.isFinite && !amountNum.isNaN) {
-            formattedAmount = WalletHelper.formatAmount(amountNum);
+        try {
+          if (localAmount != null) {
+            var amountNum = double.parse(localAmount.replaceAll(',', '.'));
+            if (amountNum > 0 && amountNum.isFinite && !amountNum.isNaN) {
+              formattedAmount = WalletHelper.formatAmount(amountNum);
+            }
           }
-        }
+        } catch (e) {}
 
         if (!_navBusy) {
           _navBusy = true;

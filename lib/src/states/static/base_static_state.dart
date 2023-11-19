@@ -10,6 +10,8 @@ class BaseStaticState {
   static Screen prevNodeFailSceren = Screen.notset;
   static bool useHomeBack = false;
   static bool biometricsActive = false;
+  static bool initialBiometricsPassed = false;
+  static bool isStartedWithDeepLink = false;
   static int biometricsTimestamp = 0;
 
   // advanced wallet settings

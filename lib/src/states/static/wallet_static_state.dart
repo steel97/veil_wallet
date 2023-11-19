@@ -14,6 +14,8 @@ class WalletStaticState {
   static LightwalletAccount? account;
 
   static bool walletWatching = false;
-
   static double conversionRate = 0.0;
+
+  static String? deepLinkTargetAddress;
+  static String? deepLinkTargetAmount;
 }

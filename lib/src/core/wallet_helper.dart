@@ -396,7 +396,10 @@ class WalletHelper {
   }
 
   static String formatAmount(double amount) {
-    return WalletStaticState.account!.formatAmount(amount);
+    //return WalletStaticState.account!.formatAmount(amount);
+    return amount.toStringAsFixed(
+        (WalletStaticState.lightwallet?.chainParams ?? mainNetParams)
+            .COIN_DIGITS);
   }
 
   static double getFee() {

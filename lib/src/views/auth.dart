@@ -7,8 +7,10 @@ import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/storage/storage_service.dart';
 import 'package:veil_wallet/src/views/home.dart';
+import 'package:veil_wallet/src/views/make_tx.dart';
 import 'package:veil_wallet/src/views/settings.dart';
 
 class Auth extends StatefulWidget {
@@ -78,12 +80,33 @@ class _AuthState extends State<Auth> {
                                         // ignore: use_build_context_synchronously
                                         await WalletHelper.prepareHomePage(
                                             context);
+                                        BaseStaticState.biometricsTimestamp =
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch;
                                         BaseStaticState.prevNodeFailSceren =
                                             Screen.notset;
                                         WidgetsBinding.instance
                                             .scheduleFrameCallback((_) {
-                                          Navigator.of(context)
-                                              .push(_createHomeRoute());
+                                          BaseStaticState
+                                              .initialBiometricsPassed = true;
+                                          if (WalletStaticState
+                                                  .deepLinkTargetAddress !=
+                                              null) {
+                                            var addr = WalletStaticState
+                                                .deepLinkTargetAddress;
+                                            var amnt = WalletStaticState
+                                                .deepLinkTargetAmount;
+                                            WalletStaticState
+                                                .deepLinkTargetAddress = null;
+                                            WalletStaticState
+                                                .deepLinkTargetAmount = null;
+                                            Navigator.of(context).push(
+                                                _createMakeTxRoute(
+                                                    addr!, amnt));
+                                          } else {
+                                            Navigator.of(context)
+                                                .push(_createHomeRoute());
+                                          }
                                         });
                                       } else {
                                         setState(() {
@@ -175,6 +198,24 @@ class _AuthState extends State<Auth> {
                   ]),
             )));
   }
+}
+
+Route _createMakeTxRoute(String address, String? amount) {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return MakeTx(address: address, amount: amount);
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createHomeRoute() {

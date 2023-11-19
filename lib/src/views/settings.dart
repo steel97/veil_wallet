@@ -93,6 +93,8 @@ class _SettingsState extends State<Settings> {
                     options:
                         const AuthenticationOptions(useErrorDialogs: true));
                 if (didAuthenticate) {
+                  BaseStaticState.biometricsTimestamp =
+                      DateTime.now().millisecondsSinceEpoch;
                   var storageService = StorageService();
                   await storageService.writeSecureData(
                       StorageItem(prefsBiometricsEnabled, false.toString()));
