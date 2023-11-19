@@ -1,4 +1,5 @@
 // ignore_for_file: empty_catches
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -209,7 +210,7 @@ class _MainLayoutState extends State<MainLayout> {
             : Focus(
                 autofocus: true,
                 child: NavigationBar(
-                  selectedIndex: (_selectedIndex ?? 0),
+                  selectedIndex: kDebugMode ? (_selectedIndex ?? 0) : 123,
                   destinations: [
                     /*NavigationDestination(
                   icon: const Icon(Icons.home_rounded),
