@@ -104,25 +104,32 @@ class WalletAppWrap extends StatelessWidget {
       //onSecondaryContainer: const Color.fromARGB(255, 35, 89, 247),
     );
     return MaterialApp(
-      locale: context.watch<WalletState>().locale,
-      debugShowCheckedModeBanner: false,
-      showSemanticsDebugger: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
-      localizationsDelegates: AppLocalizations.localizationsDelegates +
-          [MaterialLocalizationsEo.delegate],
-      supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: context.watch<WalletState>().darkMode
-          ? ThemeMode.dark
-          : ThemeMode.light,
-      theme: ThemeData(
-        colorScheme: context.watch<WalletState>().darkMode
-            ? darkColorScheme
-            : lightColorScheme,
-        useMaterial3: true,
-      ),
-      navigatorKey: StatesBridge.navigatorKey,
-      home: const WalletApp(),
-    );
+        locale: context.watch<WalletState>().locale,
+        debugShowCheckedModeBanner: false,
+        showSemanticsDebugger: false,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.title,
+        localizationsDelegates: AppLocalizations.localizationsDelegates +
+            [MaterialLocalizationsEo.delegate],
+        supportedLocales: AppLocalizations.supportedLocales,
+        themeMode: context.watch<WalletState>().darkMode
+            ? ThemeMode.dark
+            : ThemeMode.light,
+        theme: ThemeData(
+          colorScheme: context.watch<WalletState>().darkMode
+              ? darkColorScheme
+              : lightColorScheme,
+          useMaterial3: true,
+        ),
+        navigatorKey: StatesBridge.navigatorKey,
+        home: const WalletApp(),
+        onGenerateRoute: (settings) {
+          var uriRaw = settings.name ?? '';
+          var uri = Uri.parse(uriRaw);
+          var localAmount = uri.queryParameters['amount'];
+          var target = uriRaw.split('?')[0];
+
+          // TO-DO check auth conditions and move to send screen
+        });
   }
 }
 
