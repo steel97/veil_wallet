@@ -1,0 +1,5 @@
+- it's now possible to hide balance by clicking on it
+- improvements in about page (added licenses of used libraries and link to official discord)
+- fixed transaction creation for some cases
+- new address creation (behaviour is similar to full node, so all created addresses are deterministic)
+- deeplinking support, now it's possible to use this kind of links: veil:your_address?amount=123.456 (those links can be embedded to an HTML page or used in QR codes, which can be scanned by OS natively, without opening QR scan dialog in wallet app)
