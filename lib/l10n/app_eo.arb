@@ -123,5 +123,11 @@
 	"yesAction": "Jes",
 	"localeSelectionTitle": "Elektu lingvon",
 	"nodeSelectionTitle": "Disponeblaj nodoj",
-	"darkMode": "Malhelan temon"
+	"darkMode": "Malhelan temon",
+	"discordInfo": "Oficiala Discord:",
+	"discordFaucetInfo": "* Vi povas akiri Veil per la krano havebla sur la oficiala Discord",
+	"legalInfo": "Juraj informoj",
+	"legalTitle": "Juraj informoj",
+	"createAddress": "Krei adreson",
+	"addressCreated": "Adreso estas kreita"
 }

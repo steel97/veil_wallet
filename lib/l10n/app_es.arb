@@ -123,5 +123,11 @@
 	"yesAction": "Sí",
 	"localeSelectionTitle": "Elige lengua",
 	"nodeSelectionTitle": "Nodos disponibles",
-	"darkMode": "Tema oscuro"
+	"darkMode": "Tema oscuro",
+	"discordInfo": "Discord oficial:",
+	"discordFaucetInfo": "* Puedes conseguir Veil a través del grifo disponible en el Discord oficial.",
+	"legalInfo": "Información legal",
+	"legalTitle": "Información legal",
+	"createAddress": "Crear dirección",
+	"addressCreated": "Dirección se crea"
 }
