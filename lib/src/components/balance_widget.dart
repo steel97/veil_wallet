@@ -52,9 +52,9 @@ class BalanceWidget extends StatelessWidget {
                                             Container(
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
-                                                        0, 0, 0, 0),
-                                                width: 70 * 1.5,
-                                                height: 28 * 1.5,
+                                                        0, 2, 0, 0),
+                                                width: 70 * 1.35,
+                                                height: 28 * 1.35,
                                                 decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image: AssetImage(context
@@ -96,59 +96,58 @@ class BalanceWidget extends StatelessWidget {
                                                             curState
                                                                 .toString()));
                                                   },
-                                                  child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Container(
-                                                          width:
-                                                              double.infinity,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      12),
-                                                          child: Text(
-                                                            context
-                                                                    .watch<
-                                                                        WalletState>()
-                                                                    .hideBalance
-                                                                ? hiddenBalanceMask
-                                                                : '${WalletHelper.formatFiat(context.watch<WalletState>().balance, context.watch<WalletState>().conversionRate)} \$',
-                                                            textAlign:
-                                                                TextAlign.end,
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 24),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          width:
-                                                              double.infinity,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                      12),
-                                                          child: Text(
-                                                            context
-                                                                    .watch<
-                                                                        WalletState>()
-                                                                    .hideBalance
-                                                                ? ' $hiddenBalanceMask'
-                                                                : ' ${WalletHelper.formatAmount(context.watch<WalletState>().balance)}', // show veil?
-                                                            textAlign:
-                                                                TextAlign.end,
-                                                            maxLines: 1,
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal),
-                                                          ),
-                                                        )
-                                                      ]))))
+                                                  child: Container(
+                                                      margin: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 5),
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            FittedBox(
+                                                                fit: BoxFit
+                                                                    .scaleDown,
+                                                                child: Text(
+                                                                  context
+                                                                          .watch<
+                                                                              WalletState>()
+                                                                          .hideBalance
+                                                                      ? hiddenBalanceMask
+                                                                      : '${WalletHelper.formatFiat(context.watch<WalletState>().balance, context.watch<WalletState>().conversionRate)} \$',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .end,
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          24),
+                                                                )),
+                                                            FittedBox(
+                                                                fit: BoxFit
+                                                                    .scaleDown,
+                                                                child: Text(
+                                                                  context
+                                                                          .watch<
+                                                                              WalletState>()
+                                                                          .hideBalance
+                                                                      ? ' $hiddenBalanceMask'
+                                                                      : ' ${WalletHelper.formatAmount(context.watch<WalletState>().balance)}', // show veil?
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .end,
+                                                                  maxLines: 1,
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal),
+                                                                )),
+                                                          ])))))
                                     ])),
                             const SizedBox(height: 45),
                             Row(

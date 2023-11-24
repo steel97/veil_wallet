@@ -209,9 +209,12 @@ class _SettingsState extends State<Settings> {
                                       border: const UnderlineInputBorder(),
                                       hintText: AppLocalizations.of(context)
                                           ?.nodeUrlInputFieldHint,
-                                      label: Text(AppLocalizations.of(context)
-                                              ?.nodeUrlInputField ??
-                                          stringNotFoundText),
+                                      label: Text(
+                                          AppLocalizations.of(context)
+                                                  ?.nodeUrlInputField ??
+                                              stringNotFoundText,
+                                          style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis)),
                                       suffixIcon: IconButton(
                                         onPressed: () {
                                           //_nodeUrlController.text = defaultNodeAddress;
@@ -319,9 +322,13 @@ class _SettingsState extends State<Settings> {
                                         border: const UnderlineInputBorder(),
                                         hintText: AppLocalizations.of(context)
                                             ?.basicAuthInputFieldHint,
-                                        label: Text(AppLocalizations.of(context)
-                                                ?.basicAuthInputField ??
-                                            stringNotFoundText)),
+                                        label: Text(
+                                            AppLocalizations.of(context)
+                                                    ?.basicAuthInputField ??
+                                                stringNotFoundText,
+                                            style: const TextStyle(
+                                                overflow:
+                                                    TextOverflow.ellipsis))),
                                     controller: _nodeAuthController)),
                             Container(
                                 margin:
@@ -344,9 +351,12 @@ class _SettingsState extends State<Settings> {
                                     border: const UnderlineInputBorder(),
                                     hintText: AppLocalizations.of(context)
                                         ?.explorerUrlInputFieldHint,
-                                    label: Text(AppLocalizations.of(context)
-                                            ?.explorerUrlInputField ??
-                                        stringNotFoundText),
+                                    label: Text(
+                                        AppLocalizations.of(context)
+                                                ?.explorerUrlInputField ??
+                                            stringNotFoundText,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis)),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         _explorerUrlController.text =
@@ -378,9 +388,12 @@ class _SettingsState extends State<Settings> {
                                     border: const UnderlineInputBorder(),
                                     hintText: AppLocalizations.of(context)
                                         ?.explorerTxInputFieldHint,
-                                    label: Text(AppLocalizations.of(context)
-                                            ?.explorerTxInputField ??
-                                        stringNotFoundText),
+                                    label: Text(
+                                        AppLocalizations.of(context)
+                                                ?.explorerTxInputField ??
+                                            stringNotFoundText,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis)),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         _txExplorerUrlController.text =
