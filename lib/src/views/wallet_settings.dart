@@ -321,7 +321,7 @@ class _WalletSettingsState extends State<WalletSettings> {
                   _actionBusy = false;
                 });
               },
-        icon: const Icon(Icons.fingerprint_rounded),
+        icon: const Icon(Icons.delete_forever_outlined),
         label: Text(AppLocalizations.of(context)?.deleteWalletAction ??
             stringNotFoundText),
       ),

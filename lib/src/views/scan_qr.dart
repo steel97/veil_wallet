@@ -13,7 +13,7 @@ import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 
 class ScanQR extends StatefulWidget {
-  const ScanQR({Key? key}) : super(key: key);
+  const ScanQR({super.key});
 
   @override
   State<StatefulWidget> createState() => _ScanQRState();

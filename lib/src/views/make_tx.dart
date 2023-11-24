@@ -57,6 +57,7 @@ class _MakeTxState extends State<MakeTx> {
 
     if (widget.amount != null) {
       _amountController.text = widget.amount!;
+      _currentAmount = _amountController.text;
     }
 
     var addr = context.read<WalletState>().selectedAddress;
