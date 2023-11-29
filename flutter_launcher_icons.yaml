@@ -12,3 +12,4 @@ flutter_launcher_icons:
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
+    image_path: "assets/images/icons/logo_osx.png"
