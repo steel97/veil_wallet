@@ -219,10 +219,8 @@ class _SetupBiometricsState extends State<SetupBiometrics> {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        Text(AppLocalizations
-                                                                    .of(context)
-                                                                ?.nodeFailedAlertDescription ??
-                                                            stringNotFoundText)
+                                                        Text(
+                                                            '${AppLocalizations.of(context)?.nodeFailedAlertDescription ?? stringNotFoundText} $e')
                                                       ])),
                                               actions: [
                                                 TextButton(

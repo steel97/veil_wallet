@@ -344,12 +344,11 @@ packages:
   l10n_esperanto:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "78e757337a1de881220086d26a083feeb780f609"
-      url: "https://github.com/deakjahn/l10n_esperanto"
-    source: git
-    version: "2.0.6"
+      name: l10n_esperanto
+      sha256: d3b969643aa91ed8111bf04c4114d23891fff3ee5fbc90179e66576481b24267
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.7"
   lints:
     dependency: transitive
     description:

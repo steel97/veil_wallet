@@ -5,6 +5,17 @@ A crossplatform veil light wallet written with dart/flutter.
 
 [![Get Veil Wallet on Google Play](docs/images/google-play-badge_downscale.png)](https://play.google.com/store/apps/details?id=org.veilproject.wallet)
 
+Releases for other platforms can be found [here](https://github.com/steel97/veil_wallet/releases/)
+
+Development versions can be downloaded from [github actions](https://github.com/steel97/veil_wallet/actions)
+
+\* Private keys stored with [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage), next encryption methods used to secure data:
+- [CryptProtectData or Windows Credentials API](https://learn.microsoft.com/en-us/windows/win32/api/dpapi/nf-dpapi-cryptprotectdata) on Windows (encrypted data stored at `%APPDATA%/org.veilproject/veil-wallet/flutter_secure_storage.dat`)
+- [Keychain](https://developer.apple.com/documentation/security/keychain_services#//apple_ref/doc/uid/TP30000897-CH203-TP1) on MacOS
+- [libsecret](https://wiki.gnome.org/Projects/Libsecret) on Linux
+- [Keychain](https://developer.apple.com/documentation/security/keychain_services#//apple_ref/doc/uid/TP30000897-CH203-TP1) on iOS
+- [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android
+
 ## Getting Started
 ### Requirements:
 - [dart/flutter](https://docs.flutter.dev/get-started/install)
@@ -21,11 +32,22 @@ sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
 ```
 - it's highly recommended to NOT install flutter via snap
 
-#### MacOS:
-- TO-DO
+#### MacOS and iOS:
+- `zsh` terminal recommended
+- [homebrew](https://brew.sh/)
+- cocoapods (can be installed via homebrew)
+```
+brew install cocoapods
+```
+- [rust + cargo](https://www.rust-lang.org/tools/install) (do NOT install via homebrew)
+- [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+- Xcode Command Line Tools
+```
+xcode-select --install
+```
 
 #### iOS:
-- TO-DO
+- iOS simulator for XCode
 
 #### Android:
 - [JDK 19](https://jdk.java.net/19/) (FYI: google play release builds are made with [openjdk 21](https://jdk.java.net/21/) under windows platform)
@@ -52,10 +74,24 @@ You may find solutions for common problems here: [flutter-notes.md](docs/flutter
 flutter build windows --release
 ```
 
+#### MacOS
+```
+# release
+flutter build macos --release
+# after that you may open project in Xcode (./macos/Runner.xcworkspace)
+```
+
 #### Linux:
 ```
 # release
 flutter build linux --release
+```
+
+#### iOS:
+```
+# release
+flutter build ios --release --no-codesign
+# after that you may open project in Xcode (./ios/Runner.xcworkspace)
 ```
 
 #### Android:

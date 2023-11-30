@@ -34,10 +34,7 @@ dependencies:
   path_provider: ^2.1.1
   package_info_plus: ^5.0.1
   shared_preferences: ^2.2.2
-  l10n_esperanto:
-    git:
-      url: https://github.com/deakjahn/l10n_esperanto
-      ref: master
+  l10n_esperanto: ^2.0.7
 
 dev_dependencies:
   flutter_test:
