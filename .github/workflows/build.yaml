@@ -8,8 +8,7 @@ on:
       KEYSTORE_PASSWORD:
       KEYSTORE_KEY_PASSWORD:
   push:
-    branches:
-      - main
+  pull:
 
 jobs:
   windows:
