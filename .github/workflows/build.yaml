@@ -7,8 +7,13 @@ on:
       KEYSTORE_KEY_ALIAS:
       KEYSTORE_PASSWORD:
       KEYSTORE_KEY_PASSWORD:
+  workflow_dispatch:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   windows:
