@@ -154,7 +154,7 @@ jobs:
           path: app-release.ipa
 
   android:
-    name: android (release)    
+    name: android
     runs-on: ubuntu-latest
     environment: android
     env:
