@@ -8,7 +8,7 @@ on:
       KEYSTORE_PASSWORD:
       KEYSTORE_KEY_PASSWORD:
   push:
-  pull:
+  pull_request:
 
 jobs:
   windows:
