@@ -47,7 +47,7 @@ xcode-select --install
 ```
 
 #### iOS:
-- iOS simulator for XCode
+- iOS simulator for Xcode
 
 #### Android:
 - [JDK 19](https://jdk.java.net/19/) (FYI: google play release builds are made with [openjdk 21](https://jdk.java.net/21/) under windows platform)

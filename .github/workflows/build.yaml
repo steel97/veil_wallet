@@ -66,12 +66,12 @@ jobs:
           name: ${{ env.build_package_name }}
           path: 'build/linux/x64/release/bundle/'
 
-  osx:
-    name: osx x86_64
+  macos:
+    name: macos universal
     runs-on: macos-latest
     environment: macos
     env:
-      build_package_name: veil-wallet osx-x86_64
+      build_package_name: veil-wallet macos-universal
     steps:
       - uses: actions/checkout@v4
         with:
@@ -154,7 +154,10 @@ jobs:
           path: app-release.ipa
 
   android:
-    name: android
+    name: android (release)
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
+    if: ${{ env.KEYSTORE_BASE64 != '' }}
     runs-on: ubuntu-latest
     environment: android
     env:
@@ -194,3 +197,33 @@ jobs:
         with:
           name: ${{ env.build_package_name }}
           path: build/app/outputs/flutter-apk/app-release.apk
+
+  android-debug:
+    name: android (debug)
+    runs-on: ubuntu-latest
+    environment: android
+    env:
+      build_package_name: veil-wallet android (debug)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '19'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          architecture: x64
+      - name: Install dependencies
+        run: |
+          flutter config --no-analytics
+          flutter pub get
+      - name: Build executable
+        run: flutter build apk --debug
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.build_package_name }}
+          path: build/app/outputs/flutter-apk/app-debug.apk

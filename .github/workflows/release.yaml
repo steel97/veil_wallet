@@ -39,14 +39,14 @@ jobs:
     - run: |
         rm -rf 'veil-wallet (linux-x86_64).zip'
         zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
-    # 3) artifact (veil-wallet osx-x86_64)
+    # 3) artifact (veil-wallet macos-universal)
     - uses: actions/download-artifact@v3
       with:
-        name: veil-wallet osx-x86_64
+        name: veil-wallet macos-universal
         path: './veil-wallet.app'
     - run: |
-        rm -rf 'veil-wallet (osx-x86_64).zip'
-        zip -r 'veil-wallet (osx-x86_64).zip' './veil-wallet.app'
+        rm -rf 'veil-wallet (macos-universal).zip'
+        zip -r 'veil-wallet (macos-universal).zip' './veil-wallet.app'
     # 4) artifact (veil-wallet ios)
     - uses: actions/download-artifact@v3
       with:
@@ -61,6 +61,14 @@ jobs:
         path: './veil-wallet android'
     - run: |
         mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
+
+    # 6) artifact (veil-wallet android debug)    
+    - uses: actions/download-artifact@v3
+      with:
+        name: veil-wallet android (debug)
+        path: './veil-wallet android (debug)'
+    - run: |
+        mv './veil-wallet android (debug)/app-debug.apk' './veil-wallet (android-debug).apk'
     # upload release
     - uses: ncipollo/release-action@v1
       with:
