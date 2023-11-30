@@ -155,13 +155,12 @@ jobs:
 
   android:
     name: android (release)
-    env:
-      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
     if: ${{ env.KEYSTORE_BASE64 != '' }}
     runs-on: ubuntu-latest
     environment: android
     env:
       build_package_name: veil-wallet android
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
     steps:
       - uses: actions/checkout@v4
         with:
