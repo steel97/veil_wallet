@@ -61,14 +61,6 @@ jobs:
         path: './veil-wallet android'
     - run: |
         mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
-
-    # 6) artifact (veil-wallet android debug)    
-    - uses: actions/download-artifact@v3
-      with:
-        name: veil-wallet android (debug)
-        path: './veil-wallet android (debug)'
-    - run: |
-        mv './veil-wallet android (debug)/app-debug.apk' './veil-wallet (android-debug).apk'
     # upload release
     - uses: ncipollo/release-action@v1
       with:

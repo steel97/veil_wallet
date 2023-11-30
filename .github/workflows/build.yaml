@@ -154,13 +154,11 @@ jobs:
           path: app-release.ipa
 
   android:
-    name: android (release)
-    if: ${{ env.KEYSTORE_BASE64 != '' }}
+    name: android (release)    
     runs-on: ubuntu-latest
     environment: android
     env:
       build_package_name: veil-wallet android
-      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -178,11 +176,24 @@ jobs:
         run: |
           flutter config --no-analytics
           flutter pub get
+      - name: Check signing key
+        id: key-check
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
+        shell: bash
+        run: |
+          if [ "$KEYSTORE_BASE64" != '' ]; then
+            echo "available=true" >> $GITHUB_OUTPUT;
+          else
+            echo "available=false" >> $GITHUB_OUTPUT;
+          fi
       - name: Retrieve base64 keystore and decode it to a file
+        if: ${{ steps.key-check.outputs.available == 'true' }}
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
         run: echo $KEYSTORE_BASE64 | base64 --decode > '${{ github.workspace }}/android-keystore.jks'
       - name: Create keystore.properties file
+        if: ${{ steps.key-check.outputs.available == 'true' }}
         env:
           KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/android/key.properties
         run: |
@@ -191,38 +202,18 @@ jobs:
           echo 'storePassword=${{ secrets.KEYSTORE_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
           echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
       - name: Build executable
+        if: ${{ steps.key-check.outputs.available == 'true' }}
         run: flutter build apk --release
+      - name: Build executable (debug)
+        if: ${{ steps.key-check.outputs.available != 'true' }}
+        run: flutter build apk --debug
       - uses: actions/upload-artifact@v3
+        if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
           name: ${{ env.build_package_name }}
           path: build/app/outputs/flutter-apk/app-release.apk
-
-  android-debug:
-    name: android (debug)
-    runs-on: ubuntu-latest
-    environment: android
-    env:
-      build_package_name: veil-wallet android (debug)
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '19'
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          architecture: x64
-      - name: Install dependencies
-        run: |
-          flutter config --no-analytics
-          flutter pub get
-      - name: Build executable
-        run: flutter build apk --debug
       - uses: actions/upload-artifact@v3
+        if: ${{ steps.key-check.outputs.available != 'true' }}
         with:
           name: ${{ env.build_package_name }}
           path: build/app/outputs/flutter-apk/app-debug.apk
