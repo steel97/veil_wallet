@@ -13,6 +13,9 @@ class StorageService {
 
   Future<String?> readSecureData(String key) async {
     var readData = await _secureStorage.read(key: key);
+    if(await _secureStorage.containsKey(key: key) && readData == null) {
+      return '';
+    }
     return readData;
   }
 
