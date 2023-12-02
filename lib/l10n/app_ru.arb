@@ -129,5 +129,6 @@
 	"legalInfo": "Правовая информация",
 	"legalTitle": "Правовая информация",
 	"createAddress": "Новый адрес",
-	"addressCreated": "Адрес создан"
+	"addressCreated": "Адрес создан",
+	"homeNavScanQRUnavailable": "Сканирование QR кодов недоступно"
 }

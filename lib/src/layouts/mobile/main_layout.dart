@@ -85,7 +85,9 @@ class _MainLayoutState extends State<MainLayout> {
                       _scanQRRoute();
                     }
                   : null,
-              tooltip: AppLocalizations.of(context)?.homeNavScanQR,
+              tooltip: checkScanQROS()
+                  ? AppLocalizations.of(context)?.homeNavScanQR
+                  : AppLocalizations.of(context)?.homeNavScanQRUnavailable,
             ),
             /*Container(
                 width: 70,

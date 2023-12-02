@@ -545,5 +545,9 @@
 	"addressCreated": "Address created",
 	"@addressCreated": {
 		"description": "Address created snack bar"
+	},
+	"homeNavScanQRUnavailable": "QR scanner is unavailable on desktop",
+	"@homeNavScanQRUnavailable": {
+		"description": "Tooltip which describe that QR scanner is not available on platform (desktop)"
 	}
 }
