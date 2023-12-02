@@ -559,15 +559,16 @@ class WalletHelper {
 
   static void checkScanningState(LightwalletAddress addr) {
     //scanning, synced, failed
-    if (addr.getSyncStatus() == 'scanning') {
+    var syncStatus = addr.getSyncStatus();
+    if (syncStatus == 'scanning') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.scanning);
-    } else if (addr.getSyncStatus() == 'synced') {
+    } else if (syncStatus == 'synced') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.synced);
-    } else if (addr.getSyncStatus() == 'failed') {
+    } else if (syncStatus == 'failed') {
       StatesBridge.navigatorKey.currentContext
           ?.read<WalletState>()
           .setSyncState(SyncState.failed);
