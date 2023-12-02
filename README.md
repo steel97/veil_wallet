@@ -74,7 +74,7 @@ You may find solutions for common problems here: [flutter-notes.md](docs/flutter
 flutter build windows --release
 ```
 
-#### MacOS
+#### MacOS:
 ```
 # release
 flutter build macos --release
