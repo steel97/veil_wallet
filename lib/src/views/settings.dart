@@ -45,6 +45,12 @@ class _SettingsState extends State<Settings> {
   String _localeTmp = '';
   String _selectedNode = defaultNodeAddress;
 
+  Future<bool> checkBiometricsPossible() async {
+    var auth = LocalAuthentication();
+    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+    return canAuthenticateWithBiometrics || await auth.isDeviceSupported();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,60 +78,81 @@ class _SettingsState extends State<Settings> {
 
     _darkMode = context.read<WalletState>().darkMode;
 
+    var biometricsPossibleFeature = checkBiometricsPossible();
+
     List<Widget> authActions = [];
 
     if (BaseStaticState.prevScreen != Screen.welcome) {
       if (_isBiometricsActive) {
-        authActions.add(Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: OutlinedButton.icon(
-            style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(45),
-                foregroundColor: Theme.of(context).colorScheme.error),
-            onPressed: () async {
-              var auth = LocalAuthentication();
+        authActions.add(FutureBuilder(
+            future: biometricsPossibleFeature,
+            builder: (BuildContext context,
+                AsyncSnapshot<bool> biometricsAvailable) {
+              if (!(biometricsAvailable.data ?? false)) {
+                return const SizedBox(width: 1, height: 1);
+              }
+              return Container(
+                margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: OutlinedButton.icon(
+                  style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(45),
+                      foregroundColor: Theme.of(context).colorScheme.error),
+                  onPressed: () async {
+                    var auth = LocalAuthentication();
 
-              try {
-                var didAuthenticate = await auth.authenticate(
-                    localizedReason:
-                        AppLocalizations.of(context)?.biometricsRemoveReason ??
-                            stringNotFoundText,
-                    options:
-                        const AuthenticationOptions(useErrorDialogs: true));
-                if (didAuthenticate) {
-                  BaseStaticState.biometricsTimestamp =
-                      DateTime.now().millisecondsSinceEpoch;
-                  var storageService = StorageService();
-                  await storageService.writeSecureData(
-                      StorageItem(prefsBiometricsEnabled, false.toString()));
-                  setState(() {
-                    _isBiometricsActive = false;
-                    BaseStaticState.biometricsActive = false;
-                  });
-                }
-                // ignore: empty_catches
-              } on PlatformException {}
-            },
-            icon: const Icon(Icons.fingerprint_rounded),
-            label: Text(AppLocalizations.of(context)?.removeBiometricsButton ??
-                stringNotFoundText),
-          ),
-        ));
+                    try {
+                      var didAuthenticate = await auth.authenticate(
+                          localizedReason: AppLocalizations.of(context)
+                                  ?.biometricsRemoveReason ??
+                              stringNotFoundText,
+                          options: const AuthenticationOptions(
+                              useErrorDialogs: true));
+                      if (didAuthenticate) {
+                        BaseStaticState.biometricsTimestamp =
+                            DateTime.now().millisecondsSinceEpoch;
+                        var storageService = StorageService();
+                        await storageService.writeSecureData(StorageItem(
+                            prefsBiometricsEnabled, false.toString()));
+                        setState(() {
+                          _isBiometricsActive = false;
+                          BaseStaticState.biometricsActive = false;
+                        });
+                      }
+                      // ignore: empty_catches
+                    } on PlatformException {}
+                  },
+                  icon: const Icon(Icons.fingerprint_rounded),
+                  label: Text(
+                      AppLocalizations.of(context)?.removeBiometricsButton ??
+                          stringNotFoundText),
+                ),
+              );
+            }));
       } else {
-        authActions.add(Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: OutlinedButton.icon(
-            style:
-                FilledButton.styleFrom(minimumSize: const Size.fromHeight(45)),
-            onPressed: () {
-              Navigator.of(context).push(_setupBiometricsRoute());
-            },
-            icon: const Icon(Icons.fingerprint_rounded),
-            label: Text(AppLocalizations.of(context)?.setupBiometricsButton ??
-                stringNotFoundText),
-          ),
-        ));
+        authActions.add(FutureBuilder(
+            future: biometricsPossibleFeature,
+            builder: (BuildContext context,
+                AsyncSnapshot<bool> biometricsAvailable) {
+              if (!(biometricsAvailable.data ?? false)) {
+                return const SizedBox(width: 1, height: 1);
+              }
+              return Container(
+                margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: OutlinedButton.icon(
+                  style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(45)),
+                  onPressed: () {
+                    Navigator.of(context).push(_setupBiometricsRoute());
+                  },
+                  icon: const Icon(Icons.fingerprint_rounded),
+                  label: Text(
+                      AppLocalizations.of(context)?.setupBiometricsButton ??
+                          stringNotFoundText),
+                ),
+              );
+            }));
       }
+
       authActions.add(SizedBox(
           width: double.infinity,
           child: Row(children: [

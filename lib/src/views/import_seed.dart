@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
@@ -173,8 +174,16 @@ class _ImportSeedState extends State<ImportSeed> {
                                       .add(element.text.toLowerCase().trim());
                                 }
 
+                                var auth = LocalAuthentication();
+                                final bool canAuthenticateWithBiometrics =
+                                    await auth.canCheckBiometrics;
+                                final bool canAuthenticate =
+                                    canAuthenticateWithBiometrics ||
+                                        await auth.isDeviceSupported();
+
                                 if (BaseStaticState.prevScreen ==
-                                    Screen.settings) {
+                                        Screen.settings ||
+                                    !canAuthenticate) {
                                   // create and save wallet
                                   setState(() {
                                     _importLoading = true;
