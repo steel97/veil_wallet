@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/func_checker.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
@@ -48,7 +48,7 @@ class _ImportSeedState extends State<ImportSeed> {
         canPop: false,
         child: BackLayout(
             title: AppLocalizations.of(context)?.importSeedTitle,
-            back: () {
+            back: _importLoading ? null : () {
               _backAction();
             },
             child: Form(
@@ -174,13 +174,7 @@ class _ImportSeedState extends State<ImportSeed> {
                                       .add(element.text.toLowerCase().trim());
                                 }
 
-                                var auth = LocalAuthentication();
-                                final bool canAuthenticateWithBiometrics =
-                                    await auth.canCheckBiometrics;
-                                final bool canAuthenticate =
-                                    canAuthenticateWithBiometrics ||
-                                        await auth.isDeviceSupported();
-
+                                final bool canAuthenticate = await checkBiometricsSupport();
                                 if (BaseStaticState.prevScreen ==
                                         Screen.settings ||
                                     !canAuthenticate) {

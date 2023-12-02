@@ -98,11 +98,12 @@ class WalletHelper {
         continue;
       }
 
-      reconstructedWallets.add(rndWalletId.toString());
-      await storageService.writeSecureData(
-          StorageItem(prefsWalletsStorage, reconstructedWallets.join(',')));
       break;
     }
+
+    reconstructedWallets.add(rndWalletId.toString());
+    await storageService.writeSecureData(
+    StorageItem(prefsWalletsStorage, reconstructedWallets.join(',')));
 
     // 2. save wallet name
     await storageService.writeSecureData(

@@ -5,6 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/func_checker.dart';
 import 'package:veil_wallet/src/core/locale_entry.dart';
 import 'package:veil_wallet/src/core/node_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
@@ -45,12 +46,6 @@ class _SettingsState extends State<Settings> {
   String _localeTmp = '';
   String _selectedNode = defaultNodeAddress;
 
-  Future<bool> checkBiometricsPossible() async {
-    var auth = LocalAuthentication();
-    final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-    return canAuthenticateWithBiometrics || await auth.isDeviceSupported();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -78,7 +73,7 @@ class _SettingsState extends State<Settings> {
 
     _darkMode = context.read<WalletState>().darkMode;
 
-    var biometricsPossibleFeature = checkBiometricsPossible();
+    var biometricsPossibleFeature = checkBiometricsSupport();
 
     List<Widget> authActions = [];
 
