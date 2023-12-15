@@ -234,6 +234,7 @@ class _MakeTxState extends State<MakeTx> {
                             });
 
                             BuildTransactionResult? tx;
+                            var txBuildError = '';
                             var addr =
                                 context.read<WalletState>().selectedAddress;
                             var addrEl = context
@@ -250,7 +251,9 @@ class _MakeTxState extends State<MakeTx> {
                                       .replaceAll(',', '.')),
                                   _recipientController.text,
                                   substractFee: _substractFeeFromAmount);
-                            } catch (e) {}
+                            } catch (e) {
+                              txBuildError = e.toString();
+                            }
                             setState(() {
                               _makeTxBusy = false;
                             });
@@ -266,9 +269,8 @@ class _MakeTxState extends State<MakeTx> {
                                     content: Container(
                                         constraints: const BoxConstraints(
                                             maxWidth: responsiveMaxDialogWidth),
-                                        child: Text(AppLocalizations.of(context)
-                                                ?.transactionAlertErrorGeneric ??
-                                            stringNotFoundText)),
+                                        child: Text(
+                                            '${AppLocalizations.of(context)?.transactionAlertErrorGeneric ?? stringNotFoundText} ($txBuildError)')),
                                     actions: [
                                       TextButton(
                                           onPressed: () {
