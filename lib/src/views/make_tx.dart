@@ -160,6 +160,7 @@ class _MakeTxState extends State<MakeTx> {
                             ?.makeTxVerifyAmountCantBeEmpty;
                       }
                       try {
+                        value = value.replaceAll(',', '.');
                         var val = double.parse(value);
                         if (val <= 0) {
                           return AppLocalizations.of(context)
@@ -245,7 +246,8 @@ class _MakeTxState extends State<MakeTx> {
                               tx = await WalletHelper.buildTransaction(
                                   addrEl.accountType,
                                   addrEl.index,
-                                  double.parse(_amountController.text),
+                                  double.parse(_amountController.text
+                                      .replaceAll(',', '.')),
                                   _recipientController.text,
                                   substractFee: _substractFeeFromAmount);
                             } catch (e) {}
@@ -446,14 +448,17 @@ class _MakeTxState extends State<MakeTx> {
                                                           .setSendTxActive(
                                                               true);
 
-                                                      String? txid;
+                                                      PublishTransactionResult?
+                                                          txPublishResult;
                                                       try {
-                                                        txid = await WalletHelper
-                                                            .publishTransaction(
-                                                                addrEl
-                                                                    .accountType,
-                                                                addrEl.index,
-                                                                tx!.txdata!);
+                                                        txPublishResult =
+                                                            await WalletHelper
+                                                                .publishTransaction(
+                                                                    addrEl
+                                                                        .accountType,
+                                                                    addrEl
+                                                                        .index,
+                                                                    tx!.txdata!);
 
                                                         Navigator.of(context)
                                                             .pop();
@@ -469,7 +474,14 @@ class _MakeTxState extends State<MakeTx> {
                                                                 false);
                                                       });
 
-                                                      if (txid == null) {
+                                                      if (txPublishResult ==
+                                                              null ||
+                                                          txPublishResult
+                                                                  .txid ==
+                                                              null ||
+                                                          txPublishResult
+                                                                  .errorCode !=
+                                                              null) {
                                                         showDialog(
                                                             context: context,
                                                             builder:
@@ -485,8 +497,7 @@ class _MakeTxState extends State<MakeTx> {
                                                                           maxWidth:
                                                                               responsiveMaxDialogWidth),
                                                                       child: Text(
-                                                                          AppLocalizations.of(context)?.transactionAlertErrorSendGeneric ??
-                                                                              stringNotFoundText)),
+                                                                          '${AppLocalizations.of(context)?.transactionAlertErrorSendGeneric ?? stringNotFoundText} (${txPublishResult?.message})')),
                                                                   actions: [
                                                                     TextButton(
                                                                         onPressed:
@@ -521,7 +532,7 @@ class _MakeTxState extends State<MakeTx> {
                                                                                 Text(AppLocalizations.of(context)?.transactionAlertSent ?? stringNotFoundText),
                                                                                 TextButton.icon(
                                                                                     onPressed: () {
-                                                                                      Clipboard.setData(ClipboardData(text: txid!)).then((value) => {
+                                                                                      Clipboard.setData(ClipboardData(text: txPublishResult!.txid!)).then((value) => {
                                                                                             ScaffoldMessenger.of(context).showSnackBar(
                                                                                               SnackBar(
                                                                                                 content: Text(AppLocalizations.of(context)?.copiedText ?? stringNotFoundText),
@@ -531,7 +542,7 @@ class _MakeTxState extends State<MakeTx> {
                                                                                     },
                                                                                     icon: const Icon(Icons.copy_rounded),
                                                                                     label: ExtendedText(
-                                                                                      txid!,
+                                                                                      txPublishResult!.txid!,
                                                                                       overflow: TextOverflow.ellipsis,
                                                                                       maxLines: 1,
                                                                                       overflowWidget: const TextOverflowWidget(

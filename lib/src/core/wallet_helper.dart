@@ -103,7 +103,7 @@ class WalletHelper {
 
     reconstructedWallets.add(rndWalletId.toString());
     await storageService.writeSecureData(
-    StorageItem(prefsWalletsStorage, reconstructedWallets.join(',')));
+        StorageItem(prefsWalletsStorage, reconstructedWallets.join(',')));
 
     // 2. save wallet name
     await storageService.writeSecureData(
@@ -488,13 +488,13 @@ class WalletHelper {
     return _addresses;
   }
 
-  static Future<String?> publishTransaction(
+  static Future<PublishTransactionResult?> publishTransaction(
       AccountType accountType, int index, String rawTx) async {
     try {
       var address = getAddress(accountType, index: index);
       var res = await Lightwallet.publishTransaction(rawTx);
       if (res.errorCode != null) {
-        return null;
+        return res;
       }
 
       try {
@@ -505,7 +505,7 @@ class WalletHelper {
 
       /*TransactionCache.addSentTransaction(WalletStaticState.activeWallet,
           address.getStringAddress(), res.txid ?? '');*/
-      return res.txid;
+      return res;
     } catch (e2) {
       return null;
     }
