@@ -334,6 +334,7 @@ class _AddressBookState extends State<AddressBook> {
 
                                                     setState(() {
                                                       _addressBook = [];
+                                                      filterAddressBook();
                                                     });
 
                                                     ScaffoldMessenger.of(
