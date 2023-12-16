@@ -681,5 +681,9 @@
 	"addressBookEditAddress": "Edit address",
 	"@addressBookEditAddress": {
 		"description": "Address book edit address title"
+	},
+	"addressBookNoLabel": "Default",
+	"@addressBookNoLabel": {
+		"description": "Address label value if not set by user"
 	}
 }

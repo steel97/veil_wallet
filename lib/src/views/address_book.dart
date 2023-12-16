@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -215,7 +214,7 @@ class _AddressBookState extends State<AddressBook> {
                                                     // serialize data
                                                     var address = AddressModel(
                                                         random.nextInt(
-                                                            sizeOf<Int32>()),
+                                                            2147483647),
                                                         _labelController.text,
                                                         _valueController.text);
                                                     String json =

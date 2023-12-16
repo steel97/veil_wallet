@@ -163,5 +163,6 @@
 	"addressBookDeleteAddressConfirmationTitle": "Удалить адрес",
 	"addressBookDeleteAddressConfirmation": "Вы уверены что хотите удалить адрес из адресной книги?",
 	"addressBookAddressDeleted": "Адрес удалён из адресной книги",
-	"addressBookEditAddress": "Редактировать адрес"
+	"addressBookEditAddress": "Редактировать адрес",
+	"addressBookNoLabel": "Default"
 }

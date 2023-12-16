@@ -1,6 +1,5 @@
 // ignore_for_file: empty_catches
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,7 +10,6 @@ import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/models/address_model.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
-import 'package:veil_wallet/src/views/address_book.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 
 class AddressBookAddress extends StatefulWidget {
@@ -63,7 +61,11 @@ class _AddressBookAddressState extends State<AddressBookAddress> {
                             Row(children: [
                               Expanded(
                                   child: ExtendedText(
-                                widget.label,
+                                widget.label.isEmpty
+                                    ? (AppLocalizations.of(context)
+                                            ?.addressBookNoLabel ??
+                                        stringNotFoundText)
+                                    : widget.label,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 overflowWidget: const TextOverflowWidget(
@@ -317,8 +319,7 @@ class _AddressBookAddressState extends State<AddressBookAddress> {
 
                                               // serialize data
                                               var address = AddressModel(
-                                                  random
-                                                      .nextInt(sizeOf<Int32>()),
+                                                  widget.id,
                                                   _labelController.text,
                                                   _valueController.text);
                                               String json = jsonEncode(address);
