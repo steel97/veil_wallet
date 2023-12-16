@@ -192,6 +192,77 @@ class _SettingsState extends State<Settings> {
                   ),
                 ))
           ])));
+
+      authActions.add(Container(
+        margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        child: OutlinedButton.icon(
+          style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(45),
+              foregroundColor: Theme.of(context).colorScheme.error),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                      title: Text(
+                          AppLocalizations.of(context)?.deleteAllDataTitle ??
+                              stringNotFoundText),
+                      content: Container(
+                          constraints: const BoxConstraints(
+                              maxWidth: responsiveMaxDialogWidth),
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                            Text(AppLocalizations.of(context)
+                                    ?.deleteAllDataConfirmation ??
+                                stringNotFoundText)
+                          ])),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                                AppLocalizations.of(context)?.noAction ??
+                                    stringNotFoundText)),
+                        TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+
+                              // delete all secret data
+                              var storageService = StorageService();
+                              await storageService.deleteAllSecureData();
+
+                              // delete shared prefs
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.clear();
+
+                              WidgetsBinding.instance
+                                  .scheduleFrameCallback((_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(AppLocalizations.of(context)
+                                            ?.deleteAllDataNotification ??
+                                        stringNotFoundText),
+                                  ),
+                                );
+
+                                // move to welcome screen
+                                Navigator.of(context)
+                                    .push(_createWelcomeRoute());
+                              });
+                            },
+                            child: Text(
+                                AppLocalizations.of(context)?.yesAction ??
+                                    stringNotFoundText))
+                      ]);
+                });
+          },
+          icon: const Icon(Icons.delete_forever_rounded),
+          label: Text(AppLocalizations.of(context)?.deleteAllData ??
+              stringNotFoundText),
+        ),
+      ));
     }
 
     return PopScope(
@@ -780,4 +851,22 @@ Route _setupBiometricsRoute() {
       );
     },
   );
+}
+
+Route _createWelcomeRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return const Welcome();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }

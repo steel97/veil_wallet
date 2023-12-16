@@ -135,5 +135,9 @@
 	"noSentTransactions": "Нет отправленных переводов",
 	"historyDeleted": "История удалена",
 	"historyDeleteConfirmationTitle": "Удалить историю",
-	"historyDeleteConfirmation": "Вы действительно хотите очистить историю?"
+	"historyDeleteConfirmation": "Вы действительно хотите очистить историю?",
+	"deleteAllData": "Удалить все данные",
+	"deleteAllDataTitle": "Удалить все данные",
+	"deleteAllDataConfirmation": "Вы уверены что хотите удалить все данные (включая все кошельки, настройки и историю)?",
+	"deleteAllDataNotification": "Все данные удалены"
 }

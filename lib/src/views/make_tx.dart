@@ -693,49 +693,39 @@ class _MakeTxState extends State<MakeTx> {
                                                     ])),
                                             actions: [
                                               TextButton(
-                                                  onPressed: context
-                                                          .watch<DialogsState>()
-                                                          .deleteWalletActive
-                                                      ? null
-                                                      : () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
                                                   child: Text(
                                                       AppLocalizations.of(
                                                                   context)
                                                               ?.noAction ??
                                                           stringNotFoundText)),
                                               TextButton(
-                                                  onPressed: context
-                                                          .watch<DialogsState>()
-                                                          .deleteWalletActive
-                                                      ? null
-                                                      : () async {
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                  onPressed: () async {
+                                                    Navigator.of(context).pop();
 
-                                                          final SharedPreferences
-                                                              prefs =
-                                                              await SharedPreferences
-                                                                  .getInstance();
-                                                          prefs.remove(
-                                                              prefsAddressHistory +
-                                                                  addr);
+                                                    final SharedPreferences
+                                                        prefs =
+                                                        await SharedPreferences
+                                                            .getInstance();
+                                                    prefs.remove(
+                                                        prefsAddressHistory +
+                                                            addr);
 
-                                                          _history = [];
+                                                    _history = [];
 
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(AppLocalizations.of(
-                                                                          context)
-                                                                      ?.historyDeleted ??
-                                                                  stringNotFoundText),
-                                                            ),
-                                                          );
-                                                        },
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(AppLocalizations
+                                                                    .of(context)
+                                                                ?.historyDeleted ??
+                                                            stringNotFoundText),
+                                                      ),
+                                                    );
+                                                  },
                                                   child: Text(
                                                       AppLocalizations.of(
                                                                   context)

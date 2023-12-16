@@ -569,5 +569,21 @@
 	"historyDeleteConfirmation": "Are you sure you want to delete history?",
 	"@historyDeleteConfirmation": {
 		"description": "Recent section history deleted confirmation alert dialog"
+	},
+	"deleteAllData": "Delete all data",
+	"@deleteAllData": {
+		"description": "Settings view delete all data button"
+	},
+	"deleteAllDataTitle": "Delete all data",
+	"@deleteAllDataTitle": {
+		"description": "Settings view delete all data dialog title"
+	},
+	"deleteAllDataConfirmation": "Are you sure you want to delete all data (all wallets, settings, history)?",
+	"@deleteAllDataConfirmation": {
+		"description": "Settings view delete all data dialog confirmation"
+	},
+	"deleteAllDataNotification": "All data erased",
+	"@deleteAllDataNotification": {
+		"description": "Settings view deleted all data notification"
 	}
 }
