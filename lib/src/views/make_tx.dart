@@ -192,7 +192,15 @@ class _MakeTxState extends State<MakeTx> {
                         label: Text(AppLocalizations.of(context)?.sendAmount ??
                             stringNotFoundText),
                         suffixText:
-                            '~${(convertVal(_currentAmount, availableAmountConverted) * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$'),
+                            '~${(convertVal(_currentAmount, availableAmountConverted) * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$  ',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _amountController.text =
+                                _availableAmount.replaceAll(',', '.');
+                            _currentAmount = _amountController.text;
+                          },
+                          icon: const Icon(Icons.all_inclusive_rounded),
+                        )),
                     onChanged: (text) {
                       setState(() {
                         _currentAmount = text;
