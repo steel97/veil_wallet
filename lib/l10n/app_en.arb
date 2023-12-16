@@ -558,6 +558,10 @@
 	"@noSentTransactions": {
 		"description": "Recent section no sent transactions label"
 	},
+	"historyLoadingSemantics": "History loading",
+	"@historyLoadingSemantics": {
+		"description": "Make tx history loading semantics"
+	},
 	"historyDeleted": "History deleted",
 	"@historyDeleted": {
 		"description": "Recent section history deleted notification"
@@ -585,5 +589,97 @@
 	"deleteAllDataNotification": "All data erased",
 	"@deleteAllDataNotification": {
 		"description": "Settings view deleted all data notification"
+	},
+	"addressBookTitle": "Address book",
+	"@addressBookTitle": {
+		"description": "Address book view title"
+	},
+	"addressBookSearchLabel": "Search address",
+	"@addressBookSearchLabel": {
+		"description": "Address book search input label"
+	},
+	"addressBookSearchHint": "Enter address or label",
+	"@addressBookSearchHint": {
+		"description": "Address book search input hint"
+	},
+	"addressBookSavedAddresses": "Saved addresses",
+	"@addressBookSavedAddresses": {
+		"description": "Address book saved addresses label"
+	},
+	"addressBookLoadingSemantics": "Loading address book",
+	"@addressBookLoadingSemantics": {
+		"description": "Address book loading circle semantics"
+	},
+	"addressBookClearConfirmationTitle": "Clear address book",
+	"@addressBookClearConfirmationTitle": {
+		"description": "Clear address book dialog title"
+	},
+	"addressBookClearConfirmation": "Are you sure you want to clear address book?",
+	"@addressBookClearConfirmation": {
+		"description": "Clear address book dialog text"
+	},
+	"addressBookCleared": "Address book cleared",
+	"@addressBookCleared": {
+		"description": "Address book cleared notifications"
+	},
+	"addressBookRemoveSemantics": "Remove address from address book",
+	"@addressBookRemoveSemantics": {
+		"description": "Address book remove address semantics"
+	},
+	"addressBookEditSemantics": "Edit address from address book",
+	"@addressBookEditSemantics": {
+		"description": "Address book edit address semantics"
+	},
+	"addressBookNewAddress": "New address",
+	"@addressBookNewAddress": {
+		"description": "Add new address to address book dialog title"
+	},
+	"addressBookNewAddressLabel": "Address label",
+	"@addressBookNewAddressLabel": {
+		"description": "Add new address to address book dialog address label"
+	},
+	"addressBookNewAddressLabelHint": "Address label",
+	"@addressBookNewAddressLabelHint": {
+		"description": "Add new address to address book dialog address label hint"
+	},
+	"addressBookNewAddressValue": "Address",
+	"@addressBookNewAddressValue": {
+		"description": "Add new address to address book dialog address"
+	},
+	"addressBookNewAddressValueHint": "Address",
+	"@addressBookNewAddressValueHint": {
+		"description": "Add new address to address book dialog address hint"
+	},
+	"addressBookNewAddressCancelButton": "Cancel",
+	"@addressBookNewAddressCancelButton": {
+		"description": "Add new address to address book dialog cancel button"
+	},
+	"addressBookNewAddressSaveButton": "Save",
+	"@addressBookNewAddressSaveButton": {
+		"description": "Add new address to address book dialog save button"
+	},
+	"addressBookNewAddressSavedNotification": "Address added to address book",
+	"@addressBookNewAddressSavedNotification": {
+		"description": "Address added to address book notification"
+	},
+	"noAddressBookAddresses": "Address book is empty",
+	"@noAddressBookAddresses": {
+		"description": "Address book is empty label"
+	},
+	"addressBookDeleteAddressConfirmationTitle": "Delete address",
+	"@addressBookDeleteAddressConfirmationTitle": {
+		"description": "Address book address delete dialog title"
+	},
+	"addressBookDeleteAddressConfirmation": "Are you sure you want to delete address from address book?",
+	"@addressBookDeleteAddressConfirmation": {
+		"description": "Address book address delete dialog text"
+	},
+	"addressBookAddressDeleted": "Address deleted from address book",
+	"@addressBookAddressDeleted": {
+		"description": "Address book address deleted notification"
+	},
+	"addressBookEditAddress": "Edit address",
+	"@addressBookEditAddress": {
+		"description": "Address book edit address title"
 	}
 }

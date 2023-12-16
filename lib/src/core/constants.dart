@@ -57,6 +57,7 @@ const prefsSettingsUseMinimumUTXOs = 'veil.settings.use_minimum_utxos';
 
 // storage
 const prefsAddressHistory = 'veil.storage.address_history.';
+const prefsAddressBook = 'veil.storage.address_book.';
 
 // other
 const biometricsAuthTimeout = 120000; // milliseconds

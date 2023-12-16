@@ -16,6 +16,7 @@ import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/states/provider/dialogs_state.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/views/address_book.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/scan_qr.dart';
 
@@ -76,6 +77,8 @@ class _MakeTxState extends State<MakeTx> {
             _overallAmount = value.total;
           })
         });
+
+    updateAddressHistory(addr);
   }
 
   Future<_BalancesResponse> updateAvailableBalance(
@@ -91,9 +94,11 @@ class _MakeTxState extends State<MakeTx> {
 
   Future<void> updateAddressHistory(String address) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _history = prefs.getStringList(prefsAddressHistory + address) ?? [];
-
-    _historyLoaded = true;
+    var history = prefs.getStringList(prefsAddressHistory + address) ?? [];
+    setState(() {
+      _history = history;
+      _historyLoaded = true;
+    });
   }
 
   @override
@@ -121,8 +126,6 @@ class _MakeTxState extends State<MakeTx> {
           });
     }
 
-    updateAddressHistory(addr);
-
     var container = Form(
         key: _formKey,
         child: Container(
@@ -148,17 +151,28 @@ class _MakeTxState extends State<MakeTx> {
                       label: Text(
                           AppLocalizations.of(context)?.recipientAddress ??
                               stringNotFoundText),
-                      suffixIcon: IconButton(
-                        onPressed: checkScanQROS()
-                            ? () {
-                                BaseStaticState.prevScanQRScreen =
-                                    Screen.makeTx;
-                                Navigator.of(context)
-                                    .pushReplacement(_createScanQRRoute());
-                              }
-                            : null,
-                        icon: const Icon(Icons.qr_code_scanner_rounded),
-                      ),
+                      suffixIcon:
+                          Row(mainAxisSize: MainAxisSize.min, children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(_createAddressBookRoute());
+                          },
+                          icon: const Icon(Icons.book_rounded),
+                        ),
+                        const SizedBox(width: 1, height: 1),
+                        IconButton(
+                          onPressed: checkScanQROS()
+                              ? () {
+                                  BaseStaticState.prevScanQRScreen =
+                                      Screen.makeTx;
+                                  Navigator.of(context)
+                                      .pushReplacement(_createScanQRRoute());
+                                }
+                              : null,
+                          icon: const Icon(Icons.qr_code_scanner_rounded),
+                        ),
+                      ]),
                     ),
                     controller: _recipientController)),
             Container(
@@ -713,7 +727,9 @@ class _MakeTxState extends State<MakeTx> {
                                                         prefsAddressHistory +
                                                             addr);
 
-                                                    _history = [];
+                                                    setState(() {
+                                                      _history = [];
+                                                    });
 
                                                     ScaffoldMessenger.of(
                                                             context)
@@ -814,7 +830,7 @@ class _MakeTxState extends State<MakeTx> {
             child: Center(
                 child: CircularProgressIndicator(
               semanticsLabel:
-                  AppLocalizations.of(context)?.syncStatusScanningSemantics,
+                  AppLocalizations.of(context)?.historyLoadingSemantics,
             )));
   }
 }
@@ -822,6 +838,25 @@ class _MakeTxState extends State<MakeTx> {
 Route _createScanQRRoute() {
   return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => const ScanQR(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
+}
+
+Route _createAddressBookRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const AddressBook(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
