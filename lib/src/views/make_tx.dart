@@ -3,6 +3,7 @@ import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_light_plugin/veil_light.dart';
 import 'package:veil_wallet/src/core/constants.dart';
@@ -46,6 +47,8 @@ class _MakeTxState extends State<MakeTx> {
 
   // loaders
   bool _makeTxBusy = false;
+  bool _historyLoaded = false;
+  List<String> _history = [];
 
   @override
   void initState() {
@@ -86,6 +89,13 @@ class _MakeTxState extends State<MakeTx> {
         WalletHelper.formatAmount(availableAmount + pending));
   }
 
+  Future<void> updateAddressHistory(String address) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _history = prefs.getStringList(prefsAddressHistory + address) ?? [];
+
+    _historyLoaded = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     var useVerticalBar = isBigScreen(context);
@@ -110,6 +120,8 @@ class _MakeTxState extends State<MakeTx> {
             })
           });
     }
+
+    updateAddressHistory(addr);
 
     var container = Form(
         key: _formKey,
@@ -251,13 +263,14 @@ class _MakeTxState extends State<MakeTx> {
                                 .firstWhere(
                                     (element) => element.address == addr);
 
+                            var recipientAddress = _recipientController.text;
                             try {
                               tx = await WalletHelper.buildTransaction(
                                   addrEl.accountType,
                                   addrEl.index,
                                   double.parse(_amountController.text
                                       .replaceAll(',', '.')),
-                                  _recipientController.text,
+                                  recipientAddress,
                                   substractFee: _substractFeeFromAmount);
                             } catch (e) {
                               txBuildError = e.toString();
@@ -521,6 +534,31 @@ class _MakeTxState extends State<MakeTx> {
                                                             });
                                                       } else {
                                                         // tx successfully sent
+                                                        // save address to recently sent
+                                                        final SharedPreferences
+                                                            prefs =
+                                                            await SharedPreferences
+                                                                .getInstance();
+                                                        var history =
+                                                            prefs.getStringList(
+                                                                    prefsAddressHistory +
+                                                                        addr) ??
+                                                                [];
+                                                        history.add(
+                                                            recipientAddress);
+                                                        // only save last 5 addresses
+                                                        if (history.length >
+                                                            5) {
+                                                          history.removeAt(0);
+                                                        }
+                                                        await prefs.setStringList(
+                                                            prefsAddressHistory +
+                                                                addr,
+                                                            history);
+
+                                                        updateAddressHistory(
+                                                            addr);
+
                                                         showDialog(
                                                             context: context,
                                                             builder:
@@ -610,7 +648,108 @@ class _MakeTxState extends State<MakeTx> {
                         : const SizedBox(width: 1, height: 1),
                     label: Text(
                         AppLocalizations.of(context)?.sendCoinsNextAction ??
-                            stringNotFoundText)))
+                            stringNotFoundText))),
+            Container(
+                margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)?.sendHistoryRecent ??
+                            stringNotFoundText,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            getHistoryStatusWidget(context),
+                            const SizedBox(
+                              width: 6,
+                              height: 1,
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                            title: Text(AppLocalizations.of(
+                                                        context)
+                                                    ?.historyDeleteConfirmationTitle ??
+                                                stringNotFoundText),
+                                            content: Container(
+                                                constraints: const BoxConstraints(
+                                                    maxWidth:
+                                                        responsiveMaxDialogWidth),
+                                                child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(AppLocalizations.of(
+                                                                  context)
+                                                              ?.historyDeleteConfirmation ??
+                                                          stringNotFoundText)
+                                                    ])),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: context
+                                                          .watch<DialogsState>()
+                                                          .deleteWalletActive
+                                                      ? null
+                                                      : () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.noAction ??
+                                                          stringNotFoundText)),
+                                              TextButton(
+                                                  onPressed: context
+                                                          .watch<DialogsState>()
+                                                          .deleteWalletActive
+                                                      ? null
+                                                      : () async {
+                                                          Navigator.of(context)
+                                                              .pop();
+
+                                                          final SharedPreferences
+                                                              prefs =
+                                                              await SharedPreferences
+                                                                  .getInstance();
+                                                          prefs.remove(
+                                                              prefsAddressHistory +
+                                                                  addr);
+
+                                                          _history = [];
+
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(AppLocalizations.of(
+                                                                          context)
+                                                                      ?.historyDeleted ??
+                                                                  stringNotFoundText),
+                                                            ),
+                                                          );
+                                                        },
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                                  context)
+                                                              ?.yesAction ??
+                                                          stringNotFoundText))
+                                            ]);
+                                      });
+                                },
+                                icon: Icon(Icons.delete_forever_rounded,
+                                    color:
+                                        Theme.of(context).colorScheme.primary))
+                          ])
+                    ])),
+            ...getHistoryWidgets()
           ]),
         ));
 
@@ -626,6 +765,67 @@ class _MakeTxState extends State<MakeTx> {
                   Navigator.of(context).push(_createBackRoute(useVerticalBar));
                 },
                 child: container));
+  }
+
+  List<Widget> getHistoryWidgets() {
+    List<Widget> historyWidgets = [];
+    for (var el in _history.reversed) {
+      historyWidgets.add(TextButton.icon(
+        icon: const Icon(
+          Icons.arrow_outward_rounded,
+          size: 18,
+        ),
+        onPressed: () {
+          Clipboard.setData(ClipboardData(text: el)).then((value) => {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context)?.copiedText ??
+                        stringNotFoundText),
+                  ),
+                )
+              });
+        },
+        label: ExtendedText(
+          el,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          overflowWidget: const TextOverflowWidget(
+            position: TextOverflowPosition.middle,
+            align: TextOverflowAlign.center,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  '\u2026',
+                )
+              ],
+            ),
+          ),
+        ),
+      ));
+    }
+
+    if (historyWidgets.isEmpty) {
+      historyWidgets.add(Center(
+          child: Text(
+        AppLocalizations.of(context)?.noSentTransactions ?? stringNotFoundText,
+        style: const TextStyle(fontSize: 16.0),
+      )));
+    }
+    return historyWidgets;
+  }
+
+  Widget getHistoryStatusWidget(BuildContext context) {
+    return _historyLoaded
+        ? const SizedBox(height: 24.0, width: 24.0)
+        : SizedBox(
+            height: 24.0,
+            width: 24.0,
+            child: Center(
+                child: CircularProgressIndicator(
+              semanticsLabel:
+                  AppLocalizations.of(context)?.syncStatusScanningSemantics,
+            )));
   }
 }
 

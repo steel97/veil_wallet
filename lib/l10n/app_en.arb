@@ -549,5 +549,25 @@
 	"homeNavScanQRUnavailable": "QR scanner is unavailable on desktop",
 	"@homeNavScanQRUnavailable": {
 		"description": "Tooltip which describe that QR scanner is not available on platform (desktop)"
+	},
+	"sendHistoryRecent": "Recent",
+	"@sendHistoryRecent": {
+		"description": "Recent label on make transaction screen"
+	},
+	"noSentTransactions": "No sent transactions found",
+	"@noSentTransactions": {
+		"description": "Recent section no sent transactions label"
+	},
+	"historyDeleted": "History deleted",
+	"@historyDeleted": {
+		"description": "Recent section history deleted notification"
+	},
+	"historyDeleteConfirmationTitle": "Delete history",
+	"@historyDeleteConfirmationTitle": {
+		"description": "Recent section history deleted confirmation alert dialog title"
+	},
+	"historyDeleteConfirmation": "Are you sure you want to delete history?",
+	"@historyDeleteConfirmation": {
+		"description": "Recent section history deleted confirmation alert dialog"
 	}
 }

@@ -55,6 +55,9 @@ const prefsSettingsExplorerUrl = 'veil.settings.explorer_url';
 const prefsSettingsExplorerTxUrl = 'veil.settings.explorer_tx_url';
 const prefsSettingsUseMinimumUTXOs = 'veil.settings.use_minimum_utxos';
 
+// storage
+const prefsAddressHistory = 'veil.storage.address_history.';
+
 // other
 const biometricsAuthTimeout = 120000; // milliseconds
 

@@ -130,5 +130,10 @@
 	"legalTitle": "Правовая информация",
 	"createAddress": "Новый адрес",
 	"addressCreated": "Адрес создан",
-	"homeNavScanQRUnavailable": "Сканирование QR кодов недоступно"
+	"homeNavScanQRUnavailable": "Сканирование QR кодов недоступно",
+	"sendHistoryRecent": "Последние переводы",
+	"noSentTransactions": "Нет отправленных переводов",
+	"historyDeleted": "История удалена",
+	"historyDeleteConfirmationTitle": "Удалить историю",
+	"historyDeleteConfirmation": "Вы действительно хотите очистить историю?"
 }
