@@ -666,7 +666,7 @@ class _MakeTxState extends State<MakeTx> {
             Container(
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
