@@ -373,10 +373,10 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
             DateTime.now().millisecondsSinceEpoch) {
           _checkWalletAccess(context, false);
         }
-      } else if (!curState && _isInForeground != curState) {
+      } /* else if (!curState && _isInForeground != curState) {
         BaseStaticState.biometricsTimestamp =
             DateTime.now().millisecondsSinceEpoch;
-      }
+      }*/
     } catch (e) {}
     _isInForeground = curState;
   }

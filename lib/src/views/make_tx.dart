@@ -229,10 +229,10 @@ class _MakeTxState extends State<MakeTx> {
                             '~${(convertVal(_currentAmount, availableAmountConverted) * context.watch<WalletState>().conversionRate).toStringAsFixed(2)}\$  ',
                         suffixIcon: IconButton(
                           onPressed: () {
-                            _amountController.text =
-                                _availableAmount.replaceAll(',', '.');
-                            _currentAmount = _amountController.text;
                             setState(() {
+                              _amountController.text =
+                                  _availableAmount.replaceAll(',', '.');
+                              _currentAmount = _amountController.text;
                               _subtractFeeFromAmount = true;
                             });
                           },
