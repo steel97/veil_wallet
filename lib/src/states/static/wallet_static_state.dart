@@ -18,4 +18,8 @@ class WalletStaticState {
 
   static String? deepLinkTargetAddress;
   static String? deepLinkTargetAmount;
+
+  static bool addressBookOpenedFromQR = false;
+  static String prevAddressBookLabel = '';
+  static String tmpAddressBookAddress = '';
 }

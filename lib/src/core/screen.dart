@@ -11,5 +11,6 @@ enum Screen {
   about,
   makeTx,
   auth,
-  nodeFail
+  nodeFail,
+  addressBook
 }
