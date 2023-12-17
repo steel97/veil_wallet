@@ -346,9 +346,9 @@
 		},
 		"description": "Send amount hint on new transaction screen"
 	},
-	"substractFeeFromAmount": "Subtract fee from amount",
-	"@substractFeeFromAmount": {
-		"description": "Substract fee from amount text on new transaction screen"
+	"subtractFeeFromAmount": "Subtract fee from amount",
+	"@subtractFeeFromAmount": {
+		"description": "Subtract fee from amount text on new transaction screen"
 	},
 	"availableText": "Available:",
 	"@availableText": {

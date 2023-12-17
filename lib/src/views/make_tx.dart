@@ -40,7 +40,7 @@ class _MakeTxState extends State<MakeTx> {
   final _formKey = GlobalKey<FormState>();
   final _recipientController = TextEditingController();
   final _amountController = TextEditingController();
-  bool _substractFeeFromAmount = false;
+  bool _subtractFeeFromAmount = false;
   String _availableAmount = '...';
   String _overallAmount = '...';
   String _currentAmount = '...';
@@ -195,7 +195,7 @@ class _MakeTxState extends State<MakeTx> {
 
                         if (double.parse(_availableAmount) <
                             val +
-                                (_substractFeeFromAmount
+                                (_subtractFeeFromAmount
                                     ? 0
                                     : WalletHelper.getFee())) {
                           return AppLocalizations.of(context)
@@ -239,15 +239,14 @@ class _MakeTxState extends State<MakeTx> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                          AppLocalizations.of(context)
-                                  ?.substractFeeFromAmount ??
+                          AppLocalizations.of(context)?.subtractFeeFromAmount ??
                               stringNotFoundText,
                           style: const TextStyle(fontSize: 16)),
                       Switch(
-                          value: _substractFeeFromAmount,
+                          value: _subtractFeeFromAmount,
                           onChanged: (val) {
                             setState(() {
-                              _substractFeeFromAmount = val;
+                              _subtractFeeFromAmount = val;
                             });
                           }),
                     ])),
@@ -285,7 +284,7 @@ class _MakeTxState extends State<MakeTx> {
                                   double.parse(_amountController.text
                                       .replaceAll(',', '.')),
                                   recipientAddress,
-                                  substractFee: _substractFeeFromAmount);
+                                  subtractFee: _subtractFeeFromAmount);
                             } catch (e) {
                               txBuildError = e.toString();
                             }

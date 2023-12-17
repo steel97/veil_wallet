@@ -86,7 +86,7 @@
 	"shareText": "Mi dirección de Veil: {address}",
 	"shareTitle": "Recibir monedas",
 	"skipBiometricsButton": "Saltar (no recomendado)",
-	"substractFeeFromAmount": "Restar la comisión del monto totál",
+	"subtractFeeFromAmount": "Restar la comisión del monto totál",
 	"syncStatusScanningFailedSemantics": "No se pudo sincronizar la dirección",
 	"syncStatusScanningSemantics": "El nodo escanea tu dirección",
 	"syncStatusSyncedSemantics": "La dirección está sincronizada con el nodo",

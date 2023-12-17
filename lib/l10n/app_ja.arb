@@ -80,7 +80,7 @@
     "recipientAddressHint": "送金先アドレス",
     "sendAmount": "金額:",
     "sendAmountHint": "veil{overall}枚中{amount}枚使用可能",
-    "substractFeeFromAmount": "手数料を差し引く",
+    "subtractFeeFromAmount": "手数料を差し引く",
     "availableText": "利用可能:",
     "sendCoinsNextAction": "次へ",
     "makeTxVerifyInvalidAddress": "不正なアドレスが入力されました。",

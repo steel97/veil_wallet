@@ -80,7 +80,7 @@
 	"recipientAddressHint": "Адрес получателя",
 	"sendAmount": "Сумма к отправке:",
 	"sendAmountHint": "Доступно {amount} из {overall} veil",
-	"substractFeeFromAmount": "Вычесть комиссию из суммы",
+	"subtractFeeFromAmount": "Вычесть комиссию из суммы",
 	"availableText": "Доступно:",
 	"sendCoinsNextAction": "Далее",
 	"makeTxVerifyInvalidAddress": "Адрес не верен",

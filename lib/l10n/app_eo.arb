@@ -86,7 +86,7 @@
 	"shareText": "Mia adreso de Veil: {address}",
 	"shareTitle": "Ricevi monerojn",
 	"skipBiometricsButton": "Saltu (ne rekomendita)",
-	"substractFeeFromAmount": "Subtrahi krompago de sumo",
+	"subtractFeeFromAmount": "Subtrahi krompago de sumo",
 	"syncStatusScanningFailedSemantics": "Malsukcesis sinkronigi adreson",
 	"syncStatusScanningSemantics": "La nodo skanas vian adreson",
 	"syncStatusSyncedSemantics": "La adreso estas sinkronigita kun la nodo",

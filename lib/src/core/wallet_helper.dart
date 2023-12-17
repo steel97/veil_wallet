@@ -445,7 +445,7 @@ class WalletHelper {
 
   static Future<BuildTransactionResult?> buildTransaction(
       AccountType accountType, int index, double amount, String recipient,
-      {bool substractFee = false}) async {
+      {bool subtractFee = false}) async {
     try {
       var params = WalletStaticState.lightwallet?.chainParams ?? mainNetParams;
 
@@ -460,8 +460,8 @@ class WalletHelper {
 
       List<CWatchOnlyTxWithIndex> targetUtxos = List.empty(growable: true);
       var fee = getFee(); // TO-DO, real fee calculation
-      var amountPrepared = substractFee ? amount - fee : amount;
-      var targetAmount = substractFee ? amountPrepared + fee : amountPrepared;
+      var amountPrepared = subtractFee ? amount - fee : amount;
+      var targetAmount = subtractFee ? amountPrepared + fee : amountPrepared;
 
       double currentAmount = 0;
       for (var utxo in utxos) {
