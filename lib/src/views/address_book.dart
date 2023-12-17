@@ -258,14 +258,14 @@ class _AddressBookState extends State<AddressBook> {
   }
 
   void showNewAddressDialog(String wallet) {
+    _labelController.text = WalletStaticState.prevAddressBookLabel;
+    _valueController.text = WalletStaticState.tmpAddressBookAddress;
+    WalletStaticState.prevAddressBookLabel = '';
+    WalletStaticState.tmpAddressBookAddress = '';
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          _labelController.text = WalletStaticState.prevAddressBookLabel;
-          _valueController.text = WalletStaticState.tmpAddressBookAddress;
-          WalletStaticState.prevAddressBookLabel = '';
-          WalletStaticState.tmpAddressBookAddress = '';
-
           return AlertDialog(
               title: Text(AppLocalizations.of(context)?.addressBookNewAddress ??
                   stringNotFoundText),
