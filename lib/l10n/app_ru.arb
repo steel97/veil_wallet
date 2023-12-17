@@ -159,7 +159,7 @@
 	"addressBookNewAddressCancelButton": "Отменить",
 	"addressBookNewAddressSaveButton": "Сохранить",
 	"addressBookNewAddressSavedNotification": "Адрес добавлен в адресную книгу",
-	"noAddressBookAddresses": "Адресная книга пустая",
+	"noAddressBookAddresses": "Адреса не найдены",
 	"addressBookDeleteAddressConfirmationTitle": "Удалить адрес",
 	"addressBookDeleteAddressConfirmation": "Вы уверены что хотите удалить адрес из адресной книги?",
 	"addressBookAddressDeleted": "Адрес удалён из адресной книги",

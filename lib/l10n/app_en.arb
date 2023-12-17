@@ -662,7 +662,7 @@
 	"@addressBookNewAddressSavedNotification": {
 		"description": "Address added to address book notification"
 	},
-	"noAddressBookAddresses": "Address book is empty",
+	"noAddressBookAddresses": "Addresses not found",
 	"@noAddressBookAddresses": {
 		"description": "Address book is empty label"
 	},
