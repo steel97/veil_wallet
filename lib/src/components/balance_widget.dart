@@ -159,10 +159,14 @@ class BalanceWidget extends StatelessWidget {
                                           _gotoWalletSettings(context),
                                       color:
                                           Theme.of(context).colorScheme.primary,
-                                      icon: const Icon(
-                                          Icons
-                                              .settings_rounded, //miscellaneous_services_rounded
-                                          size: 18)),
+                                      icon: Icon(
+                                        Icons
+                                            .settings_rounded, //miscellaneous_services_rounded
+                                        size: 18,
+                                        semanticLabel:
+                                            AppLocalizations.of(context)
+                                                ?.walletSettingsTitle,
+                                      )),
                                   Expanded(
                                       child: TextButton(
                                     /*icon: const Icon(

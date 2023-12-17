@@ -158,7 +158,11 @@ class _MakeTxState extends State<MakeTx> {
                             Navigator.of(context)
                                 .pushReplacement(_createAddressBookRoute());
                           },
-                          icon: const Icon(Icons.book_rounded),
+                          icon: Icon(
+                            Icons.book_rounded,
+                            semanticLabel:
+                                AppLocalizations.of(context)?.addressBookTitle,
+                          ),
                         ),
                         const SizedBox(width: 1, height: 1),
                         IconButton(
@@ -170,7 +174,11 @@ class _MakeTxState extends State<MakeTx> {
                                       .pushReplacement(_createScanQRRoute());
                                 }
                               : null,
-                          icon: const Icon(Icons.qr_code_scanner_rounded),
+                          icon: Icon(
+                            Icons.qr_code_scanner_rounded,
+                            semanticLabel:
+                                AppLocalizations.of(context)?.scanQRTitle,
+                          ),
                         ),
                       ]),
                     ),
@@ -749,9 +757,12 @@ class _MakeTxState extends State<MakeTx> {
                                             ]);
                                       });
                                 },
-                                icon: Icon(Icons.delete_forever_rounded,
-                                    color:
-                                        Theme.of(context).colorScheme.primary))
+                                icon: Icon(
+                                  Icons.delete_forever_rounded,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  semanticLabel: AppLocalizations.of(context)
+                                      ?.historyDeleteConfirmationTitle,
+                                ))
                           ])
                     ])),
             ...getHistoryWidgets()

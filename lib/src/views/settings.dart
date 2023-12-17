@@ -398,8 +398,12 @@ class _SettingsState extends State<Settings> {
                                                     ]);
                                               });
                                         },
-                                        icon: const Icon(Icons
-                                            .miscellaneous_services_rounded),
+                                        icon: Icon(
+                                          Icons.miscellaneous_services_rounded,
+                                          semanticLabel:
+                                              AppLocalizations.of(context)
+                                                  ?.nodeSelectionTitle,
+                                        ),
                                       ),
                                     ),
                                     controller: _nodeUrlController)),
@@ -455,7 +459,12 @@ class _SettingsState extends State<Settings> {
                                         _explorerUrlController.text =
                                             defaultExplorerAddress;
                                       },
-                                      icon: const Icon(Icons.restore_rounded),
+                                      icon: Icon(
+                                        Icons.restore_rounded,
+                                        semanticLabel:
+                                            AppLocalizations.of(context)
+                                                ?.resetExplorerIconSemantics,
+                                      ),
                                     ),
                                   ),
                                   controller: _explorerUrlController,
@@ -492,7 +501,12 @@ class _SettingsState extends State<Settings> {
                                         _txExplorerUrlController.text =
                                             defaultTxExplorerAddress;
                                       },
-                                      icon: const Icon(Icons.restore_rounded),
+                                      icon: Icon(
+                                        Icons.restore_rounded,
+                                        semanticLabel: AppLocalizations.of(
+                                                context)
+                                            ?.resetExplorerTxesIconSemantics,
+                                      ),
                                     ),
                                   ),
                                   controller: _txExplorerUrlController,

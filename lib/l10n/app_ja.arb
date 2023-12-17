@@ -164,5 +164,7 @@
     "addressBookDeleteAddressConfirmation": "本当にアドレス帳からアドレスを削除しますか？",
     "addressBookAddressDeleted": "アドレス帳からアドレスが削除された",
     "addressBookEditAddress": "アドレスを編集",
-    "addressBookNoLabel": "Default"
+    "addressBookNoLabel": "Default",
+    "resetExplorerIconSemantics": "エクスプローラーのアドレスをリセット",
+    "resetExplorerTxesIconSemantics": "エクスプローラーのTXアドレスをリセット"
 }

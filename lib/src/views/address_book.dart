@@ -257,7 +257,11 @@ class _AddressBookState extends State<AddressBook> {
                                             ]);
                                       });
                                 },
-                                icon: const Icon(Icons.add_rounded))
+                                icon: Icon(
+                                  Icons.add_rounded,
+                                  semanticLabel: AppLocalizations.of(context)
+                                      ?.addressBookNewAddress,
+                                ))
                           ]),
                     ),
                     onChanged: (val) {
@@ -356,9 +360,12 @@ class _AddressBookState extends State<AddressBook> {
                                             ]);
                                       });
                                 },
-                                icon: Icon(Icons.delete_forever_rounded,
-                                    color:
-                                        Theme.of(context).colorScheme.primary))
+                                icon: Icon(
+                                  Icons.delete_forever_rounded,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  semanticLabel: AppLocalizations.of(context)
+                                      ?.addressBookClearConfirmationTitle,
+                                ))
                           ])
                     ])),
             Expanded(

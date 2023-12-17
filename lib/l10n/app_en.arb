@@ -685,5 +685,13 @@
 	"addressBookNoLabel": "Default",
 	"@addressBookNoLabel": {
 		"description": "Address label value if not set by user"
+	},
+	"resetExplorerIconSemantics": "Reset explorer address",
+	"@resetExplorerIconSemantics": {
+		"description": "Settings explorer input field reset button semantics"
+	},
+	"resetExplorerTxesIconSemantics": "Reset explorer tx address",
+	"@resetExplorerTxesIconSemantics": {
+		"description": "Settings tx explorer input field reset button semantics"
 	}
 }
