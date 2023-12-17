@@ -232,6 +232,9 @@ class _MakeTxState extends State<MakeTx> {
                             _amountController.text =
                                 _availableAmount.replaceAll(',', '.');
                             _currentAmount = _amountController.text;
+                            setState(() {
+                              _subtractFeeFromAmount = true;
+                            });
                           },
                           icon: const Icon(Icons.all_inclusive_rounded),
                         )),
