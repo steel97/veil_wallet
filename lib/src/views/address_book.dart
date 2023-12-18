@@ -290,27 +290,6 @@ class _AddressBookState extends State<AddressBook> {
                                   label: Text(AppLocalizations.of(context)
                                           ?.addressBookNewAddressLabel ??
                                       stringNotFoundText),
-                                  suffixIcon: IconButton(
-                                    onPressed: checkScanQROS()
-                                        ? () {
-                                            WalletStaticState
-                                                    .prevAddressBookLabel =
-                                                _labelController.text;
-                                            // save currently entered label
-                                            BaseStaticState.prevScanQRScreen =
-                                                Screen.addressBook;
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                                    _createScanQRRoute());
-                                          }
-                                        : null,
-                                    icon: Icon(
-                                      Icons.qr_code_scanner_rounded,
-                                      semanticLabel:
-                                          AppLocalizations.of(context)
-                                              ?.scanQRTitle,
-                                    ),
-                                  ),
                                 ),
                                 controller: _labelController)),
                         Container(
@@ -333,6 +312,27 @@ class _AddressBookState extends State<AddressBook> {
                                   label: Text(AppLocalizations.of(context)
                                           ?.addressBookNewAddressValue ??
                                       stringNotFoundText),
+                                  suffixIcon: IconButton(
+                                    onPressed: checkScanQROS()
+                                        ? () {
+                                            WalletStaticState
+                                                    .prevAddressBookLabel =
+                                                _labelController.text;
+                                            // save currently entered label
+                                            BaseStaticState.prevScanQRScreen =
+                                                Screen.addressBook;
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                                    _createScanQRRoute());
+                                          }
+                                        : null,
+                                    icon: Icon(
+                                      Icons.qr_code_scanner_rounded,
+                                      semanticLabel:
+                                          AppLocalizations.of(context)
+                                              ?.scanQRTitle,
+                                    ),
+                                  ),
                                 ),
                                 controller: _valueController)),
                       ]))),
