@@ -31,7 +31,7 @@
 	"basicAuthInputFieldHint": "Пусто для ноды обозревателя",
 	"explorerUrlInputField": "Адрес обозревателя:",
 	"explorerUrlInputFieldHint": "Адрес обозревателя",
-	"explorerTxInputField": "Адрес обозревателя:",
+	"explorerTxInputField": "Адрес обозревателя (транзакции):",
 	"explorerTxInputFieldHint": "Адрес обозревателя",
 	"useMinimumUTXOs": "Использовать минимум UTXO",
 	"setupBiometricsButton": "Настроить биометрику",
