@@ -8,13 +8,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_wallet/src/components/addressbook_address.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
+import 'package:veil_wallet/src/helpers/functions_check.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/layouts/mobile/main_layout.dart';
 import 'package:veil_wallet/src/models/address_model.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
+import 'package:veil_wallet/src/views/scan_qr.dart';
 
 Random random = Random();
 
@@ -74,6 +79,12 @@ class _AddressBookState extends State<AddressBook> {
 
     var wallet = context.read<WalletState>().selectedWallet;
     updateAddressBook(wallet.toString());
+
+    if (WalletStaticState.addressBookOpenedFromQR) {
+      WalletStaticState.addressBookOpenedFromQR = false;
+      var wallet = context.read<WalletState>().selectedWallet;
+      showNewAddressDialog(wallet.toString());
+    }
   }
 
   @override
@@ -102,167 +113,20 @@ class _AddressBookState extends State<AddressBook> {
                       label: Text(AppLocalizations.of(context)
                               ?.addressBookSearchLabel ??
                           stringNotFoundText),
-                      suffixIcon: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.search_rounded),
-                            const SizedBox(width: 3, height: 1),
-                            IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        _labelController.text = '';
-                                        _valueController.text = '';
-                                        return AlertDialog(
-                                            title: Text(AppLocalizations.of(
-                                                        context)
-                                                    ?.addressBookNewAddress ??
-                                                stringNotFoundText),
-                                            content: Form(
-                                                key: _formKey,
-                                                child: Container(
-                                                    width: double.infinity,
-                                                    constraints:
-                                                        const BoxConstraints(
-                                                            maxWidth:
-                                                                responsiveMaxDialogExtendedWidth),
-                                                    child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Container(
-                                                              margin: const EdgeInsets
-                                                                  .fromLTRB(10,
-                                                                  10, 10, 10),
-                                                              child:
-                                                                  TextFormField(
-                                                                      enableSuggestions:
-                                                                          true,
-                                                                      autocorrect:
-                                                                          true,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        contentPadding: const EdgeInsets
-                                                                            .only(
-                                                                            bottom:
-                                                                                0.0),
-                                                                        border:
-                                                                            const UnderlineInputBorder(),
-                                                                        hintText:
-                                                                            AppLocalizations.of(context)?.addressBookNewAddressLabelHint,
-                                                                        label: Text(AppLocalizations.of(context)?.addressBookNewAddressLabel ??
-                                                                            stringNotFoundText),
-                                                                      ),
-                                                                      controller:
-                                                                          _labelController)),
-                                                          Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      10,
-                                                                      10,
-                                                                      10,
-                                                                      10),
-                                                              child:
-                                                                  TextFormField(
-                                                                      validator:
-                                                                          (value) {
-                                                                        return WalletHelper.verifyAddress(value ??
-                                                                                '')
-                                                                            ? null
-                                                                            : AppLocalizations.of(context)?.makeTxVerifyInvalidAddress;
-                                                                      },
-                                                                      enableSuggestions:
-                                                                          true,
-                                                                      autocorrect:
-                                                                          true,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        contentPadding: const EdgeInsets
-                                                                            .only(
-                                                                            bottom:
-                                                                                0.0),
-                                                                        border:
-                                                                            const UnderlineInputBorder(),
-                                                                        hintText:
-                                                                            AppLocalizations.of(context)?.addressBookNewAddressValueHint,
-                                                                        label: Text(AppLocalizations.of(context)?.addressBookNewAddressValue ??
-                                                                            stringNotFoundText),
-                                                                      ),
-                                                                      controller:
-                                                                          _valueController)),
-                                                        ]))),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text(AppLocalizations
-                                                              .of(context)
-                                                          ?.addressBookNewAddressCancelButton ??
-                                                      stringNotFoundText)),
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    if (!_formKey.currentState!
-                                                        .validate()) {
-                                                      return;
-                                                    }
-
-                                                    Navigator.of(context).pop();
-
-                                                    // serialize data
-                                                    var address = AddressModel(
-                                                        random.nextInt(
-                                                            2147483647),
-                                                        _labelController.text,
-                                                        _valueController.text);
-                                                    String json =
-                                                        jsonEncode(address);
-
-                                                    final SharedPreferences
-                                                        prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    var addresses =
-                                                        prefs.getStringList(
-                                                                prefsAddressBook +
-                                                                    wallet
-                                                                        .toString()) ??
-                                                            [];
-                                                    addresses.add(json);
-                                                    prefs.setStringList(
-                                                        prefsAddressBook +
-                                                            wallet.toString(),
-                                                        addresses);
-
-                                                    updateAddressBook(
-                                                        wallet.toString());
-
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(AppLocalizations
-                                                                    .of(context)
-                                                                ?.addressBookNewAddressSavedNotification ??
-                                                            stringNotFoundText),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Text(AppLocalizations
-                                                              .of(context)
-                                                          ?.addressBookNewAddressSaveButton ??
-                                                      stringNotFoundText))
-                                            ]);
-                                      });
-                                },
-                                icon: Icon(
-                                  Icons.add_rounded,
-                                  semanticLabel: AppLocalizations.of(context)
-                                      ?.addressBookNewAddress,
-                                ))
-                          ]),
+                      suffixIcon:
+                          Row(mainAxisSize: MainAxisSize.min, children: [
+                        const Icon(Icons.search_rounded),
+                        const SizedBox(width: 3, height: 1),
+                        IconButton(
+                            onPressed: () {
+                              showNewAddressDialog(wallet.toString());
+                            },
+                            icon: Icon(
+                              Icons.add_rounded,
+                              semanticLabel: AppLocalizations.of(context)
+                                  ?.addressBookNewAddress,
+                            ))
+                      ]),
                     ),
                     onChanged: (val) {
                       setState(() {
@@ -393,6 +257,133 @@ class _AddressBookState extends State<AddressBook> {
                 child: container));
   }
 
+  void showNewAddressDialog(String wallet) {
+    _labelController.text = WalletStaticState.prevAddressBookLabel;
+    _valueController.text = WalletStaticState.tmpAddressBookAddress;
+    WalletStaticState.prevAddressBookLabel = '';
+    WalletStaticState.tmpAddressBookAddress = '';
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(AppLocalizations.of(context)?.addressBookNewAddress ??
+                  stringNotFoundText),
+              content: Form(
+                  key: _formKey,
+                  child: Container(
+                      width: double.infinity,
+                      constraints: const BoxConstraints(
+                          maxWidth: responsiveMaxDialogExtendedWidth),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        Container(
+                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            child: TextFormField(
+                                enableSuggestions: true,
+                                autocorrect: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(bottom: 0.0),
+                                  border: const UnderlineInputBorder(),
+                                  hintText: AppLocalizations.of(context)
+                                      ?.addressBookNewAddressLabelHint,
+                                  label: Text(AppLocalizations.of(context)
+                                          ?.addressBookNewAddressLabel ??
+                                      stringNotFoundText),
+                                ),
+                                controller: _labelController)),
+                        Container(
+                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            child: TextFormField(
+                                validator: (value) {
+                                  return WalletHelper.verifyAddress(value ?? '')
+                                      ? null
+                                      : AppLocalizations.of(context)
+                                          ?.makeTxVerifyInvalidAddress;
+                                },
+                                enableSuggestions: true,
+                                autocorrect: true,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(bottom: 0.0),
+                                  border: const UnderlineInputBorder(),
+                                  hintText: AppLocalizations.of(context)
+                                      ?.addressBookNewAddressValueHint,
+                                  label: Text(AppLocalizations.of(context)
+                                          ?.addressBookNewAddressValue ??
+                                      stringNotFoundText),
+                                  suffixIcon: IconButton(
+                                    onPressed: checkScanQROS()
+                                        ? () {
+                                            WalletStaticState
+                                                    .prevAddressBookLabel =
+                                                _labelController.text;
+                                            // save currently entered label
+                                            BaseStaticState.prevScanQRScreen =
+                                                Screen.addressBook;
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                                    _createScanQRRoute());
+                                          }
+                                        : null,
+                                    icon: Icon(
+                                      Icons.qr_code_scanner_rounded,
+                                      semanticLabel:
+                                          AppLocalizations.of(context)
+                                              ?.scanQRTitle,
+                                    ),
+                                  ),
+                                ),
+                                controller: _valueController)),
+                      ]))),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      WalletStaticState.prevAddressBookLabel = '';
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context)
+                            ?.addressBookNewAddressCancelButton ??
+                        stringNotFoundText)),
+                TextButton(
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+
+                      WalletStaticState.prevAddressBookLabel = '';
+                      Navigator.of(context).pop();
+
+                      // serialize data
+                      var address = AddressModel(random.nextInt(2147483647),
+                          _labelController.text, _valueController.text);
+                      String json = jsonEncode(address);
+
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var addresses =
+                          prefs.getStringList(prefsAddressBook + wallet) ?? [];
+                      addresses.add(json);
+                      prefs.setStringList(
+                          prefsAddressBook + wallet.toString(), addresses);
+
+                      updateAddressBook(wallet);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppLocalizations.of(context)
+                                  ?.addressBookNewAddressSavedNotification ??
+                              stringNotFoundText),
+                        ),
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)
+                            ?.addressBookNewAddressSaveButton ??
+                        stringNotFoundText))
+              ]);
+        });
+  }
+
   List<Widget> getAddressWidgets() {
     List<Widget> addressWidgets = [];
     var wallet = context.read<WalletState>().selectedWallet;
@@ -451,4 +442,22 @@ Route _createBackRoute(bool useVerticalBar) {
       child: child,
     );
   });
+}
+
+Route _createScanQRRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const ScanQR(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      });
 }

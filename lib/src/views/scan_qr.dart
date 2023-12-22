@@ -9,6 +9,8 @@ import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/static/base_static_state.dart';
+import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
+import 'package:veil_wallet/src/views/address_book.dart';
 import 'package:veil_wallet/src/views/home.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 
@@ -87,6 +89,9 @@ class _ScanQRState extends State<ScanQR> {
   _backAction() {
     if (BaseStaticState.prevScanQRScreen == Screen.home) {
       Navigator.of(context).push(_createHomeRoute());
+    } else if (BaseStaticState.prevScanQRScreen == Screen.addressBook) {
+      WalletStaticState.addressBookOpenedFromQR = true;
+      Navigator.of(context).push(_createAddressBookRoute());
     } else {
       Navigator.of(context).push(_createMakeTxRoute('', null));
     }
@@ -169,8 +174,14 @@ class _ScanQRState extends State<ScanQR> {
 
         if (!_navBusy) {
           _navBusy = true;
-          Navigator.of(context)
-              .pushReplacement(_createMakeTxRoute(target, formattedAmount));
+          if (BaseStaticState.prevScanQRScreen == Screen.addressBook) {
+            WalletStaticState.addressBookOpenedFromQR = true;
+            WalletStaticState.tmpAddressBookAddress = target;
+            Navigator.of(context).push(_createAddressBookRoute());
+          } else {
+            Navigator.of(context)
+                .pushReplacement(_createMakeTxRoute(target, formattedAmount));
+          }
         }
       });
     });
@@ -203,6 +214,24 @@ class _ScanQRState extends State<ScanQR> {
     controller?.dispose();
     super.dispose();
   }
+}
+
+Route _createAddressBookRoute() {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+    return const AddressBook();
+  }, transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    const begin = Offset(-1.0, 0.0);
+    const end = Offset.zero;
+    const curve = Curves.ease;
+
+    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
+    );
+  });
 }
 
 Route _createMakeTxRoute(String address, String? amount) {
