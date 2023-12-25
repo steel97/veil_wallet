@@ -1,0 +1,5 @@
+- added "Send max" button
+- added recipient address history
+- added "Delete all data" button
+- added address book
+- fixed known issues
