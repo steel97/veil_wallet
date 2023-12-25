@@ -1,3 +1,4 @@
+- added Japanese and Lithuanian languages
 - added "Send max" button
 - added recipient address history
 - added "Delete all data" button
