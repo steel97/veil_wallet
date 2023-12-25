@@ -80,7 +80,7 @@
 	"recipientAddressHint": "Gavėjo adresas",
 	"sendAmount": "Siunčiama suma:",
 	"sendAmountHint": "Prieinamas {amount} iš {overall} veil",
-	"substractFeeFromAmount": "Iš sumos atimti mokestį",
+	"subtractFeeFromAmount": "Iš sumos atimti mokestį",
 	"availableText": "Galima:",
 	"sendCoinsNextAction": "Toliau",
 	"makeTxVerifyInvalidAddress": "Adresas neteisingas",
