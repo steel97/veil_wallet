@@ -6,6 +6,7 @@ var knownLanguages = [
   LocaleEntry('Español', 'es'),
   LocaleEntry('Esperanto', 'eo'),
   LocaleEntry('Русский', 'ru'),
+  LocaleEntry('Lietuviškai', 'lt'),
   LocaleEntry('日本語', 'ja'),
 ];
 
