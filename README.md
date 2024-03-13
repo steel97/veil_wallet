@@ -1,8 +1,12 @@
-# Veil light wallet
-[![Build](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml/badge.svg)](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml)
+# Veil light wallet [![Build](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml/badge.svg)](https://github.com/steel97/veil_wallet/actions/workflows/build.yaml)
+<p align="center">
+<img src="docs/images/template/ghpicture.png">
+A crossplatform veil light wallet written with dart/flutter.<br>
+<a href="https://www.freepik.com/free-psd/smartphone-laptop-black-background-mock-up_1195596.htm#page=2&position=10&from_view=author&uuid=1256c317-acf8-4659-9eba-d4f90287b777">Image by aleksandr_samochernyi</a> on Freepik
+</p>
 
-A crossplatform veil light wallet written with dart/flutter.
 
+## Getting Started
 [![Get Veil Wallet on Google Play](docs/images/google-play-badge_downscale.png)](https://play.google.com/store/apps/details?id=org.veilproject.wallet)
 
 Releases for other platforms can be found [here](https://github.com/steel97/veil_wallet/releases/)
@@ -16,7 +20,7 @@ Development versions can be downloaded from [github actions](https://github.com/
 - [Keychain](https://developer.apple.com/documentation/security/keychain_services#//apple_ref/doc/uid/TP30000897-CH203-TP1) on iOS
 - [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) on Android
 
-## Getting Started
+## Development
 ### Requirements:
 - [dart/flutter](https://docs.flutter.dev/get-started/install)
 - [rust + cargo](https://www.rust-lang.org/tools/install)
