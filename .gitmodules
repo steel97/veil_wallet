@@ -1,3 +1,6 @@
-[submodule "deps/veil_light_plugin"]
-	path = deps/veil_light_plugin
+[submodule "submodules/veil_light_plugin"]
+	path = submodules/veil_light_plugin
 	url = https://github.com/steel97/veil_light_plugin.git
+[submodule "submodules/flutter"]
+	path = submodules/flutter
+	url = https://github.com/flutter/flutter.git
