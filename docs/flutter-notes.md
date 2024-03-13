@@ -15,9 +15,9 @@ flutter pub get
 
 # veil_light_plugin
 ## Errors in IDE
-If you expirience errors in your IDE on `deps/veil_light_plugin` folder:
+If you expirience errors in your IDE on `submodules/veil_light_plugin` folder:
 ```
-cd deps/veil_light_plugin
+cd submodules/veil_light_plugin
 dart pub get
 
 cd cargokit/build_tool

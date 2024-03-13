@@ -113,7 +113,7 @@ flutter build apk --release
 ## Developing
 Updating `veil_light_plugin` dependency
 ```
-git submodule update --remote --merge
+git submodule update --remote --merge ./submodules/veil_light_plugin
 ```
 
 Viewing logs:

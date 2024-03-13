@@ -837,7 +837,7 @@ packages:
   veil_light_plugin:
     dependency: "direct main"
     description:
-      path: "deps/veil_light_plugin"
+      path: "submodules/veil_light_plugin"
       relative: true
     source: path
     version: "0.0.1"
