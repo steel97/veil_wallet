@@ -27,7 +27,7 @@ jobs:
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2.12.0
         with:
           channel: stable
       - name: Install dependencies
