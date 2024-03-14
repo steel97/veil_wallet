@@ -138,3 +138,6 @@ To add new locale you should create file:
 You can use [./lib/l10n/app_en.arb](lib/l10n/app_en.arb) or [./lib/l10n/app_ru.arb](lib/l10n/app_ru.arb) as a template
 
 \* [app_en.arb](lib/l10n/app_en.arb) contain some metadata which is not required for other languages, you may safely remove it (see [app_ru.arb](lib/l10n/app_ru.arb) for example)
+
+## Donate
+My veil address: sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp
