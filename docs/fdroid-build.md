@@ -11,7 +11,6 @@ don't forget to accept android sdk licenses:
 yes | sudo sdkmanager --licenses
 ```
 
-it's also recommended to accept license with:
 ```
 cat << EOF > $ANDROID_HOME/licenses/android-sdk-license
 
@@ -23,32 +22,18 @@ d56f5187479451eabf01fb78af6dfcb131a6481e
 EOF
 ```
 
-download and extract commandlinetools:
-```
-cd /usr/lib/android-sdk
-wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-sudo unzip commandlinetools-linux-11076708_latest.zip
-```
 
-don't forget to export android sdk path:
+export android sdk path:
 ```
 export ANDROID_HOME=/usr/lib/android-sdk
 ```
 
-also specify ndk_paths on config.yml
-
+also specify ndk_paths on config.yml (app uses cargo_kit which by default uses NDK: 23.1.7779620)
 example:
 ```
 ndk_paths:
-  r26c: ~/android-ndk/android-ndk-r26c
+  23.1.7779620: ~/android-ndk/android-ndk-23.1.7779620
 ```
-
-```
-cd ~
-wget https://dl.google.com/android/repository/android-ndk-r26c-linux.zip
-unzip android-ndk-r26c-linux.zip -d android-ndk/
-```
-sometimes fdroid command won't work with other apps metadata, just delete other apps metadata to fix it
 
 build wallet:
 ```
