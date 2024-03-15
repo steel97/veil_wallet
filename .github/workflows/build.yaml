@@ -171,10 +171,8 @@ jobs:
     environment: android
     env:
       build_package_name: veil-wallet android
+      build_dir: /home/vagrant/build/org.veilproject.wallet
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -182,21 +180,29 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 3.19.3
-          channel: stable
-          architecture: x64
+      - name: Checkout
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          sudo mkdir -p "${{ env.build_dir}}"
+          sudo chown runner "${{ env.build_dir}}"
+          git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir}}"
+          cd "${{ env.build_dir}}"
+          git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
-          flutter config --no-analytics
-          flutter pub get
+          cd "${{ env.build_dir}}"
+          export PUB_CACHE=$(pwd)/.pub-cache
+          submodules/flutter/bin/flutter config --no-analytics
+          submodules/flutter/bin/flutter pub get
       - name: Check signing key
         id: key-check
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
         shell: bash
         run: |
+          cd "${{ env.build_dir}}"
           if [ "$KEYSTORE_BASE64" != '' ]; then
             echo "available=true" >> $GITHUB_OUTPUT;
           else
@@ -210,7 +216,7 @@ jobs:
       - name: Create keystore.properties file
         if: ${{ steps.key-check.outputs.available == 'true' }}
         env:
-          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/android/key.properties
+          KEYSTORE_PROPERTIES_PATH: ${{ env.build_dir }}/android/key.properties
         run: |
           echo 'storeFile=${{ github.workspace }}/android-keystore.jks' > $KEYSTORE_PROPERTIES_PATH
           echo 'keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}' >> $KEYSTORE_PROPERTIES_PATH
@@ -218,10 +224,13 @@ jobs:
           echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
-        run: flutter build apk --release --no-tree-shake-icons
+        run: submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
-        run: flutter build apk --debug
+        run: submodules/flutter/bin/flutter build apk --debug
+      - name: Cleanup
+        if: always()
+        run: rm ${{ env.build_dir }}/android/key.properties
       - uses: actions/upload-artifact@v3
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
