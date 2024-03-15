@@ -39,7 +39,7 @@ jobs:
           flutter pub get
       - name: Build executable
         run: flutter build windows --release
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: build/windows/x64/runner/Release/
@@ -69,7 +69,7 @@ jobs:
           flutter pub get
       - name: Build executable
         run: flutter build linux --release
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: 'build/linux/x64/release/bundle/'
@@ -102,7 +102,7 @@ jobs:
         run: |
           flutter clean
           flutter build macos
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: build/macos/Build/Products/Release/veil-wallet.app
@@ -160,7 +160,7 @@ jobs:
           cd ios
           rm -fr Runner.xcarchive
           rm -fr Payload
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: app-release.ipa
@@ -235,12 +235,12 @@ jobs:
       - name: Cleanup
         if: always()
         run: rm ${{ env.build_dir }}/android/key.properties
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
           name: ${{ env.build_package_name }}
           path: ${{ env.build_dir }}/build/app/outputs/flutter-apk/app-release.apk
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: ${{ steps.key-check.outputs.available != 'true' }}
         with:
           name: ${{ env.build_package_name }}

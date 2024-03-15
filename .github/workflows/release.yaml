@@ -24,7 +24,7 @@ jobs:
       contents: write
     steps:
     # 1) artifact (veil-wallet win-x86_64)
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: veil-wallet win-x86_64
         path: './veil-wallet win-x86_64'
@@ -32,7 +32,7 @@ jobs:
         rm -rf 'veil-wallet (win-x86_64).zip'
         zip -r 'veil-wallet (win-x86_64).zip' './veil-wallet win-x86_64'
     # 2) artifact (veil-wallet linux-x86_64)
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: veil-wallet linux-x86_64
         path: './veil-wallet linux-x86_64'
@@ -40,7 +40,7 @@ jobs:
         rm -rf 'veil-wallet (linux-x86_64).zip'
         zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
     # 3) artifact (veil-wallet macos-universal)
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: veil-wallet macos-universal
         path: './veil-wallet.app'
@@ -48,14 +48,14 @@ jobs:
         rm -rf 'veil-wallet (macos-universal).zip'
         zip -r 'veil-wallet (macos-universal).zip' './veil-wallet.app'
     # 4) artifact (veil-wallet ios)
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: veil-wallet ios
         path: './veil-wallet ios'
     - run: |
         mv './veil-wallet ios/app-release.ipa' './veil-wallet (ios).ipa'
     # 5) artifact (veil-wallet android)    
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: veil-wallet android
         path: './veil-wallet android'
