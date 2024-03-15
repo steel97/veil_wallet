@@ -173,7 +173,7 @@ jobs:
       build_package_name: veil-wallet android
       build_dir: /home/vagrant/build/org.veilproject.wallet
     steps:
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '19'
