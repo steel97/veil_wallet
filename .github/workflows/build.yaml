@@ -68,9 +68,7 @@ jobs:
           flutter config --enable-linux-desktop
           flutter pub get
       - name: Build executable
-        run: |
-          export RUSTFLAGS="--remap-path-prefix $HOME=~"
-          flutter build linux --release
+        run: flutter build linux --release
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
@@ -229,13 +227,11 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
           cd "${{ env.build_dir }}"
-          export RUSTFLAGS="--remap-path-prefix $HOME=~"
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
         run: |
           cd "${{ env.build_dir }}"
-          export RUSTFLAGS="--remap-path-prefix $HOME=~"
           submodules/flutter/bin/flutter build apk --debug
       - name: Cleanup
         if: always()
