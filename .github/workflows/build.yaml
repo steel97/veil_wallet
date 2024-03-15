@@ -182,11 +182,15 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.19.3
+          channel: stable
+          architecture: x64
       - name: Install dependencies
         run: |
-          rm .git/modules/submodules/flutter/packed-refs
-          submodules/flutter/bin/flutter config --no-analytics
-          submodules/flutter/bin/flutter packages pub get
+          flutter config --no-analytics
+          flutter pub get
       - name: Check signing key
         id: key-check
         env:
@@ -214,10 +218,10 @@ jobs:
           echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
-        run: submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
+        run: flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
-        run: submodules/flutter/bin/flutter build apk --debug
+        run: flutter build apk --debug
       - uses: actions/upload-artifact@v3
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
