@@ -27,6 +27,8 @@ jobs:
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.76.0
       - uses: subosito/flutter-action@v2.12.0
         with:
           channel: stable
@@ -53,6 +55,8 @@ jobs:
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.76.0
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -81,6 +85,8 @@ jobs:
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.76.0
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -112,6 +118,8 @@ jobs:
         with:
           submodules: true
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.76.0
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
@@ -172,14 +180,12 @@ jobs:
           distribution: 'zulu'
           java-version: '19'
       - uses: dtolnay/rust-toolchain@stable
-      - uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          architecture: x64
+          toolchain: 1.76.0
       - name: Install dependencies
         run: |
-          flutter config --no-analytics
-          flutter pub get
+          submodules/flutter/bin/flutter config --no-analytics
+          submodules/flutter/bin/flutter packages pub get
       - name: Check signing key
         id: key-check
         env:
@@ -207,10 +213,10 @@ jobs:
           echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
-        run: flutter build apk --release
+        run: submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
-        run: flutter build apk --debug
+        run: submodules/flutter/bin/flutter build apk --debug
       - uses: actions/upload-artifact@v3
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
