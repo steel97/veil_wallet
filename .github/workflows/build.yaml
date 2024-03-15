@@ -185,14 +185,14 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
-          sudo mkdir -p "${{ env.build_dir}}"
-          sudo chown runner "${{ env.build_dir}}"
-          git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir}}"
-          cd "${{ env.build_dir}}"
+          sudo mkdir -p "${{ env.build_dir }}"
+          sudo chown runner "${{ env.build_dir }}"
+          git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir }}"
+          cd "${{ env.build_dir }}"
           git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
-          cd "${{ env.build_dir}}"
+          cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
           submodules/flutter/bin/flutter pub get
@@ -202,7 +202,7 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_FILE_BASE64 }}
         shell: bash
         run: |
-          cd "${{ env.build_dir}}"
+          cd "${{ env.build_dir }}"
           if [ "$KEYSTORE_BASE64" != '' ]; then
             echo "available=true" >> $GITHUB_OUTPUT;
           else
@@ -224,10 +224,14 @@ jobs:
           echo 'keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}' >> $KEYSTORE_PROPERTIES_PATH
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
-        run: submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
+        run: |
+          cd "${{ env.build_dir }}"
+          submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
-        run: submodules/flutter/bin/flutter build apk --debug
+        run: |
+          cd "${{ env.build_dir }}"
+          submodules/flutter/bin/flutter build apk --debug
       - name: Cleanup
         if: always()
         run: rm ${{ env.build_dir }}/android/key.properties
@@ -235,9 +239,9 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
           name: ${{ env.build_package_name }}
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: ${{ env.build_dir }}build/app/outputs/flutter-apk/app-release.apk
       - uses: actions/upload-artifact@v3
         if: ${{ steps.key-check.outputs.available != 'true' }}
         with:
           name: ${{ env.build_package_name }}
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: ${{ env.build_dir }}build/app/outputs/flutter-apk/app-debug.apk
