@@ -225,7 +225,8 @@ jobs:
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
-          cd "${{ env.build_dir }}"
+          export RUSTFLAGS="--remap-path-prefix $HOME=~"
+          cd "${{ env.build_dir }}"          
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
