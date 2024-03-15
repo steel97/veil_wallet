@@ -239,9 +239,9 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         with:
           name: ${{ env.build_package_name }}
-          path: ${{ env.build_dir }}build/app/outputs/flutter-apk/app-release.apk
+          path: ${{ env.build_dir }}/build/app/outputs/flutter-apk/app-release.apk
       - uses: actions/upload-artifact@v3
         if: ${{ steps.key-check.outputs.available != 'true' }}
         with:
           name: ${{ env.build_package_name }}
-          path: ${{ env.build_dir }}build/app/outputs/flutter-apk/app-debug.apk
+          path: ${{ env.build_dir }}/build/app/outputs/flutter-apk/app-debug.apk
