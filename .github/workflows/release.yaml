@@ -100,21 +100,21 @@ jobs:
           name: veil-wallet android-armeabi-v7a
           path: './veil-wallet android'
       - run: |
-          mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_1 }}.apk'
+          mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_1 }}.apk'
       # 2) artifact (veil-wallet android arm64-v8a)
       - uses: actions/download-artifact@v4
         with:
           name: veil-wallet android-arm64-v8a
           path: './veil-wallet android'
       - run: |
-          mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_2 }}.apk'
+          mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_2 }}.apk'
       # 3) artifact (veil-wallet android x86_64)
       - uses: actions/download-artifact@v4
         with:
           name: veil-wallet android-x86_64
           path: './veil-wallet android'
       - run: |
-          mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_3 }}.apk'
+          mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_3 }}.apk'
       # upload release
       - uses: ncipollo/release-action@v1
         with:
