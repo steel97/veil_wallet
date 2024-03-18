@@ -13,7 +13,13 @@ class WalletBgTasks {
     } catch (e) {}
   }
 
-  static void runConversionTask(Timer timer) async {
+  static Future runConversionTask(Timer timer) async {
+    if (!BaseStaticState.homePageShownOnce) return;
+
+    await WalletBgTasks.fetchConversionRateIfPossible();
+  }
+
+  static Future fetchConversionRateIfPossible() async {
     if (BaseStaticState.setConversionRateManually) return;
     try {
       var response =

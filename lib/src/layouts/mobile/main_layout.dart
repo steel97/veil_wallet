@@ -8,6 +8,7 @@ import 'package:veil_wallet/src/components/balance_widget.dart';
 import 'package:veil_wallet/src/components/coin_control_widget.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/functions_check.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
@@ -43,6 +44,10 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   void initState() {
+    if (!BaseStaticState.homePageShownOnce) {
+      BaseStaticState.homePageShownOnce = true;
+      WalletBgTasks.fetchConversionRateIfPossible();
+    }
     super.initState();
   }
 

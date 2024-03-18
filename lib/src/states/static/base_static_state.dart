@@ -13,6 +13,7 @@ class BaseStaticState {
   static bool initialBiometricsPassed = false;
   static bool isStartedWithDeepLink = false;
   static int biometricsTimestamp = 0;
+  static bool homePageShownOnce = false;
 
   // advanced wallet settings
   static List<String> walletMnemonic = [];
