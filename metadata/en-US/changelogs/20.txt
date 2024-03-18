@@ -1,0 +1,2 @@
+- added ability to change conversion API url
+- added ability to set conversion rate manually

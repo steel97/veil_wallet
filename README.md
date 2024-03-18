@@ -108,6 +108,9 @@ flutter build appbundle --release
 
 # release build in apk format
 flutter build apk --release
+
+# release build in apk format (split ABIs)
+flutter build apk --release --split-per-abi
 ```
 
 ## Developing

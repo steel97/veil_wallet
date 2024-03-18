@@ -54,13 +54,34 @@ jobs:
         path: './veil-wallet ios'
     - run: |
         mv './veil-wallet ios/app-release.ipa' './veil-wallet (ios).ipa'
-    # 5) artifact (veil-wallet android)    
+    # 5) artifact (veil-wallet android)
     - uses: actions/download-artifact@v4
       with:
         name: veil-wallet android
         path: './veil-wallet android'
     - run: |
         mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
+    # 6) artifact (veil-wallet android armeabi-v7a)
+    - uses: actions/download-artifact@v4
+      with:
+        name: veil-wallet android-armeabi-v7a
+        path: './veil-wallet android'
+    - run: |
+        mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet (android-armeabi-v7a).apk'
+    # 7) artifact (veil-wallet android arm64-v8a)
+    - uses: actions/download-artifact@v4
+      with:
+        name: veil-wallet android-arm64-v8a
+        path: './veil-wallet android'
+    - run: |
+        mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet (android-arm64-v8a).apk'
+    # 8) artifact (veil-wallet android x86_64)
+    - uses: actions/download-artifact@v4
+      with:
+        name: veil-wallet android-x86_64
+        path: './veil-wallet android'
+    - run: |
+        mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet (android-x86_64).apk'
     # upload release
     - uses: ncipollo/release-action@v1
       with:
