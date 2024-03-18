@@ -23,110 +23,107 @@ jobs:
     permissions:
       contents: write
     steps:
-    # extract version info
-    - uses: actions/checkout@v4
-    - run: |
-        echo "VERSION=$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\1~p' pubspec.yaml)" >> "$GITHUB_ENV"
-        VERSION_CODE="$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\2~p' pubspec.yaml)"
-        echo "VERCODE_1=$(( "$VERSION_CODE" * 10 + 1 ))" >> "$GITHUB_ENV"
-        echo "VERCODE_2=$(( "$VERSION_CODE" * 10 + 2 ))" >> "$GITHUB_ENV"
-        echo "VERCODE_3=$(( "$VERSION_CODE" * 10 + 3 ))" >> "$GITHUB_ENV"
-    # 1) artifact (veil-wallet win-x86_64)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet win-x86_64
-        path: './veil-wallet win-x86_64'
-    - run: |
-        rm -rf 'veil-wallet (win-x86_64).zip'
-        zip -r 'veil-wallet (win-x86_64).zip' './veil-wallet win-x86_64'
-    # 2) artifact (veil-wallet linux-x86_64)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet linux-x86_64
-        path: './veil-wallet linux-x86_64'
-    - run: |
-        rm -rf 'veil-wallet (linux-x86_64).zip'
-        zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
-    # 3) artifact (veil-wallet macos-universal)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet macos-universal
-        path: './veil-wallet.app'
-    - run: |
-        rm -rf 'veil-wallet (macos-universal).zip'
-        zip -r 'veil-wallet (macos-universal).zip' './veil-wallet.app'
-    # 4) artifact (veil-wallet ios)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet ios
-        path: './veil-wallet ios'
-    - run: |
-        mv './veil-wallet ios/app-release.ipa' './veil-wallet (ios).ipa'
-    # 5) artifact (veil-wallet android)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android
-        path: './veil-wallet android'
-    - run: |
-        mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
-    # 6) artifact (veil-wallet android armeabi-v7a)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-armeabi-v7a
-        path: './veil-wallet android'
-    - run: |
-        mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet (android-armeabi-v7a).apk'
-    # 7) artifact (veil-wallet android arm64-v8a)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-arm64-v8a
-        path: './veil-wallet android'
-    - run: |
-        mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet (android-arm64-v8a).apk'
-    # 8) artifact (veil-wallet android x86_64)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-x86_64
-        path: './veil-wallet android'
-    - run: |
-        mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet (android-x86_64).apk'
-    ## fdroid hack
-    # 1) artifact (veil-wallet android armeabi-v7a)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-armeabi-v7a
-        path: './veil-wallet android'
-      env:
-        VERCODE_1: ${{ env.VERCODE_1 }}
-    - run: |
-        mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet-fdroid-$VERCODE_1.apk'
-    # 2) artifact (veil-wallet android arm64-v8a)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-arm64-v8a
-        path: './veil-wallet android'
-      env:
-        VERCODE_2: ${{ env.VERCODE_2 }}
-    - run: |
-        mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet-fdroid-$VERCODE_2.apk'
-    # 3) artifact (veil-wallet android x86_64)
-    - uses: actions/download-artifact@v4
-      with:
-        name: veil-wallet android-x86_64
-        path: './veil-wallet android'
-      env:
-        VERCODE_3: ${{ env.VERCODE_3 }}
-    - run: |
-        mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet-fdroid-$VERCODE_3.apk'
-    # upload release
-    - uses: ncipollo/release-action@v1
-      with:
-        commit: 'main'
-        tag: 'v${{ inputs.tag }}'
-        allowUpdates: true
-        artifactErrorsFailBuild: true
-        generateReleaseNotes: true
-        draft: '${{ inputs.draft }}'
-        name: 'Veil Wallet ${{ inputs.tag }}'
-        removeArtifacts: true
-        artifacts: '*.zip,*.apk,*.ipa'
+      # extract version info
+      - uses: actions/checkout@v4
+      - name: Extract version
+        id: version
+        shell: bash
+        run: |
+          echo "VERSION=$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\1~p' pubspec.yaml)" >> $GITHUB_OUTPUT
+          VERSION_CODE="$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\2~p' pubspec.yaml)"
+          echo "VERCODE_1=$(( "$VERSION_CODE" * 10 + 1 ))" >> $GITHUB_OUTPUT
+          echo "VERCODE_2=$(( "$VERSION_CODE" * 10 + 2 ))" >> $GITHUB_OUTPUT
+          echo "VERCODE_3=$(( "$VERSION_CODE" * 10 + 3 ))" >> $GITHUB_OUTPUT
+      # 1) artifact (veil-wallet win-x86_64)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet win-x86_64
+          path: './veil-wallet win-x86_64'
+      - run: |
+          rm -rf 'veil-wallet (win-x86_64).zip'
+          zip -r 'veil-wallet (win-x86_64).zip' './veil-wallet win-x86_64'
+      # 2) artifact (veil-wallet linux-x86_64)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet linux-x86_64
+          path: './veil-wallet linux-x86_64'
+      - run: |
+          rm -rf 'veil-wallet (linux-x86_64).zip'
+          zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
+      # 3) artifact (veil-wallet macos-universal)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet macos-universal
+          path: './veil-wallet.app'
+      - run: |
+          rm -rf 'veil-wallet (macos-universal).zip'
+          zip -r 'veil-wallet (macos-universal).zip' './veil-wallet.app'
+      # 4) artifact (veil-wallet ios)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet ios
+          path: './veil-wallet ios'
+      - run: |
+          mv './veil-wallet ios/app-release.ipa' './veil-wallet (ios).ipa'
+      # 5) artifact (veil-wallet android)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-release.apk' './veil-wallet (android).apk'
+      # 6) artifact (veil-wallet android armeabi-v7a)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-armeabi-v7a
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet (android-armeabi-v7a).apk'
+      # 7) artifact (veil-wallet android arm64-v8a)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-arm64-v8a
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet (android-arm64-v8a).apk'
+      # 8) artifact (veil-wallet android x86_64)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-x86_64
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet (android-x86_64).apk'
+      ## fdroid hack
+      # 1) artifact (veil-wallet android armeabi-v7a)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-armeabi-v7a
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_1 }}.apk'
+      # 2) artifact (veil-wallet android arm64-v8a)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-arm64-v8a
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_2 }}.apk'
+      # 3) artifact (veil-wallet android x86_64)
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet android-x86_64
+          path: './veil-wallet android'
+      - run: |
+          mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet-fdroid-${{ steps.key-check.outputs.VERCODE_3 }}.apk'
+      # upload release
+      - uses: ncipollo/release-action@v1
+        with:
+          commit: 'main'
+          tag: 'v${{ inputs.tag }}'
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          generateReleaseNotes: true
+          draft: '${{ inputs.draft }}'
+          name: 'Veil Wallet ${{ inputs.tag }}'
+          removeArtifacts: true
+          artifacts: '*.zip,*.apk,*.ipa'
