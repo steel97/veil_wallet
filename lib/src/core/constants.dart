@@ -29,7 +29,7 @@ const defaultWalletName = 'Default';
 const defaultNodeAddress = 'https://explorer-api.veil-project.com';
 const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
-const conversionApiUrl = 'https://veil.tools/api/getprice';
+const defaultConversionApiUrl = 'https://veil.tools/api/getprice';
 
 const hiddenBalanceMask = '******';
 
@@ -55,6 +55,9 @@ const prefsSettingsNodeUrl = 'veil.settings.node_url';
 const prefsSettingsNodeAuth = 'veil.settings.node_auth';
 const prefsSettingsExplorerUrl = 'veil.settings.explorer_url';
 const prefsSettingsExplorerTxUrl = 'veil.settings.explorer_tx_url';
+const prefsSettingsConversionManually = 'veil.settings.conversion_manually';
+const prefsSettingsConversionApiUrl = 'veil.settings.conversion_api_url';
+const prefsSettingsConversionRate = 'veil.settings.conversion_rate';
 const prefsSettingsUseMinimumUTXOs = 'veil.settings.use_minimum_utxos';
 
 // storage

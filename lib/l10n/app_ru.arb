@@ -166,5 +166,12 @@
 	"addressBookEditAddress": "Редактировать адрес",
 	"addressBookNoLabel": "Default",
 	"resetExplorerIconSemantics": "Сбросить адрес обозревателя",
-	"resetExplorerTxesIconSemantics": "Сбросить адрес обозревателя транзакций"
+	"resetExplorerTxesIconSemantics": "Сбросить адрес обозревателя транзакций",
+	"conversionRateInputField": "Кастомный курс Veil/USD:",
+	"conversionRateInputFieldHint": "Курс Veil-а по отношению к USD (прим. 0.006)",
+	"resetConversionRateSemantics": "Сбросить кастомный курс",
+	"conversionApiInputField": "API адрес конвертера валют:",
+	"conversionApiInputFieldHint": "Должен начинаться с http:// или https://",
+	"resetConversionApiSemantics": "Сбросить адрес API конвертации валют",
+	"useCustomConversionRate": "Использовать кастомный курс валют"
 }

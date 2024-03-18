@@ -62,9 +62,6 @@ void main() async {
 
   Timer.periodic(
       const Duration(seconds: walletWatchDelay), WalletBgTasks.runScanTask);
-  makePeriodicTimer(const Duration(seconds: conversionWatchDelay),
-      WalletBgTasks.runConversionTask,
-      fireNow: true);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => WalletState()),
@@ -293,6 +290,15 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     BaseStaticState.txExplorerAddress =
         await storageService.readSecureData(prefsSettingsExplorerTxUrl) ??
             defaultTxExplorerAddress;
+    BaseStaticState.setConversionRateManually = bool.parse(
+        await storageService.readSecureData(prefsSettingsConversionManually) ??
+            'false');
+    BaseStaticState.conversionCustomRate =
+        await storageService.readSecureData(prefsSettingsConversionRate) ??
+            '0.00';
+    BaseStaticState.conversionApiAddress =
+        await storageService.readSecureData(prefsSettingsConversionApiUrl) ??
+            defaultConversionApiUrl;
     BaseStaticState.useMinimumUTXOs = bool.parse(
         await storageService.readSecureData(prefsSettingsUseMinimumUTXOs) ??
             'false');
@@ -352,7 +358,12 @@ class WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     loadBalanceHidden();
     loadTheme();
     loadLocale();
-    loadState();
+    loadState().then((value) {
+      makePeriodicTimer(const Duration(seconds: conversionWatchDelay),
+          WalletBgTasks.runConversionTask,
+          fireNow: true);
+      WalletHelper.loadConversionRate();
+    });
 
     Timer(const Duration(milliseconds: 100), () {
       if (!BaseStaticState.isStartedWithDeepLink) {

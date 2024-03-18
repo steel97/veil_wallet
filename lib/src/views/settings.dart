@@ -9,6 +9,7 @@ import 'package:veil_wallet/src/core/func_checker.dart';
 import 'package:veil_wallet/src/core/locale_entry.dart';
 import 'package:veil_wallet/src/core/node_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
@@ -39,6 +40,9 @@ class _SettingsState extends State<Settings> {
   final _nodeAuthController = TextEditingController();
   final _explorerUrlController = TextEditingController();
   final _txExplorerUrlController = TextEditingController();
+  bool _useCustomConversionRate = false;
+  final _conversionApiController = TextEditingController();
+  final _conversionRateController = TextEditingController();
   bool _useMinimumUTXOs = false;
   bool _isBiometricsActive = false;
   bool _darkMode = false;
@@ -54,6 +58,9 @@ class _SettingsState extends State<Settings> {
     _nodeAuthController.text = BaseStaticState.nodeAuth;
     _explorerUrlController.text = BaseStaticState.explorerAddress;
     _txExplorerUrlController.text = BaseStaticState.txExplorerAddress;
+    _useCustomConversionRate = BaseStaticState.setConversionRateManually;
+    _conversionApiController.text = BaseStaticState.conversionApiAddress;
+    _conversionRateController.text = BaseStaticState.conversionCustomRate;
     _useMinimumUTXOs = BaseStaticState.useMinimumUTXOs;
 
     setState(() {
@@ -263,6 +270,80 @@ class _SettingsState extends State<Settings> {
               stringNotFoundText),
         ),
       ));
+    }
+
+    List<Widget> conversionWidgets = [];
+    if (_useCustomConversionRate) {
+      conversionWidgets.add(Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: TextFormField(
+            validator: (value) {
+              try {
+                var t = double.parse(value ?? '');
+                return null;
+              } catch (e) {}
+              return '';
+            },
+            enableSuggestions: true,
+            autocorrect: false,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(bottom: 0.0),
+              border: const UnderlineInputBorder(),
+              hintText:
+                  AppLocalizations.of(context)?.conversionRateInputFieldHint,
+              label: Text(
+                  AppLocalizations.of(context)?.conversionRateInputField ??
+                      stringNotFoundText,
+                  style: const TextStyle(overflow: TextOverflow.ellipsis)),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _conversionRateController.text = '0.00';
+                },
+                icon: Icon(
+                  Icons.restore_rounded,
+                  semanticLabel: AppLocalizations.of(context)
+                      ?.resetConversionRateSemantics,
+                ),
+              ),
+            ),
+            controller: _conversionRateController,
+          )));
+    } else {
+      conversionWidgets.add(Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return null;
+              }
+              return value.startsWith('http://') || value.startsWith('https://')
+                  ? null
+                  : '';
+            },
+            enableSuggestions: true,
+            autocorrect: false,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.only(bottom: 0.0),
+              border: const UnderlineInputBorder(),
+              hintText:
+                  AppLocalizations.of(context)?.conversionApiInputFieldHint,
+              label: Text(
+                  AppLocalizations.of(context)?.conversionApiInputField ??
+                      stringNotFoundText,
+                  style: const TextStyle(overflow: TextOverflow.ellipsis)),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _conversionApiController.text = defaultConversionApiUrl;
+                },
+                icon: Icon(
+                  Icons.restore_rounded,
+                  semanticLabel:
+                      AppLocalizations.of(context)?.resetConversionApiSemantics,
+                ),
+              ),
+            ),
+            controller: _conversionApiController,
+          )));
     }
 
     return PopScope(
@@ -511,6 +592,30 @@ class _SettingsState extends State<Settings> {
                                   ),
                                   controller: _txExplorerUrlController,
                                 )),
+                            // conversion api
+                            Container(
+                                margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          AppLocalizations.of(context)
+                                                  ?.useCustomConversionRate ??
+                                              stringNotFoundText,
+                                          style: const TextStyle(fontSize: 16)),
+                                      Switch(
+                                          value: _useCustomConversionRate,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              _useCustomConversionRate = val;
+                                            });
+                                          }),
+                                    ])),
+                          ] +
+                          conversionWidgets +
+                          [
+                            // end
                             Container(
                                 margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 child: Row(
@@ -682,6 +787,12 @@ class _SettingsState extends State<Settings> {
                                         _explorerUrlController.text;
                                     BaseStaticState.txExplorerAddress =
                                         _txExplorerUrlController.text;
+                                    BaseStaticState.setConversionRateManually =
+                                        _useCustomConversionRate;
+                                    BaseStaticState.conversionApiAddress =
+                                        _conversionApiController.text;
+                                    BaseStaticState.conversionCustomRate =
+                                        _conversionRateController.text;
                                     BaseStaticState.useMinimumUTXOs =
                                         _useMinimumUTXOs;
 
@@ -705,9 +816,27 @@ class _SettingsState extends State<Settings> {
                                             BaseStaticState.txExplorerAddress));
                                     await storageService.writeSecureData(
                                         StorageItem(
+                                            prefsSettingsConversionManually,
+                                            BaseStaticState
+                                                .setConversionRateManually
+                                                .toString()));
+                                    await storageService.writeSecureData(
+                                        StorageItem(
+                                            prefsSettingsConversionApiUrl,
+                                            BaseStaticState
+                                                .conversionApiAddress));
+                                    await storageService.writeSecureData(
+                                        StorageItem(
+                                            prefsSettingsConversionRate,
+                                            BaseStaticState
+                                                .conversionCustomRate));
+                                    await storageService.writeSecureData(
+                                        StorageItem(
                                             prefsSettingsUseMinimumUTXOs,
                                             BaseStaticState.useMinimumUTXOs
                                                 .toString()));
+
+                                    WalletHelper.loadConversionRate();
 
                                     /*WidgetsBinding.instance
                                     .addPostFrameCallback((_) {

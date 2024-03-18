@@ -73,6 +73,16 @@ class WalletHelper {
         .setConversionRate(convRate);
   }
 
+  static loadConversionRate() {
+    if (BaseStaticState.setConversionRateManually) {
+      uiUpdateConversionRate(0.00);
+      try {
+        uiUpdateConversionRate(
+            double.parse(BaseStaticState.conversionCustomRate));
+      } catch (e) {}
+    }
+  }
+
   static Future<int> createOrImportWallet(
       String walletName,
       List<String> mnemonic,

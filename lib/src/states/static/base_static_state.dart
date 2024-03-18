@@ -24,6 +24,9 @@ class BaseStaticState {
   static String nodeAuth = '';
   static String explorerAddress = defaultExplorerAddress;
   static String txExplorerAddress = defaultTxExplorerAddress;
+  static bool setConversionRateManually = false;
+  static String conversionApiAddress = defaultConversionApiUrl;
+  static String conversionCustomRate = '0.00';
   static bool useMinimumUTXOs = false;
 
   // wallet settings

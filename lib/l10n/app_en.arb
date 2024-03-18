@@ -693,5 +693,33 @@
 	"resetExplorerTxesIconSemantics": "Reset explorer tx address",
 	"@resetExplorerTxesIconSemantics": {
 		"description": "Settings tx explorer input field reset button semantics"
+	},
+	"conversionRateInputField": "Custom conversion rate (USD):",
+	"@conversionRateInputField": {
+		"description": "Label for custom conversion rate input field"
+	},
+	"conversionRateInputFieldHint": "Veil/USD conversion rate (ex. 0.006)",
+	"@conversionRateInputFieldHint": {
+		"description": "Conversion rate input field hint"
+	},
+	"resetConversionRateSemantics": "Reset conversion rate default value",
+	"@resetConversionRateSemantics": {
+		"description": "Reset conversion rate to default value"
+	},
+	"conversionApiInputField": "Conversion API url:",
+	"@conversionApiInputField": {
+		"description": "Label for conversion API url"
+	},
+	"conversionApiInputFieldHint": "Should start with http:// or https://",
+	"@conversionApiInputFieldHint": {
+		"description": "Conversion api input field hint"
+	},
+	"resetConversionApiSemantics": "Reset conversion API url to default value",
+	"@resetConversionApiSemantics": {
+		"description": "Reset conversion API url to default value"
+	},
+	"useCustomConversionRate": "Use custom conversion rate",
+	"@useCustomConversionRate": {
+		"description": "Use custom conversion rate toggle"
 	}
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: empty_catches
 import 'dart:async';
 import 'dart:convert';
-import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/states/static/base_static_state.dart';
 import 'package:veil_wallet/src/states/static/wallet_static_state.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:http/http.dart' as http;
@@ -14,8 +14,10 @@ class WalletBgTasks {
   }
 
   static void runConversionTask(Timer timer) async {
+    if (BaseStaticState.setConversionRateManually) return;
     try {
-      var response = await http.get(Uri.parse(conversionApiUrl));
+      var response =
+          await http.get(Uri.parse(BaseStaticState.conversionApiAddress));
       var json = jsonDecode(response.body);
       double convRate = json['price'].toDouble();
       WalletHelper.updateConversionRate(convRate);
