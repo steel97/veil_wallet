@@ -23,17 +23,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      # extract version info
-      - uses: actions/checkout@v4
-      - name: Extract version
-        id: version
-        shell: bash
-        run: |
-          echo "VERSION=$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\1~p' pubspec.yaml)" >> $GITHUB_OUTPUT
-          VERSION_CODE="$(sed -nE 's~^version: ?([^\+]+)\+(.*)$~\2~p' pubspec.yaml)"
-          echo "VERCODE_1=$(( "$VERSION_CODE" * 10 + 1 ))" >> $GITHUB_OUTPUT
-          echo "VERCODE_2=$(( "$VERSION_CODE" * 10 + 2 ))" >> $GITHUB_OUTPUT
-          echo "VERCODE_3=$(( "$VERSION_CODE" * 10 + 3 ))" >> $GITHUB_OUTPUT
       # 1) artifact (veil-wallet win-x86_64)
       - uses: actions/download-artifact@v4
         with:
@@ -93,28 +82,6 @@ jobs:
           path: './veil-wallet android'
       - run: |
           mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet (android-x86_64).apk'
-      ## fdroid hack
-      # 1) artifact (veil-wallet android armeabi-v7a)
-      - uses: actions/download-artifact@v4
-        with:
-          name: veil-wallet android-armeabi-v7a
-          path: './veil-wallet android'
-      - run: |
-          mv './veil-wallet android/app-armeabi-v7a-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_1 }}.apk'
-      # 2) artifact (veil-wallet android arm64-v8a)
-      - uses: actions/download-artifact@v4
-        with:
-          name: veil-wallet android-arm64-v8a
-          path: './veil-wallet android'
-      - run: |
-          mv './veil-wallet android/app-arm64-v8a-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_2 }}.apk'
-      # 3) artifact (veil-wallet android x86_64)
-      - uses: actions/download-artifact@v4
-        with:
-          name: veil-wallet android-x86_64
-          path: './veil-wallet android'
-      - run: |
-          mv './veil-wallet android/app-x86_64-release.apk' './veil-wallet-fdroid-${{ steps.version.outputs.VERCODE_3 }}.apk'
       # upload release
       - uses: ncipollo/release-action@v1
         with:
