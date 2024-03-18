@@ -53,6 +53,12 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
+
+        project.android.applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                output.versionCodeOverride = flutterVersionCode.toInteger()
+            }
+        }
     }
 
     signingConfigs {
