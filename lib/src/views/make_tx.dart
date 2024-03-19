@@ -773,6 +773,12 @@ class _MakeTxState extends State<MakeTx> {
         ));
 
     return PopScope(
+        canPop: false,
+        onPopInvoked: (invoked) {
+          if (useVerticalBar) return;
+
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+        },
         child: useVerticalBar
             ? MainLayout(
                 overrideTitle:

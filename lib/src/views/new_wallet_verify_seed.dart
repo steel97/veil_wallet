@@ -28,11 +28,17 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
+        canPop: false,
+        onPopInvoked: (invoked) {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.verifySeedPhraseTitle,
-            back: _createLoading ? null : () {
-              Navigator.of(context).push(_createBackRoute());
-            },
+            back: _createLoading
+                ? null
+                : () {
+                    Navigator.of(context).push(_createBackRoute());
+                  },
             child: Form(
                 key: _formKey,
                 child: Container(
@@ -120,7 +126,8 @@ class _NewWalletVerifySeedState extends State<NewWalletVerifySeed> {
                                 }
 
                                 // move to biometrics if not opened from settings
-                                final bool canAuthenticate = await checkBiometricsSupport();
+                                final bool canAuthenticate =
+                                    await checkBiometricsSupport();
                                 if (BaseStaticState.prevScreen ==
                                         Screen.settings ||
                                     !canAuthenticate) {

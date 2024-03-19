@@ -130,6 +130,9 @@ class _WalletAdvancedState extends State<WalletAdvanced> {
 
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.walletAdvancedTitle,
             back: () {

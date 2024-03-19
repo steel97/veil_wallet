@@ -11,6 +11,9 @@ class Legal extends StatelessWidget {
   Widget build(BuildContext context) {
     var legalFeature = rootBundle.loadString('assets/res/legal.txt');
     return PopScope(
+        onPopInvoked: (invoked) {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.legalTitle,
             back: () {

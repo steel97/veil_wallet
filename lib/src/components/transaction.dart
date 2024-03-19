@@ -3,8 +3,8 @@ import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/core.dart';
 //import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/transactions.dart';
 import 'package:veil_wallet/src/states/provider/wallet_state.dart';
@@ -111,9 +111,7 @@ class Transaction extends StatelessWidget {
                   try {
                     var url = Uri.parse(BaseStaticState.txExplorerAddress
                         .replaceAll('{txid}', txid));
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url);
-                    }
+                    await launchUrlWrapped(url);
                   } catch (e) {}
                 },
                 child: Card(

@@ -245,6 +245,11 @@ class _AddressBookState extends State<AddressBook> {
 
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          if (useVerticalBar) return;
+
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+        },
         child: useVerticalBar
             ? MainLayout(
                 overrideTitle: AppLocalizations.of(context)?.addressBookTitle,

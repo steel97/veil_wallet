@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,6 +11,7 @@ import 'package:veil_wallet/src/core/func_checker.dart';
 import 'package:veil_wallet/src/core/locale_entry.dart';
 import 'package:veil_wallet/src/core/node_entry.dart';
 import 'package:veil_wallet/src/core/screen.dart';
+import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
@@ -120,7 +123,6 @@ class _SettingsState extends State<Settings> {
                           BaseStaticState.biometricsActive = false;
                         });
                       }
-                      // ignore: empty_catches
                     } on PlatformException {}
                   },
                   icon: const Icon(Icons.fingerprint_rounded),
@@ -279,7 +281,7 @@ class _SettingsState extends State<Settings> {
           child: TextFormField(
             validator: (value) {
               try {
-                var t = double.parse(value ?? '');
+                var _ = double.parse(value ?? '');
                 return null;
               } catch (e) {}
               return '';
@@ -348,6 +350,9 @@ class _SettingsState extends State<Settings> {
 
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.settingsTitle,
             back: () {
@@ -836,6 +841,8 @@ class _SettingsState extends State<Settings> {
                                             BaseStaticState.useMinimumUTXOs
                                                 .toString()));
 
+                                    WalletBgTasks
+                                        .fetchConversionRateIfPossible();
                                     WalletHelper.loadConversionRate();
 
                                     /*WidgetsBinding.instance

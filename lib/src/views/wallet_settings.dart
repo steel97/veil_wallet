@@ -329,6 +329,12 @@ class _WalletSettingsState extends State<WalletSettings> {
 
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          if (useVerticalBar) return;
+
+          _resetState();
+          Navigator.of(context).push(_createBackRoute(useVerticalBar));
+        },
         child: useVerticalBar
             ? MainLayout(
                 overrideTitle:

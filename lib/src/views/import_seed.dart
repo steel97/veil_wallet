@@ -46,11 +46,16 @@ class _ImportSeedState extends State<ImportSeed> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          _backAction();
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.importSeedTitle,
-            back: _importLoading ? null : () {
-              _backAction();
-            },
+            back: _importLoading
+                ? null
+                : () {
+                    _backAction();
+                  },
             child: Form(
                 key: _formKey,
                 child: Container(
@@ -174,7 +179,8 @@ class _ImportSeedState extends State<ImportSeed> {
                                       .add(element.text.toLowerCase().trim());
                                 }
 
-                                final bool canAuthenticate = await checkBiometricsSupport();
+                                final bool canAuthenticate =
+                                    await checkBiometricsSupport();
                                 if (BaseStaticState.prevScreen ==
                                         Screen.settings ||
                                     !canAuthenticate) {

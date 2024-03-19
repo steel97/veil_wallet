@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/core.dart';
 import 'package:veil_wallet/src/helpers/responsive.dart';
 import 'package:veil_wallet/src/views/make_tx.dart';
 import 'package:veil_wallet/src/views/receive_coins.dart';
@@ -29,9 +29,7 @@ class CoinControlWidget extends StatelessWidget {
               } else if (value == 2) {
                 try {
                   var url = Uri.parse(buyCryptoLink);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  }
+                  await launchUrlWrapped(url);
                   // ignore: empty_catches
                 } catch (e) {}
               }

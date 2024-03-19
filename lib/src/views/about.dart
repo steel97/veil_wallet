@@ -1,10 +1,12 @@
+// ignore_for_file: empty_catches
+
 import 'package:extended_text/extended_text.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/core.dart';
 import 'package:veil_wallet/src/layouts/mobile/back_layout.dart';
 import 'package:veil_wallet/src/views/legal.dart';
 import 'package:veil_wallet/src/views/settings.dart';
@@ -16,6 +18,9 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     var packageInfo = PackageInfo.fromPlatform();
     return PopScope(
+        onPopInvoked: (invoked) {
+          Navigator.of(context).push(_createBackRoute());
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.aboutTitle,
             back: () {
@@ -40,10 +45,7 @@ class About extends StatelessWidget {
                         onPressed: () async {
                           try {
                             var url = Uri.parse(sourceCodeUrl);
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            }
-                            // ignore: empty_catches
+                            await launchUrlWrapped(url);
                           } catch (e) {}
                         },
                         child: const Text(
@@ -106,9 +108,7 @@ class About extends StatelessWidget {
                         onPressed: () async {
                           try {
                             var url = Uri.parse(discordAddress);
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            }
+                            await launchUrlWrapped(url);
                           } catch (e) {}
                         },
                         icon: const Icon(Icons.discord_outlined),

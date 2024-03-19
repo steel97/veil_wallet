@@ -43,6 +43,9 @@ class _ScanQRState extends State<ScanQR> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          _backAction();
+        },
         child: BackLayout(
           title: AppLocalizations.of(context)?.scanQRTitle,
           back: () {

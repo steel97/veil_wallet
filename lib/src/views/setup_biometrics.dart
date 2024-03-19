@@ -38,6 +38,9 @@ class _SetupBiometricsState extends State<SetupBiometrics> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          _backAction();
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.biometricsTitle,
             back: () async {

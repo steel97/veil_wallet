@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:veil_wallet/src/components/balance_widget.dart';
 import 'package:veil_wallet/src/components/coin_control_widget.dart';
 import 'package:veil_wallet/src/core/constants.dart';
+import 'package:veil_wallet/src/core/core.dart';
 import 'package:veil_wallet/src/core/screen.dart';
 import 'package:veil_wallet/src/core/wallet_bg_tasks.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';
@@ -358,17 +358,13 @@ class _MainLayoutState extends State<MainLayout> {
     } else if (index - baseActionsOffset == 1) {
       try {
         var url = Uri.parse(BaseStaticState.explorerAddress);
-        if (await canLaunchUrl(url)) {
-          await launchUrl(url);
-        }
+        await launchUrlWrapped(url);
       } catch (e) {}
     } else if (index - baseActionsOffset == 0) {
       //_scanQRRoute();
       try {
         var url = Uri.parse(websiteAddress);
-        if (await canLaunchUrl(url)) {
-          await launchUrl(url);
-        }
+        await launchUrlWrapped(url);
       } catch (e) {}
     } else if (index - baseActionsOffset == 2) {
       BaseStaticState.prevScreen = Screen.home;

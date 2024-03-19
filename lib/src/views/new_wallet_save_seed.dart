@@ -30,6 +30,9 @@ class _NewWalletSaveSeedState extends State<NewWalletSaveSeed> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
+        onPopInvoked: (invoked) {
+          _backAction();
+        },
         child: BackLayout(
             title: AppLocalizations.of(context)?.saveSeedPhraseTitle,
             back: () {

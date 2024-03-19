@@ -1,0 +1,3 @@
+- added ability to change conversion API url
+- added ability to set conversion rate manually
+- back button support on Android
