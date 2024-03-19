@@ -227,8 +227,14 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
           cd "${{ env.build_dir }}"
+          flutter_vercode=$(grep -Po 'version:\s.+\+(\d+)|.|version:\s(.+)\+' pubspec.yaml | grep -Po '(?<=\+)\d+' | awk '{print $1}')
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
-          submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons --split-per-abi
+          abiver=$(($flutter_vercode * 10 + 1))
+          submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons --split-per-abi --target-platform="android-arm" --build-number=$abiver
+          abiver=$(($flutter_vercode * 10 + 2))
+          submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons --split-per-abi --target-platform="android-arm64" --build-number=$abiver
+          abiver=$(($flutter_vercode * 10 + 3))
+          submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons --split-per-abi --target-platform="android-x64" --build-number=$abiver
       - name: Build executable (debug)
         if: ${{ steps.key-check.outputs.available != 'true' }}
         run: |
