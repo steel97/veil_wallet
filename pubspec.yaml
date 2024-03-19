@@ -1,7 +1,7 @@
 name: veil_wallet
 description: Veil light wallet made with flutter
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.18+24
+version: 1.0.19+25
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
