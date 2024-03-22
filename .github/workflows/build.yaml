@@ -46,7 +46,7 @@ jobs:
 
   linux:
     name: linux x86_64
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: linux
     env:
       build_package_name: veil-wallet linux-x86_64
@@ -167,7 +167,7 @@ jobs:
 
   android:
     name: android
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     environment: android
     env:
       build_package_name: veil-wallet android
@@ -193,6 +193,20 @@ jobs:
           git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
+          gcc --version
+          sudo update-alternatives --remove-all gcc
+          sudo update-alternatives --remove-all g++          
+          sudo apt update
+          sudo apt install --install gcc-12
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 20
+          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+          sudo update-alternatives --set cc /usr/bin/gcc
+          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+          sudo update-alternatives --set c++ /usr/bin/g++
+          gcc --version
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
