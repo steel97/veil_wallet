@@ -196,6 +196,7 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_SHA: ${{ github.sha }}
         run: |
+          sudo mkdir -p "${{ github.workspace }}"
           sudo mkdir -p "${{ env.build_dir }}"
           git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir }}"
           cd "${{ env.build_dir }}"
