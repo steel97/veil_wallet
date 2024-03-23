@@ -178,8 +178,9 @@ jobs:
     steps:
       - name: Prepare image
         run: |
-          apt-get update
-          apt-get -y install sudo
+          apt update
+          apt -y install sudo
+          sudo apt install -y gcc libc-dev
           sudo apt install -y curl
           sudo apt install -y git
           sudo apt install -y unzip
