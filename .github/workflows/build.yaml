@@ -201,6 +201,7 @@ jobs:
           git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir }}"
           cd "${{ env.build_dir }}"
           git checkout "$GITHUB_SHA"
+      - uses: android-actions/setup-android@v3
       - name: Install dependencies
         run: |
           cd "${{ env.build_dir }}"
