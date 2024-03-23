@@ -251,6 +251,9 @@ jobs:
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
+          export PATH=~/glibc/glibc-2.36-install/bin:$PATH
+          export PATH=~/glibc/glibc-2.36-install/lib:$PATH
+          export LD_LIBRARY_PATH=~/glibc/glibc-2.36-install/bin
           cd "${{ env.build_dir }}"
           flutter_vercode=$(grep -Po 'version:\s.+\+(\d+)|.|version:\s(.+)\+' pubspec.yaml | grep -Po '(?<=\+)\d+' | awk '{print $1}')
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
