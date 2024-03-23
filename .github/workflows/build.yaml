@@ -204,6 +204,7 @@ jobs:
       - uses: android-actions/setup-android@v3
       - name: Install dependencies
         run: |
+          ln -s /github/home/.android/sdk/cmdline-tools/11.0 /github/home/.android/sdk/cmdline-tools/latest
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
