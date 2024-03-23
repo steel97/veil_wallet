@@ -193,8 +193,7 @@ jobs:
           git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
-          gcc --version
-          sudo update-alternatives --remove-all g++          
+          gcc --version   
           sudo apt update
           sudo apt install --install gcc-12
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
