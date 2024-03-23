@@ -195,8 +195,8 @@ jobs:
         run: |
           gcc --version   
           sudo apt update
-          sudo apt install gcc-12
-          sudo apt install libstdc++-12-dev
+          sudo apt remove -y gcc-11
+          sudo apt install -y gcc-12          
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
@@ -206,18 +206,6 @@ jobs:
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
           sudo update-alternatives --set c++ /usr/bin/g++
           gcc --version
-          mkdir $HOME/glibc/ && cd $HOME/glibc
-          wget http://ftp.gnu.org/gnu/libc/glibc-2.36.tar.gz
-          tar -xvzf glibc-2.36.tar.gz
-          mkdir build
-          mkdir glibc-2.36-install
-          cd build
-          ~/glibc/glibc-2.36/configure --prefix=$HOME/glibc/glibc-2.36-install
-          make
-          make install
-          export PATH=~/glibc/glibc-2.36-install/bin:$PATH
-          export PATH=~/glibc/glibc-2.36-install/lib:$PATH
-
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
@@ -251,9 +239,6 @@ jobs:
       - name: Build executable
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
-          export PATH=~/glibc/glibc-2.36-install/bin:$PATH
-          export PATH=~/glibc/glibc-2.36-install/lib:$PATH
-          export LD_LIBRARY_PATH=~/glibc/glibc-2.36-install/bin
           cd "${{ env.build_dir }}"
           flutter_vercode=$(grep -Po 'version:\s.+\+(\d+)|.|version:\s(.+)\+' pubspec.yaml | grep -Po '(?<=\+)\d+' | awk '{print $1}')
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
