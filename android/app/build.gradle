@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "org.veilproject.wallet"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion 26.2.11394342
+    ndkVersion '26.2.11394342'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
