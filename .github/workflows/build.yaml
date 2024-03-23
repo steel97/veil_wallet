@@ -180,7 +180,8 @@ jobs:
         run: |
           apt-get update
           apt-get -y install sudo
-          sudo apt install -y curl          
+          sudo apt install -y curl
+          sudo apt install -y git
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
