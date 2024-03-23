@@ -197,6 +197,12 @@ jobs:
           sudo apt update
           sudo apt remove -y gcc-11
           sudo apt install -y gcc-12
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 20
+          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+          sudo update-alternatives --set cc /usr/bin/gcc
+          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+          sudo update-alternatives --set c++ /usr/bin/g++
           gcc --version
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
