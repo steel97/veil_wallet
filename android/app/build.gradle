@@ -46,6 +46,10 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    packagingOptions {
+        doNotStrip '**/*.so'
+    }
+
     defaultConfig {
         applicationId "org.veilproject.wallet"
         minSdkVersion 23
