@@ -195,7 +195,6 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: |
           sudo mkdir -p "${{ env.build_dir }}"
-          sudo chown runner "${{ env.build_dir }}"
           git clone --recurse-submodules "https://github.com/$GITHUB_REPOSITORY.git" "${{ env.build_dir }}"
           cd "${{ env.build_dir }}"
           git checkout "$GITHUB_SHA"
