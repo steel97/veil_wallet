@@ -52,7 +52,7 @@ android {
 
     defaultConfig {
         applicationId "org.veilproject.wallet"
-        minSdkVersion 23
+        ndkVersion 26
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

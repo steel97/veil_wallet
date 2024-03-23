@@ -228,7 +228,6 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
           cd "${{ env.build_dir }}"
-          export CARGOKIT_NDK_VERSION=26.2.11394342
           flutter_vercode=$(grep -Po 'version:\s.+\+(\d+)|.|version:\s(.+)\+' pubspec.yaml | grep -Po '(?<=\+)\d+' | awk '{print $1}')
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
           abiver=$(($flutter_vercode * 10 + 1))
