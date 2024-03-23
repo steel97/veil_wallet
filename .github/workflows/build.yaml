@@ -176,6 +176,10 @@ jobs:
       build_dir: /home/vagrant/build/org.veilproject.wallet
       CARGO_HOME: "/home/vagrant/.cargo"
     steps:
+      - name: Prepare image
+        run: |
+          sudo apt update
+          sudo apt install curl          
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -196,7 +200,6 @@ jobs:
           git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
-          sudo apt update
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
