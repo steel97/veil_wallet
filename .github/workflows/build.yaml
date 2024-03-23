@@ -178,8 +178,9 @@ jobs:
     steps:
       - name: Prepare image
         run: |
-          sudo apt update
-          sudo apt install curl          
+          apt-get update
+          apt-get -y install sudo
+          sudo apt install -y curl          
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
