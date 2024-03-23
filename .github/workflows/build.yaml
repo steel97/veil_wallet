@@ -193,17 +193,7 @@ jobs:
           git checkout "$GITHUB_SHA"
       - name: Install dependencies
         run: |
-          gcc --version   
           sudo apt update
-          sudo apt remove -y gcc-11
-          sudo apt install -y gcc-12
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 20
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
-          sudo update-alternatives --set cc /usr/bin/gcc
-          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
-          sudo update-alternatives --set c++ /usr/bin/g++
-          gcc --version
           cd "${{ env.build_dir }}"
           export PUB_CACHE=$(pwd)/.pub-cache
           submodules/flutter/bin/flutter config --no-analytics
@@ -238,6 +228,7 @@ jobs:
         if: ${{ steps.key-check.outputs.available == 'true' }}
         run: |
           cd "${{ env.build_dir }}"
+          export CARGOKIT_NDK_VERSION=26.2.11394342
           flutter_vercode=$(grep -Po 'version:\s.+\+(\d+)|.|version:\s(.+)\+' pubspec.yaml | grep -Po '(?<=\+)\d+' | awk '{print $1}')
           submodules/flutter/bin/flutter build apk --release --no-tree-shake-icons
           abiver=$(($flutter_vercode * 10 + 1))
