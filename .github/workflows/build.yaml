@@ -182,6 +182,7 @@ jobs:
           apt-get -y install sudo
           sudo apt install -y curl
           sudo apt install -y git
+          sudo apt install -y unzip
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
