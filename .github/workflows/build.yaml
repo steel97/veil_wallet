@@ -195,7 +195,7 @@ jobs:
         run: |
           gcc --version   
           sudo apt update
-          sudo apt install --install gcc-12
+          sudo apt install gcc-12
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 10
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 20
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 10
