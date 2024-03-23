@@ -194,7 +194,6 @@ jobs:
       - name: Install dependencies
         run: |
           gcc --version
-          sudo update-alternatives --remove-all gcc
           sudo update-alternatives --remove-all g++          
           sudo apt update
           sudo apt install --install gcc-12
