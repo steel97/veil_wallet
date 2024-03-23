@@ -168,6 +168,8 @@ jobs:
   android:
     name: android
     runs-on: ubuntu-22.04
+    container:
+      image: debian:bookworm
     environment: android
     env:
       build_package_name: veil-wallet android
