@@ -29,7 +29,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
-          targets: 'armv7-linux-androideabi,aarch64-linux-android,x86_64-linux-android'
       - uses: subosito/flutter-action@v2.12.0
         with:
           channel: stable
@@ -182,6 +181,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
+          targets: armv7-linux-androideabi,aarch64-linux-android,x86_64-linux-android
       - name: Checkout
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
