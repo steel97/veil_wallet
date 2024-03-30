@@ -7,7 +7,10 @@ A crossplatform veil light wallet written with dart/flutter.<br>
 
 
 ## Getting Started
-[![Get Veil Wallet on Google Play](docs/images/google-play-badge_downscale.png)](https://play.google.com/store/apps/details?id=org.veilproject.wallet)
+<p style="text-align: center;">
+<a href="https://play.google.com/store/apps/details?id=org.veilproject.wallet"><img src="docs/images/google-play-badge_downscale.png" height="75" alt="Get Veil Wallet on Google Play"></a>
+<a href="https://f-droid.org/packages/org.veilproject.wallet/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="75" alt=""></a>
+</p>
 
 Releases for other platforms can be found [here](https://github.com/steel97/veil_wallet/releases/)
 
