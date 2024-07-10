@@ -30,7 +30,7 @@ const defaultWalletName = 'Default';
 const defaultNodeAddress = 'https://explorer-api.veil-project.com';
 const defaultExplorerAddress = 'https://explorer.veil-project.com';
 const defaultTxExplorerAddress = 'https://explorer.veil-project.com/tx/{txid}';
-const defaultConversionApiUrl = 'https://veil.tools/api/getprice';
+const defaultConversionApiUrl = 'https://veilproject.org/api/getprice';
 
 const hiddenBalanceMask = '******';
 

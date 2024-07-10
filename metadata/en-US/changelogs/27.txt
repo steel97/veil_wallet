@@ -1,0 +1,2 @@
+- changed default price api url to veilproject.org
+- updated dependencies
