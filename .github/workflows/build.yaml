@@ -31,6 +31,7 @@ jobs:
           toolchain: 1.76.0
       - name: Install dependencies
         run: |
+          git pull --recurse-submodules
           submodules/flutter/bin/flutter config --no-analytics
           submodules/flutter/bin/flutter config --enable-windows-desktop
           submodules/flutter/bin/flutter pub get
@@ -64,7 +65,7 @@ jobs:
           submodules/flutter/bin/flutter config --enable-linux-desktop
           submodules/flutter/bin/flutter pub get
       - name: Build executable
-        run: flutter build linux --release
+        run: submodules/flutter/bin/flutter build linux --release
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
@@ -83,21 +84,17 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          architecture: x64
-          cache: false
       - name: Install dependencies
         run: |
-          flutter config --no-analytics
-          flutter config --enable-macos-desktop          
-          flutter pub cache clean
-          flutter pub get
+          git pull --recurse-submodules
+          submodules/flutter/bin/flutter config --no-analytics
+          submodules/flutter/bin/flutter config --enable-macos-desktop          
+          submodules/flutter/bin/flutter pub cache clean
+          submodules/flutter/bin/flutter pub get
       - name: Build executable
         run: |
-          flutter clean
-          flutter build macos
+          submodules/flutter/bin/flutter clean
+          submodules/flutter/bin/flutter build macos
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
@@ -116,18 +113,15 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          architecture: x64
       - name: Install dependencies
         run: |
+          git pull --recurse-submodules
           brew install ldid
-          flutter config --no-analytics
-          flutter pub get
+          submodules/flutter/bin/flutter config --no-analytics
+          submodules/flutter/bin/flutter pub get
       - name: Build executable
         run: |
-          flutter build ios --release --no-codesign
+          submodules/flutter/bin/flutter build ios --release --no-codesign
           cd ios
           xcodebuild \
           -workspace Runner.xcworkspace \
