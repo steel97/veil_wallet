@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           submodules/flutter/bin/flutter config --no-analytics
-          submodules/flutter/bin/flutter --enable-windows-desktop
+          submodules/flutter/bin/flutter config --enable-windows-desktop
           submodules/flutter/bin/flutter pub get
       - name: Build executable
         run: submodules/flutter/bin/flutter build windows --release
@@ -58,7 +58,10 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
+          submodules/flutter/bin/flutter --version
+          git pull --recurse-submodules
           export PUB_CACHE=$(pwd)/.pub-cache
+          submodules/flutter/bin/flutter --version
           submodules/flutter/bin/flutter config --no-analytics
           submodules/flutter/bin/flutter config --enable-linux-desktop
           submodules/flutter/bin/flutter pub get
