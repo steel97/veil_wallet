@@ -61,9 +61,10 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake
-          flutter config --no-analytics
-          flutter config --enable-linux-desktop
-          flutter pub get
+          export PUB_CACHE=$(pwd)/.pub-cache
+          submodules/flutter/bin/flutter config --no-analytics
+          submodules/flutter/bin/flutter config --enable-linux-desktop
+          submodules/flutter/bin/flutter pub get
       - name: Build executable
         run: flutter build linux --release
       - uses: actions/upload-artifact@v4
