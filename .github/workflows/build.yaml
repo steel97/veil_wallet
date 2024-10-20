@@ -54,9 +54,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
       - name: Install dependencies
         run: |
           sudo apt update -y
