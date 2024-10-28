@@ -228,10 +228,10 @@ class _ImportSeedState extends State<ImportSeed> {
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: [
-                                                          Text(AppLocalizations
+                                                          Text((AppLocalizations
                                                                       .of(context)
                                                                   ?.nodeFailedAlertDescription ??
-                                                              stringNotFoundText)
+                                                              stringNotFoundText) + e.toString())
                                                         ])),
                                                 actions: [
                                                   TextButton(
