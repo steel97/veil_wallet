@@ -102,7 +102,8 @@ jobs:
       - name: Build dmg
         run: |
           submodules/flutter/bin/dart pub global activate flutter_distributor
-          submodules/flutter/bin/dart run flutter_distributor package --platform macos --targets dmg
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+          flutter_distributor package --platform macos --targets dmg
           ls ./dist
       - uses: actions/upload-artifact@v4
         with:
