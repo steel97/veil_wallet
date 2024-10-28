@@ -65,11 +65,32 @@ jobs:
           submodules/flutter/bin/flutter config --enable-linux-desktop
           submodules/flutter/bin/flutter pub get
       - name: Build executable
-        run: submodules/flutter/bin/flutter build linux --release
+        run: |
+          submodules/flutter/bin/dart pub global activate flutter_distributor
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+          export PATH="$PATH":"./submodules/flutter/bin"
+          flutter_distributor package --platform linux --targets appimage
+          flutter_distributor package --platform linux --targets deb --skip-clean true
+          flutter_distributor package --platform linux --targets rpm --skip-clean true
+          find "./dist" -iregex ".*\.appimage" -exec cp {} veil-wallet.appimage \;
+          find "./dist" -iregex ".*\.deb" -exec cp {} veil-wallet.deb \;
+          find "./dist" -iregex ".*\.rpm" -exec cp {} veil-wallet.rpm \;
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: 'build/linux/x64/release/bundle/'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build_package_name }} appimage
+          path: veil-wallet.appimage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build_package_name }} deb
+          path: veil-wallet.deb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build_package_name }} rpm
+          path: veil-wallet.rpm
 
   macos:
     name: macos universal

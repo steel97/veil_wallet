@@ -1,0 +1,18 @@
+display_name: Veil Wallet
+
+icon: assets/images/icons/logo_linux.png
+
+keywords:
+  - Veil
+  - Cryptocurrency
+  - Finance
+  - Application
+
+generic_name: Cryptocurrency Wallet
+
+categories:
+  - Finance
+
+startup_notify: true
+
+include: []

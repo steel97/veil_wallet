@@ -1,0 +1,23 @@
+icon: assets/images/icons/logo_linux.png
+summary: Privacy focused VEIL coin crypto wallet
+vendor: Ivan Yurkov
+packager: Ivan Yurkov
+packagerEmail: ivan.yurkov@steel-team.net
+license: MIT
+url: https://github.com/steel97/veil_wallet
+
+display_name: Veil Wallet
+
+keywords:
+  - Veil
+  - Cryptocurrency
+  - Finance
+  - Application
+
+generic_name: Cryptocurrency Wallet
+
+categories:
+  - Finance
+
+startup_notify: true
+

@@ -1,0 +1,28 @@
+display_name: Veil Wallet
+package_name: veil-wallet
+maintainer:
+  name: Ivan Yurkov
+  email: ivan.yurkov@steel-team.net
+priority: optional
+section: x11
+installed_size: 27618304
+essential: false
+icon: assets/images/icons/logo_linux.png
+
+postinstall_scripts:
+  - echo "Installed Veil Wallet"
+postuninstall_scripts:
+  - echo "Uninstalled Veil Wallet"
+
+keywords:
+  - Veil
+  - Cryptocurrency
+  - Finance
+  - Application
+
+generic_name: Cryptocurrency Wallet
+
+categories:
+  - Finance
+
+startup_notify: true
