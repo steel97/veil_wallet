@@ -103,6 +103,7 @@ jobs:
         run: |
           submodules/flutter/bin/dart pub global activate flutter_distributor
           export PATH="$PATH":"$HOME/.pub-cache/bin"
+          export PATH="$PATH":"./submodules/flutter/bin"
           flutter_distributor package --platform macos --targets dmg
           ls ./dist
       - uses: actions/upload-artifact@v4
