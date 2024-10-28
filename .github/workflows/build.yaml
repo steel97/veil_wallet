@@ -59,7 +59,7 @@ jobs:
         run: |
           git pull --recurse-submodules
           sudo apt update -y
-          sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake locate rpm patchelf
+          sudo apt install libsecret-1-dev clang pkg-config ninja-build libgtk-3-dev cmake locate libfuse2 rpm patchelf
           wget -O appimagetool "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           chmod +x appimagetool
           mv appimagetool /usr/local/bin/
