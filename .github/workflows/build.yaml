@@ -101,7 +101,7 @@ jobs:
           submodules/flutter/bin/flutter build macos
       - name: Build dmg
         run: |
-          dart run flutter_distributor package --platform macos --targets dmg
+          submodules/flutter/bin/dart run flutter_distributor package --platform macos --targets dmg
           ls ./dist
       - uses: actions/upload-artifact@v4
         with:
