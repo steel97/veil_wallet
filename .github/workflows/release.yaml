@@ -28,22 +28,45 @@ jobs:
         with:
           name: veil-wallet win-x86_64
           path: './veil-wallet win-x86_64'
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet win-x86_64 setup
+          path: './'
       - run: |
           rm -rf 'veil-wallet (win-x86_64).zip'
           zip -r 'veil-wallet (win-x86_64).zip' './veil-wallet win-x86_64'
+          rm -rf './veil-wallet win-x86_64/'
+          mv './veil-wallet-setup.exe' './veil-wallet.win-x86_64-setup.exe'
       # 2) artifact (veil-wallet linux-x86_64)
       - uses: actions/download-artifact@v4
         with:
           name: veil-wallet linux-x86_64
           path: './veil-wallet linux-x86_64'
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet linux-x86_64 appimage
+          path: './'
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet linux-x86_64 deb
+          path: './'
+      - uses: actions/download-artifact@v4
+        with:
+          name: veil-wallet linux-x86_64 rpm
+          path: './'
       - run: |
           rm -rf 'veil-wallet (linux-x86_64).zip'
           zip -r 'veil-wallet (linux-x86_64).zip' './veil-wallet linux-x86_64'
+          mv './veil-wallet.appimage' './veil-wallet.linux-x86_64.appimage'
+          mv './veil-wallet.deb' './veil-wallet.linux-x86_64.deb'
+          mv './veil-wallet.rpm' './veil-wallet.linux-x86_64.rpm'
       # 3) artifact (veil-wallet macos-universal)
       - uses: actions/download-artifact@v4
         with:
           name: veil-wallet macos-universal dmg
           path: './'
+      - run: |
+          mv './veil-wallet.dmg' './veil-wallet.macos-universal.dmg'
       # 4) artifact (veil-wallet ios)
       - uses: actions/download-artifact@v4
         with:
@@ -90,4 +113,4 @@ jobs:
           draft: '${{ inputs.draft }}'
           name: 'Veil Wallet ${{ inputs.tag }}'
           removeArtifacts: true
-          artifacts: '*.zip,*.apk,*.ipa,*.dmg,*.deb,*.rpm,*.exe'
+          artifacts: '*.zip,*.apk,*.ipa,*.dmg,*.appimage,*.deb,*.rpm,*.exe'

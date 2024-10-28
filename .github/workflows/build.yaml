@@ -36,11 +36,22 @@ jobs:
           submodules/flutter/bin/flutter config --enable-windows-desktop
           submodules/flutter/bin/flutter pub get
       - name: Build executable
-        run: submodules/flutter/bin/flutter build windows --release
+        run: |
+          submodules/flutter/bin/dart pub global activate flutter_distributor
+          export PATH="$PATH":"$HOME/.pub-cache/bin"
+          export PATH="$PATH":"./submodules/flutter/bin"
+          flutter_distributor package --platform windows --targets exe
+          Get-ChildItem -Path './dist' -Recurse -Filter '*.exe' | 
+          Where-Object { $_.Name -match '.*\.exe' } | 
+          ForEach-Object { Copy-Item $_.FullName -Destination 'veil-wallet-setup.exe' }
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
           path: build/windows/x64/runner/Release/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build_package_name }} setup
+          path: veil-wallet-setup.exe
 
   linux:
     name: linux x86_64
@@ -72,9 +83,7 @@ jobs:
           submodules/flutter/bin/dart pub global activate flutter_distributor
           export PATH="$PATH":"$HOME/.pub-cache/bin"
           export PATH="$PATH":"./submodules/flutter/bin"
-          flutter_distributor package --platform linux --targets appimage
-          flutter_distributor package --platform linux --targets deb --skip-clean true
-          flutter_distributor package --platform linux --targets rpm --skip-clean true
+          flutter_distributor package --platform linux --targets appimage,deb,rpm
           find "./dist" -iregex ".*\.appimage" -exec cp {} veil-wallet.appimage \;
           find "./dist" -iregex ".*\.deb" -exec cp {} veil-wallet.deb \;
           find "./dist" -iregex ".*\.rpm" -exec cp {} veil-wallet.rpm \;

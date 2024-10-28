@@ -1,0 +1,10 @@
+app_id: 73655643-E26D-4C88-984F-E6AD5C0169AC
+publisher: Ivan Yurkov
+publisher_url: https://veilproject.org
+display_name: Veil Wallet
+create_desktop_icon: true
+# See: https://jrsoftware.org/ishelp/index.php?topic=setup_defaultdirname
+install_dir_name: "{autopf}\\Veil Wallet"
+locales:
+  - en
+  - ru
