@@ -101,7 +101,7 @@ jobs:
           export PATH="$PATH":"$HOME/.pub-cache/bin"
           export PATH="$PATH":"./submodules/flutter/bin"
           flutter_distributor package --platform macos --targets dmg
-          ls ./dist
+          find "./dist" -iregex ".*\.dmg" -exec cp {} veil-wallet.dmg \;
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
@@ -109,7 +109,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }} dmg
-          path: dist/**/veil_wallet-*-macos.dmg
+          path: veil-wallet.dmg
 
   ios:
     name: ios

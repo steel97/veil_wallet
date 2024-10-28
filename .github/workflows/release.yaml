@@ -42,11 +42,8 @@ jobs:
       # 3) artifact (veil-wallet macos-universal)
       - uses: actions/download-artifact@v4
         with:
-          name: veil-wallet macos-universal
-          path: './veil-wallet.app'
-      - run: |
-          rm -rf 'veil-wallet (macos-universal).zip'
-          zip -r 'veil-wallet (macos-universal).zip' './veil-wallet.app'
+          name: veil-wallet macos-universal dmg
+          path: './'
       # 4) artifact (veil-wallet ios)
       - uses: actions/download-artifact@v4
         with:
@@ -93,4 +90,4 @@ jobs:
           draft: '${{ inputs.draft }}'
           name: 'Veil Wallet ${{ inputs.tag }}'
           removeArtifacts: true
-          artifacts: '*.zip,*.apk,*.ipa'
+          artifacts: '*.zip,*.apk,*.ipa,*.dmg,*.deb,*.rpm,*.exe'
