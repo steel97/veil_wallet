@@ -95,10 +95,6 @@ jobs:
           submodules/flutter/bin/flutter config --enable-macos-desktop          
           submodules/flutter/bin/flutter pub cache clean
           submodules/flutter/bin/flutter pub get
-      - name: Build executable
-        run: |
-          submodules/flutter/bin/flutter clean
-          submodules/flutter/bin/flutter build macos
       - name: Build dmg
         run: |
           submodules/flutter/bin/dart pub global activate flutter_distributor
@@ -110,6 +106,10 @@ jobs:
         with:
           name: ${{ env.build_package_name }}
           path: build/macos/Build/Products/Release/veil-wallet.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build_package_name }} dmg
+          path: dist/**/veil_wallet-*-macos.dmg
 
   ios:
     name: ios
