@@ -179,6 +179,12 @@ class _ImportSeedState extends State<ImportSeed> {
                                       .add(element.text.toLowerCase().trim());
                                 }
 
+                                try {
+                                  await checkBiometricsSupport();
+                                } catch(cexc) {
+                                  return;
+                                }
+
                                 final bool canAuthenticate =
                                     await checkBiometricsSupport();
                                 if (BaseStaticState.prevScreen ==
