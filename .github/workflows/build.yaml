@@ -38,7 +38,7 @@ jobs:
       - name: Build executable
         run: |
           submodules/flutter/bin/dart pub global activate flutter_distributor
-          $env:PATH += ";$env:USERPROFILE\.pub-cache\bin"
+          $env:PATH += ";$env:LOCALAPPDATA\Pub\Cache\bin"
           $env:PATH += ";.\submodules\flutter\bin"
           flutter_distributor package --platform windows --targets exe
           Get-ChildItem -Path './dist' -Recurse -Filter '*.exe' | 
