@@ -84,8 +84,12 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: 1.76.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
       - name: Install dependencies
         run: |
+          npm install -g appdmg
           git pull --recurse-submodules
           submodules/flutter/bin/flutter config --no-analytics
           submodules/flutter/bin/flutter config --enable-macos-desktop          
@@ -95,6 +99,10 @@ jobs:
         run: |
           submodules/flutter/bin/flutter clean
           submodules/flutter/bin/flutter build macos
+      - name: Build dmg
+        run: |
+          flutter_distributor package --platform macos --targets dmg
+          ls ./dist
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.build_package_name }}
