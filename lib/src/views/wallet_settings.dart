@@ -1,6 +1,6 @@
 // ignore_for_file: empty_catches
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/generated/i18n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:veil_wallet/src/core/constants.dart';
 import 'package:veil_wallet/src/core/wallet_helper.dart';

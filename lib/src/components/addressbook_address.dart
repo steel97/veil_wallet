@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/generated/i18n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:veil_wallet/src/core/constants.dart';

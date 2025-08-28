@@ -1,7 +1,7 @@
 // ignore_for_file: empty_catches
 //import 'dart:developer';
 import 'dart:io';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:veil_wallet/src/generated/i18n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:veil_wallet/src/core/constants.dart';
