@@ -27,7 +27,9 @@ dependencies:
   pretty_qr_code: ^3.3.0
   screenshot: ^3.0.0
   share_plus: ^11.1.0
-  qr_code_scanner: ^1.0.1
+  qr_code_scanner:
+    git:
+      url: https://github.com/juliuscanute/qr_code_scanner.git
   http: ^1.2.2
   convert: ^3.1.2
   pointycastle: ^3.9.1

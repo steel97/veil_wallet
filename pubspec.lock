@@ -616,11 +616,12 @@ packages:
   qr_code_scanner:
     dependency: "direct main"
     description:
-      name: qr_code_scanner
-      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: "86b7ca33af56e1dab07179f3a3a03784310ed65c"
+      url: "https://github.com/juliuscanute/qr_code_scanner.git"
+    source: git
+    version: "1.0.0"
   screenshot:
     dependency: "direct main"
     description:
