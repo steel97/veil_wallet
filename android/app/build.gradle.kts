@@ -21,10 +21,11 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+	// ref: https://developer.android.com/studio/write/java8-support?hl=ru#kts
+	isCoreLibraryDesugaringEnabled = true
+	
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-	// ref: https://developer.android.com/studio/write/java8-support?hl=ru#kts
-	coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
