@@ -255,55 +255,55 @@
 	"@authenticateTitle": {
 		"description": "Authentication title"
 	},
-	"authenticateDescription": "To access wallet, please authenticate",
+	"authenticateDescription": "Um auf deine Wallet zuzugreifen, authentifiziere dich bitte.",
 	"@authenticateDescription": {
 		"description": "Authentication description"
 	},
-	"authenticateAction": "Authenticate",
+	"authenticateAction": "Authentifizieren",
 	"@authenticateAction": {
 		"description": "Authenticate action"
 	},
-	"biometricsReason": "Please authenticate to unlock wallet",
+	"biometricsReason": "Bitte authentifiziere dich, um deine Wallet zu entsperren.",
 	"@biometricsReason": {
 		"description": "Reason to use biometrics"
 	},
-	"biometricsSetupReason": "Please authenticate to setup biometrics",
+	"biometricsSetupReason": "Bitte authentifiziere dich, um die Biometrie einzurichten.",
 	"@biometricsSetupReason": {
 		"description": "Setup biometrics description"
 	},
-	"biometricsRemoveReason": "Please authenticate to remove biometrics",
+	"biometricsRemoveReason": "Bitte authentifiziere dich, um die Biometrie zu entfernen.",
 	"@biometricsRemoveReason": {
 		"description": "Remove biometrics description"
 	},
-	"settingsSaved": "Settings saved",
+	"settingsSaved": "Einstellungen gespeichert",
 	"@settingsSaved": {
 		"description": "Settings saved notification"
 	},
-	"removeBiometricsButton": "Remove biometrics",
+	"removeBiometricsButton": "Biometrie entfernen",
 	"@removeBiometricsButton": {
 		"description": "Settings screen remove biometrics action"
 	},
-	"loadingAppSemantics": "Loading Veil wallet",
+	"loadingAppSemantics": "Lade Veil Wallet",
 	"@loadingAppSemantics": {
 		"description": "Accesibility label for loader screen"
 	},
-	"shareTitle": "Receive coins",
+	"shareTitle": "Münzen empfangen",
 	"@shareTitle": {
 		"description": "Title text on receive coins screen"
 	},
-	"shareDescriptionText": "Use this QR code to receive coins",
+	"shareDescriptionText": "Verwende diesen QR-Code, um Münzen zu erhalten",
 	"@shareDescriptionText": {
 		"description": "Description text on receive coins screen"
 	},
-	"shareAction": "Share QR code",
+	"shareAction": "QR-Code teilen",
 	"@shareAction": {
 		"description": "Share action on receive coins screen"
 	},
-	"shareSubject": "My QR code to receive Veil coins",
+	"shareSubject": "Mein QR-Code zum Empfangen von Veil Münzen",
 	"@shareSubject": {
 		"description": "Share subject (used for e-mails)"
 	},
-	"shareText": "My Veil address: {address}",
+	"shareText": "Meine Veil Adresse: {address}",
 	"@shareText": {
 		"placeholders": {
 			"address": {
@@ -314,23 +314,23 @@
 		},
 		"description": "Share default text"
 	},
-	"newTransactionTitle": "New transaction",
+	"newTransactionTitle": "Neue Transaktion",
 	"@newTransactionTitle": {
 		"description": "Title text on new transaction screen"
 	},
-	"recipientAddress": "Recipient address:",
+	"recipientAddress": "Empfängeradresse:",
 	"@recipientAddress": {
 		"description": "Recipient address text on new transaction screen"
 	},
-	"recipientAddressHint": "Recipient address",
+	"recipientAddressHint": "Empfängeradresse",
 	"@recipientAddressHint": {
 		"description": "Recipient address hint on new transaction screen"
 	},
-	"sendAmount": "Send amount:",
+	"sendAmount": "Betrag senden:",
 	"@sendAmount": {
 		"description": "Send amount text on new transaction screen"
 	},
-	"sendAmountHint": "Available {amount} of {overall} veil",
+	"sendAmountHint": "{amount} von {overall} Veil verfügbar",
 	"@sendAmountHint": {
 		"placeholders": {
 			"amount": {
@@ -346,43 +346,43 @@
 		},
 		"description": "Send amount hint on new transaction screen"
 	},
-	"subtractFeeFromAmount": "Subtract fee from amount",
+	"subtractFeeFromAmount": "Gebühr vom Betrag abziehen",
 	"@subtractFeeFromAmount": {
 		"description": "Subtract fee from amount text on new transaction screen"
 	},
-	"availableText": "Available:",
+	"availableText": "Verfügbar:",
 	"@availableText": {
 		"description": "Available coins text on new transaction screen"
 	},
-	"sendCoinsNextAction": "Next",
+	"sendCoinsNextAction": "Weiter",
 	"@sendCoinsNextAction": {
 		"description": "Send coins next action on new transaction screen"
 	},
-	"makeTxVerifyInvalidAddress": "Address is invalid",
+	"makeTxVerifyInvalidAddress": "Adresse ist ungültig",
 	"@makeTxVerifyInvalidAddress": {
 		"description": "Make tx verification address"
 	},
-	"makeTxVerifyAmountCantBeEmpty": "Amount can't be empty",
+	"makeTxVerifyAmountCantBeEmpty": "Betrag kann nicht leer sein",
 	"@makeTxVerifyAmountCantBeEmpty": {
 		"description": "Make tx verification amount empty"
 	},
-	"makeTxVerifyAmountMustNotBeNegative": "Amount must be greater than zero",
+	"makeTxVerifyAmountMustNotBeNegative": "Betrag muss größer als Null sein",
 	"@makeTxVerifyAmountMustNotBeNegative": {
 		"description": "Make tx verification amount"
 	},
-	"makeTxVerifyAmountInvalid": "Amount is invalid",
+	"makeTxVerifyAmountInvalid": "Amount ist ungültig",
 	"@makeTxVerifyAmountInvalid": {
 		"description": "Make tx verification amount"
 	},
-	"makeTxVerifyAmountNotEnough": "Amount is greater than available",
+	"makeTxVerifyAmountNotEnough": "Der Betrag ist höher als der verfügbare Betrag",
 	"@makeTxVerifyAmountNotEnough": {
 		"description": "Make tx verification amount greater than available"
 	},
-	"transactionAlertTitle": "Transaction",
+	"transactionAlertTitle": "Transaktion",
 	"@transactionAlertTitle": {
 		"description": "Make tx transaction info or error alert title"
 	},
-	"transactionAlertErrorGeneric": "Error occured! Can't create transaction.",
+	"transactionAlertErrorGeneric": "Es ist ein Fehler aufgetreten! Die Transaktion konnte nicht erzeugt werden.",
 	"@transactionAlertErrorGeneric": {
 		"description": "Make tx transaction info or error alert generic error"
 	},
@@ -390,115 +390,115 @@
 	"@alertOkAction": {
 		"description": "Alert ok action"
 	},
-	"alertCancelAction": "Cancel",
+	"alertCancelAction": "Abbrechen",
 	"@alertCancelAction": {
 		"description": "Alert cancel action"
 	},
-	"alertSendAction": "Send",
+	"alertSendAction": "Senden",
 	"@alertSendAction": {
 		"description": "Alert send action"
 	},
-	"transactionSummaryRecipient": "Recipient:",
+	"transactionSummaryRecipient": "Empfänger:",
 	"@transactionSummaryRecipient": {
 		"description": "Transaction summary recipient label"
 	},
-	"transactionSummaryAmount": "Amount:",
+	"transactionSummaryAmount": "Betrag:",
 	"@transactionSummaryAmount": {
 		"description": "Transaction summary amount label"
 	},
-	"transactionSummaryFee": "Fee:",
+	"transactionSummaryFee": "Gebühr:",
 	"@transactionSummaryFee": {
 		"description": "Transaction summary fee label"
 	},
-	"transactionSummaryTotal": "Total:",
+	"transactionSummaryTotal": "Summe:",
 	"@transactionSummaryTotal": {
 		"description": "Transaction summary total label"
 	},
-	"transactionAlertErrorSendGeneric": "Failed to send transaction! Please try again",
+	"transactionAlertErrorSendGeneric": "Transaktion konnte nicht gesendet werden! Bitte versuche es erneut.",
 	"@transactionAlertErrorSendGeneric": {
 		"description": "Failed to send transaction alert"
 	},
-	"transactionAlertSent": "Transaction sent! Tx id:",
+	"transactionAlertSent": "Transaktion gesendet! TX ID:",
 	"@transactionAlertSent": {
 		"description": "Transaction successfully sent alert"
 	},
-	"flashlightToolip": "Toggle flashlight",
+	"flashlightToolip": "Taschenlampe ein-/ausschalten",
 	"@flashlightToolip": {
 		"description": "QR scanner flashlight"
 	},
-	"cameraNoPermissions": "Application has no access to camera",
+	"cameraNoPermissions": "Die Anwendung hat keinen Zugriff auf die Kamera",
 	"@cameraNoPermissions": {
 		"description": "QR scanner camera no permissions error message"
 	},
-	"scanQRTitle": "Scan QR code",
+	"scanQRTitle": "QR-Code scannen",
 	"@scanQRTitle": {
 		"description": "QR scanner screen title"
 	},
-	"loadingWalletTitle": "Loading",
+	"loadingWalletTitle": "Lade",
 	"@loadingWalletTitle": {
 		"description": "Loading wallet title"
 	},
-	"loadingWalletDescription": "Wallet loading may take a while, please be patient",
+	"loadingWalletDescription": "Das Laden der Wallet kann eine Weile dauern, bitte hab Geduld",
 	"@loadingWalletDescription": {
 		"description": "Loading wallet description"
 	},
-	"loadingAddressTitle": "Loading address",
+	"loadingAddressTitle": "Lade Adresse",
 	"@loadingAddressTitle": {
 		"description": "Loading address title"
 	},
-	"loadingAddressDescription": "Address loading may take a while, please be patient",
+	"loadingAddressDescription": "Das Laden der Adresse kann eine Weile dauern, bitte hab Geduld",
 	"@loadingAddressDescription": {
 		"description": "Loading address description"
 	},
-	"walletSettingsTitle": "Wallet settings",
+	"walletSettingsTitle": "Wallet Einstellungen",
 	"@walletSettingsTitle": {
 		"description": "Wallet settings screen title"
 	},
-	"deleteWalletAction": "Delete wallet",
+	"deleteWalletAction": "Wallet löschen",
 	"@deleteWalletAction": {
 		"description": "Delete wallet action text (wallet settings)"
 	},
-	"deleteWalletConfirmationTitle": "Delete wallet",
+	"deleteWalletConfirmationTitle": "Wallet löschen",
 	"@deleteWalletConfirmationTitle": {
 		"description": "Delete wallet title"
 	},
-	"deleteWalletConfirmation": "Are you sure you want to delete the wallet?",
+	"deleteWalletConfirmation": "Möchtest du die Wallet wirklich löschen?",
 	"@deleteWalletConfirmation": {
 		"description": "Delete wallet description"
 	},
-	"yesAction": "Yes",
+	"yesAction": "Ja",
 	"@yesAction": {
 		"description": "Yes action text"
 	},
-	"noAction": "No",
+	"noAction": "Nein",
 	"@noAction": {
 		"description": "No action text"
 	},
-	"nodeFailedTitle": "Error",
+	"nodeFailedTitle": "Fehler",
 	"@nodeFailedTitle": {
 		"description": "Node failed screen title"
 	},
-	"nodeFailedDescription": "Failed to connect to node, please try again",
+	"nodeFailedDescription": "Verbindung zum Knoten fehlgeschlagen, bitte versuche es erneut",
 	"@nodeFailedDescription": {
 		"description": "Node failed screen description"
 	},
-	"nodeFailedAction": "Reconnect",
+	"nodeFailedAction": "Wiederverbinden",
 	"@nodeFailedAction": {
 		"description": "Node failed screen action"
 	},
-	"nodeFailedAlertTitle": "Error",
+	"nodeFailedAlertTitle": "Fehler",
 	"@nodeFailedAlertTitle": {
 		"description": "Node failed alert title"
 	},
-	"nodeFailedAlertDescription": "Failed to connect to node, please try again",
+	"nodeFailedAlertDescription": "Verbindung zum Knoten fehlgeschlagen, bitte versuche es erneut",
 	"@nodeFailedAlertDescription": {
 		"description": "Node failed alert description"
 	},
-	"transactionsListEmpty": "Transactions not found or not yet loaded",
+	"transactionsListEmpty": "Transaktionen nicht gefunden oder noch nicht geladen",
 	"@transactionsListEmpty": {
 		"description": "Transactions list empty text on home page"
 	},
-	"syncStatusSyncedSemantics": "Address is synced with node",
+	"syncStatusSyncedSemantics": "Die Adresse ist mit dem Knoten synchronisiert",
 	"@syncStatusSyncedSemantics": {
 		"description": "Lightwallet address sync semantics when address sucessfully synced"
 	},
