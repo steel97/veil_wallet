@@ -502,223 +502,223 @@
 	"@syncStatusSyncedSemantics": {
 		"description": "Lightwallet address sync semantics when address sucessfully synced"
 	},
-	"syncStatusScanningFailedSemantics": "Address sync failed",
+	"syncStatusScanningFailedSemantics": "Adressensynchronisierung fehlgeschlagen",
 	"@syncStatusScanningFailedSemantics": {
 		"description": "Lightwallet address sync semantics when error occured"
 	},
-	"syncStatusScanningSemantics": "Node is now scanning your address",
+	"syncStatusScanningSemantics": "Knoten scannt jetzt Ihre Adresse",
 	"@syncStatusScanningSemantics": {
 		"description": "Lightwallet address sync semantics when scanning in progress"
 	},
-	"localeSelectionTitle": "Select language",
+	"localeSelectionTitle": "Sprache auswählen",
 	"@localeSelectionTitle": {
 		"description": "Locale selection dialog title"
 	},
-	"nodeSelectionTitle": "Available nodes",
+	"nodeSelectionTitle": "Verfügbare Knoten",
 	"@nodeSelectionTitle": {
 		"description": "Node selection dialog title"
 	},
-	"darkMode": "Use dark theme",
+	"darkMode": "Dunkles Design verwenden",
 	"@darkMode": {
 		"description": "Dark theme setting"
 	},
-	"discordInfo": "Official discord:",
+	"discordInfo": "Offizieller Discord-Server:",
 	"@discordInfo": {
 		"description": "About screen label, discord link"
 	},
-	"discordFaucetInfo": "* You can get some coins via faucet, available in official discord",
+	"discordFaucetInfo": "*Du kannst über den Faucet, der im offiziellen Discord verfügbar ist, einige Coins erhalten.",
 	"@discordFaucetInfo": {
 		"description": "Info about faucet"
 	},
-	"legalInfo": "Legal info",
+	"legalInfo": "Rechtliche Hinweise",
 	"@legalInfo": {
 		"description": "Legal info button in about screen"
 	},
-	"legalTitle": "Legal info",
+	"legalTitle": "Rechtliche Hinweise",
 	"@legalTitle": {
 		"description": "Legal info screen title"
 	},
-	"createAddress": "Create address",
+	"createAddress": "Adresse erstellen",
 	"@createAddress": {
 		"description": "Create address button inside address selection popup"
 	},
-	"addressCreated": "Address created",
+	"addressCreated": "Adresse erstellt",
 	"@addressCreated": {
 		"description": "Address created snack bar"
 	},
-	"homeNavScanQRUnavailable": "QR scanner is unavailable on desktop",
+	"homeNavScanQRUnavailable": "Der QR-Scanner ist auf dem Desktop nicht verfügbar",
 	"@homeNavScanQRUnavailable": {
 		"description": "Tooltip which describe that QR scanner is not available on platform (desktop)"
 	},
-	"sendHistoryRecent": "Recent",
+	"sendHistoryRecent": "Letzte",
 	"@sendHistoryRecent": {
 		"description": "Recent label on make transaction screen"
 	},
-	"noSentTransactions": "No sent transactions found",
+	"noSentTransactions": "Es wurden keine gesendeten Transaktionen gefunden",
 	"@noSentTransactions": {
 		"description": "Recent section no sent transactions label"
 	},
-	"historyLoadingSemantics": "History loading",
+	"historyLoadingSemantics": "Lade Verlauf",
 	"@historyLoadingSemantics": {
 		"description": "Make tx history loading semantics"
 	},
-	"historyDeleted": "History deleted",
+	"historyDeleted": "Verlauf gelöscht",
 	"@historyDeleted": {
 		"description": "Recent section history deleted notification"
 	},
-	"historyDeleteConfirmationTitle": "Delete history",
+	"historyDeleteConfirmationTitle": "Verlauf löschen",
 	"@historyDeleteConfirmationTitle": {
 		"description": "Recent section history deleted confirmation alert dialog title"
 	},
-	"historyDeleteConfirmation": "Are you sure you want to delete history?",
+	"historyDeleteConfirmation": "Möchtest du den Verlauf wirklich löschen?",
 	"@historyDeleteConfirmation": {
 		"description": "Recent section history deleted confirmation alert dialog"
 	},
-	"deleteAllData": "Delete all data",
+	"deleteAllData": "Alle Daten löschen",
 	"@deleteAllData": {
 		"description": "Settings view delete all data button"
 	},
-	"deleteAllDataTitle": "Delete all data",
+	"deleteAllDataTitle": "Alle Daten löschen",
 	"@deleteAllDataTitle": {
 		"description": "Settings view delete all data dialog title"
 	},
-	"deleteAllDataConfirmation": "Are you sure you want to delete all data (all wallets, settings, history)?",
+	"deleteAllDataConfirmation": "Möchtest du wirklich alle Daten löschen (alle Wallets, Einstellungen, Verlauf)?",
 	"@deleteAllDataConfirmation": {
 		"description": "Settings view delete all data dialog confirmation"
 	},
-	"deleteAllDataNotification": "All data erased",
+	"deleteAllDataNotification": "Alle Daten gelöscht",
 	"@deleteAllDataNotification": {
 		"description": "Settings view deleted all data notification"
 	},
-	"addressBookTitle": "Address book",
+	"addressBookTitle": "Adressbuch",
 	"@addressBookTitle": {
 		"description": "Address book view title"
 	},
-	"addressBookSearchLabel": "Search address",
+	"addressBookSearchLabel": "Adresse suchen",
 	"@addressBookSearchLabel": {
 		"description": "Address book search input label"
 	},
-	"addressBookSearchHint": "Enter address or label",
+	"addressBookSearchHint": "Adresse oder Label eingeben",
 	"@addressBookSearchHint": {
 		"description": "Address book search input hint"
 	},
-	"addressBookSavedAddresses": "Saved addresses",
+	"addressBookSavedAddresses": "Gespeicherte Adressen",
 	"@addressBookSavedAddresses": {
 		"description": "Address book saved addresses label"
 	},
-	"addressBookLoadingSemantics": "Loading address book",
+	"addressBookLoadingSemantics": "Lade Adressbuch",
 	"@addressBookLoadingSemantics": {
 		"description": "Address book loading circle semantics"
 	},
-	"addressBookClearConfirmationTitle": "Clear address book",
+	"addressBookClearConfirmationTitle": "Lösche Adressbuch",
 	"@addressBookClearConfirmationTitle": {
 		"description": "Clear address book dialog title"
 	},
-	"addressBookClearConfirmation": "Are you sure you want to clear address book?",
+	"addressBookClearConfirmation": "Möchtest du das Adressbuch wirklich löschen?",
 	"@addressBookClearConfirmation": {
 		"description": "Clear address book dialog text"
 	},
-	"addressBookCleared": "Address book cleared",
+	"addressBookCleared": "Adressbuch gelöscht",
 	"@addressBookCleared": {
 		"description": "Address book cleared notifications"
 	},
-	"addressBookRemoveSemantics": "Remove address from address book",
+	"addressBookRemoveSemantics": "Adresse aus dem Adressbuch entfernen",
 	"@addressBookRemoveSemantics": {
 		"description": "Address book remove address semantics"
 	},
-	"addressBookEditSemantics": "Edit address from address book",
+	"addressBookEditSemantics": "Adresse aus dem Adressbuch bearbeiten",
 	"@addressBookEditSemantics": {
 		"description": "Address book edit address semantics"
 	},
-	"addressBookNewAddress": "New address",
+	"addressBookNewAddress": "Neue Adresse",
 	"@addressBookNewAddress": {
 		"description": "Add new address to address book dialog title"
 	},
-	"addressBookNewAddressLabel": "Address label",
+	"addressBookNewAddressLabel": "Adresslabel",
 	"@addressBookNewAddressLabel": {
 		"description": "Add new address to address book dialog address label"
 	},
-	"addressBookNewAddressLabelHint": "Address label",
+	"addressBookNewAddressLabelHint": "Adresslabel",
 	"@addressBookNewAddressLabelHint": {
 		"description": "Add new address to address book dialog address label hint"
 	},
-	"addressBookNewAddressValue": "Address",
+	"addressBookNewAddressValue": "Adresse",
 	"@addressBookNewAddressValue": {
 		"description": "Add new address to address book dialog address"
 	},
-	"addressBookNewAddressValueHint": "Address",
+	"addressBookNewAddressValueHint": "Adresse",
 	"@addressBookNewAddressValueHint": {
 		"description": "Add new address to address book dialog address hint"
 	},
-	"addressBookNewAddressCancelButton": "Cancel",
+	"addressBookNewAddressCancelButton": "Abbrechen",
 	"@addressBookNewAddressCancelButton": {
 		"description": "Add new address to address book dialog cancel button"
 	},
-	"addressBookNewAddressSaveButton": "Save",
+	"addressBookNewAddressSaveButton": "Speichern",
 	"@addressBookNewAddressSaveButton": {
 		"description": "Add new address to address book dialog save button"
 	},
-	"addressBookNewAddressSavedNotification": "Address added to address book",
+	"addressBookNewAddressSavedNotification": "Adresse zum Adressbuch hinzugefügt",
 	"@addressBookNewAddressSavedNotification": {
 		"description": "Address added to address book notification"
 	},
-	"noAddressBookAddresses": "Addresses not found",
+	"noAddressBookAddresses": "Adressen nicht gefunden",
 	"@noAddressBookAddresses": {
 		"description": "Address book is empty label"
 	},
-	"addressBookDeleteAddressConfirmationTitle": "Delete address",
+	"addressBookDeleteAddressConfirmationTitle": "Adresse löschen",
 	"@addressBookDeleteAddressConfirmationTitle": {
 		"description": "Address book address delete dialog title"
 	},
-	"addressBookDeleteAddressConfirmation": "Are you sure you want to delete address from address book?",
+	"addressBookDeleteAddressConfirmation": "Möchtest du die Adresse wirklich aus dem Adressbuch löschen?",
 	"@addressBookDeleteAddressConfirmation": {
 		"description": "Address book address delete dialog text"
 	},
-	"addressBookAddressDeleted": "Address deleted from address book",
+	"addressBookAddressDeleted": "Adresse aus dem Adressbuch gelöscht",
 	"@addressBookAddressDeleted": {
 		"description": "Address book address deleted notification"
 	},
-	"addressBookEditAddress": "Edit address",
+	"addressBookEditAddress": "Adresse bearbeiten",
 	"@addressBookEditAddress": {
 		"description": "Address book edit address title"
 	},
-	"addressBookNoLabel": "Default",
+	"addressBookNoLabel": "Standard",
 	"@addressBookNoLabel": {
 		"description": "Address label value if not set by user"
 	},
-	"resetExplorerIconSemantics": "Reset explorer address",
+	"resetExplorerIconSemantics": "Explorer-Adresse zurücksetzen",
 	"@resetExplorerIconSemantics": {
 		"description": "Settings explorer input field reset button semantics"
 	},
-	"resetExplorerTxesIconSemantics": "Reset explorer tx address",
+	"resetExplorerTxesIconSemantics": "Explorer TX-Adresse zurücksetzen",
 	"@resetExplorerTxesIconSemantics": {
 		"description": "Settings tx explorer input field reset button semantics"
 	},
-	"conversionRateInputField": "Custom conversion rate (USD):",
+	"conversionRateInputField": "Benutzerdefinierter Umrechnungskurs (USD):",
 	"@conversionRateInputField": {
 		"description": "Label for custom conversion rate input field"
 	},
-	"conversionRateInputFieldHint": "Veil/USD conversion rate (ex. 0.006)",
+	"conversionRateInputFieldHint": "Veil/USD Umrechnungskurs (z.B. 0.006)",
 	"@conversionRateInputFieldHint": {
 		"description": "Conversion rate input field hint"
 	},
-	"resetConversionRateSemantics": "Reset conversion rate default value",
+	"resetConversionRateSemantics": "Umrechnungskurs auf Standardwert zurücksetzen",
 	"@resetConversionRateSemantics": {
 		"description": "Reset conversion rate to default value"
 	},
-	"conversionApiInputField": "Conversion API url:",
+	"conversionApiInputField": "Umrechnungs API URL:",
 	"@conversionApiInputField": {
 		"description": "Label for conversion API url"
 	},
-	"conversionApiInputFieldHint": "Should start with http:// or https://",
+	"conversionApiInputFieldHint": "Sollte mit http:// or https:// beginnen",
 	"@conversionApiInputFieldHint": {
 		"description": "Conversion api input field hint"
 	},
-	"resetConversionApiSemantics": "Reset conversion API url to default value",
+	"resetConversionApiSemantics": "URL der Konvertierungs-API auf Standardwert zurücksetzen",
 	"@resetConversionApiSemantics": {
 		"description": "Reset conversion API url to default value"
 	},
-	"useCustomConversionRate": "Use custom conversion rate",
+	"useCustomConversionRate": "Benutzerdefinierten Umrechnungskurs verwenden",
 	"@useCustomConversionRate": {
 		"description": "Use custom conversion rate toggle"
 	}
