@@ -4,6 +4,7 @@ import 'package:veil_wallet/src/core/node_entry.dart';
 var knownLanguages = [
   LocaleEntry('English', 'en'),
   LocaleEntry('Español', 'es'),
+  LocaleEntry('Deutsch', 'de'),
   LocaleEntry('Esperanto', 'eo'),
   LocaleEntry('Русский', 'ru'),
   LocaleEntry('Lietuviškai', 'lt'),

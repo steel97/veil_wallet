@@ -1,0 +1,725 @@
+{
+	"@@locale": "de",
+	"title": "Veil wallet",
+	"@title": {
+		"description": "The title of application"
+	},
+	"welcomeTitle": "Willkommen bei Veil!",
+	"@welcomeTitle": {
+		"description": "The title of welcome screen"
+	},
+	"welcomeDescription": "Vorhandene Wallet importieren or neu anlegen",
+	"@welcomeDescription": {
+		"description": "Title description of welcome screen"
+	},
+	"createWallet": "Erstellen",
+	"@createWallet": {
+		"description": "Text on create wallet button"
+	},
+	"importWallet": "Importieren",
+	"@importWallet": {
+		"description": "Text on import wallet button"
+	},
+	"settingsButton": "Einstellungen",
+	"@settingsButton": {
+		"description": "Accessibility label for settings icon (appbar/navbar)"
+	},
+	"saveSeedPhraseTitle": "Seedphrase speichern",
+	"@saveSeedPhraseTitle": {
+		"description": "Save seed phrase screen title"
+	},
+	"saveSeedPhraseDescription": "Seedphrase der neuen Wallet speichern:",
+	"@saveSeedPhraseDescription": {
+		"description": "Save seed phrase description"
+	},
+	"nextButton": "Weiter",
+	"@nextButton": {
+		"description": "\"Next\" text for buttons"
+	},
+	"verifySeedPhraseTitle": "Seedphrase prüfen",
+	"@verifySeedPhraseTitle": {
+		"description": "Verify seed phrase screen title"
+	},
+	"verifySeedPhraseDescription": "24 Wörter Seed prüfen:",
+	"@verifySeedPhraseDescription": {
+		"description": "Verify seed phrase description"
+	},
+	"createWalletButton": "Wallet erstellen",
+	"@createWalletButton": {
+		"description": "Create wallet button (verify seed screen)"
+	},
+	"walletNameInputField": "Walletnamen:",
+	"@walletNameInputField": {
+		"description": "Wallet name input field (import/create wallet screen)"
+	},
+	"walletNameInputFieldHint": "Walletname",
+	"@walletNameInputFieldHint": {
+		"description": "Wallet name input field hint (import/create wallet screen)"
+	},
+	"importSeedTitle": "Seedphrase importieren",
+	"@importSeedTitle": {
+		"description": "Import seed phrase title"
+	},
+	"importSeedDescription": "24 Wörter Seedphrase eingeben:",
+	"@importSeedDescription": {
+		"description": "Import seed description"
+	},
+	"walletAdvancedButton": "Erweitert",
+	"@walletAdvancedButton": {
+		"description": "Advanced button (import screen)"
+	},
+	"walletAdvancedTitle": "Erweiterte Einstellungen",
+	"@walletAdvancedTitle": {
+		"description": "Advanced screen title"
+	},
+	"walletEncryptionPasswordInputField": "Verschlüsselungspasswort (falls vorhanden):",
+	"@walletEncryptionPasswordInputField": {
+		"description": "Encryption password input field (advanced import/new wallet screen)"
+	},
+	"walletEncryptionPasswordInputFieldHint": "Wallet Verschlüsselungspasswort",
+	"@walletEncryptionPasswordInputFieldHint": {
+		"description": "Encryption password input field hint (advanced import/new wallet screen)"
+	},
+	"walletEncryptionPasswordRepeatInputField": "Verschlüsselungspasswort wiederholen:",
+	"@walletEncryptionPasswordRepeatInputField": {
+		"description": "Encryption password repeat input field (advanced import/new wallet screen)"
+	},
+	"walletEncryptionPasswordRepeatInputFieldHint": "Wallet Verschlüsselungspasswort wiederholen",
+	"@walletEncryptionPasswordRepeatInputFieldHint": {
+		"description": "Encryption password repeat input field hint (advanced import/new wallet screen)"
+	},
+	"walletImportTransactionsData": "Importieren {fileName}",
+	"@walletImportTransactionsData": {
+		"placeholders": {
+			"fileName": {
+				"description": "Name of file used to restore transaction types",
+				"example": "transactions.json",
+				"type": "String"
+			}
+		},
+		"description": "Import \"transactions.json\" text (under advanced import/create wallet screens)"
+	},
+	"saveButton": "Speichern",
+	"@saveButton": {
+		"description": "Save button text (under advanced/create wallet screens)"
+	},
+	"settingsTitle": "Einstellungen",
+	"@settingsTitle": {
+		"description": "Settings screen title"
+	},
+	"nodeUrlInputField": "Node URL:",
+	"@nodeUrlInputField": {
+		"description": "Node url input field (settings screen)"
+	},
+	"nodeUrlInputFieldHint": "Veil Lightwallet Node URL (starts with http(s)://)",
+	"@nodeUrlInputFieldHint": {
+		"description": "Node url input field hint (settings screen)"
+	},
+	"basicAuthInputField": "Node Basisauthentifizierung:",
+	"@basicAuthInputField": {
+		"description": "Node basic auth input field (settings screen)"
+	},
+	"basicAuthInputFieldHint": "Leer für den Explorer-Knoten",
+	"@basicAuthInputFieldHint": {
+		"description": "Node basic auth input field hint (settings screen)"
+	},
+	"explorerUrlInputField": "Explorer URL:",
+	"@explorerUrlInputField": {
+		"description": "Explorer url input field (settings screen)"
+	},
+	"explorerUrlInputFieldHint": "Explorer URL",
+	"@explorerUrlInputFieldHint": {
+		"description": "Explorer url input field hint (settings screen)"
+	},
+	"explorerTxInputField": "TX Explorer URL:",
+	"@explorerTxInputField": {
+		"description": "Explorer tx input field (settings screen)"
+	},
+	"explorerTxInputFieldHint": "Transaktionsexplorer URL",
+	"@explorerTxInputFieldHint": {
+		"description": "Explorer tx input field hint (settings screen)"
+	},
+	"useMinimumUTXOs": "UTXOs auf ein Minimum beschränken",
+	"@useMinimumUTXOs": {
+		"description": "Use minimum UTXOs checkbox (settings screen)"
+	},
+	"setupBiometricsButton": "Biometrische Daten einrichten",
+	"@setupBiometricsButton": {
+		"description": "Setup biometrics button (settings screen)"
+	},
+	"aboutButton": "Über diese App",
+	"@aboutButton": {
+		"description": "About button (settings screen)"
+	},
+	"biometricsTitle": "Sichere deine Wallet",
+	"@biometricsTitle": {
+		"description": "Secure your wallet title (biometrics screen)"
+	},
+	"biometricsDescription": "Um deine Wallet zu schützen, empfehlen wir dringend, die biometrische Authentifizierung für diese App einzurichten.",
+	"@biometricsDescription": {
+		"description": "Secure your wallet description (biometrics screen)"
+	},
+	"skipBiometricsButton": "Überspringen (nicht empfohlen)",
+	"@skipBiometricsButton": {
+		"description": "Skip button (biometrics screen)"
+	},
+	"walletTitle": "Wallet",
+	"@walletTitle": {
+		"description": "Home screen title string"
+	},
+	"notificationsAction": "Benachrichtigungen",
+	"@notificationsAction": {
+		"description": "Notifications label for accessibility"
+	},
+	"sendButton": "Senden",
+	"@sendButton": {
+		"description": "Home screen send button"
+	},
+	"receiveButton": "Empfangen",
+	"@receiveButton": {
+		"description": "Home screen receive button"
+	},
+	"buyButton": "Kaufen",
+	"@buyButton": {
+		"description": "Home screen buy button"
+	},
+	"transactionsLabel": "Transactions",
+	"@transactionsLabel": {
+		"description": "Home screen transactions label"
+	},
+	"txTypeReceived": "Received",
+	"@txTypeReceived": {
+		"description": "Transaction card received text"
+	},
+	"txTypeSent": "Sent",
+	"@txTypeSent": {
+		"description": "Transaction card sent text"
+	},
+	"txTypeUnknown": "Unbekannt",
+	"@txTypeUnknown": {
+		"description": "Transaction card unknown text"
+	},
+	"homeNavHome": "Home",
+	"@homeNavHome": {
+		"description": "Bottom nav bar home button label"
+	},
+	"homeNavExplorer": "Explorer",
+	"@homeNavExplorer": {
+		"description": "Bottom nav bar explorer button label"
+	},
+	"homeNavScanQR": "QR scannen",
+	"@homeNavScanQR": {
+		"description": "Bottom nav bar scan qr button label"
+	},
+	"homeNavSettings": "Einstellungen",
+	"@homeNavSettings": {
+		"description": "Bottom nav bar settings button label"
+	},
+	"homeNavWebsite": "Webseite",
+	"@homeNavWebsite": {
+		"description": "Bottom nav bar website button label"
+	},
+	"passwordsNotMatch": "Passwörter stimmen nicht überein",
+	"@passwordsNotMatch": {
+		"description": "Advanced import/create settings password validation error"
+	},
+	"seedWordCantBeEmpty": "Seed Wort darf nicht leer sein",
+	"@seedWordCantBeEmpty": {
+		"description": "Mnemonic validation (empty)"
+	},
+	"seedWordWrong": "Falsches Seed Wort",
+	"@seedWordWrong": {
+		"description": "Mnemonic validation (word not in vocablurary)"
+	},
+	"seedWordNotMatch": "Seed Wort stimmt nicht überein",
+	"@seedWordNotMatch": {
+		"description": "Mnemonic validation (word doesn't match generated word)"
+	},
+	"aboutTitle": "Über die App",
+	"@aboutTitle": {
+		"description": "About screen title"
+	},
+	"aboutText": "Veil Wallet - Mobile Kryptowährungswallet für Veil.\nDer Quellcode ist hier verfügbar:",
+	"@aboutText": {
+		"description": "About screen description #1"
+	},
+	"aboutText2": "Spendenadresse:",
+	"@aboutText2": {
+		"description": "About screen description #2"
+	},
+	"copiedText": "In die Zwischenablage kopiert",
+	"@copiedText": {
+		"description": "Notification when copy action used"
+	},
+	"authenticateTitle": "Authentifizierung",
+	"@authenticateTitle": {
+		"description": "Authentication title"
+	},
+	"authenticateDescription": "Um auf deine Wallet zuzugreifen, authentifiziere dich bitte.",
+	"@authenticateDescription": {
+		"description": "Authentication description"
+	},
+	"authenticateAction": "Authentifizieren",
+	"@authenticateAction": {
+		"description": "Authenticate action"
+	},
+	"biometricsReason": "Bitte authentifiziere dich, um deine Wallet zu entsperren.",
+	"@biometricsReason": {
+		"description": "Reason to use biometrics"
+	},
+	"biometricsSetupReason": "Bitte authentifiziere dich, um die Biometrie einzurichten.",
+	"@biometricsSetupReason": {
+		"description": "Setup biometrics description"
+	},
+	"biometricsRemoveReason": "Bitte authentifiziere dich, um die Biometrie zu entfernen.",
+	"@biometricsRemoveReason": {
+		"description": "Remove biometrics description"
+	},
+	"settingsSaved": "Einstellungen gespeichert",
+	"@settingsSaved": {
+		"description": "Settings saved notification"
+	},
+	"removeBiometricsButton": "Biometrie entfernen",
+	"@removeBiometricsButton": {
+		"description": "Settings screen remove biometrics action"
+	},
+	"loadingAppSemantics": "Lade Veil Wallet",
+	"@loadingAppSemantics": {
+		"description": "Accesibility label for loader screen"
+	},
+	"shareTitle": "Münzen empfangen",
+	"@shareTitle": {
+		"description": "Title text on receive coins screen"
+	},
+	"shareDescriptionText": "Verwende diesen QR-Code, um Münzen zu erhalten",
+	"@shareDescriptionText": {
+		"description": "Description text on receive coins screen"
+	},
+	"shareAction": "QR-Code teilen",
+	"@shareAction": {
+		"description": "Share action on receive coins screen"
+	},
+	"shareSubject": "Mein QR-Code zum Empfangen von Veil Münzen",
+	"@shareSubject": {
+		"description": "Share subject (used for e-mails)"
+	},
+	"shareText": "Meine Veil Adresse: {address}",
+	"@shareText": {
+		"placeholders": {
+			"address": {
+				"description": "Veil address",
+				"example": "sv1qqp3twtj249e226mvg55jm0ec36y99xsh5ytnm6hcgvetthuptj2kugpqwcnw6tpnvwrrvutsltnghkg46ayqpw40g6p3knppy3kwgvhr34mkqqqeedkfp",
+				"type": "String"
+			}
+		},
+		"description": "Share default text"
+	},
+	"newTransactionTitle": "Neue Transaktion",
+	"@newTransactionTitle": {
+		"description": "Title text on new transaction screen"
+	},
+	"recipientAddress": "Empfängeradresse:",
+	"@recipientAddress": {
+		"description": "Recipient address text on new transaction screen"
+	},
+	"recipientAddressHint": "Empfängeradresse",
+	"@recipientAddressHint": {
+		"description": "Recipient address hint on new transaction screen"
+	},
+	"sendAmount": "Betrag senden:",
+	"@sendAmount": {
+		"description": "Send amount text on new transaction screen"
+	},
+	"sendAmountHint": "{amount} von {overall} Veil verfügbar",
+	"@sendAmountHint": {
+		"placeholders": {
+			"amount": {
+				"description": "Amount of available veil",
+				"example": "123.456",
+				"type": "String"
+			},
+			"overall": {
+				"description": "Amount of all veil on balance (locked/pending + available)",
+				"example": "123.456",
+				"type": "String"
+			}
+		},
+		"description": "Send amount hint on new transaction screen"
+	},
+	"subtractFeeFromAmount": "Gebühr vom Betrag abziehen",
+	"@subtractFeeFromAmount": {
+		"description": "Subtract fee from amount text on new transaction screen"
+	},
+	"availableText": "Verfügbar:",
+	"@availableText": {
+		"description": "Available coins text on new transaction screen"
+	},
+	"sendCoinsNextAction": "Weiter",
+	"@sendCoinsNextAction": {
+		"description": "Send coins next action on new transaction screen"
+	},
+	"makeTxVerifyInvalidAddress": "Adresse ist ungültig",
+	"@makeTxVerifyInvalidAddress": {
+		"description": "Make tx verification address"
+	},
+	"makeTxVerifyAmountCantBeEmpty": "Betrag kann nicht leer sein",
+	"@makeTxVerifyAmountCantBeEmpty": {
+		"description": "Make tx verification amount empty"
+	},
+	"makeTxVerifyAmountMustNotBeNegative": "Betrag muss größer als Null sein",
+	"@makeTxVerifyAmountMustNotBeNegative": {
+		"description": "Make tx verification amount"
+	},
+	"makeTxVerifyAmountInvalid": "Amount ist ungültig",
+	"@makeTxVerifyAmountInvalid": {
+		"description": "Make tx verification amount"
+	},
+	"makeTxVerifyAmountNotEnough": "Der Betrag ist höher als der verfügbare Betrag",
+	"@makeTxVerifyAmountNotEnough": {
+		"description": "Make tx verification amount greater than available"
+	},
+	"transactionAlertTitle": "Transaktion",
+	"@transactionAlertTitle": {
+		"description": "Make tx transaction info or error alert title"
+	},
+	"transactionAlertErrorGeneric": "Es ist ein Fehler aufgetreten! Die Transaktion konnte nicht erzeugt werden.",
+	"@transactionAlertErrorGeneric": {
+		"description": "Make tx transaction info or error alert generic error"
+	},
+	"alertOkAction": "OK",
+	"@alertOkAction": {
+		"description": "Alert ok action"
+	},
+	"alertCancelAction": "Abbrechen",
+	"@alertCancelAction": {
+		"description": "Alert cancel action"
+	},
+	"alertSendAction": "Senden",
+	"@alertSendAction": {
+		"description": "Alert send action"
+	},
+	"transactionSummaryRecipient": "Empfänger:",
+	"@transactionSummaryRecipient": {
+		"description": "Transaction summary recipient label"
+	},
+	"transactionSummaryAmount": "Betrag:",
+	"@transactionSummaryAmount": {
+		"description": "Transaction summary amount label"
+	},
+	"transactionSummaryFee": "Gebühr:",
+	"@transactionSummaryFee": {
+		"description": "Transaction summary fee label"
+	},
+	"transactionSummaryTotal": "Summe:",
+	"@transactionSummaryTotal": {
+		"description": "Transaction summary total label"
+	},
+	"transactionAlertErrorSendGeneric": "Transaktion konnte nicht gesendet werden! Bitte versuche es erneut.",
+	"@transactionAlertErrorSendGeneric": {
+		"description": "Failed to send transaction alert"
+	},
+	"transactionAlertSent": "Transaktion gesendet! TX ID:",
+	"@transactionAlertSent": {
+		"description": "Transaction successfully sent alert"
+	},
+	"flashlightToolip": "Taschenlampe ein-/ausschalten",
+	"@flashlightToolip": {
+		"description": "QR scanner flashlight"
+	},
+	"cameraNoPermissions": "Die Anwendung hat keinen Zugriff auf die Kamera",
+	"@cameraNoPermissions": {
+		"description": "QR scanner camera no permissions error message"
+	},
+	"scanQRTitle": "QR-Code scannen",
+	"@scanQRTitle": {
+		"description": "QR scanner screen title"
+	},
+	"loadingWalletTitle": "Lade",
+	"@loadingWalletTitle": {
+		"description": "Loading wallet title"
+	},
+	"loadingWalletDescription": "Das Laden der Wallet kann eine Weile dauern, bitte hab Geduld",
+	"@loadingWalletDescription": {
+		"description": "Loading wallet description"
+	},
+	"loadingAddressTitle": "Lade Adresse",
+	"@loadingAddressTitle": {
+		"description": "Loading address title"
+	},
+	"loadingAddressDescription": "Das Laden der Adresse kann eine Weile dauern, bitte hab Geduld",
+	"@loadingAddressDescription": {
+		"description": "Loading address description"
+	},
+	"walletSettingsTitle": "Wallet Einstellungen",
+	"@walletSettingsTitle": {
+		"description": "Wallet settings screen title"
+	},
+	"deleteWalletAction": "Wallet löschen",
+	"@deleteWalletAction": {
+		"description": "Delete wallet action text (wallet settings)"
+	},
+	"deleteWalletConfirmationTitle": "Wallet löschen",
+	"@deleteWalletConfirmationTitle": {
+		"description": "Delete wallet title"
+	},
+	"deleteWalletConfirmation": "Möchtest du die Wallet wirklich löschen?",
+	"@deleteWalletConfirmation": {
+		"description": "Delete wallet description"
+	},
+	"yesAction": "Ja",
+	"@yesAction": {
+		"description": "Yes action text"
+	},
+	"noAction": "Nein",
+	"@noAction": {
+		"description": "No action text"
+	},
+	"nodeFailedTitle": "Fehler",
+	"@nodeFailedTitle": {
+		"description": "Node failed screen title"
+	},
+	"nodeFailedDescription": "Verbindung zum Knoten fehlgeschlagen, bitte versuche es erneut",
+	"@nodeFailedDescription": {
+		"description": "Node failed screen description"
+	},
+	"nodeFailedAction": "Wiederverbinden",
+	"@nodeFailedAction": {
+		"description": "Node failed screen action"
+	},
+	"nodeFailedAlertTitle": "Fehler",
+	"@nodeFailedAlertTitle": {
+		"description": "Node failed alert title"
+	},
+	"nodeFailedAlertDescription": "Verbindung zum Knoten fehlgeschlagen, bitte versuche es erneut",
+	"@nodeFailedAlertDescription": {
+		"description": "Node failed alert description"
+	},
+	"transactionsListEmpty": "Transaktionen nicht gefunden oder noch nicht geladen",
+	"@transactionsListEmpty": {
+		"description": "Transactions list empty text on home page"
+	},
+	"syncStatusSyncedSemantics": "Die Adresse ist mit dem Knoten synchronisiert",
+	"@syncStatusSyncedSemantics": {
+		"description": "Lightwallet address sync semantics when address sucessfully synced"
+	},
+	"syncStatusScanningFailedSemantics": "Adressensynchronisierung fehlgeschlagen",
+	"@syncStatusScanningFailedSemantics": {
+		"description": "Lightwallet address sync semantics when error occured"
+	},
+	"syncStatusScanningSemantics": "Knoten scannt jetzt Ihre Adresse",
+	"@syncStatusScanningSemantics": {
+		"description": "Lightwallet address sync semantics when scanning in progress"
+	},
+	"localeSelectionTitle": "Sprache auswählen",
+	"@localeSelectionTitle": {
+		"description": "Locale selection dialog title"
+	},
+	"nodeSelectionTitle": "Verfügbare Knoten",
+	"@nodeSelectionTitle": {
+		"description": "Node selection dialog title"
+	},
+	"darkMode": "Dunkles Design verwenden",
+	"@darkMode": {
+		"description": "Dark theme setting"
+	},
+	"discordInfo": "Offizieller Discord-Server:",
+	"@discordInfo": {
+		"description": "About screen label, discord link"
+	},
+	"discordFaucetInfo": "*Du kannst über den Faucet, der im offiziellen Discord verfügbar ist, einige Coins erhalten.",
+	"@discordFaucetInfo": {
+		"description": "Info about faucet"
+	},
+	"legalInfo": "Rechtliche Hinweise",
+	"@legalInfo": {
+		"description": "Legal info button in about screen"
+	},
+	"legalTitle": "Rechtliche Hinweise",
+	"@legalTitle": {
+		"description": "Legal info screen title"
+	},
+	"createAddress": "Adresse erstellen",
+	"@createAddress": {
+		"description": "Create address button inside address selection popup"
+	},
+	"addressCreated": "Adresse erstellt",
+	"@addressCreated": {
+		"description": "Address created snack bar"
+	},
+	"homeNavScanQRUnavailable": "Der QR-Scanner ist auf dem Desktop nicht verfügbar",
+	"@homeNavScanQRUnavailable": {
+		"description": "Tooltip which describe that QR scanner is not available on platform (desktop)"
+	},
+	"sendHistoryRecent": "Letzte",
+	"@sendHistoryRecent": {
+		"description": "Recent label on make transaction screen"
+	},
+	"noSentTransactions": "Es wurden keine gesendeten Transaktionen gefunden",
+	"@noSentTransactions": {
+		"description": "Recent section no sent transactions label"
+	},
+	"historyLoadingSemantics": "Lade Verlauf",
+	"@historyLoadingSemantics": {
+		"description": "Make tx history loading semantics"
+	},
+	"historyDeleted": "Verlauf gelöscht",
+	"@historyDeleted": {
+		"description": "Recent section history deleted notification"
+	},
+	"historyDeleteConfirmationTitle": "Verlauf löschen",
+	"@historyDeleteConfirmationTitle": {
+		"description": "Recent section history deleted confirmation alert dialog title"
+	},
+	"historyDeleteConfirmation": "Möchtest du den Verlauf wirklich löschen?",
+	"@historyDeleteConfirmation": {
+		"description": "Recent section history deleted confirmation alert dialog"
+	},
+	"deleteAllData": "Alle Daten löschen",
+	"@deleteAllData": {
+		"description": "Settings view delete all data button"
+	},
+	"deleteAllDataTitle": "Alle Daten löschen",
+	"@deleteAllDataTitle": {
+		"description": "Settings view delete all data dialog title"
+	},
+	"deleteAllDataConfirmation": "Möchtest du wirklich alle Daten löschen (alle Wallets, Einstellungen, Verlauf)?",
+	"@deleteAllDataConfirmation": {
+		"description": "Settings view delete all data dialog confirmation"
+	},
+	"deleteAllDataNotification": "Alle Daten gelöscht",
+	"@deleteAllDataNotification": {
+		"description": "Settings view deleted all data notification"
+	},
+	"addressBookTitle": "Adressbuch",
+	"@addressBookTitle": {
+		"description": "Address book view title"
+	},
+	"addressBookSearchLabel": "Adresse suchen",
+	"@addressBookSearchLabel": {
+		"description": "Address book search input label"
+	},
+	"addressBookSearchHint": "Adresse oder Label eingeben",
+	"@addressBookSearchHint": {
+		"description": "Address book search input hint"
+	},
+	"addressBookSavedAddresses": "Gespeicherte Adressen",
+	"@addressBookSavedAddresses": {
+		"description": "Address book saved addresses label"
+	},
+	"addressBookLoadingSemantics": "Lade Adressbuch",
+	"@addressBookLoadingSemantics": {
+		"description": "Address book loading circle semantics"
+	},
+	"addressBookClearConfirmationTitle": "Lösche Adressbuch",
+	"@addressBookClearConfirmationTitle": {
+		"description": "Clear address book dialog title"
+	},
+	"addressBookClearConfirmation": "Möchtest du das Adressbuch wirklich löschen?",
+	"@addressBookClearConfirmation": {
+		"description": "Clear address book dialog text"
+	},
+	"addressBookCleared": "Adressbuch gelöscht",
+	"@addressBookCleared": {
+		"description": "Address book cleared notifications"
+	},
+	"addressBookRemoveSemantics": "Adresse aus dem Adressbuch entfernen",
+	"@addressBookRemoveSemantics": {
+		"description": "Address book remove address semantics"
+	},
+	"addressBookEditSemantics": "Adresse aus dem Adressbuch bearbeiten",
+	"@addressBookEditSemantics": {
+		"description": "Address book edit address semantics"
+	},
+	"addressBookNewAddress": "Neue Adresse",
+	"@addressBookNewAddress": {
+		"description": "Add new address to address book dialog title"
+	},
+	"addressBookNewAddressLabel": "Adresslabel",
+	"@addressBookNewAddressLabel": {
+		"description": "Add new address to address book dialog address label"
+	},
+	"addressBookNewAddressLabelHint": "Adresslabel",
+	"@addressBookNewAddressLabelHint": {
+		"description": "Add new address to address book dialog address label hint"
+	},
+	"addressBookNewAddressValue": "Adresse",
+	"@addressBookNewAddressValue": {
+		"description": "Add new address to address book dialog address"
+	},
+	"addressBookNewAddressValueHint": "Adresse",
+	"@addressBookNewAddressValueHint": {
+		"description": "Add new address to address book dialog address hint"
+	},
+	"addressBookNewAddressCancelButton": "Abbrechen",
+	"@addressBookNewAddressCancelButton": {
+		"description": "Add new address to address book dialog cancel button"
+	},
+	"addressBookNewAddressSaveButton": "Speichern",
+	"@addressBookNewAddressSaveButton": {
+		"description": "Add new address to address book dialog save button"
+	},
+	"addressBookNewAddressSavedNotification": "Adresse zum Adressbuch hinzugefügt",
+	"@addressBookNewAddressSavedNotification": {
+		"description": "Address added to address book notification"
+	},
+	"noAddressBookAddresses": "Adressen nicht gefunden",
+	"@noAddressBookAddresses": {
+		"description": "Address book is empty label"
+	},
+	"addressBookDeleteAddressConfirmationTitle": "Adresse löschen",
+	"@addressBookDeleteAddressConfirmationTitle": {
+		"description": "Address book address delete dialog title"
+	},
+	"addressBookDeleteAddressConfirmation": "Möchtest du die Adresse wirklich aus dem Adressbuch löschen?",
+	"@addressBookDeleteAddressConfirmation": {
+		"description": "Address book address delete dialog text"
+	},
+	"addressBookAddressDeleted": "Adresse aus dem Adressbuch gelöscht",
+	"@addressBookAddressDeleted": {
+		"description": "Address book address deleted notification"
+	},
+	"addressBookEditAddress": "Adresse bearbeiten",
+	"@addressBookEditAddress": {
+		"description": "Address book edit address title"
+	},
+	"addressBookNoLabel": "Standard",
+	"@addressBookNoLabel": {
+		"description": "Address label value if not set by user"
+	},
+	"resetExplorerIconSemantics": "Explorer-Adresse zurücksetzen",
+	"@resetExplorerIconSemantics": {
+		"description": "Settings explorer input field reset button semantics"
+	},
+	"resetExplorerTxesIconSemantics": "Explorer TX-Adresse zurücksetzen",
+	"@resetExplorerTxesIconSemantics": {
+		"description": "Settings tx explorer input field reset button semantics"
+	},
+	"conversionRateInputField": "Benutzerdefinierter Umrechnungskurs (USD):",
+	"@conversionRateInputField": {
+		"description": "Label for custom conversion rate input field"
+	},
+	"conversionRateInputFieldHint": "Veil/USD Umrechnungskurs (z.B. 0.006)",
+	"@conversionRateInputFieldHint": {
+		"description": "Conversion rate input field hint"
+	},
+	"resetConversionRateSemantics": "Umrechnungskurs auf Standardwert zurücksetzen",
+	"@resetConversionRateSemantics": {
+		"description": "Reset conversion rate to default value"
+	},
+	"conversionApiInputField": "Umrechnungs API URL:",
+	"@conversionApiInputField": {
+		"description": "Label for conversion API url"
+	},
+	"conversionApiInputFieldHint": "Sollte mit http:// or https:// beginnen",
+	"@conversionApiInputFieldHint": {
+		"description": "Conversion api input field hint"
+	},
+	"resetConversionApiSemantics": "URL der Konvertierungs-API auf Standardwert zurücksetzen",
+	"@resetConversionApiSemantics": {
+		"description": "Reset conversion API url to default value"
+	},
+	"useCustomConversionRate": "Benutzerdefinierten Umrechnungskurs verwenden",
+	"@useCustomConversionRate": {
+		"description": "Use custom conversion rate toggle"
+	}
+}
